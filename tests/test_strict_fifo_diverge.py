@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 import unittest
+from dataclasses import FrozenInstanceError
 from pathlib import Path
 
 
@@ -17,7 +18,12 @@ from urban_cybernetics.core import (
     Link,
     Node,
 )
-from urban_cybernetics.loading import LoadingEngine, StrictFIFOJunctionPolicy, TransferContext
+from urban_cybernetics.loading import (
+    GlobalFIFOMergePolicy,
+    LoadingEngine,
+    StrictFIFOJunctionPolicy,
+    TransferCandidate,
+)
 
 
 class StrictFIFODivergeTest(unittest.TestCase):
@@ -167,17 +173,31 @@ class StrictFIFODivergeTest(unittest.TestCase):
     def test_diverge_policy_is_explicit(self) -> None:
         engine = self.build_diverge_engine()
 
+        self.assertIsInstance(engine.node_transfer_policy, GlobalFIFOMergePolicy)
         self.assertIsInstance(engine.node_transfer_policy, StrictFIFOJunctionPolicy)
-        self.assertTrue(hasattr(engine.node_transfer_policy, "permits_transfer_attempt"))
+        self.assertTrue(hasattr(engine.node_transfer_policy, "choose_transfers"))
 
-    def test_transfer_context_queue_mapping_is_read_only(self) -> None:
+    def test_transfer_policy_batch_inputs_are_read_only(self) -> None:
         class CapturingPolicy:
             def __init__(self) -> None:
-                self.contexts: list[TransferContext] = []
+                self.candidates: tuple[TransferCandidate, ...] = ()
+                self.receiving_slots_by_downstream_link = {}
+                self.packet_ids_by_upstream_link = {}
+                self.queued_downstream_by_packet_id = {}
 
-            def permits_transfer_attempt(self, context: TransferContext) -> bool:
-                self.contexts.append(context)
-                return False
+            def choose_transfers(
+                self,
+                *,
+                candidates,
+                receiving_slots_by_downstream_link,
+                packet_ids_by_upstream_link,
+                queued_downstream_by_packet_id,
+            ):
+                self.candidates = candidates
+                self.receiving_slots_by_downstream_link = receiving_slots_by_downstream_link
+                self.packet_ids_by_upstream_link = packet_ids_by_upstream_link
+                self.queued_downstream_by_packet_id = queued_downstream_by_packet_id
+                return ()
 
         policy = CapturingPolicy()
         engine = LoadingEngine(
@@ -193,9 +213,17 @@ class StrictFIFODivergeTest(unittest.TestCase):
 
         engine.step()
 
-        self.assertEqual(len(policy.contexts), 1)
+        self.assertEqual(len(policy.candidates), 1)
+        with self.assertRaises(AttributeError):
+            policy.candidates.append(policy.candidates[0])
+        with self.assertRaises(FrozenInstanceError):
+            policy.candidates[0].packet_id = "P-new"
         with self.assertRaises(TypeError):
-            policy.contexts[0].queued_downstream_by_packet_id["P-new"] = "L2"
+            policy.receiving_slots_by_downstream_link["L2"] = 0
+        with self.assertRaises(TypeError):
+            policy.packet_ids_by_upstream_link["L1"] = ()
+        with self.assertRaises(TypeError):
+            policy.queued_downstream_by_packet_id["P-new"] = "L2"
 
     def build_diverge_engine(self) -> LoadingEngine:
         return LoadingEngine(

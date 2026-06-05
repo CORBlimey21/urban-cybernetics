@@ -16,9 +16,9 @@ from urban_cybernetics.core import (
     Packet,
 )
 from urban_cybernetics.loading.transfer_policy import (
+    GlobalFIFOMergePolicy,
     NodeTransferPolicy,
-    StrictFIFOJunctionPolicy,
-    TransferContext,
+    TransferCandidate,
 )
 
 
@@ -40,7 +40,7 @@ class LoadingEngine:
         self._packets: dict[str, Packet] = {}
         self.links = dict(links)
         self.nodes = {node.node_id: node for node in nodes or ()}
-        self.node_transfer_policy = node_transfer_policy or StrictFIFOJunctionPolicy()
+        self.node_transfer_policy = node_transfer_policy or GlobalFIFOMergePolicy()
         self._node_by_incoming_link_id: dict[str, Node] = {}
         self._next_packet_number = 1
         self._packet_instantiation_orders: dict[str, int] = {}
@@ -145,26 +145,29 @@ class LoadingEngine:
         self.check_event_cache_consistency()
         self.current_tick += 1
         receiving_slots = self._receiving_slots_by_link()
-        released_packet_ids, release_upstream_link_ids = self._release_queued_packets(
-            receiving_slots
+        self._complete_eligible_packets()
+
+        candidates = self._transfer_candidates()
+        approved_candidates = self.node_transfer_policy.choose_transfers(
+            candidates=candidates,
+            receiving_slots_by_downstream_link=MappingProxyType(dict(receiving_slots)),
+            packet_ids_by_upstream_link=MappingProxyType(
+                self._packet_ids_by_upstream_link_for_candidates(candidates)
+            ),
+            queued_downstream_by_packet_id=MappingProxyType(
+                self._queued_downstream_by_packet_id_from_events()
+            ),
         )
-
-        for packet_id in self._in_transit_packet_ids(excluding=released_packet_ids):
-            link_id = self._current_link_ids[packet_id]
-            if link_id in release_upstream_link_ids:
-                continue
-
-            link = self.links[link_id]
-            entry_tick = self._current_link_entry_ticks[packet_id]
-            if self.current_tick - entry_tick < link.free_flow_ticks:
-                continue
-
-            next_link_id = self._next_link_id(packet_id)
-            if next_link_id is None:
-                self._complete_packet(packet_id, link_id)
-                continue
-
-            self._attempt_node_transfer(packet_id, link_id, next_link_id, receiving_slots)
+        approved_candidate_set, remaining_slots = self._execute_approved_transfers(
+            approved_candidates,
+            candidates,
+            receiving_slots,
+        )
+        self._queue_non_approved_candidates(
+            candidates,
+            approved_candidate_set,
+            remaining_slots,
+        )
 
     @staticmethod
     def _boundary_id(upstream_link_id: str, downstream_link_id: str) -> str:
@@ -240,70 +243,161 @@ class LoadingEngine:
             return
         self._queue_packet(packet_id, upstream_link_id, downstream_link_id)
 
-    def _release_queued_packets(
-        self,
-        receiving_slots: dict[str, int],
-    ) -> tuple[set[str], set[str]]:
-        released_packet_ids: set[str] = set()
-        release_upstream_link_ids: set[str] = set()
+    def _complete_eligible_packets(self) -> None:
+        for packet_id in self._in_transit_packet_ids():
+            link_id = self._current_link_ids[packet_id]
+            link = self.links[link_id]
+            entry_tick = self._current_link_entry_ticks[packet_id]
+            if self.current_tick - entry_tick < link.free_flow_ticks:
+                continue
+            if self._next_link_id(packet_id) is None:
+                self._complete_packet(packet_id, link_id)
+
+    def _transfer_candidates(self) -> tuple[TransferCandidate, ...]:
+        candidates = [
+            *self._queued_transfer_candidates(),
+            *self._active_transfer_candidates(),
+        ]
+        return tuple(candidates)
+
+    def _queued_transfer_candidates(self) -> list[TransferCandidate]:
+        queue_entry_metadata = self._queue_entry_metadata_by_packet_id_from_events()
+        candidates: list[TransferCandidate] = []
         for boundary_id in sorted(self._queues):
             upstream_link_id, downstream_link_id = self._parse_boundary_id(boundary_id)
-            queue = self._queues[boundary_id]
-            while queue and receiving_slots[downstream_link_id] > 0:
-                packet_id = queue[0]
-                if not self._attempt_node_transfer(
-                    packet_id,
-                    upstream_link_id,
-                    downstream_link_id,
-                    receiving_slots,
-                    queued=True,
-                ):
-                    break
-                released_packet_ids.add(packet_id)
-                release_upstream_link_ids.add(upstream_link_id)
-        return released_packet_ids, release_upstream_link_ids
+            self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
+            for packet_id in self._queues[boundary_id]:
+                eligibility_tick, eligibility_sequence_number = queue_entry_metadata[
+                    packet_id
+                ]
+                candidates.append(
+                    TransferCandidate(
+                        packet_id=packet_id,
+                        upstream_link_id=upstream_link_id,
+                        downstream_link_id=downstream_link_id,
+                        boundary_id=boundary_id,
+                        eligibility_tick=eligibility_tick,
+                        eligibility_sequence_number=eligibility_sequence_number,
+                        queued=True,
+                    )
+                )
+        return candidates
 
-    def _attempt_node_transfer(
-        self,
-        packet_id: str,
-        upstream_link_id: str,
-        downstream_link_id: str,
-        receiving_slots: dict[str, int],
-        *,
-        queued: bool = False,
-    ) -> bool:
-        """Move a packet from one link to the next if downstream receiving permits it."""
-
-        self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
-        if not self._transfer_policy_permits_attempt(
-            packet_id,
-            upstream_link_id,
-            downstream_link_id,
-        ):
-            return False
-
-        boundary_id = self._boundary_id(upstream_link_id, downstream_link_id)
-        if receiving_slots[downstream_link_id] <= 0:
-            if not queued:
-                self._queue_packet_once(packet_id, upstream_link_id, downstream_link_id)
-            return False
-
-        if not queued and self._queues.get(boundary_id):
-            self._queue_packet_once(packet_id, upstream_link_id, downstream_link_id)
-            return False
-
-        receiving_slots[downstream_link_id] -= 1
-        if queued:
-            queue = self._queues[boundary_id]
-            if not queue or queue[0] != packet_id:
+    def _active_transfer_candidates(self) -> list[TransferCandidate]:
+        link_entry_metadata = self._current_link_entry_metadata_by_packet_id_from_events()
+        candidates: list[TransferCandidate] = []
+        for packet_id in self._in_transit_packet_ids():
+            upstream_link_id = self._current_link_ids[packet_id]
+            link = self.links[upstream_link_id]
+            entry_link_id, entry_tick, entry_sequence_number = link_entry_metadata[
+                packet_id
+            ]
+            if entry_link_id != upstream_link_id:
                 raise EventCacheConsistencyError(
-                    f"packet_id {packet_id} is not first in queue {boundary_id}"
+                    f"packet_id {packet_id} link-entry event implies {entry_link_id}, "
+                    f"but link cache is {upstream_link_id}"
+                )
+            if self.current_tick - entry_tick < link.free_flow_ticks:
+                continue
+
+            downstream_link_id = self._next_link_id(packet_id)
+            if downstream_link_id is None:
+                continue
+
+            self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
+            candidates.append(
+                TransferCandidate(
+                    packet_id=packet_id,
+                    upstream_link_id=upstream_link_id,
+                    downstream_link_id=downstream_link_id,
+                    boundary_id=self._boundary_id(upstream_link_id, downstream_link_id),
+                    eligibility_tick=entry_tick + link.free_flow_ticks,
+                    eligibility_sequence_number=entry_sequence_number,
+                )
+            )
+        return candidates
+
+    def _packet_ids_by_upstream_link_for_candidates(
+        self,
+        candidates: tuple[TransferCandidate, ...],
+    ) -> dict[str, tuple[str, ...]]:
+        return {
+            upstream_link_id: self.packet_ids_on_link(upstream_link_id)
+            for upstream_link_id in sorted(
+                {candidate.upstream_link_id for candidate in candidates}
+            )
+        }
+
+    def _execute_approved_transfers(
+        self,
+        approved_candidates: tuple[TransferCandidate, ...],
+        candidates: tuple[TransferCandidate, ...],
+        receiving_slots: dict[str, int],
+    ) -> tuple[set[TransferCandidate], dict[str, int]]:
+        candidate_set = set(candidates)
+        approved_candidate_set: set[TransferCandidate] = set()
+        remaining_slots = dict(receiving_slots)
+
+        for candidate in approved_candidates:
+            if candidate not in candidate_set:
+                raise EventCacheConsistencyError(
+                    f"policy approved unknown transfer candidate {candidate}"
+                )
+            if candidate in approved_candidate_set:
+                raise EventCacheConsistencyError(
+                    f"policy approved duplicate transfer candidate {candidate}"
+                )
+            if remaining_slots.get(candidate.downstream_link_id, 0) <= 0:
+                raise EventCacheConsistencyError(
+                    "policy approved more transfers than downstream receiving slots "
+                    f"for {candidate.downstream_link_id}"
+                )
+
+            self._execute_transfer_candidate(candidate)
+            approved_candidate_set.add(candidate)
+            remaining_slots[candidate.downstream_link_id] -= 1
+
+        return approved_candidate_set, remaining_slots
+
+    def _execute_transfer_candidate(self, candidate: TransferCandidate) -> None:
+        if candidate.queued:
+            queue = self._queues[candidate.boundary_id]
+            if not queue or queue[0] != candidate.packet_id:
+                raise EventCacheConsistencyError(
+                    f"packet_id {candidate.packet_id} is not first in queue "
+                    f"{candidate.boundary_id}"
                 )
             queue.pop(0)
-            self.append_event(packet_id, EventType.QUEUE_EXIT, boundary_id)
+            self.append_event(
+                candidate.packet_id,
+                EventType.QUEUE_EXIT,
+                candidate.boundary_id,
+            )
 
-        self._transfer_packet_between_links(packet_id, upstream_link_id, downstream_link_id)
-        return True
+        self._transfer_packet_between_links(
+            candidate.packet_id,
+            candidate.upstream_link_id,
+            candidate.downstream_link_id,
+        )
+
+    def _queue_non_approved_candidates(
+        self,
+        candidates: tuple[TransferCandidate, ...],
+        approved_candidate_set: set[TransferCandidate],
+        remaining_slots: dict[str, int],
+    ) -> None:
+        for candidate in candidates:
+            if candidate in approved_candidate_set or candidate.queued:
+                continue
+            if (
+                remaining_slots.get(candidate.downstream_link_id, 0) <= 0
+                or self._queues.get(candidate.boundary_id)
+            ):
+                self._queue_packet_once(
+                    candidate.packet_id,
+                    candidate.upstream_link_id,
+                    candidate.downstream_link_id,
+                )
 
     def _validate_transfer_connectivity(
         self,
@@ -318,23 +412,6 @@ class LoadingEngine:
                 f"link {downstream_link_id} is not an outgoing link from node {node.node_id}"
             )
 
-    def _transfer_policy_permits_attempt(
-        self,
-        packet_id: str,
-        upstream_link_id: str,
-        downstream_link_id: str,
-    ) -> bool:
-        context = TransferContext(
-            packet_id=packet_id,
-            upstream_link_id=upstream_link_id,
-            downstream_link_id=downstream_link_id,
-            packet_ids_on_upstream_link=self.packet_ids_on_link(upstream_link_id),
-            queued_downstream_by_packet_id=MappingProxyType(
-                self._queued_downstream_by_packet_id_from_events()
-            ),
-        )
-        return self.node_transfer_policy.permits_transfer_attempt(context)
-
     def _queued_downstream_by_packet_id_from_events(self) -> dict[str, str]:
         queued_downstream_by_packet_id: dict[str, str] = {}
         for boundary_id, packet_ids in self._queue_packet_ids_by_boundary_from_events().items():
@@ -342,6 +419,44 @@ class LoadingEngine:
             for packet_id in packet_ids:
                 queued_downstream_by_packet_id[packet_id] = downstream_link_id
         return queued_downstream_by_packet_id
+
+    def _queue_entry_metadata_by_packet_id_from_events(self) -> dict[str, tuple[int, int]]:
+        queues: dict[str, list[tuple[str, int, int]]] = {}
+        queue_entry_metadata: dict[str, tuple[int, int]] = {}
+        for event in self._event_log:
+            if event.event_type == EventType.QUEUE_ENTRY:
+                queues.setdefault(event.entity_id, []).append(
+                    (event.packet_id, event.physical_tick, event.sequence_number)
+                )
+                queue_entry_metadata[event.packet_id] = (
+                    event.physical_tick,
+                    event.sequence_number,
+                )
+            elif event.event_type == EventType.QUEUE_EXIT:
+                queue = queues.setdefault(event.entity_id, [])
+                if not queue or queue[0][0] != event.packet_id:
+                    raise EventCacheConsistencyError(
+                        f"packet_id {event.packet_id} exits queue {event.entity_id} "
+                        "out of FIFO order or without queue entry"
+                    )
+                queue.pop(0)
+                queue_entry_metadata.pop(event.packet_id, None)
+        return queue_entry_metadata
+
+    def _current_link_entry_metadata_by_packet_id_from_events(
+        self,
+    ) -> dict[str, tuple[str, int, int]]:
+        packet_link_entry_metadata: dict[str, tuple[str, int, int]] = {}
+        for event in self._event_log:
+            if event.event_type == EventType.LINK_ENTRY:
+                packet_link_entry_metadata[event.packet_id] = (
+                    event.entity_id,
+                    event.physical_tick,
+                    event.sequence_number,
+                )
+            elif event.event_type == EventType.LINK_EXIT:
+                packet_link_entry_metadata.pop(event.packet_id, None)
+        return packet_link_entry_metadata
 
     def _transfer_packet_between_links(
         self,
