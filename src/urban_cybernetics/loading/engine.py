@@ -23,7 +23,7 @@ class LoadingEngine:
         self.links = dict(links)
         self._next_packet_number = 1
         self._packet_instantiation_orders: dict[str, int] = {}
-        self._route_positions: dict[str, int] = {}
+        self._packet_route_index: dict[str, int] = {}
         self._current_link_entry_ticks: dict[str, int] = {}
         self._current_link_ids: dict[str, str] = {}
         self._queues: dict[str, list[str]] = {}
@@ -73,8 +73,8 @@ class LoadingEngine:
     def instantiate(self, demand: DemandDeclaration) -> Packet:
         """Instantiate one packet from one demand declaration."""
 
-        if not 1 <= len(demand.route_intent) <= 2:
-            raise ValueError("minimal loading engine supports one-link and two-link route intents")
+        if len(demand.route_intent) < 1:
+            raise ValueError("route_intent must contain at least one link_id")
 
         for link_id in demand.route_intent:
             if link_id not in self.links:
@@ -92,7 +92,7 @@ class LoadingEngine:
         )
         self._packets[packet_id] = packet
         self._packet_instantiation_orders[packet_id] = packet_number
-        self._route_positions[packet_id] = 0
+        self._packet_route_index[packet_id] = 0
         self._current_link_ids[packet_id] = first_link_id
         self._current_link_entry_ticks[packet_id] = self.current_tick
         self.append_event(packet_id, EventType.INSTANTIATED, first_link_id)
@@ -160,7 +160,7 @@ class LoadingEngine:
         )
 
     def _next_link_id(self, packet_id: str) -> str | None:
-        route_position = self._route_positions[packet_id]
+        route_position = self._packet_route_index[packet_id]
         route_intent = self._packets[packet_id].route_intent
         next_position = route_position + 1
         if next_position >= len(route_intent):
@@ -255,7 +255,7 @@ class LoadingEngine:
     ) -> None:
         self.append_event(packet_id, EventType.LINK_EXIT, upstream_link_id)
         self.append_event(packet_id, EventType.LINK_ENTRY, downstream_link_id)
-        self._route_positions[packet_id] += 1
+        self._packet_route_index[packet_id] += 1
         self._current_link_ids[packet_id] = downstream_link_id
         self._current_link_entry_ticks[packet_id] = self.current_tick
         self._set_lifecycle_state(packet_id, LifecycleState.IN_TRANSIT)
@@ -355,6 +355,31 @@ class LoadingEngine:
                 del packet_link_ids[event.packet_id]
         return packet_link_ids
 
+    def _route_indices_implied_by_events(self) -> dict[str, int]:
+        """Derive each packet's latest route index from realised link-entry events."""
+
+        route_entry_counts: dict[str, int] = {}
+        route_indices: dict[str, int] = {}
+        for event in self._event_log:
+            if event.event_type != EventType.LINK_ENTRY:
+                continue
+
+            packet = self._packets[event.packet_id]
+            next_route_index = route_entry_counts.get(event.packet_id, 0)
+            if next_route_index >= len(packet.route_intent):
+                raise EventCacheConsistencyError(
+                    f"packet_id {event.packet_id} has more link-entry events than route links"
+                )
+            expected_link_id = packet.route_intent[next_route_index]
+            if event.entity_id != expected_link_id:
+                raise EventCacheConsistencyError(
+                    f"packet_id {event.packet_id} entered link {event.entity_id}, "
+                    f"but route index {next_route_index} expects {expected_link_id}"
+                )
+            route_indices[event.packet_id] = next_route_index
+            route_entry_counts[event.packet_id] = next_route_index + 1
+        return route_indices
+
     def packet_ids_on_link(self, link_id: str) -> tuple[str, ...]:
         """Return packet IDs physically on a link, derived from event history."""
 
@@ -394,6 +419,7 @@ class LoadingEngine:
                 )
         lifecycle_states = self._lifecycle_states_implied_by_events()
         packet_link_ids = self._packet_link_ids_implied_by_events()
+        route_indices = self._route_indices_implied_by_events()
         for packet_id, event_state in lifecycle_states.items():
             packet_state = self._packets[packet_id].lifecycle_state
             if packet_state != event_state:
@@ -413,6 +439,13 @@ class LoadingEngine:
                 raise EventCacheConsistencyError(
                     f"packet_id {packet_id} has terminal lifecycle state "
                     f"{event_state.name} but remains in link cache"
+                )
+            event_route_index = route_indices.get(packet_id)
+            cache_route_index = self._packet_route_index.get(packet_id)
+            if cache_route_index != event_route_index:
+                raise EventCacheConsistencyError(
+                    f"packet_id {packet_id} route-index cache is {cache_route_index}, "
+                    f"but event log implies {event_route_index}"
                 )
         event_queues = self._queue_packet_ids_by_boundary_from_events()
         for boundary_id in set(event_queues) | set(self._queues):
