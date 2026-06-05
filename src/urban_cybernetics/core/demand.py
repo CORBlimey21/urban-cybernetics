@@ -11,6 +11,6 @@ class DemandDeclaration:
 
     demand_id: str
     departure_tick: int
-    # TODO: In the full model, route intent is assigned by a routing authority.
+    # TODO: route intent assigned by routing authority in full model.
     # This field exists only to support synthetic invariant tests before routing authorities exist.
     route_intent: tuple[str, ...]

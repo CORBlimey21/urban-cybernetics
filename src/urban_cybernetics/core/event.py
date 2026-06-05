@@ -12,6 +12,8 @@ class EventType(Enum):
     INSTANTIATED = "instantiated"
     LINK_ENTRY = "link_entry"
     LINK_EXIT = "link_exit"
+    QUEUE_ENTRY = "queue_entry"
+    QUEUE_EXIT = "queue_exit"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
 

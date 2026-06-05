@@ -32,6 +32,7 @@ class ConservationTest(unittest.TestCase):
                 "in_flight": 0,
                 "completed": 1,
                 "cancelled": 0,
+                "unresolved": 0,
             },
         )
 
