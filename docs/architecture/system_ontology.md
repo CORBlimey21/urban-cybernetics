@@ -15,6 +15,11 @@ Model Layer Hierarchy
 This hierarchy is conceptual: it expresses what each layer is responsible for and what it is permitted to read or influence. It is not a strict import order or dependency graph. A routing authority may read observation frames produced by the observability layer without the routing module importing from the observability module; the constraint is semantic ownership, not package structure.
 LayerNameResponsibility0Topology and ProvenanceStatic physical structure1DemandTrip declarations before instantiation2LoadingPacket instantiation and physical dynamics3ObservabilitySampling, publication, and observation frames4RoutingRoute recommendations and assignments5BehaviourCompliance, churn, trust, adaptation6GovernanceConstraints, interventions, information release7Validation and BenchmarksEvidence, comparators, reproducibility
 
+The Central Information Loop
+The framework's scientific subject matter is not routing algorithms or traffic assignment. It is what happens when physical reality passes through an imperfect, delayed, asymmetric information pipeline before reaching the agents whose decisions shape that reality. The central loop is:
+Loading engine produces physical truth → observability layer samples and seals observation frames → routing authorities form beliefs from delayed frames → authorities issue routing decisions → behaviour layer determines compliance → loading engine executes movement → loading engine produces physical truth.
+Every interesting phenomenon in the framework — oscillatory congestion, authority market share dynamics, infrastructure-mediated control, cooperative instability — lives somewhere in the gap between physical truth and authority belief. The specification suite exists to make that gap precise, measurable, and reproducible.
+
 Core Entities
 Topology.
 The static directed graph of physical infrastructure. Topology records are immutable after the topology hash is computed. A topology is identified by its hash, not by OSM IDs or NetworkX keys.

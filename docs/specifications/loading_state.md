@@ -1,0 +1,100 @@
+**Status:** specification.
+**Scope:** defines how the loading engine represents canonical physical state, what the primary physical records are, and what is and is not permitted to be stored as loading state.
+**Non-scope:** does not define node transfer algorithms, timestep event ordering, routing algorithms, or observability mechanics. Does not commit to a specific LTM implementation variant.
+
+---
+
+### The Loading Engine as Owner of Physical Truth
+
+The loading engine is the sole owner of canonical physical state during a run. No other subsystem writes to or supersedes the loading engine's records. Routing authorities, governance interventions, and behavioural updates all eventually influence what the loading engine does, but they do so through declared interfaces: route intent records, governance state entries, and behavioural state events. They do not write directly to loading state.
+
+This ownership boundary is the primary architectural invariant of the framework. It is stated in P1 of core_principles.md and is repeated here because loading_state.md is the document where its consequences are worked out.
+
+---
+
+### Primary Physical Records
+
+The framework's physical truth is defined abstractly as whatever canonical records the loading engine maintains. The representation of those records is an implementation decision, not an ontological one. In the base packet-LTM implementation, the canonical representation is the packet lifecycle event log: an append-only sequence of typed events, each carrying packet_id, event_type, entity_id, physical_timestamp, and sequence_number. This is the primary record from which all other physical quantities are derived or verified against.
+
+Cumulative boundary count functions N(x, t) are maintained explicitly by the loading engine as a derived-but-materialised accounting structure. They are updated from the event log, not independently. If a cumulative count value conflicts with what the event log implies, the event log is authoritative. This distinction matters: it means the framework's physical accounting primitive is the event, not the count function, even though LTM mechanics operate on the counts. Future implementations using different loading representations (agent-based, cell-based) may replace the count functions while preserving the event log contract.
+
+The loading engine maintains the following record types. These are the canonical physical truth of the simulation. All other representations of network state are derived from these.
+
+**Packet lifecycle event log.** An append-only log of all packet lifecycle events: instantiation, link entry, link exit, node transfer, queue entry, queue exit, re-route, completion, cancellation. Each event carries: packet ID, event type, canonical link or node ID, physical timestamp, and a sequence number within the run. This is the atomic unit of physical truth.
+
+**Link storage state.** For each canonical link, the set of packet IDs currently in storage on that link, ordered by entry time. This is a derived materialisation of the packet lifecycle event log, maintained by the loading engine for computational efficiency. It is not an independent source of truth; if it diverges from the event log, the event log wins.
+
+**Queue state.** For each canonical link boundary, the ordered list of packet IDs waiting to cross that boundary, ordered by arrival time subject to applicable priority rules. Queue state is a derived materialisation maintained for computational efficiency and is subordinate to the packet event log.
+
+**Node transfer state.** For each node, the record of in-progress and recently completed transfers: which packets were received from which incoming links, which were assigned to which outgoing links, and which remain queued. Node transfer state is append-only during a run.
+
+**[BASE MODEL] Cumulative boundary count functions.** In the packet-LTM implementation, the loading engine additionally maintains cumulative count functions N(x, t) at each link boundary: the total number of packets that have crossed boundary x up to and including time t. These are the materialised accounting structure used by LTM-derived travel time and flow calculations. They are derived from the packet lifecycle event log but are maintained explicitly for efficiency and for LTM mechanics.
+
+The distinction between the packet event log as primary record and cumulative counts as derived-but-maintained is deliberate. It preserves the option to use a different loading representation in future variants while keeping the base model's physical accounting explicit.
+
+---
+
+### What Loading State Is Not
+
+Loading state is not topology. Link length, declared static capacity metadata, and free-flow speed are topology records. The loading engine reads topology but does not write to it.
+
+Loading state is not observation state. The loading engine does not publish observation frames. It maintains physical records; the observability layer samples those records to produce frames.
+
+Loading state is not routing state. The loading engine does not decide routes. It reads route intent from packet records and executes physically feasible movement according to it, subject to capacity and queue constraints.
+
+Loading state is not governance state. Signal phase, link closure status, and pricing overlays are governance state entries. The loading engine reads these when evaluating link feasibility and effective capacity, but it does not own them.
+
+---
+
+### Effective Capacity
+
+Effective capacity is not a topology field. It is a function computed by the loading engine at each timestep for each link, combining:
+
+- declared static capacity metadata from the topology record
+- any active governance state entries affecting that link (closures, signal phase, access restrictions)
+
+The result is used internally by the loading engine for queue mechanics and receiving flow calculations. It is not stored as a named field on any canonical record; it is recomputed as needed from its inputs.
+
+---
+
+### Derived Views the Loading Engine May Maintain
+
+The loading engine may maintain the following derived views for computational efficiency. These are always recomputable from the primary records and must not be treated as independent sources of truth.
+
+- per-link occupancy count (number of packets currently in storage)
+- per-link entry and exit rates over a configurable window
+- per-packet cumulative experienced delay, updated at each link exit event
+
+If a derived view conflicts with the primary event log, the event log is authoritative.
+
+---
+
+### What Must Not Be Stored as Loading State
+
+The following must not appear as named fields in canonical loading state records. Their presence indicates contamination.
+
+- `travel_time_seconds` as a mutable loading attribute (travel time is derived)
+- `live_occupancy_count` as a canonical flow proxy
+- `simulated_volume` without a declared aggregation window and boundary direction
+- `marginal_cost_seconds` in any form
+- `peak_live_occupancy_count` or any peak dynamic field computed outside a declared window
+- Any BPR-derived field
+
+---
+
+### Sending and Receiving Functions
+
+[BASE MODEL] In the packet-LTM implementation, link dynamics are governed by sending and receiving flow functions derived from cumulative boundary counts and link capacity. The sending function determines the maximum flow that can exit a link's downstream boundary. The receiving function determines the maximum flow that can enter a link's upstream boundary. These functions are the mechanism by which queue spillback propagates upstream.
+
+The precise formulations belong in a separate packet_ltm_mechanics document if one is created. What belongs here is the ownership claim: sending and receiving functions are computed by the loading engine from its own cumulative count records and from topology metadata. No other subsystem provides inputs to these functions except through governance state (effective capacity modifiers) and packet route intent (which boundary packets are headed toward).
+
+---
+
+### Open Questions
+
+- **FIFO within a link.** FIFO is assumed for packets of the same class on a homogeneous link. Passing, overtaking, and heterogeneous class priority within a link are not defined in the base model and must be declared as extensions. → to be resolved in packet_ltm_mechanics or a future extension spec.
+- **Timestep duration and CFL analogue.** Packet-LTM does not have a CFL stability condition in the same sense as CTM, but there may be stability considerations relating timestep duration to link free-flow travel time. → timestep_semantics.md.
+- **Event log storage.** For large runs, the full packet event log may be expensive to retain in memory. What is the minimum event log that must be preserved to satisfy conservation and reproducibility requirements? → artifact_contracts.md.
+- **Experienced delay definition.** See packet_semantics.md open question on free-flow reference path.
+
+---
