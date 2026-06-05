@@ -6,7 +6,20 @@ from collections.abc import Mapping
 from dataclasses import replace
 from types import MappingProxyType
 
-from urban_cybernetics.core import DemandDeclaration, Event, EventType, LifecycleState, Link, Packet
+from urban_cybernetics.core import (
+    DemandDeclaration,
+    Event,
+    EventType,
+    LifecycleState,
+    Link,
+    Node,
+    Packet,
+)
+from urban_cybernetics.loading.transfer_policy import (
+    NodeTransferPolicy,
+    StrictFIFOJunctionPolicy,
+    TransferContext,
+)
 
 
 class EventCacheConsistencyError(RuntimeError):
@@ -16,11 +29,19 @@ class EventCacheConsistencyError(RuntimeError):
 class LoadingEngine:
     """Owns physical truth, lifecycle events, and derived simulation state."""
 
-    def __init__(self, links: dict[str, Link]) -> None:
+    def __init__(
+        self,
+        links: dict[str, Link],
+        nodes: tuple[Node, ...] | None = None,
+        node_transfer_policy: NodeTransferPolicy | None = None,
+    ) -> None:
         self.current_tick = 0
         self._event_log: list[Event] = []
         self._packets: dict[str, Packet] = {}
         self.links = dict(links)
+        self.nodes = {node.node_id: node for node in nodes or ()}
+        self.node_transfer_policy = node_transfer_policy or StrictFIFOJunctionPolicy()
+        self._node_by_incoming_link_id: dict[str, Node] = {}
         self._next_packet_number = 1
         self._packet_instantiation_orders: dict[str, int] = {}
         self._packet_route_index: dict[str, int] = {}
@@ -30,6 +51,7 @@ class LoadingEngine:
         self._receiving_open_by_link: dict[str, bool] = {
             link_id: True for link_id in self.links
         }
+        self._validate_nodes(nodes or ())
 
     @property
     def event_log(self) -> tuple[Event, ...]:
@@ -42,6 +64,24 @@ class LoadingEngine:
         """Read-only view of materialised packet records."""
 
         return MappingProxyType(self._packets)
+
+    def _validate_nodes(self, nodes: tuple[Node, ...]) -> None:
+        node_ids: set[str] = set()
+        for node in nodes:
+            if node.node_id in node_ids:
+                raise ValueError(f"duplicate node_id: {node.node_id}")
+            node_ids.add(node.node_id)
+            for link_id in node.incoming_link_ids + node.outgoing_link_ids:
+                if link_id not in self.links:
+                    raise KeyError(
+                        f"node {node.node_id} references unknown link_id: {link_id}"
+                    )
+            for incoming_link_id in node.incoming_link_ids:
+                if incoming_link_id in self._node_by_incoming_link_id:
+                    raise ValueError(
+                        f"incoming link {incoming_link_id} belongs to multiple nodes"
+                    )
+                self._node_by_incoming_link_id[incoming_link_id] = node
 
     def set_receiving_open(self, link_id: str, is_open: bool) -> None:
         """Set engine-owned receiving state for a link."""
@@ -105,10 +145,15 @@ class LoadingEngine:
         self.check_event_cache_consistency()
         self.current_tick += 1
         receiving_slots = self._receiving_slots_by_link()
-        released_packet_ids = self._release_queued_packets(receiving_slots)
+        released_packet_ids, release_upstream_link_ids = self._release_queued_packets(
+            receiving_slots
+        )
 
         for packet_id in self._in_transit_packet_ids(excluding=released_packet_ids):
             link_id = self._current_link_ids[packet_id]
+            if link_id in release_upstream_link_ids:
+                continue
+
             link = self.links[link_id]
             entry_tick = self._current_link_entry_ticks[packet_id]
             if self.current_tick - entry_tick < link.free_flow_ticks:
@@ -195,8 +240,12 @@ class LoadingEngine:
             return
         self._queue_packet(packet_id, upstream_link_id, downstream_link_id)
 
-    def _release_queued_packets(self, receiving_slots: dict[str, int]) -> set[str]:
+    def _release_queued_packets(
+        self,
+        receiving_slots: dict[str, int],
+    ) -> tuple[set[str], set[str]]:
         released_packet_ids: set[str] = set()
+        release_upstream_link_ids: set[str] = set()
         for boundary_id in sorted(self._queues):
             upstream_link_id, downstream_link_id = self._parse_boundary_id(boundary_id)
             queue = self._queues[boundary_id]
@@ -211,7 +260,8 @@ class LoadingEngine:
                 ):
                     break
                 released_packet_ids.add(packet_id)
-        return released_packet_ids
+                release_upstream_link_ids.add(upstream_link_id)
+        return released_packet_ids, release_upstream_link_ids
 
     def _attempt_node_transfer(
         self,
@@ -223,6 +273,14 @@ class LoadingEngine:
         queued: bool = False,
     ) -> bool:
         """Move a packet from one link to the next if downstream receiving permits it."""
+
+        self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
+        if not self._transfer_policy_permits_attempt(
+            packet_id,
+            upstream_link_id,
+            downstream_link_id,
+        ):
+            return False
 
         boundary_id = self._boundary_id(upstream_link_id, downstream_link_id)
         if receiving_slots[downstream_link_id] <= 0:
@@ -246,6 +304,44 @@ class LoadingEngine:
 
         self._transfer_packet_between_links(packet_id, upstream_link_id, downstream_link_id)
         return True
+
+    def _validate_transfer_connectivity(
+        self,
+        upstream_link_id: str,
+        downstream_link_id: str,
+    ) -> None:
+        node = self._node_by_incoming_link_id.get(upstream_link_id)
+        if node is None:
+            return
+        if downstream_link_id not in node.outgoing_link_ids:
+            raise ValueError(
+                f"link {downstream_link_id} is not an outgoing link from node {node.node_id}"
+            )
+
+    def _transfer_policy_permits_attempt(
+        self,
+        packet_id: str,
+        upstream_link_id: str,
+        downstream_link_id: str,
+    ) -> bool:
+        context = TransferContext(
+            packet_id=packet_id,
+            upstream_link_id=upstream_link_id,
+            downstream_link_id=downstream_link_id,
+            packet_ids_on_upstream_link=self.packet_ids_on_link(upstream_link_id),
+            queued_downstream_by_packet_id=MappingProxyType(
+                self._queued_downstream_by_packet_id_from_events()
+            ),
+        )
+        return self.node_transfer_policy.permits_transfer_attempt(context)
+
+    def _queued_downstream_by_packet_id_from_events(self) -> dict[str, str]:
+        queued_downstream_by_packet_id: dict[str, str] = {}
+        for boundary_id, packet_ids in self._queue_packet_ids_by_boundary_from_events().items():
+            _, downstream_link_id = self._parse_boundary_id(boundary_id)
+            for packet_id in packet_ids:
+                queued_downstream_by_packet_id[packet_id] = downstream_link_id
+        return queued_downstream_by_packet_id
 
     def _transfer_packet_between_links(
         self,

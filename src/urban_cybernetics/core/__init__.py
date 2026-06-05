@@ -4,6 +4,7 @@ from .demand import DemandDeclaration
 from .event import Event, EventType
 from .lifecycle import LifecycleState
 from .link import Link
+from .node import Node
 from .packet import Packet
 
 __all__ = [
@@ -12,5 +13,6 @@ __all__ = [
     "EventType",
     "LifecycleState",
     "Link",
+    "Node",
     "Packet",
 ]
