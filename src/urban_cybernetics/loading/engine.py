@@ -27,6 +27,9 @@ class LoadingEngine:
         self._current_link_entry_ticks: dict[str, int] = {}
         self._current_link_ids: dict[str, str] = {}
         self._queues: dict[str, list[str]] = {}
+        self._receiving_open_by_link: dict[str, bool] = {
+            link_id: True for link_id in self.links
+        }
 
     @property
     def event_log(self) -> tuple[Event, ...]:
@@ -39,6 +42,20 @@ class LoadingEngine:
         """Read-only view of materialised packet records."""
 
         return MappingProxyType(self._packets)
+
+    def set_receiving_open(self, link_id: str, is_open: bool) -> None:
+        """Set engine-owned receiving state for a link."""
+
+        if link_id not in self.links:
+            raise KeyError(f"unknown link_id for receiving state: {link_id}")
+        self._receiving_open_by_link[link_id] = is_open
+
+    def is_receiving_open(self, link_id: str) -> bool:
+        """Return engine-owned receiving state for a link."""
+
+        if link_id not in self.links:
+            raise KeyError(f"unknown link_id for receiving state: {link_id}")
+        return self._receiving_open_by_link.get(link_id, True)
 
     def append_event(self, packet_id: str, event_type: EventType, entity_id: str) -> Event:
         """Append a loading-engine-owned lifecycle event."""
@@ -102,13 +119,7 @@ class LoadingEngine:
                 self._complete_packet(packet_id, link_id)
                 continue
 
-            boundary_id = self._boundary_id(link_id, next_link_id)
-            if self._queues.get(boundary_id) or receiving_slots[next_link_id] <= 0:
-                self._queue_packet(packet_id, link_id, next_link_id)
-                continue
-
-            receiving_slots[next_link_id] -= 1
-            self._transfer_packet(packet_id, link_id, next_link_id)
+            self._attempt_node_transfer(packet_id, link_id, next_link_id, receiving_slots)
 
     @staticmethod
     def _boundary_id(upstream_link_id: str, downstream_link_id: str) -> str:
@@ -122,7 +133,11 @@ class LoadingEngine:
 
     def _receiving_slots_by_link(self) -> dict[str, int]:
         return {
-            link_id: link.capacity_per_tick if link.can_receive else 0
+            link_id: (
+                link.declared_receiving_capacity_per_tick
+                if self.is_receiving_open(link_id)
+                else 0
+            )
             for link_id, link in self.links.items()
         }
 
@@ -169,20 +184,70 @@ class LoadingEngine:
         self._queues.setdefault(boundary_id, []).append(packet_id)
         self._set_lifecycle_state(packet_id, LifecycleState.QUEUED)
 
+    def _queue_packet_once(
+        self,
+        packet_id: str,
+        upstream_link_id: str,
+        downstream_link_id: str,
+    ) -> None:
+        boundary_id = self._boundary_id(upstream_link_id, downstream_link_id)
+        if packet_id in self._queues.get(boundary_id, ()):
+            return
+        self._queue_packet(packet_id, upstream_link_id, downstream_link_id)
+
     def _release_queued_packets(self, receiving_slots: dict[str, int]) -> set[str]:
         released_packet_ids: set[str] = set()
         for boundary_id in sorted(self._queues):
             upstream_link_id, downstream_link_id = self._parse_boundary_id(boundary_id)
             queue = self._queues[boundary_id]
             while queue and receiving_slots[downstream_link_id] > 0:
-                packet_id = queue.pop(0)
-                receiving_slots[downstream_link_id] -= 1
-                self.append_event(packet_id, EventType.QUEUE_EXIT, boundary_id)
-                self._transfer_packet(packet_id, upstream_link_id, downstream_link_id)
+                packet_id = queue[0]
+                if not self._attempt_node_transfer(
+                    packet_id,
+                    upstream_link_id,
+                    downstream_link_id,
+                    receiving_slots,
+                    queued=True,
+                ):
+                    break
                 released_packet_ids.add(packet_id)
         return released_packet_ids
 
-    def _transfer_packet(
+    def _attempt_node_transfer(
+        self,
+        packet_id: str,
+        upstream_link_id: str,
+        downstream_link_id: str,
+        receiving_slots: dict[str, int],
+        *,
+        queued: bool = False,
+    ) -> bool:
+        """Move a packet from one link to the next if downstream receiving permits it."""
+
+        boundary_id = self._boundary_id(upstream_link_id, downstream_link_id)
+        if receiving_slots[downstream_link_id] <= 0:
+            if not queued:
+                self._queue_packet_once(packet_id, upstream_link_id, downstream_link_id)
+            return False
+
+        if not queued and self._queues.get(boundary_id):
+            self._queue_packet_once(packet_id, upstream_link_id, downstream_link_id)
+            return False
+
+        receiving_slots[downstream_link_id] -= 1
+        if queued:
+            queue = self._queues[boundary_id]
+            if not queue or queue[0] != packet_id:
+                raise EventCacheConsistencyError(
+                    f"packet_id {packet_id} is not first in queue {boundary_id}"
+                )
+            queue.pop(0)
+            self.append_event(packet_id, EventType.QUEUE_EXIT, boundary_id)
+
+        self._transfer_packet_between_links(packet_id, upstream_link_id, downstream_link_id)
+        return True
+
+    def _transfer_packet_between_links(
         self,
         packet_id: str,
         upstream_link_id: str,
@@ -322,6 +387,11 @@ class LoadingEngine:
     def check_event_cache_consistency(self) -> bool:
         """Verify that materialised packet records match engine-owned events."""
 
+        for link_id in self._receiving_open_by_link:
+            if link_id not in self.links:
+                raise EventCacheConsistencyError(
+                    f"receiving state references unknown link_id {link_id}"
+                )
         lifecycle_states = self._lifecycle_states_implied_by_events()
         packet_link_ids = self._packet_link_ids_implied_by_events()
         for packet_id, event_state in lifecycle_states.items():

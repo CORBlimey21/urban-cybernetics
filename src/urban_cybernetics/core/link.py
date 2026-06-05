@@ -1,15 +1,15 @@
-"""Link records for synthetic loading tests."""
+"""Immutable link metadata for synthetic loading tests."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class Link:
-    """Single directed link with minimal receiving metadata."""
+    """Single directed link with declared static receiving metadata."""
 
     link_id: str
     free_flow_ticks: int
-    capacity_per_tick: int = 1
-    can_receive: bool = True
+    # Static declared receiving metadata, not mutable current capacity, traversal capacity, or BPR capacity.
+    declared_receiving_capacity_per_tick: int = 1
