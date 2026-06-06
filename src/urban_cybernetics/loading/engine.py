@@ -25,6 +25,7 @@ from urban_cybernetics.loading.cumulative_counts import (
     link_storage,
     link_storage_series,
 )
+from urban_cybernetics.loading.receiving import LinkReceivingView, link_receiving_view
 from urban_cybernetics.loading.sending import LinkSendingView, link_sending_view
 from urban_cybernetics.loading.transfer_policy import (
     GlobalFIFOMergePolicy,
@@ -203,6 +204,24 @@ class LoadingEngine:
             ),
         )
 
+    def link_receiving_view(
+        self,
+        link_id: str,
+        tick: int | None = None,
+        already_accepted_count: int = 0,
+    ) -> LinkReceivingView:
+        """Return event-derived downstream receiving availability for one link."""
+
+        self._validate_count_link_id(link_id)
+        view_tick = self.current_tick if tick is None else tick
+        return link_receiving_view(
+            self.event_log,
+            self.links[link_id],
+            view_tick,
+            self.is_receiving_open(link_id),
+            already_accepted_count=already_accepted_count,
+        )
+
     def _validate_count_link_id(self, link_id: str) -> None:
         if link_id not in self.links:
             raise KeyError(f"unknown link_id for cumulative counts: {link_id}")
@@ -254,10 +273,10 @@ class LoadingEngine:
 
         self.check_event_cache_consistency()
         self.current_tick += 1
-        receiving_slots = self._receiving_slots_by_link()
         completed_counts_by_link = self._complete_eligible_packets()
 
         candidates = self._transfer_candidates(completed_counts_by_link)
+        receiving_slots = self._receiving_slots_by_link()
         approved_candidates = self.node_transfer_policy.choose_transfers(
             candidates=candidates,
             receiving_slots_by_downstream_link=MappingProxyType(dict(receiving_slots)),
@@ -291,12 +310,11 @@ class LoadingEngine:
 
     def _receiving_slots_by_link(self) -> dict[str, int]:
         return {
-            link_id: (
-                link.declared_receiving_capacity_per_tick
-                if self.is_receiving_open(link_id)
-                else 0
-            )
-            for link_id, link in self.links.items()
+            link_id: self.link_receiving_view(
+                link_id,
+                self.current_tick,
+            ).available_receiving_slots
+            for link_id in self.links
         }
 
     def _in_transit_packet_ids(self, excluding: set[str] | None = None) -> list[str]:
