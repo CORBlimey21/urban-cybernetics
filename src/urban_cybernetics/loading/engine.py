@@ -15,6 +15,16 @@ from urban_cybernetics.core import (
     Node,
     Packet,
 )
+from urban_cybernetics.loading.cumulative_counts import (
+    CumulativeBoundaryCounts,
+    LinkStorageView,
+    cumulative_count_series,
+    cumulative_counts,
+    cumulative_entries,
+    cumulative_exits,
+    link_storage,
+    link_storage_series,
+)
 from urban_cybernetics.loading.transfer_policy import (
     GlobalFIFOMergePolicy,
     NodeTransferPolicy,
@@ -96,6 +106,86 @@ class LoadingEngine:
         if link_id not in self.links:
             raise KeyError(f"unknown link_id for receiving state: {link_id}")
         return self._receiving_open_by_link.get(link_id, True)
+
+    def cumulative_entries(self, link_id: str, tick: int | None = None) -> int:
+        """Return event-derived cumulative LINK_ENTRY count for one link."""
+
+        self._validate_count_link_id(link_id)
+        return cumulative_entries(
+            self.event_log,
+            link_id,
+            self.current_tick if tick is None else tick,
+        )
+
+    def cumulative_exits(self, link_id: str, tick: int | None = None) -> int:
+        """Return event-derived cumulative LINK_EXIT count for one link."""
+
+        self._validate_count_link_id(link_id)
+        return cumulative_exits(
+            self.event_log,
+            link_id,
+            self.current_tick if tick is None else tick,
+        )
+
+    def cumulative_counts(
+        self,
+        link_id: str,
+        tick: int | None = None,
+    ) -> CumulativeBoundaryCounts:
+        """Return event-derived cumulative entries and exits for one link."""
+
+        self._validate_count_link_id(link_id)
+        return cumulative_counts(
+            self.event_log,
+            link_id,
+            self.current_tick if tick is None else tick,
+        )
+
+    def cumulative_count_series(
+        self,
+        link_id: str,
+        max_tick: int | None = None,
+    ) -> tuple[CumulativeBoundaryCounts, ...]:
+        """Return event-derived cumulative counts from tick 0 through max_tick."""
+
+        self._validate_count_link_id(link_id)
+        return cumulative_count_series(
+            self.event_log,
+            link_id,
+            self.current_tick if max_tick is None else max_tick,
+        )
+
+    def link_storage(
+        self,
+        link_id: str,
+        tick: int | None = None,
+    ) -> LinkStorageView:
+        """Return count-derived packet storage for one link."""
+
+        self._validate_count_link_id(link_id)
+        return link_storage(
+            self.event_log,
+            link_id,
+            self.current_tick if tick is None else tick,
+        )
+
+    def link_storage_series(
+        self,
+        link_id: str,
+        max_tick: int | None = None,
+    ) -> tuple[LinkStorageView, ...]:
+        """Return count-derived link storage from tick 0 through max_tick."""
+
+        self._validate_count_link_id(link_id)
+        return link_storage_series(
+            self.event_log,
+            link_id,
+            self.current_tick if max_tick is None else max_tick,
+        )
+
+    def _validate_count_link_id(self, link_id: str) -> None:
+        if link_id not in self.links:
+            raise KeyError(f"unknown link_id for cumulative counts: {link_id}")
 
     def append_event(self, packet_id: str, event_type: EventType, entity_id: str) -> Event:
         """Append a loading-engine-owned lifecycle event."""
