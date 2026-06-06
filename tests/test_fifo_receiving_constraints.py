@@ -24,6 +24,7 @@ class FifoAndReceivingConstraintTest(unittest.TestCase):
         )
 
         engine.step()
+        engine.step()
 
         link_exit_packet_ids = [
             event.packet_id

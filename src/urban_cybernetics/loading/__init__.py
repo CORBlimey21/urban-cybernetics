@@ -12,6 +12,7 @@ from .cumulative_counts import (
     packet_ids_on_link_from_events,
 )
 from .engine import EventCacheConsistencyError, LoadingEngine
+from .sending import LinkSendingView, link_sending_view
 from .transfer_policy import (
     GlobalFIFOMergePolicy,
     NodeTransferPolicy,
@@ -24,6 +25,7 @@ __all__ = [
     "EventCacheConsistencyError",
     "GlobalFIFOMergePolicy",
     "LinkStorageView",
+    "LinkSendingView",
     "LoadingEngine",
     "NodeTransferPolicy",
     "StrictFIFOJunctionPolicy",
@@ -34,5 +36,6 @@ __all__ = [
     "cumulative_exits",
     "link_storage",
     "link_storage_series",
+    "link_sending_view",
     "packet_ids_on_link_from_events",
 ]

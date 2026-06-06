@@ -25,6 +25,7 @@ from urban_cybernetics.loading.cumulative_counts import (
     link_storage,
     link_storage_series,
 )
+from urban_cybernetics.loading.sending import LinkSendingView, link_sending_view
 from urban_cybernetics.loading.transfer_policy import (
     GlobalFIFOMergePolicy,
     NodeTransferPolicy,
@@ -183,6 +184,25 @@ class LoadingEngine:
             self.current_tick if max_tick is None else max_tick,
         )
 
+    def link_sending_view(
+        self,
+        link_id: str,
+        tick: int | None = None,
+    ) -> LinkSendingView:
+        """Return event-derived upstream sending supply for one link."""
+
+        self._validate_count_link_id(link_id)
+        view_tick = self.current_tick if tick is None else tick
+        return link_sending_view(
+            self.event_log,
+            self.links[link_id],
+            view_tick,
+            excluded_packet_ids=self._queued_packet_ids_on_upstream_link(
+                link_id,
+                view_tick,
+            ),
+        )
+
     def _validate_count_link_id(self, link_id: str) -> None:
         if link_id not in self.links:
             raise KeyError(f"unknown link_id for cumulative counts: {link_id}")
@@ -235,9 +255,9 @@ class LoadingEngine:
         self.check_event_cache_consistency()
         self.current_tick += 1
         receiving_slots = self._receiving_slots_by_link()
-        self._complete_eligible_packets()
+        completed_counts_by_link = self._complete_eligible_packets()
 
-        candidates = self._transfer_candidates()
+        candidates = self._transfer_candidates(completed_counts_by_link)
         approved_candidates = self.node_transfer_policy.choose_transfers(
             candidates=candidates,
             receiving_slots_by_downstream_link=MappingProxyType(dict(receiving_slots)),
@@ -333,20 +353,33 @@ class LoadingEngine:
             return
         self._queue_packet(packet_id, upstream_link_id, downstream_link_id)
 
-    def _complete_eligible_packets(self) -> None:
-        for packet_id in self._in_transit_packet_ids():
-            link_id = self._current_link_ids[packet_id]
-            link = self.links[link_id]
-            entry_tick = self._current_link_entry_ticks[packet_id]
-            if self.current_tick - entry_tick < link.free_flow_ticks:
-                continue
-            if self._next_link_id(packet_id) is None:
-                self._complete_packet(packet_id, link_id)
+    def _complete_eligible_packets(self) -> dict[str, int]:
+        completed_counts_by_link: dict[str, int] = {}
+        for link_id in sorted(self.links):
+            sending_view = link_sending_view(
+                self.event_log,
+                self.links[link_id],
+                self.current_tick,
+                excluded_packet_ids=self._queued_packet_ids_on_upstream_link(
+                    link_id,
+                    self.current_tick,
+                ),
+            )
+            for packet_id in sending_view.sendable_packet_ids:
+                if self._next_link_id(packet_id) is None:
+                    self._complete_packet(packet_id, link_id)
+                    completed_counts_by_link[link_id] = (
+                        completed_counts_by_link.get(link_id, 0) + 1
+                    )
+        return completed_counts_by_link
 
-    def _transfer_candidates(self) -> tuple[TransferCandidate, ...]:
+    def _transfer_candidates(
+        self,
+        consumed_sending_slots_by_link: dict[str, int] | None = None,
+    ) -> tuple[TransferCandidate, ...]:
         candidates = [
             *self._queued_transfer_candidates(),
-            *self._active_transfer_candidates(),
+            *self._active_transfer_candidates(consumed_sending_slots_by_link or {}),
         ]
         return tuple(candidates)
 
@@ -373,38 +406,55 @@ class LoadingEngine:
                 )
         return candidates
 
-    def _active_transfer_candidates(self) -> list[TransferCandidate]:
+    def _active_transfer_candidates(
+        self,
+        consumed_sending_slots_by_link: dict[str, int],
+    ) -> list[TransferCandidate]:
         link_entry_metadata = self._current_link_entry_metadata_by_packet_id_from_events()
+        queued_packet_ids = set(self._queued_downstream_by_packet_id_from_events())
         candidates: list[TransferCandidate] = []
-        for packet_id in self._in_transit_packet_ids():
-            upstream_link_id = self._current_link_ids[packet_id]
+        for upstream_link_id in sorted(self.links):
             link = self.links[upstream_link_id]
-            entry_link_id, entry_tick, entry_sequence_number = link_entry_metadata[
-                packet_id
-            ]
-            if entry_link_id != upstream_link_id:
-                raise EventCacheConsistencyError(
-                    f"packet_id {packet_id} link-entry event implies {entry_link_id}, "
-                    f"but link cache is {upstream_link_id}"
-                )
-            if self.current_tick - entry_tick < link.free_flow_ticks:
-                continue
-
-            downstream_link_id = self._next_link_id(packet_id)
-            if downstream_link_id is None:
-                continue
-
-            self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
-            candidates.append(
-                TransferCandidate(
-                    packet_id=packet_id,
-                    upstream_link_id=upstream_link_id,
-                    downstream_link_id=downstream_link_id,
-                    boundary_id=self._boundary_id(upstream_link_id, downstream_link_id),
-                    eligibility_tick=entry_tick + link.free_flow_ticks,
-                    eligibility_sequence_number=entry_sequence_number,
-                )
+            sending_view = link_sending_view(
+                self.event_log,
+                link,
+                self.current_tick,
+                excluded_packet_ids=queued_packet_ids,
             )
+            consumed_slots = consumed_sending_slots_by_link.get(upstream_link_id, 0)
+            remaining_sending_capacity = max(
+                link.declared_sending_capacity_per_tick - consumed_slots,
+                0,
+            )
+            for packet_id in sending_view.eligible_packet_ids[:remaining_sending_capacity]:
+                entry_link_id, entry_tick, entry_sequence_number = (
+                    link_entry_metadata[packet_id]
+                )
+                if entry_link_id != upstream_link_id:
+                    raise EventCacheConsistencyError(
+                        f"packet_id {packet_id} link-entry event implies "
+                        f"{entry_link_id}, but sending view implies {upstream_link_id}"
+                    )
+
+                downstream_link_id = self._next_link_id(packet_id)
+                if downstream_link_id is None:
+                    continue
+
+                self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
+                candidates.append(
+                    TransferCandidate(
+                        packet_id=packet_id,
+                        upstream_link_id=upstream_link_id,
+                        downstream_link_id=downstream_link_id,
+                        boundary_id=self._boundary_id(
+                            upstream_link_id,
+                            downstream_link_id,
+                        ),
+                        eligibility_tick=entry_tick
+                        + self.links[upstream_link_id].free_flow_ticks,
+                        eligibility_sequence_number=entry_sequence_number,
+                    )
+                )
         return candidates
 
     def _packet_ids_by_upstream_link_for_candidates(
@@ -509,6 +559,20 @@ class LoadingEngine:
             for packet_id in packet_ids:
                 queued_downstream_by_packet_id[packet_id] = downstream_link_id
         return queued_downstream_by_packet_id
+
+    def _queued_packet_ids_on_upstream_link(
+        self,
+        link_id: str,
+        tick: int,
+    ) -> tuple[str, ...]:
+        queued_packet_ids: list[str] = []
+        for boundary_id, packet_ids in self._queue_packet_ids_by_boundary_from_events(
+            tick
+        ).items():
+            upstream_link_id, _ = self._parse_boundary_id(boundary_id)
+            if upstream_link_id == link_id:
+                queued_packet_ids.extend(packet_ids)
+        return tuple(queued_packet_ids)
 
     def _queue_entry_metadata_by_packet_id_from_events(self) -> dict[str, tuple[int, int]]:
         queues: dict[str, list[tuple[str, int, int]]] = {}
@@ -620,11 +684,16 @@ class LoadingEngine:
 
         return lifecycle_states
 
-    def _queue_packet_ids_by_boundary_from_events(self) -> dict[str, tuple[str, ...]]:
+    def _queue_packet_ids_by_boundary_from_events(
+        self,
+        tick: int | None = None,
+    ) -> dict[str, tuple[str, ...]]:
         """Derive boundary queue membership from queue events."""
 
         queues: dict[str, list[str]] = {}
         for event in self._event_log:
+            if tick is not None and event.physical_tick > tick:
+                continue
             if event.event_type == EventType.QUEUE_ENTRY:
                 queues.setdefault(event.entity_id, []).append(event.packet_id)
             elif event.event_type == EventType.QUEUE_EXIT:
