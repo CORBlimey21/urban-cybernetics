@@ -1,0 +1,37 @@
+[project]
+name = "urban-cybernetics"
+version = "0.1.0"
+description = "Research framework for cybernetic urban mobility systems"
+requires-python = ">=3.13"
+dependencies = [
+    "networkx>=3.0",
+    "numpy>=2.0",
+]
+
+[project.optional-dependencies]
+benchmarks = [
+    "networkx>=3.0",
+    "numpy>=2.0",
+]
+geo = [
+    "folium>=0.17",
+    "geopandas>=1.0",
+    "osmnx>=2.0",
+    "pandas>=2.2",
+    "pyproj>=3.6",
+    "scipy>=1.14",
+    "shapely>=2.0",
+]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+[tool.setuptools.packages.find]
+where = ["src"]
