@@ -1,0 +1,56 @@
+Work Tracks and Naming Conventions
+
+The initial M series was used for the minimum vertical slice: from physical packet loading through observability, routing authority decisions, delayed visibility, and the first asymmetric-information experiment.
+
+Future work is grouped into lightweight tracks. Track labels are planning shorthand, not a replacement for normal commit messages.
+
+Tracks
+
+Prefix	Track	Purpose
+P	Provenance / reproducibility	Run artifacts, configs, result records, reproducible experiment bundles
+R	Research experiments	Controlled experiments that produce claims or comparisons
+L	Loading / LTM fidelity	Traffic physics, LTM refinements, spillback, CTM/LTM benchmarks
+O	Observability / sensing	Observation frames, sensor types, noise, queues, storage, travel-time observations
+A	Authorities / routing agency	Routing policies, authority behaviour, oracle/cooperative/selfish authority models
+G	Governance / interventions	Closures, access control, information withholding, signals, pricing, constraints
+B	Behaviour / churn	Compliance, trust, experienced delay, authority switching, market share
+T	Topology / real networks	Network import, canonical topology, Cork/benchmark networks, lanes, turns
+V	Visualisation / replay	Event replay, map views, authority timelines, interactive demos
+
+Naming Pattern
+
+Use:
+
+<Track><Number> — <short milestone name>
+
+Examples:
+
+P1 — Asymmetric-information experiment result artifact
+R1 — Repeated fresh-vs-stale authority experiment
+O1 — Storage and queue observation frames
+L1 — Origin-link departure blocking
+V1 — Event-log replay timeline
+
+Commit Messages
+
+Commit messages should stay normal and descriptive.
+
+Example:
+
+impl: add asymmetric experiment result artifact
+
+The track label is for roadmap planning, not necessarily for every commit.
+
+Rule of Thumb
+
+Each track should answer one question:
+
+* P: Can this run be reproduced and audited?
+* R: What claim is being tested?
+* L: Is the physical traffic model more faithful?
+* O: What can be observed?
+* A: Who decides routes, and how?
+* G: What can governance control?
+* B: How do travellers respond over time?
+* T: What network is being simulated?
+* V: Can the system be inspected and explained?
