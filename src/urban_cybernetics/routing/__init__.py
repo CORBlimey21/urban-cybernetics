@@ -2,7 +2,11 @@
 
 from .authority import RoutingAuthority
 from .decision import RouteChoiceRequest, RouteDecision, RoutingAuthorityConfig
-from .policies import CandidateRoutePolicy, RouteSelectionPolicy
+from .policies import (
+    CandidateRoutePolicy,
+    LowestObservedCountRoutePolicy,
+    RouteSelectionPolicy,
+)
 from .visibility import (
     AuthorityVisibilityConfig,
     AuthorityVisibleStateResolver,
@@ -14,6 +18,7 @@ __all__ = [
     "AuthorityVisibleStateResolver",
     "CandidateRoutePolicy",
     "FrameReceipt",
+    "LowestObservedCountRoutePolicy",
     "RouteChoiceRequest",
     "RouteDecision",
     "RouteSelectionPolicy",
