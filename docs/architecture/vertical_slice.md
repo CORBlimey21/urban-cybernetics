@@ -134,6 +134,23 @@ route-search, databases, dashboards, statistics, OSM import, or Cork networks.
 It is a compact repeatability proof for asymmetric-information routing over
 multiple decision cycles.
 
+Receipt-Delay Sensitivity Sweep
+
+R1b turns the R1a repeated demonstration into a small comparative synthetic
+experiment.
+
+It runs the same repeated fresh-vs-stale authority setup across several stale
+receipt-delay values, while the fresh authority remains at minimal delay. Each
+case records its own result artifact, visible frame IDs by authority, selected
+route sequences, packet IDs, realised path summaries, and simple deterministic
+metrics such as route-divergence counts and completed decision-packet counts.
+
+The sweep compares outcome artifacts across delay settings. It does not add a
+generic experiment engine, scenario language, analytics subsystem, plotting
+layer, database, dashboard, or export system. It also does not establish
+empirical city realism; it remains a controlled synthetic delay-sensitivity
+result.
+
 ⸻
 
 What This Does Prove

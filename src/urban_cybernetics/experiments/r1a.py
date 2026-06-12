@@ -161,6 +161,7 @@ def run_repeated_fresh_vs_stale_authority_experiment(
     *,
     run_id: str = "run:r1a:fresh-vs-stale",
     decision_ticks: tuple[int, ...] = (3, 4, 5),
+    stale_receipt_delay_ticks: int = 2,
 ) -> R1aExperimentRun:
     """Run the first repeated asymmetric-information experiment."""
 
@@ -168,6 +169,8 @@ def run_repeated_fresh_vs_stale_authority_experiment(
         raise ValueError("decision_ticks must be non-empty")
     if tuple(sorted(decision_ticks)) != tuple(decision_ticks):
         raise ValueError("decision_ticks must be sorted")
+    if stale_receipt_delay_ticks < 0:
+        raise ValueError("stale_receipt_delay_ticks must be non-negative")
 
     engine = _build_engine()
     _seed_background_demand(engine)
@@ -188,7 +191,10 @@ def run_repeated_fresh_vs_stale_authority_experiment(
     resolver = AuthorityVisibleStateResolver(
         (
             AuthorityVisibilityConfig("fresh", receipt_delay_ticks=0),
-            AuthorityVisibilityConfig("stale", receipt_delay_ticks=2),
+            AuthorityVisibilityConfig(
+                "stale",
+                receipt_delay_ticks=stale_receipt_delay_ticks,
+            ),
         )
     )
     authorities = {
@@ -203,7 +209,7 @@ def run_repeated_fresh_vs_stale_authority_experiment(
             "experiment": "R1a repeated fresh-vs-stale authority experiment",
             "decision_ticks": decision_ticks,
             "fresh_receipt_delay_ticks": 0,
-            "stale_receipt_delay_ticks": 2,
+            "stale_receipt_delay_ticks": stale_receipt_delay_ticks,
             "candidate_routes": (ROUTE_A, ROUTE_B),
             "probe_sensors": (SENSOR_A, SENSOR_B),
         }
