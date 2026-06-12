@@ -36,6 +36,9 @@ ACTIVE_MODULES = (
     "urban_cybernetics.packets.scenario_manifest",
     "urban_cybernetics.provenance",
     "urban_cybernetics.routing",
+    "urban_cybernetics.topology",
+    "urban_cybernetics.topology.canonical",
+    "urban_cybernetics.topology.sioux_falls",
     "urban_cybernetics.validation",
 )
 

@@ -23,6 +23,7 @@ CANONICAL_MODULES = (
     "urban_cybernetics.packets",
     "urban_cybernetics.provenance",
     "urban_cybernetics.routing",
+    "urban_cybernetics.topology",
     "urban_cybernetics.validation",
 )
 

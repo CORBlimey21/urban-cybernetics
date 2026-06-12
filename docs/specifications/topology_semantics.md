@@ -66,9 +66,40 @@ Node transfer rules — merge priority, diverge logic, signal phases — are not
 
 ### Topology Hash
 
-The topology hash is computed over the canonical content of the topology record: the ordered set of link tuples (canonical_link_id, head_node, tail_node, length, declared_static_capacity, free_flow_speed, lane_count) and the ordered set of node tuples (canonical_node_id, latitude, longitude). OSM provenance fields, geometric polyline detail beyond node coordinates, and NetworkX adapter state do not affect the hash.
+The topology hash is computed over the canonical content of the topology record: canonical node IDs, canonical directed link IDs, directed connectivity, immutable static physical metadata, source IDs preserved as provenance, and declared source-interpretation assumptions. OSM provenance fields, geometric polyline detail beyond node coordinates, absolute local file paths, file read order, and NetworkX adapter state do not affect the hash.
 
 Two runs share the same topology if and only if their topology hashes match. Shared OSM origin, shared visual appearance, or shared approximate extent is not sufficient.
+
+---
+
+### T1 Canonical Topology Artifact
+
+T1 introduces executable canonical topology artifacts. A canonical topology is an immutable record containing:
+
+- canonical node IDs
+- canonical directed link IDs
+- immutable node and link records
+- directed connectivity
+- static physical metadata where available or explicitly interpreted
+- source/provenance metadata
+- deterministic topology hash
+
+The first controlled benchmark-style topology is Sioux Falls when the committed TNTP files are present under `data/benchmarks/sioux_falls`. This is not Cork and not an OSM import. It is a narrow bridge from tiny hand-built synthetic graphs toward a recognised benchmark network.
+
+The Sioux Falls TNTP loader treats external TNTP node IDs and directed endpoint pairs as provenance. Canonical IDs are assigned deterministically by the framework (`N###` for nodes and `L####` for directed links). The TNTP file is parsed into immutable canonical records; NetworkX is not used as canonical state.
+
+For the committed Sioux Falls TNTP network, the topology adapter declares these interpretation assumptions:
+
+- TNTP length values are interpreted as miles.
+- TNTP free-flow time values are interpreted as minutes.
+- TNTP capacity values are interpreted as vehicles per hour.
+- Lane count is fixed at one because the TNTP source does not provide lanes.
+- Jam density and backward wave speed are not present in the source and remain absent.
+- BPR alpha and beta are static-assignment reference parameters and are not canonical topology fields.
+
+These assumptions are included in the topology hash payload. Changing static topology content or interpretation assumptions changes the hash.
+
+T1 does not implement OSM import, Cork import, demand generation, route search, calibration, signal modelling, visualisation, experiment dashboards, or real-city realism.
 
 ---
 
