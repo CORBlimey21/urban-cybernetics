@@ -70,6 +70,97 @@ class SyntheticLTMValidationSuiteTest(unittest.TestCase):
         self.assert_per_tick_event_count_at_most(engine, EventType.COMPLETED, "L1", 2)
         self.assert_synthetic_kernel_consistent(engine, ("L1",))
 
+    def test_origin_blocking_validation(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L1": Link(
+                    link_id="L1",
+                    free_flow_ticks=1,
+                    declared_storage_capacity_packets=1,
+                )
+            }
+        )
+        first_packet = engine.instantiate(
+            DemandDeclaration(demand_id="D-first", departure_tick=0, route_intent=("L1",))
+        )
+        blocked_packet = engine.instantiate(
+            DemandDeclaration(demand_id="D-blocked", departure_tick=0, route_intent=("L1",))
+        )
+
+        self.assertIsNone(blocked_packet)
+        self.assertEqual(engine.packet_ids_on_link("L1"), (first_packet.packet_id,))
+        self.assertEqual(len(engine.pending_demands), 1)
+        self.assertEqual(engine.link_storage("L1", 0).storage, 1)
+
+        engine.step()
+        engine.step()
+
+        self.assertEqual(engine.pending_demands, ())
+        self.assertEqual(
+            [
+                packet.packet_id
+                for packet in engine.packets.values()
+                if packet.demand_id == "D-blocked"
+            ],
+            ["P2"],
+        )
+        self.assert_synthetic_kernel_consistent(engine, ("L1",))
+
+    def test_physical_storage_scaling_validation(self) -> None:
+        short_link = Link(
+            link_id="short",
+            free_flow_ticks=1,
+            length_m=100.0,
+            lane_count=1,
+            jam_density_veh_per_km_per_lane=150.0,
+        )
+        long_link = Link(
+            link_id="long",
+            free_flow_ticks=1,
+            length_m=300.0,
+            lane_count=1,
+            jam_density_veh_per_km_per_lane=150.0,
+        )
+        wider_link = Link(
+            link_id="wider",
+            free_flow_ticks=1,
+            length_m=100.0,
+            lane_count=2,
+            jam_density_veh_per_km_per_lane=150.0,
+        )
+
+        self.assertLess(
+            short_link.declared_storage_capacity_packets,
+            long_link.declared_storage_capacity_packets,
+        )
+        self.assertLess(
+            short_link.declared_storage_capacity_packets,
+            wider_link.declared_storage_capacity_packets,
+        )
+
+    def test_physical_free_flow_scaling_validation(self) -> None:
+        short_link = Link(
+            link_id="short",
+            length_m=100.0,
+            free_flow_speed_mps=10.0,
+            declared_storage_capacity_packets=10,
+        )
+        long_link = Link(
+            link_id="long",
+            length_m=300.0,
+            free_flow_speed_mps=10.0,
+            declared_storage_capacity_packets=10,
+        )
+        fast_link = Link(
+            link_id="fast",
+            length_m=100.0,
+            free_flow_speed_mps=20.0,
+            declared_storage_capacity_packets=10,
+        )
+
+        self.assertLess(short_link.free_flow_ticks, long_link.free_flow_ticks)
+        self.assertLess(fast_link.free_flow_ticks, short_link.free_flow_ticks)
+
     def test_sending_capacity_bottleneck_validation(self) -> None:
         engine = LoadingEngine(
             links={

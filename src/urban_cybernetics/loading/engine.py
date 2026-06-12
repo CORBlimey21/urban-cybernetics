@@ -55,6 +55,9 @@ class LoadingEngine:
         self.node_transfer_policy = node_transfer_policy or GlobalFIFOMergePolicy()
         self._node_by_incoming_link_id: dict[str, Node] = {}
         self._next_packet_number = 1
+        self._pending_demands: list[DemandDeclaration] = []
+        self._pending_demand_ids: set[str] = set()
+        self._instantiated_demand_ids: set[str] = set()
         self._packet_instantiation_orders: dict[str, int] = {}
         self._packet_route_index: dict[str, int] = {}
         self._current_link_entry_ticks: dict[str, int] = {}
@@ -76,6 +79,12 @@ class LoadingEngine:
         """Read-only view of materialised packet records."""
 
         return MappingProxyType(self._packets)
+
+    @property
+    def pending_demands(self) -> tuple[DemandDeclaration, ...]:
+        """Demand declarations waiting for origin storage before instantiation."""
+
+        return tuple(self._pending_demands)
 
     def _validate_nodes(self, nodes: tuple[Node, ...]) -> None:
         node_ids: set[str] = set()
@@ -239,20 +248,42 @@ class LoadingEngine:
         self._event_log.append(event)
         return event
 
-    def instantiate(self, demand: DemandDeclaration) -> Packet:
-        """Instantiate one packet from one demand declaration."""
+    def instantiate(self, demand: DemandDeclaration) -> Packet | None:
+        """Instantiate one packet if its departure tick and origin storage permit it."""
 
+        self._validate_demand_for_instantiation(demand)
+        if demand.departure_tick > self.current_tick:
+            self._defer_demand(demand)
+            return None
+
+        first_link_id = demand.route_intent[0]
+        if not self._origin_link_has_storage_for_entry(first_link_id):
+            self._defer_demand(demand)
+            return None
+
+        return self._instantiate_now(demand)
+
+    def _validate_demand_for_instantiation(self, demand: DemandDeclaration) -> None:
+        if demand.demand_id in self._instantiated_demand_ids:
+            raise ValueError(f"demand_id has already instantiated: {demand.demand_id}")
         if len(demand.route_intent) < 1:
             raise ValueError("route_intent must contain at least one link_id")
-
         for link_id in demand.route_intent:
             if link_id not in self.links:
                 raise KeyError(f"unknown link_id in route_intent: {link_id}")
 
+    def _defer_demand(self, demand: DemandDeclaration) -> None:
+        if demand.demand_id in self._pending_demand_ids:
+            return
+        self._pending_demands.append(demand)
+        self._pending_demand_ids.add(demand.demand_id)
+
+    def _instantiate_now(self, demand: DemandDeclaration) -> Packet:
         first_link_id = demand.route_intent[0]
         packet_number = self._next_packet_number
         packet_id = f"P{packet_number}"
         self._next_packet_number += 1
+        self._instantiated_demand_ids.add(demand.demand_id)
         packet = Packet(
             packet_id=packet_id,
             demand_id=demand.demand_id,
@@ -268,11 +299,36 @@ class LoadingEngine:
         self.append_event(packet_id, EventType.LINK_ENTRY, first_link_id)
         return packet
 
+    def _origin_link_has_storage_for_entry(self, link_id: str) -> bool:
+        storage_view = self.link_storage(link_id, self.current_tick)
+        return storage_view.storage < self.links[link_id].declared_storage_capacity_packets
+
+    def _instantiate_pending_departures(self) -> None:
+        if not self._pending_demands:
+            return
+
+        still_pending: list[DemandDeclaration] = []
+        self._pending_demand_ids.clear()
+        for demand in self._pending_demands:
+            if demand.departure_tick > self.current_tick:
+                still_pending.append(demand)
+                self._pending_demand_ids.add(demand.demand_id)
+                continue
+
+            first_link_id = demand.route_intent[0]
+            if self._origin_link_has_storage_for_entry(first_link_id):
+                self._instantiate_now(demand)
+            else:
+                still_pending.append(demand)
+                self._pending_demand_ids.add(demand.demand_id)
+        self._pending_demands = still_pending
+
     def step(self) -> None:
         """Advance the loading engine by exactly one deterministic tick."""
 
         self.check_event_cache_consistency()
         self.current_tick += 1
+        self._instantiate_pending_departures()
         completed_counts_by_link = self._complete_eligible_packets()
 
         candidates = self._transfer_candidates(completed_counts_by_link)

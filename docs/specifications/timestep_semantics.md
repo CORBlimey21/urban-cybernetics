@@ -28,7 +28,7 @@ The following phases execute in strict order within each tick. No phase may read
 Governance state entries whose action_time ≤ t_k and visibility_time ≤ t_k become active. The loading engine reads the updated governance state from this tick onward. Governance entries whose visibility_time > t_k are not yet visible to any other subsystem.
 
 **Phase 1: Departure instantiation.**
-All demand declarations with departure_time within (t_{k-1}, t_k] are instantiated as packets. Each new packet is assigned an ID, placed in the in-transit state on its origin link, and appended to the packet event log. Route intent is assigned by the routing authority before or during this phase (see routing_authorities.md for decision timing detail).
+All demand declarations with departure_time within (t_{k-1}, t_k] become eligible for packet instantiation. Each eligible demand is instantiated only if its origin link has available storage. If origin storage is full, the demand remains pending and no packet event is appended. Each admitted packet is assigned an ID, placed in the in-transit state on its origin link, and appended to the packet event log. Route intent is assigned by the routing authority before or during this phase (see routing_authorities.md for decision timing detail).
 
 **Phase 2: Loading update.**
 The loading engine processes link dynamics for all active links: evaluates sending and receiving functions, advances packets along links, computes queue states, and records link exit events for packets that cross a boundary this tick. Node transfer is processed within this phase (see node_model_assumptions.md for node transfer ordering detail relative to link updates).

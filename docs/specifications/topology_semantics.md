@@ -34,11 +34,20 @@ Every link record carries the following fields. All are immutable after the topo
 - length in metres
 - declared static capacity metadata in vehicles per hour per lane
 - free-flow speed in metres per second
+- jam density in vehicles per kilometre per lane
+- backward wave speed in metres per second
 - lane count
 - geometric polyline in WGS84 coordinates
 - OSM way ID and OSM snapshot date as provenance metadata
 
 **Declared static capacity metadata** is a calibrated physical parameter recorded at topology import time. It is not the effective capacity during a run. Effective capacity is a function of declared static capacity metadata plus governance state — signal timings, closures, access restrictions — and is computed by the loading engine at runtime. Governance interventions do not mutate the topology record; they create governance state entries that the loading engine reads alongside topology metadata.
+
+The base packetised loading kernel may derive two static loading parameters from this metadata:
+
+- packet storage capacity from length, lane count, and jam density
+- free-flow traversal time in ticks from length, free-flow speed, and timestep duration
+
+These derived values are immutable once the link record is built. They are not live occupancy, current density, observed speed, current travel time, active queue length, or effective runtime capacity. Dynamic quantities remain loading-engine-owned event records or derived views.
 
 ---
 

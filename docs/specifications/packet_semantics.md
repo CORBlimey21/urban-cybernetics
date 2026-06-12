@@ -8,9 +8,9 @@
 
 A demand declaration is a committed input record. It describes a trip that is intended to occur: origin, destination, departure time, cohort class. It exists before the simulation begins, in the demand manifest. It has no lifecycle, no physical presence, and no conservation obligation. It does not move.
 
-A packet is instantiated from a demand declaration at the declared departure time. From instantiation onward, the packet is a conserved entity with a stable identity, a lifecycle, and a conservation accounting entry. The packet is the unit of conservation. The demand declaration is the unit of input.
+A packet is instantiated from a demand declaration at the declared departure time if the origin link can physically accept the departure. If origin storage is full, the demand declaration remains pending and the packet does not yet exist. From instantiation onward, the packet is a conserved entity with a stable identity, a lifecycle, and a conservation accounting entry. The packet is the unit of conservation. The demand declaration is the unit of input.
 
-One demand declaration produces exactly one packet. There is no mechanism by which a single demand declaration produces zero packets or more than one packet in the base model.
+One demand declaration produces exactly one packet once it is admitted to the loading kernel. There is no mechanism by which a single demand declaration produces more than one packet in the base model. A pending demand that has not yet been admitted is not a zero-packet trip; it is a pre-instantiation demand awaiting origin storage.
 
 ---
 
@@ -40,7 +40,7 @@ The selected granularity must be declared in the experiment configuration and mu
 
 A packet occupies exactly one lifecycle state at any moment. Transitions are recorded as append-only events; no state is overwritten.
 
-**Pending.** The demand declaration has been committed to the manifest. The packet does not yet exist. (This is a pre-instantiation state of the demand declaration, not a packet state.)
+**Pending.** The demand declaration has been committed to the manifest and may be waiting for its declared departure tick or for origin-link storage. The packet does not yet exist. (This is a pre-instantiation state of the demand declaration, not a packet state.)
 
 **In transit.** The packet has been instantiated and is actively traversing its current link.
 

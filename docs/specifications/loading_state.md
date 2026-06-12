@@ -90,6 +90,51 @@ The precise formulations belong in a separate packet_ltm_mechanics document if o
 
 ---
 
+### Traffic Kinematics Foundation
+
+[BASE MODEL] The loading kernel remains a packetised, event-owned loading model, but link records may now carry immutable physical metadata with explicit units:
+
+- length in metres (`length_m`)
+- lane count (`lane_count`)
+- free-flow speed in metres per second (`free_flow_speed_mps`)
+- jam density in vehicles per kilometre per lane (`jam_density_veh_per_km_per_lane`)
+- backward wave speed in metres per second (`backward_wave_speed_mps`)
+- capacity in vehicles per hour per lane (`capacity_veh_per_hour_per_lane`)
+
+These fields are topology metadata, not dynamic simulation state. The loading engine reads them when constructing static loading parameters, but it does not write physical state back to the link record.
+
+Storage capacity may be declared directly in packet units or derived from physical metadata as:
+
+`storage_capacity_packets = floor(length_km * lane_count * jam_density_veh_per_km_per_lane)`
+
+Because the base model uses unit-weight packets, the derived storage value is interpreted as a packet count. This is a deterministic static calculation performed when the immutable link record is built. It does not depend on live occupancy, density, speed, or queue state. Existing synthetic links without physical metadata retain the legacy large storage capacity unless an explicit packet storage capacity is declared.
+
+Free-flow traversal time may be declared directly in ticks or derived from:
+
+`free_flow_ticks = ceil((length_m / free_flow_speed_mps) / tick_duration_seconds)`
+
+This derived value is a static physical baseline. Congestion effects still emerge only through sending capacity, receiving capacity, storage constraints, queues, and spillback. The derived free-flow value is not a live travel time estimate.
+
+Origin departure loading now respects origin-link storage. If the first link in a demand declaration has no available packet storage at the attempted departure tick, the demand remains pending and no packet is instantiated. Pending demand is pre-instantiation demand state, not packet physical state and not part of the conservation ledger until the packet actually exists.
+
+This improves:
+
+- origin-loading realism
+- physically meaningful immutable link metadata
+- storage capacity interpretation
+- free-flow travel-time baseline derivation
+
+This does not implement:
+
+- full LTM fidelity
+- Newell cumulative-curve consistency
+- vacancy propagation
+- shockwave propagation
+- CTM equivalence
+- city-scale traffic realism
+
+---
+
 ### Open Questions
 
 - **FIFO within a link.** FIFO is assumed for packets of the same class on a homogeneous link. Passing, overtaking, and heterogeneous class priority within a link are not defined in the base model and must be declared as extensions. → to be resolved in packet_ltm_mechanics or a future extension spec.
