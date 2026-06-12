@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from urban_cybernetics.core import Link
+from urban_cybernetics.core import Link, Node
 
 
 LEGACY_LOADING_STORAGE_CAPACITY_PACKETS = 1_000_000
@@ -183,6 +183,18 @@ class CanonicalTopology:
             )
             for link in self.links
         }
+
+    def as_loading_nodes(self) -> tuple[Node, ...]:
+        """Map canonical static connectivity into loading-engine node records."""
+
+        return tuple(
+            Node(
+                node_id=node.node_id,
+                incoming_link_ids=node.incoming_link_ids,
+                outgoing_link_ids=node.outgoing_link_ids,
+            )
+            for node in self.nodes
+        )
 
     def _hash_payload(self) -> dict[str, Any]:
         return {

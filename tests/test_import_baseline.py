@@ -38,6 +38,7 @@ ACTIVE_MODULES = (
     "urban_cybernetics.routing",
     "urban_cybernetics.topology",
     "urban_cybernetics.topology.canonical",
+    "urban_cybernetics.topology.routes",
     "urban_cybernetics.topology.sioux_falls",
     "urban_cybernetics.validation",
 )

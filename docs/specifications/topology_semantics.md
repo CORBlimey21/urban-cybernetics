@@ -103,6 +103,25 @@ T1 does not implement OSM import, Cork import, demand generation, route search, 
 
 ---
 
+### T2/T3 Canonical Path Realisation
+
+T2/T3 introduces immutable route artifacts over canonical topology and a modest deterministic path-construction mechanism. A canonical route contains:
+
+- route ID
+- origin canonical node ID
+- destination canonical node ID
+- ordered canonical link IDs
+
+Routes are packet intent artifacts. They are not stored on links or nodes, and they do not mutate topology. Route validation checks that the ordered links are non-empty, begin at the declared origin, end at the declared destination, and form a contiguous directed sequence.
+
+The initial path builder uses deterministic breadth-first search over canonical outgoing link IDs and returns a shortest-link-count path. This is deliberately modest. It is intended to produce valid benchmark-topology movement routes, not realistic route choice, dynamic traffic assignment, congestion-aware routing, UE, SO, or route optimisation.
+
+The Sioux Falls topology can now be adapted into loading-engine `Link` and `Node` records. These records preserve static physical metadata and directed connectivity while leaving all dynamic packet movement, event history, storage, sending, receiving, and queue state inside the loading engine.
+
+This milestone supports Sioux Falls smoke runs in which packets traverse multi-link benchmark routes and complete under existing loading invariants. It does not implement calibrated demand, assignment algorithms, Cork or OSM import, visualisation, behaviour, governance, or dynamic costs.
+
+---
+
 ### The Adapter Layer
 
 NetworkX and OSMnx are adapter tools. They serve two legitimate purposes: topology import from OSM data, and routing computation convenience (shortest-path queries, graph traversal). They do not serve as canonical state stores.

@@ -135,6 +135,16 @@ This does not implement:
 
 ---
 
+### Benchmark Topology Loading
+
+T2/T3 allows a canonical benchmark topology, initially Sioux Falls, to provide static loading inputs. Canonical topology links may be converted to immutable loading `Link` records, and canonical topology nodes may be converted to immutable loading `Node` connectivity records. These are static inputs only.
+
+Routes over the canonical topology are supplied to packets as ordered link IDs in `route_intent`. The loading engine then owns the realised movement: packet lifecycle, link-entry and link-exit events, queues, storage, sending, receiving, and completion. Route artifacts do not become topology state, and topology records do not acquire live travel time, current storage, live volume, or queue fields.
+
+The benchmark loading smoke capability proves that packets can traverse a recognised non-trivial topology under the existing packetised loading invariants. It is not traffic assignment, calibrated demand, dynamic route optimisation, or congestion-aware path search.
+
+---
+
 ### Open Questions
 
 - **FIFO within a link.** FIFO is assumed for packets of the same class on a homogeneous link. Passing, overtaking, and heterogeneous class priority within a link are not defined in the base model and must be declared as extensions. → to be resolved in packet_ltm_mechanics or a future extension spec.
