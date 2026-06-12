@@ -4,8 +4,16 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass
+from typing import Protocol
 
-from urban_cybernetics.observability import ObservationFrame
+
+class ObservationFrameLike(Protocol):
+    """Common visibility fields shared by immutable observation artifacts."""
+
+    frame_id: str
+    sensor_id: str
+    measurement_tick: int
+    publication_tick: int
 
 
 @dataclass(frozen=True)
@@ -70,9 +78,9 @@ class AuthorityVisibleStateResolver:
         self,
         *,
         authority_id: str,
-        frames: Iterable[ObservationFrame],
+        frames: Iterable[ObservationFrameLike],
         decision_tick: int,
-    ) -> tuple[ObservationFrame, ...]:
+    ) -> tuple[ObservationFrameLike, ...]:
         """Return frames visible to one authority by one decision tick."""
 
         config = self._config_for(authority_id)
@@ -88,7 +96,7 @@ class AuthorityVisibleStateResolver:
         self,
         *,
         authority_id: str,
-        frames: Iterable[ObservationFrame],
+        frames: Iterable[ObservationFrameLike],
         decision_tick: int,
     ) -> tuple[FrameReceipt, ...]:
         """Return receipt artifacts for frames visible by one decision tick."""
@@ -122,7 +130,7 @@ class AuthorityVisibleStateResolver:
     def _is_accessible(
         self,
         config: AuthorityVisibilityConfig,
-        frame: ObservationFrame,
+        frame: ObservationFrameLike,
     ) -> bool:
         if config.accessible_sensor_ids is None:
             return True
@@ -131,14 +139,14 @@ class AuthorityVisibleStateResolver:
     def _receipt_tick(
         self,
         config: AuthorityVisibilityConfig,
-        frame: ObservationFrame,
+        frame: ObservationFrameLike,
     ) -> int:
         return frame.publication_tick + config.receipt_delay_ticks
 
     def _receipt_for(
         self,
         config: AuthorityVisibilityConfig,
-        frame: ObservationFrame,
+        frame: ObservationFrameLike,
     ) -> FrameReceipt:
         receipt_tick = self._receipt_tick(config, frame)
         return FrameReceipt(
@@ -154,7 +162,7 @@ class AuthorityVisibleStateResolver:
     def _sort_key(
         self,
         config: AuthorityVisibilityConfig,
-        frame: ObservationFrame,
+        frame: ObservationFrameLike,
     ) -> tuple[int, int, int, str, str]:
         return (
             self._receipt_tick(config, frame),

@@ -108,6 +108,32 @@ The experiment demonstrates that:
 
 This is the first working demonstration of the project’s central idea: routing decisions are shaped not only by physical traffic state, but by what information an authority can observe, when it can observe it, and what route policy it applies.
 
+Repeated Fresh-vs-Stale Authority Experiment
+
+R1a extends the M15 proof from a single decision opportunity to a small repeated
+experiment.
+
+The experiment deliberately remains a milestone-specific implementation, not a
+generic experiment engine. It demonstrates:
+
+* repeated demand waves over several decision ticks;
+* repeated O1 traversal-time observation generation;
+* M14 visibility resolution for fresh and stale authorities;
+* repeated route decisions by identical authority policy under different receipt delays;
+* packet instantiation from those decisions;
+* realised path comparison against selected routes;
+* P1 recording of observation frame IDs, receipt IDs, decision IDs, packet IDs, and the focused R1a result artifact ID.
+
+The only meaningful difference between the two authorities is observation
+availability. Both authorities consume supplied frames only; neither authority
+inspects loading events, packets, cumulative counts, storage, queues, sending,
+receiving, or loading internals.
+
+R1a does not add behaviour, churn, market share, governance intervention,
+route-search, databases, dashboards, statistics, OSM import, or Cork networks.
+It is a compact repeatability proof for asymmetric-information routing over
+multiple decision cycles.
+
 ⸻
 
 What This Does Prove
