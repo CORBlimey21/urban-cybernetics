@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Protocol
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TransferCandidate:
     """Immutable candidate for one physical transfer across a node boundary."""
 

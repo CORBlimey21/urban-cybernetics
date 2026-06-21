@@ -10,7 +10,7 @@ from urban_cybernetics.core import Event, EventType, LifecycleState, Link, Packe
 from urban_cybernetics.loading import LoadingEngine
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TravelTimeMetrics:
     """Travel-time metrics for packets completed in canonical event history."""
 
@@ -22,7 +22,7 @@ class TravelTimeMetrics:
     max_travel_time_ticks: int | None
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CompletionMetrics:
     """Run completion counts from event and loading-engine packet state."""
 
@@ -34,7 +34,7 @@ class CompletionMetrics:
     pending_demand_count: int
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class LinkUtilisationMetrics:
     """Canonical link boundary event counts for one link."""
 
@@ -50,7 +50,7 @@ class LinkUtilisationMetrics:
             raise ValueError("link_exit_count must be non-negative")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class FreeFlowComparisonMetrics:
     """Experienced/free-flow travel-time ratios for completed packets."""
 
@@ -72,7 +72,7 @@ class FreeFlowComparisonMetrics:
         )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RunOutcomeSummary:
     """Immutable I1 artifact describing what happened in one run."""
 

@@ -11,7 +11,7 @@ from urban_cybernetics.observability.sensor import (
 )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class ObservationFrame:
     """Sealed boundary-count measurement derived from physical event history."""
 
@@ -51,7 +51,7 @@ class ObservationFrame:
             raise ValueError("M12 supports only noise_model='none'")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class LinkTraversalTimeObservationFrame:
     """Sealed probe-style link traversal-time observation."""
 

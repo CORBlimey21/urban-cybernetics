@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from urban_cybernetics.core import Event, EventType, Link
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class LinkSendingView:
     """Packets a link can offer for downstream transfer at one tick."""
 

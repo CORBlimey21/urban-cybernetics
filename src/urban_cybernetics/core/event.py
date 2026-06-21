@@ -18,7 +18,7 @@ class EventType(Enum):
     CANCELLED = "cancelled"
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Event:
     """Append-only physical record emitted by the loading engine."""
 

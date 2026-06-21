@@ -14,7 +14,7 @@ from urban_cybernetics.demand.resolution import ResolvedDemandManifest
 from urban_cybernetics.loading import LoadingEngine
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class ScheduledLoadingRequest:
     """One due unit-packet request derived from resolved pre-packet demand."""
 

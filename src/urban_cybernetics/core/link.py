@@ -9,7 +9,7 @@ from math import ceil, floor
 LEGACY_STORAGE_CAPACITY_PACKETS = 1_000_000
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Link:
     """Single directed link with declared static loading metadata."""
 

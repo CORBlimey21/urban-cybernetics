@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from urban_cybernetics.core import Event, EventType
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CumulativeBoundaryCounts:
     """Packet-unit cumulative link entries and exits through one tick."""
 
@@ -18,7 +18,7 @@ class CumulativeBoundaryCounts:
     exits: int
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class LinkStorageView:
     """Packet-unit link storage derived from cumulative boundary counts."""
 

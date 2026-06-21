@@ -11,7 +11,7 @@ BOUNDARY_EVENT_TYPES = frozenset((EventType.LINK_ENTRY, EventType.LINK_EXIT))
 SUPPORTED_NOISE_MODELS = frozenset(("none",))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class SensorConfig:
     """Declared boundary-count sensor configuration for one simulation run."""
 
@@ -35,7 +35,7 @@ class SensorConfig:
             raise ValueError("M12 supports only noise_model='none'")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class LinkTraversalTimeSensorConfig:
     """Declared probe-style traversal-time sensor configuration."""
 

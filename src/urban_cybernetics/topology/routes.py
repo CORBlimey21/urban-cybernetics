@@ -12,7 +12,7 @@ from urban_cybernetics.topology.canonical import (
 )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CanonicalRoute:
     """Immutable route intent over canonical topology links."""
 

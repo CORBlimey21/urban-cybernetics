@@ -16,7 +16,7 @@ from urban_cybernetics.provenance import RunMetadata, RunRecorder, RunSummary
 DEFAULT_STALE_DELAY_VALUES = (0, 1, 2, 3, 5)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1bAuthorityVisibleFrames:
     """Visible frame IDs for one authority in one sweep case."""
 
@@ -35,7 +35,7 @@ class R1bAuthorityVisibleFrames:
         )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1bAuthorityRouteSequence:
     """Selected routes for one authority in one sweep case."""
 
@@ -54,7 +54,7 @@ class R1bAuthorityRouteSequence:
         )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1bPacketPathSummary:
     """Realised packet path summary copied from one R1a case result."""
 
@@ -72,7 +72,7 @@ class R1bPacketPathSummary:
         object.__setattr__(self, "realised_path", tuple(self.realised_path))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1bCaseMetrics:
     """Simple deterministic metrics for one receipt-delay case."""
 
@@ -113,7 +113,7 @@ class R1bCaseMetrics:
         )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1bDelaySweepCaseResult:
     """One stale-delay case in the R1b sensitivity sweep."""
 
@@ -166,7 +166,7 @@ class R1bDelaySweepCaseResult:
         )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1bDelaySweepResult:
     """Focused immutable result artifact for the R1b delay sweep."""
 
@@ -191,7 +191,7 @@ class R1bDelaySweepResult:
         object.__setattr__(self, "case_results", tuple(self.case_results))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1bDelaySweepRun:
     """Completed R1b sweep result plus generic P1 provenance summary."""
 
@@ -419,7 +419,7 @@ def _authority_ids(cycles: tuple[R1aAuthorityCycleResult, ...]) -> tuple[str, ..
     return tuple(authority_ids)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class _IdArtifact:
     artifact_id: str
     attribute_name: str

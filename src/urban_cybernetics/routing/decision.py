@@ -10,7 +10,7 @@ def _require_non_empty(value: str, field_name: str) -> None:
         raise ValueError(f"{field_name} must be non-empty")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RoutingAuthorityConfig:
     """Declared identity and policy configuration for one routing authority."""
 
@@ -24,7 +24,7 @@ class RoutingAuthorityConfig:
         _require_non_empty(self.policy_name, "policy_name")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RouteChoiceRequest:
     """Demand-level route-choice request over precomputed candidate routes."""
 
@@ -47,7 +47,7 @@ class RouteChoiceRequest:
         object.__setattr__(self, "candidate_routes", candidate_routes)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RouteDecision:
     """Sealed routing decision artifact produced by a routing authority."""
 

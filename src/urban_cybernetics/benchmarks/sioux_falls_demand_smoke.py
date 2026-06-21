@@ -20,7 +20,7 @@ from urban_cybernetics.loading import LoadingEngine
 from urban_cybernetics.topology import load_sioux_falls_topology
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class SiouxFallsDemandSmokeResult:
     """Summary metrics for one Sioux Falls demand loading smoke run."""
 

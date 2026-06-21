@@ -57,7 +57,7 @@ def _normalise_string_tuple(value: object, field_name: str) -> tuple[str, ...]:
     return strings
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RunMetadata:
     """Stable identity and optional reproducibility labels for one run."""
 
@@ -72,7 +72,7 @@ class RunMetadata:
         _require_non_empty(self.scenario_name, "scenario_name")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RunConfigSnapshot:
     """Detached, read-only snapshot of a run configuration."""
 
@@ -87,7 +87,7 @@ class RunConfigSnapshot:
         object.__setattr__(self, "config", _freeze_config_value(self.config))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RunArtifactIndex:
     """Run-level references to input and output artifacts."""
 
@@ -120,7 +120,7 @@ class RunArtifactIndex:
             raise ValueError("event_count must be non-negative")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RunSummary:
     """A frozen provenance artifact summarising one completed or inspected run."""
 

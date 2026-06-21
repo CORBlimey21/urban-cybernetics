@@ -15,7 +15,7 @@ SIOUX_FALLS_NET_PATH = SIOUX_FALLS_DIR / "SiouxFalls_net.tntp"
 SIOUX_FALLS_TRIPS_PATH = SIOUX_FALLS_DIR / "SiouxFalls_trips.tntp"
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class SiouxFallsBenchmark:
     """Loaded Sioux Falls benchmark data ready for future assignment code."""
 

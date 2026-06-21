@@ -31,7 +31,7 @@ SENSOR_A = "probe:A1"
 SENSOR_B = "probe:B1"
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1aPacketOutcome:
     """Realised loading outcome for one packet created from one decision."""
 
@@ -50,7 +50,7 @@ class R1aPacketOutcome:
         object.__setattr__(self, "realised_path", tuple(self.realised_path))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1aAuthorityCycleResult:
     """One authority's visible information, decision, and packet outcome."""
 
@@ -88,7 +88,7 @@ class R1aAuthorityCycleResult:
         object.__setattr__(self, "packet_outcomes", tuple(self.packet_outcomes))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1aExperimentResult:
     """Focused immutable result artifact for the repeated authority experiment."""
 
@@ -138,7 +138,7 @@ class R1aExperimentResult:
         object.__setattr__(self, "cycle_results", tuple(self.cycle_results))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class R1aExperimentRun:
     """Completed experiment result plus generic P1 provenance summary."""
 
@@ -146,7 +146,7 @@ class R1aExperimentRun:
     run_summary: RunSummary
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class _PendingCycleRecord:
     cycle_index: int
     authority_id: str

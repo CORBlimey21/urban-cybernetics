@@ -19,7 +19,7 @@ class DepartureSchedule(Protocol):
         """Return deterministic schedule content for manifest hashing."""
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class FixedDepartureSchedule:
     """All declared packets become due at one tick."""
 
@@ -40,7 +40,7 @@ class FixedDepartureSchedule:
         }
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class UniformWindowDepartureSchedule:
     """Deterministically spread departures over an inclusive tick window."""
 
@@ -72,7 +72,7 @@ class UniformWindowDepartureSchedule:
         }
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class GlobalUniformDepartureSchedule:
     """Spread all manifest departures over one inclusive global tick window."""
 
@@ -135,7 +135,7 @@ class GlobalUniformDepartureSchedule:
         return tuple(ticks)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class DemandManifestSourceMetadata:
     """Immutable provenance and interpretation metadata for a demand manifest."""
 
@@ -187,7 +187,7 @@ class DemandManifestSourceMetadata:
         }
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class ODDemandDeclaration:
     """An immutable OD demand record that exists before any packet exists."""
 
@@ -242,7 +242,7 @@ class ODDemandDeclaration:
         }
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class DemandManifest:
     """A deterministic, hashable collection of pre-packet demand declarations."""
 

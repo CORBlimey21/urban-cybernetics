@@ -15,7 +15,7 @@ from urban_cybernetics.topology.routes import (
 )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class ResolvedDemandRoute:
     """A route resolution record for one raw OD demand declaration."""
 
@@ -32,7 +32,7 @@ class ResolvedDemandRoute:
         }
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class ResolvedDemandManifest:
     """A demand manifest plus a separate deterministic route mapping."""
 

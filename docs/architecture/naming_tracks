@@ -33,6 +33,7 @@ R1 — Repeated fresh-vs-stale authority experiment
 O1 — Storage and queue observation frames
 L1 — Origin-link departure blocking
 L3 — FIFO queue hot-path optimisation
+L4 — Event log memory hardening
 I1 — Run outcome summary artifact
 
 Commit Messages

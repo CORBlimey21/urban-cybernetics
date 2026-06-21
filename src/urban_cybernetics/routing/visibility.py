@@ -16,7 +16,7 @@ class ObservationFrameLike(Protocol):
     publication_tick: int
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class AuthorityVisibilityConfig:
     """Static M14 visibility configuration for one routing authority."""
 
@@ -37,7 +37,7 @@ class AuthorityVisibilityConfig:
             )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class FrameReceipt:
     """Immutable artifact recording first authority visibility for one frame."""
 

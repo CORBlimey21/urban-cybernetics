@@ -13,7 +13,7 @@ _ORIGIN_PATTERN = re.compile(r"^Origin\s+(\d+)\s*$", re.IGNORECASE)
 _DEMAND_PATTERN = re.compile(r"(\d+)\s*:\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TntpLink:
     """One directed TNTP network link with a stable file-order edge ID."""
 
@@ -30,7 +30,7 @@ class TntpLink:
     link_type: int | None = None
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TntpNetwork:
     """Parsed TNTP network data."""
 
@@ -39,7 +39,7 @@ class TntpNetwork:
     nodes: list[int]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TntpTrips:
     """Parsed TNTP OD demand data."""
 

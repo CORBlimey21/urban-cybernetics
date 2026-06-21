@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class ProjectPaths:
     """Filesystem locations used by migrated scripts and adapters."""
 
@@ -19,7 +19,7 @@ class ProjectPaths:
     scenarios: Path
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Landmark:
     """Named WGS84 coordinate used by migrated Cork graph helpers."""
 

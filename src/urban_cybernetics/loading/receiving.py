@@ -9,7 +9,7 @@ from urban_cybernetics.core import Event, EventType, Link
 from urban_cybernetics.loading.cumulative_counts import link_storage
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class LinkReceivingView:
     """Receiving slots one downstream link can accept at one tick."""
 

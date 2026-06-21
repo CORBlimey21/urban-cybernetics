@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from .lifecycle import LifecycleState
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Packet:
     """Conserved movement unit instantiated and advanced by the loading engine."""
 

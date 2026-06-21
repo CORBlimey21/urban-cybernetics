@@ -14,7 +14,7 @@ from urban_cybernetics.core import Link, Node
 LEGACY_LOADING_STORAGE_CAPACITY_PACKETS = 1_000_000
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TopologySourceMetadata:
     """Immutable provenance for a topology source artifact."""
 
@@ -52,7 +52,7 @@ class TopologySourceMetadata:
         }
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CanonicalNode:
     """Immutable canonical topology node."""
 
@@ -62,7 +62,7 @@ class CanonicalNode:
     outgoing_link_ids: tuple[str, ...] = ()
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CanonicalTopologyLink:
     """Immutable canonical directed link with static physical metadata."""
 
@@ -115,7 +115,7 @@ class CanonicalTopologyLink:
         return max(1, int(packets_per_tick))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CanonicalTopology:
     """Immutable canonical topology artifact."""
 

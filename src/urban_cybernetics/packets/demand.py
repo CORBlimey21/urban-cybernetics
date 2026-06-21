@@ -26,7 +26,7 @@ from ..config import CITY_CENTRE_DESTINATIONS, RESIDENTIAL_ORIGINS, SIMULATION_O
 from ..network.graph_pipeline import nearest_graph_node
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class NamedGraphPoint:
     """A named place snapped onto a graph node.
 
@@ -50,7 +50,7 @@ class NamedGraphPoint:
     node_longitude: float
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TripRequest:
     """A single routing request used by batch experiments.
 

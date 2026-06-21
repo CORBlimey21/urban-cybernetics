@@ -10,7 +10,7 @@ EdgeKey = tuple[int, int, int]
 EdgeCostSnapshot = dict[EdgeKey, dict[str, float]]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Snapshot:
     """One timestamped authority-visible routing-information snapshot."""
 

@@ -90,6 +90,14 @@ it cannot bypass it. When capacity permits, stepping considers only the FIFO
 prefix that could transfer this tick, bounded by upstream sending capacity and
 downstream receiving availability. It does not scan blocked queue tails.
 
+L4 hardens memory use without changing the physical ontology. Immutable loading
+records, including lifecycle events and packet records, use compact slotted
+dataclass layouts where safe. This reduces Python object overhead while
+preserving equality, hashing, append order, iteration, indexing, and full
+canonical history retention. The default event retention mode remains full
+in-memory history; inspection and provenance continue to consume the same
+canonical artifacts and IDs.
+
 ---
 
 ### What Must Not Be Stored as Loading State
