@@ -97,6 +97,15 @@ Any derived summary that omits aggregation_window, boundary_direction, counting_
 
 The summary artifact ID is recorded through the generic P1 output artifact index. P1 is not extended with inspection-specific fields.
 
+**I2 bottleneck diagnostics.** A bottleneck diagnostics artifact is an
+inspection artifact, not an experiment result. It answers what caused the run
+outcome by deriving ranked packet, OD/group, route, link, and queue summaries
+from canonical lifecycle events plus optional demand and route artifact
+metadata. Queue waits are derived only from QUEUE_ENTRY and QUEUE_EXIT events.
+Link delay contribution is an approximate realised traversal-time comparison
+against static free-flow metadata where available; it does not infer speeds,
+maps, assignment behaviour, or a competing source of physical truth.
+
 ---
 
 ### Validation Reports
