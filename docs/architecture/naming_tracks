@@ -8,6 +8,7 @@ Tracks
 
 Prefix	Track	Purpose
 P	Provenance / reproducibility	Run artifacts, configs, result records, reproducible experiment bundles
+D	Demand	OD demand, departure scheduling, demand scaling, demand generation, trip populations
 R	Research experiments	Controlled experiments that produce claims or comparisons
 L	Loading / LTM fidelity	Traffic physics, LTM refinements, spillback, CTM/LTM benchmarks
 O	Observability / sensing	Observation frames, sensor types, noise, queues, storage, travel-time observations
@@ -15,7 +16,7 @@ A	Authorities / routing agency	Routing policies, authority behaviour, oracle/coo
 G	Governance / interventions	Closures, access control, information withholding, signals, pricing, constraints
 B	Behaviour / churn	Compliance, trust, experienced delay, authority switching, market share
 T	Topology / real networks	Network import, canonical topology, Cork/benchmark networks, lanes, turns
-V	Visualisation / replay	Event replay, map views, authority timelines, interactive demos
+I	Inspection	Metrics, summaries, reports, replays, timelines, visualisation, diagnostics
 
 Naming Pattern
 
@@ -26,10 +27,11 @@ Use:
 Examples:
 
 P1 — Asymmetric-information experiment result artifact
+D1 — Pre-packet OD demand, route resolution, and scheduled loading
 R1 — Repeated fresh-vs-stale authority experiment
 O1 — Storage and queue observation frames
 L1 — Origin-link departure blocking
-V1 — Event-log replay timeline
+I1 — Run outcome summary artifact
 
 Commit Messages
 
@@ -46,6 +48,8 @@ Rule of Thumb
 Each track should answer one question:
 
 * P: Can this run be reproduced and audited?
+* D: What demand was declared, scheduled, scaled, generated, or loaded?
+* I: What happened?
 * R: What claim is being tested?
 * L: Is the physical traffic model more faithful?
 * O: What can be observed?
@@ -53,4 +57,8 @@ Each track should answer one question:
 * G: What can governance control?
 * B: How do travellers respond over time?
 * T: What network is being simulated?
-* V: Can the system be inspected and explained?
+
+Inspection does not answer:
+
+* Can it be reproduced? That is P.
+* What claim is being tested? That is R.

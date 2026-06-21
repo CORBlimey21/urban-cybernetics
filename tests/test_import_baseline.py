@@ -31,6 +31,8 @@ ACTIVE_MODULES = (
     "urban_cybernetics.benchmarks.sioux_falls_demand_smoke",
     "urban_cybernetics.benchmarks.tntp_parser",
     "urban_cybernetics.governance",
+    "urban_cybernetics.inspection",
+    "urban_cybernetics.inspection.outcome",
     "urban_cybernetics.loading",
     "urban_cybernetics.network",
     "urban_cybernetics.network.graph_pipeline",

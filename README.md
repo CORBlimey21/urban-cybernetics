@@ -16,7 +16,8 @@ Physical State
 
 Current Status
 
-The architectural and specification phase is complete.
+The architectural and specification phase is complete, and implementation is now
+moving through focused milestones.
 
 Defined components include:
 
@@ -29,8 +30,11 @@ Defined components include:
 * Behavioural adaptation model
 * Reproducibility and artifact contracts
 * Synthetic invariant test suite
+* Pre-packet OD demand, scheduling, scaling, and benchmark loading smoke runs
+* Run outcome inspection summaries
 
-Implementation is currently focused on synthetic-network validation before any real-world deployment or calibration.
+Implementation is currently focused on synthetic-network validation and
+benchmark-demand execution before any real-world deployment or calibration.
 
 Repository Structure
 
@@ -51,15 +55,12 @@ Reading Order
 4. docs/specifications/timestep_semantics.md
 5. docs/specifications/invariants.md
 
-Immediate Goals
+Track shorthand:
 
-Implement a minimal loading engine capable of passing the synthetic invariant suite:
+* P = what was used and whether a run can be reproduced and audited
+* D = what demand was declared, scheduled, scaled, generated, or loaded
+* I = what happened in a run
+* R = what claim was tested
 
-* Packet identity stability
-* Demand-to-packet uniqueness
-* Lifecycle monotonicity
-* Conservation
-* FIFO preservation
-* Queue propagation
-
-Real-world networks, calibration, and multi-authority experiments are to come.
+Real-world networks, calibration, dashboards, and authority/governance analytics
+are to come.

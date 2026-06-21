@@ -88,6 +88,15 @@ Derived summaries are recomputable from raw event logs and must declare their de
 
 Any derived summary that omits aggregation_window, boundary_direction, counting_basis, or units for a field named volume, flow, occupancy, travel_time, cost, or delay violates P12 and is invalid.
 
+**I1 run outcome summaries.** A run outcome summary is an inspection artifact, not a provenance artifact and not an experiment result. It answers what happened in one run by deriving:
+
+- realised packet travel-time metrics from instantiation and completion events;
+- completion counts from canonical lifecycle history and loading-engine packet state;
+- link entry and exit counts from LINK_ENTRY and LINK_EXIT events;
+- experienced/free-flow ratios only for completed packets whose route free-flow metadata is available.
+
+The summary artifact ID is recorded through the generic P1 output artifact index. P1 is not extended with inspection-specific fields.
+
 ---
 
 ### Validation Reports

@@ -151,6 +151,29 @@ layer, database, dashboard, or export system. It also does not establish
 empirical city realism; it remains a controlled synthetic delay-sensitivity
 result.
 
+Demand Layer
+
+D1 adds a first-class pre-packet demand layer before loading admission. OD demand
+declarations, departure schedules, demand scaling assumptions, route resolution,
+and scheduled unit loading requests are separate from topology and from packet
+lifecycle state. Sioux Falls demand smoke runs can now execute meaningful
+benchmark demand through the existing loading engine.
+
+Run Inspection
+
+I1 adds a first run-level outcome summary artifact. Inspection answers what
+happened in a run. It derives realised travel-time metrics, completion counts,
+link entry/exit counts, and free-flow comparisons from canonical event history,
+packet history, and declared static link metadata where available.
+
+Inspection remains read-only. It does not mutate loading, demand, topology,
+observability, authorities, or governance. It is not plotting, a dashboard, an
+experiment engine, or a reproducibility mechanism. In current track terms:
+
+* P records what was used and whether a run can be reproduced and audited.
+* I reports what happened.
+* R defines what claim was tested.
+
 ⸻
 
 What This Does Prove
