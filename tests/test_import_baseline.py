@@ -28,6 +28,7 @@ ACTIVE_MODULES = (
     "urban_cybernetics.behaviour",
     "urban_cybernetics.benchmarks",
     "urban_cybernetics.benchmarks.sioux_falls",
+    "urban_cybernetics.benchmarks.sioux_falls_demand_smoke",
     "urban_cybernetics.benchmarks.tntp_parser",
     "urban_cybernetics.governance",
     "urban_cybernetics.loading",

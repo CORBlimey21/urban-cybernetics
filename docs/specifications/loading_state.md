@@ -57,15 +57,26 @@ The result is used internally by the loading engine for queue mechanics and rece
 
 ---
 
-### Derived Views the Loading Engine May Maintain
+### L2 Materialised Loading Views
 
-The loading engine may maintain the following derived views for computational efficiency. These are always recomputable from the primary records and must not be treated as independent sources of truth.
+L2 adds engine-owned materialised views for frequently queried current loading state. The performance motivation came from the Sioux Falls demand smoke runner: topology loading, OD manifest loading, route resolution, and scheduled departure expansion were fast, while physical loading execution scaled poorly because current storage, sending, receiving, queue, and membership views repeatedly scanned the full event log.
 
-- per-link occupancy count (number of packets currently in storage)
-- per-link entry and exit rates over a configurable window
-- per-packet cumulative experienced delay, updated at each link exit event
+The event log remains canonical. Materialised views are acceleration structures updated from lifecycle events as those events are appended. They are not independent scientific truth, and they are checked by recomputing selected views from event history in debug/test validation.
 
-If a derived view conflicts with the primary event log, the event log is authoritative.
+The loading engine may maintain the following derived current views for computational efficiency:
+
+- current link storage count by link ID;
+- current packet membership by link ID, in link-entry order;
+- current packet link and current link-entry metadata by packet ID;
+- completed packet IDs;
+- queue membership and queue-entry metadata by boundary;
+- queued downstream link by packet ID;
+- same-tick receiving acceptance counts;
+- pending demand bookkeeping for pre-packet origin blocking.
+
+These views belong only inside the loading engine. They must not be stored on `Link`, `Node`, topology records, route artifacts, demand artifacts, observation frames, or routing authorities. Routing authorities do not read these caches. Observability may continue to sample physical truth through existing engine-facing interfaces, but observation artifacts remain immutable sampled outputs.
+
+Historical storage and cumulative count queries remain event-derived. Current hot-path loading decisions may use materialised views, but if a materialised view conflicts with the primary event log, the event log is authoritative.
 
 ---
 

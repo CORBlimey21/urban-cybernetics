@@ -62,7 +62,22 @@ class LoadingEngine:
         self._packet_route_index: dict[str, int] = {}
         self._current_link_entry_ticks: dict[str, int] = {}
         self._current_link_ids: dict[str, str] = {}
+        self._current_link_storage_by_link_id: dict[str, int] = {
+            link_id: 0 for link_id in self.links
+        }
+        self._packet_ids_by_link_id: dict[str, list[str]] = {
+            link_id: [] for link_id in self.links
+        }
+        self._current_link_entry_metadata_by_packet_id: dict[str, tuple[str, int, int]] = {}
+        self._completed_packet_ids: set[str] = set()
+        self._cancelled_packet_ids: set[str] = set()
         self._queues: dict[str, list[str]] = {}
+        self._queue_entry_metadata_by_packet_id: dict[str, tuple[int, int]] = {}
+        self._queued_downstream_by_packet_id: dict[str, str] = {}
+        self._queued_packet_ids_by_upstream_link: dict[str, list[str]] = {}
+        self._same_tick_link_entries_by_link_id: dict[str, int] = {
+            link_id: 0 for link_id in self.links
+        }
         self._receiving_open_by_link: dict[str, bool] = {
             link_id: True for link_id in self.links
         }
@@ -85,6 +100,12 @@ class LoadingEngine:
         """Demand declarations waiting for origin storage before instantiation."""
 
         return tuple(self._pending_demands)
+
+    @property
+    def completed_packet_ids(self) -> frozenset[str]:
+        """Current completed packet IDs from engine-owned materialised events."""
+
+        return frozenset(self._completed_packet_ids)
 
     def _validate_nodes(self, nodes: tuple[Node, ...]) -> None:
         node_ids: set[str] = set()
@@ -174,10 +195,16 @@ class LoadingEngine:
         """Return count-derived packet storage for one link."""
 
         self._validate_count_link_id(link_id)
+        if tick is None:
+            return LinkStorageView(
+                link_id=link_id,
+                tick=self.current_tick,
+                storage=self._current_link_storage_by_link_id[link_id],
+            )
         return link_storage(
             self.event_log,
             link_id,
-            self.current_tick if tick is None else tick,
+            tick,
         )
 
     def link_storage_series(
@@ -203,6 +230,11 @@ class LoadingEngine:
 
         self._validate_count_link_id(link_id)
         view_tick = self.current_tick if tick is None else tick
+        if tick is None:
+            return self._current_link_sending_view(
+                link_id,
+                excluded_packet_ids=self._queued_packet_ids_on_upstream_link(link_id),
+            )
         return link_sending_view(
             self.event_log,
             self.links[link_id],
@@ -223,6 +255,11 @@ class LoadingEngine:
 
         self._validate_count_link_id(link_id)
         view_tick = self.current_tick if tick is None else tick
+        if tick is None:
+            return self._current_link_receiving_view(
+                link_id,
+                already_accepted_count=already_accepted_count,
+            )
         return link_receiving_view(
             self.event_log,
             self.links[link_id],
@@ -246,7 +283,78 @@ class LoadingEngine:
             physical_tick=self.current_tick,
         )
         self._event_log.append(event)
+        self._apply_event_to_materialised_views(event)
         return event
+
+    def _apply_event_to_materialised_views(self, event: Event) -> None:
+        """Update engine-owned acceleration views from one canonical event."""
+
+        if event.event_type == EventType.LINK_ENTRY:
+            self._current_link_storage_by_link_id[event.entity_id] += 1
+            self._packet_ids_by_link_id[event.entity_id].append(event.packet_id)
+            self._current_link_ids[event.packet_id] = event.entity_id
+            self._current_link_entry_ticks[event.packet_id] = event.physical_tick
+            self._current_link_entry_metadata_by_packet_id[event.packet_id] = (
+                event.entity_id,
+                event.physical_tick,
+                event.sequence_number,
+            )
+            self._same_tick_link_entries_by_link_id[event.entity_id] += 1
+        elif event.event_type == EventType.LINK_EXIT:
+            self._current_link_storage_by_link_id[event.entity_id] -= 1
+            if self._current_link_storage_by_link_id[event.entity_id] < 0:
+                raise EventCacheConsistencyError(
+                    f"materialised storage is negative for {event.entity_id}"
+                )
+            self._remove_packet_from_current_link(event.packet_id, event.entity_id)
+            self._current_link_ids.pop(event.packet_id, None)
+            self._current_link_entry_ticks.pop(event.packet_id, None)
+            self._current_link_entry_metadata_by_packet_id.pop(event.packet_id, None)
+        elif event.event_type == EventType.QUEUE_ENTRY:
+            upstream_link_id, downstream_link_id = self._parse_boundary_id(event.entity_id)
+            self._queues.setdefault(event.entity_id, []).append(event.packet_id)
+            self._queue_entry_metadata_by_packet_id[event.packet_id] = (
+                event.physical_tick,
+                event.sequence_number,
+            )
+            self._queued_downstream_by_packet_id[event.packet_id] = downstream_link_id
+            self._queued_packet_ids_by_upstream_link.setdefault(
+                upstream_link_id,
+                [],
+            ).append(event.packet_id)
+        elif event.event_type == EventType.QUEUE_EXIT:
+            upstream_link_id, _ = self._parse_boundary_id(event.entity_id)
+            queue = self._queues.setdefault(event.entity_id, [])
+            if not queue or queue[0] != event.packet_id:
+                raise EventCacheConsistencyError(
+                    f"packet_id {event.packet_id} exits queue {event.entity_id} "
+                    "out of FIFO order or without queue entry"
+                )
+            queue.pop(0)
+            self._queue_entry_metadata_by_packet_id.pop(event.packet_id, None)
+            self._queued_downstream_by_packet_id.pop(event.packet_id, None)
+            upstream_queue = self._queued_packet_ids_by_upstream_link.setdefault(
+                upstream_link_id,
+                [],
+            )
+            if event.packet_id not in upstream_queue:
+                raise EventCacheConsistencyError(
+                    f"packet_id {event.packet_id} is missing from upstream queue "
+                    f"cache for {upstream_link_id}"
+                )
+            upstream_queue.remove(event.packet_id)
+        elif event.event_type == EventType.COMPLETED:
+            self._completed_packet_ids.add(event.packet_id)
+        elif event.event_type == EventType.CANCELLED:
+            self._cancelled_packet_ids.add(event.packet_id)
+
+    def _remove_packet_from_current_link(self, packet_id: str, link_id: str) -> None:
+        packet_ids = self._packet_ids_by_link_id[link_id]
+        if packet_id not in packet_ids:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} exits link {link_id} without being present"
+            )
+        packet_ids.remove(packet_id)
 
     def instantiate(self, demand: DemandDeclaration) -> Packet | None:
         """Instantiate one packet if its departure tick and origin storage permit it."""
@@ -293,15 +401,15 @@ class LoadingEngine:
         self._packets[packet_id] = packet
         self._packet_instantiation_orders[packet_id] = packet_number
         self._packet_route_index[packet_id] = 0
-        self._current_link_ids[packet_id] = first_link_id
-        self._current_link_entry_ticks[packet_id] = self.current_tick
         self.append_event(packet_id, EventType.INSTANTIATED, first_link_id)
         self.append_event(packet_id, EventType.LINK_ENTRY, first_link_id)
         return packet
 
     def _origin_link_has_storage_for_entry(self, link_id: str) -> bool:
-        storage_view = self.link_storage(link_id, self.current_tick)
-        return storage_view.storage < self.links[link_id].declared_storage_capacity_packets
+        return (
+            self._current_link_storage_by_link_id[link_id]
+            < self.links[link_id].declared_storage_capacity_packets
+        )
 
     def _instantiate_pending_departures(self) -> None:
         if not self._pending_demands:
@@ -326,8 +434,8 @@ class LoadingEngine:
     def step(self) -> None:
         """Advance the loading engine by exactly one deterministic tick."""
 
-        self.check_event_cache_consistency()
         self.current_tick += 1
+        self._reset_same_tick_receiving_acceptance_counts()
         self._instantiate_pending_departures()
         completed_counts_by_link = self._complete_eligible_packets()
 
@@ -366,12 +474,90 @@ class LoadingEngine:
 
     def _receiving_slots_by_link(self) -> dict[str, int]:
         return {
-            link_id: self.link_receiving_view(
-                link_id,
-                self.current_tick,
-            ).available_receiving_slots
+            link_id: self._current_link_receiving_view(link_id).available_receiving_slots
             for link_id in self.links
         }
+
+    def _reset_same_tick_receiving_acceptance_counts(self) -> None:
+        self._same_tick_link_entries_by_link_id = {
+            link_id: 0 for link_id in self.links
+        }
+
+    def _current_link_sending_view(
+        self,
+        link_id: str,
+        excluded_packet_ids: tuple[str, ...] = (),
+    ) -> LinkSendingView:
+        link = self.links[link_id]
+        sending_capacity = link.declared_sending_capacity_per_tick
+        excluded_packet_id_set = set(excluded_packet_ids)
+        eligible_packet_metadata = sorted(
+            (
+                (packet_id, entry_tick, sequence_number)
+                for packet_id in self._packet_ids_by_link_id[link_id]
+                for entry_link_id, entry_tick, sequence_number in (
+                    self._current_link_entry_metadata_by_packet_id[packet_id],
+                )
+                if entry_link_id == link_id
+                and packet_id not in excluded_packet_id_set
+                and self.current_tick - entry_tick >= link.free_flow_ticks
+            ),
+            key=lambda item: (item[1], item[2], item[0]),
+        )
+        eligible_packet_ids = tuple(
+            packet_id for packet_id, _, _ in eligible_packet_metadata
+        )
+        return LinkSendingView(
+            link_id=link_id,
+            tick=self.current_tick,
+            eligible_packet_ids=eligible_packet_ids,
+            sending_capacity=sending_capacity,
+            sendable_packet_ids=eligible_packet_ids[:sending_capacity],
+        )
+
+    def _current_link_receiving_view(
+        self,
+        link_id: str,
+        already_accepted_count: int = 0,
+    ) -> LinkReceivingView:
+        link = self.links[link_id]
+        receiving_capacity = link.declared_receiving_capacity_per_tick
+        storage_capacity = link.declared_storage_capacity_packets
+        same_tick_accepted_count = self._same_tick_link_entries_by_link_id[link_id]
+        accepted_count = already_accepted_count + same_tick_accepted_count
+        current_storage = (
+            self._current_link_storage_by_link_id[link_id]
+            - same_tick_accepted_count
+        )
+        if current_storage < 0:
+            raise EventCacheConsistencyError(
+                f"materialised storage before same-tick entries is negative for "
+                f"{link_id}: {current_storage}"
+            )
+        available_receiving_capacity = max(receiving_capacity - accepted_count, 0)
+        available_storage_space = max(
+            storage_capacity - current_storage - accepted_count,
+            0,
+        )
+        if self.is_receiving_open(link_id):
+            available_receiving_slots = min(
+                available_receiving_capacity,
+                available_storage_space,
+            )
+        else:
+            available_receiving_slots = 0
+
+        return LinkReceivingView(
+            link_id=link_id,
+            tick=self.current_tick,
+            receiving_open=self.is_receiving_open(link_id),
+            receiving_capacity=receiving_capacity,
+            already_accepted_count=accepted_count,
+            current_storage=current_storage,
+            storage_capacity=storage_capacity,
+            available_storage_space=available_storage_space,
+            available_receiving_slots=available_receiving_slots,
+        )
 
     def _in_transit_packet_ids(self, excluding: set[str] | None = None) -> list[str]:
         excluded_packet_ids = excluding or set()
@@ -413,7 +599,6 @@ class LoadingEngine:
     ) -> None:
         boundary_id = self._boundary_id(upstream_link_id, downstream_link_id)
         self.append_event(packet_id, EventType.QUEUE_ENTRY, boundary_id)
-        self._queues.setdefault(boundary_id, []).append(packet_id)
         self._set_lifecycle_state(packet_id, LifecycleState.QUEUED)
 
     def _queue_packet_once(
@@ -430,14 +615,9 @@ class LoadingEngine:
     def _complete_eligible_packets(self) -> dict[str, int]:
         completed_counts_by_link: dict[str, int] = {}
         for link_id in sorted(self.links):
-            sending_view = link_sending_view(
-                self.event_log,
-                self.links[link_id],
-                self.current_tick,
-                excluded_packet_ids=self._queued_packet_ids_on_upstream_link(
-                    link_id,
-                    self.current_tick,
-                ),
+            sending_view = self._current_link_sending_view(
+                link_id,
+                excluded_packet_ids=self._queued_packet_ids_on_upstream_link(link_id),
             )
             for packet_id in sending_view.sendable_packet_ids:
                 if self._next_link_id(packet_id) is None:
@@ -458,15 +638,14 @@ class LoadingEngine:
         return tuple(candidates)
 
     def _queued_transfer_candidates(self) -> list[TransferCandidate]:
-        queue_entry_metadata = self._queue_entry_metadata_by_packet_id_from_events()
         candidates: list[TransferCandidate] = []
         for boundary_id in sorted(self._queues):
             upstream_link_id, downstream_link_id = self._parse_boundary_id(boundary_id)
             self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
             for packet_id in self._queues[boundary_id]:
-                eligibility_tick, eligibility_sequence_number = queue_entry_metadata[
-                    packet_id
-                ]
+                eligibility_tick, eligibility_sequence_number = (
+                    self._queue_entry_metadata_by_packet_id[packet_id]
+                )
                 candidates.append(
                     TransferCandidate(
                         packet_id=packet_id,
@@ -484,16 +663,14 @@ class LoadingEngine:
         self,
         consumed_sending_slots_by_link: dict[str, int],
     ) -> list[TransferCandidate]:
-        link_entry_metadata = self._current_link_entry_metadata_by_packet_id_from_events()
-        queued_packet_ids = set(self._queued_downstream_by_packet_id_from_events())
+        link_entry_metadata = self._current_link_entry_metadata_by_packet_id
+        queued_packet_ids = set(self._queued_downstream_by_packet_id)
         candidates: list[TransferCandidate] = []
         for upstream_link_id in sorted(self.links):
             link = self.links[upstream_link_id]
-            sending_view = link_sending_view(
-                self.event_log,
-                link,
-                self.current_tick,
-                excluded_packet_ids=queued_packet_ids,
+            sending_view = self._current_link_sending_view(
+                upstream_link_id,
+                excluded_packet_ids=tuple(queued_packet_ids),
             )
             consumed_slots = consumed_sending_slots_by_link.get(upstream_link_id, 0)
             remaining_sending_capacity = max(
@@ -581,7 +758,6 @@ class LoadingEngine:
                     f"packet_id {candidate.packet_id} is not first in queue "
                     f"{candidate.boundary_id}"
                 )
-            queue.pop(0)
             self.append_event(
                 candidate.packet_id,
                 EventType.QUEUE_EXIT,
@@ -637,8 +813,11 @@ class LoadingEngine:
     def _queued_packet_ids_on_upstream_link(
         self,
         link_id: str,
-        tick: int,
+        tick: int | None = None,
     ) -> tuple[str, ...]:
+        if tick is None or tick == self.current_tick:
+            return tuple(self._queued_packet_ids_by_upstream_link.get(link_id, ()))
+
         queued_packet_ids: list[str] = []
         for boundary_id, packet_ids in self._queue_packet_ids_by_boundary_from_events(
             tick
@@ -695,16 +874,12 @@ class LoadingEngine:
         self.append_event(packet_id, EventType.LINK_EXIT, upstream_link_id)
         self.append_event(packet_id, EventType.LINK_ENTRY, downstream_link_id)
         self._packet_route_index[packet_id] += 1
-        self._current_link_ids[packet_id] = downstream_link_id
-        self._current_link_entry_ticks[packet_id] = self.current_tick
         self._set_lifecycle_state(packet_id, LifecycleState.IN_TRANSIT)
 
     def _complete_packet(self, packet_id: str, link_id: str) -> None:
         self.append_event(packet_id, EventType.LINK_EXIT, link_id)
         self.append_event(packet_id, EventType.COMPLETED, link_id)
         self._set_lifecycle_state(packet_id, LifecycleState.COMPLETED)
-        del self._current_link_ids[packet_id]
-        del self._current_link_entry_ticks[packet_id]
 
     def _lifecycle_states_implied_by_events(self) -> dict[str, LifecycleState]:
         """Derive final packet lifecycle states from the primary event log."""
@@ -825,33 +1000,20 @@ class LoadingEngine:
         return route_indices
 
     def packet_ids_on_link(self, link_id: str) -> tuple[str, ...]:
-        """Return packet IDs physically on a link, derived from event history."""
+        """Return current packet IDs physically on a link."""
 
-        link_packet_ids: dict[str, list[str]] = {}
-        packet_link_ids: dict[str, str] = {}
-        for event in self._event_log:
-            if event.event_type == EventType.LINK_ENTRY:
-                packet_link_ids[event.packet_id] = event.entity_id
-                link_packet_ids.setdefault(event.entity_id, []).append(event.packet_id)
-            elif event.event_type == EventType.LINK_EXIT:
-                if packet_link_ids.get(event.packet_id) != event.entity_id:
-                    raise EventCacheConsistencyError(
-                        f"packet_id {event.packet_id} exits link {event.entity_id} "
-                        "without being recorded on that link"
-                    )
-                packet_link_ids.pop(event.packet_id)
-                link_packet_ids[event.entity_id].remove(event.packet_id)
-        return tuple(link_packet_ids.get(link_id, ()))
+        self._validate_count_link_id(link_id)
+        return tuple(self._packet_ids_by_link_id[link_id])
 
     def packet_ids_in_queue(
         self,
         upstream_link_id: str,
         downstream_link_id: str,
     ) -> tuple[str, ...]:
-        """Return packet IDs queued at a boundary, derived from event history."""
+        """Return current packet IDs queued at a boundary."""
 
         boundary_id = self._boundary_id(upstream_link_id, downstream_link_id)
-        return self._queue_packet_ids_by_boundary_from_events().get(boundary_id, ())
+        return tuple(self._queues.get(boundary_id, ()))
 
     def check_event_cache_consistency(self) -> bool:
         """Verify that materialised packet records match engine-owned events."""
@@ -900,7 +1062,90 @@ class LoadingEngine:
                     f"queue cache for {boundary_id} is {cache_queue}, "
                     f"but event log implies {event_queue}"
                 )
+        self._check_materialised_loading_views_consistent()
         return True
+
+    def _check_materialised_loading_views_consistent(self) -> None:
+        packet_ids_by_link_id = {link_id: [] for link_id in self.links}
+        for event in self._event_log:
+            if event.event_type == EventType.LINK_ENTRY:
+                packet_ids_by_link_id[event.entity_id].append(event.packet_id)
+            elif event.event_type == EventType.LINK_EXIT:
+                packet_ids_by_link_id[event.entity_id].remove(event.packet_id)
+
+        for link_id in self.links:
+            event_storage = len(packet_ids_by_link_id[link_id])
+            if self._current_link_storage_by_link_id[link_id] != event_storage:
+                raise EventCacheConsistencyError(
+                    f"storage cache for {link_id} is "
+                    f"{self._current_link_storage_by_link_id[link_id]}, "
+                    f"but event log implies {event_storage}"
+                )
+            if tuple(self._packet_ids_by_link_id[link_id]) != tuple(
+                packet_ids_by_link_id[link_id]
+            ):
+                raise EventCacheConsistencyError(
+                    f"membership cache for {link_id} is "
+                    f"{tuple(self._packet_ids_by_link_id[link_id])}, "
+                    f"but event log implies {tuple(packet_ids_by_link_id[link_id])}"
+                )
+
+        event_entry_metadata = self._current_link_entry_metadata_by_packet_id_from_events()
+        if self._current_link_entry_metadata_by_packet_id != event_entry_metadata:
+            raise EventCacheConsistencyError(
+                "current link-entry metadata cache does not match event history"
+            )
+
+        event_completed_packet_ids = {
+            event.packet_id
+            for event in self._event_log
+            if event.event_type == EventType.COMPLETED
+        }
+        if self._completed_packet_ids != event_completed_packet_ids:
+            raise EventCacheConsistencyError(
+                f"completed packet cache is {self._completed_packet_ids}, "
+                f"but event log implies {event_completed_packet_ids}"
+            )
+
+        event_queue_entry_metadata = self._queue_entry_metadata_by_packet_id_from_events()
+        if self._queue_entry_metadata_by_packet_id != event_queue_entry_metadata:
+            raise EventCacheConsistencyError(
+                "queue-entry metadata cache does not match event history"
+            )
+
+        event_queued_downstream = self._queued_downstream_by_packet_id_from_events()
+        if self._queued_downstream_by_packet_id != event_queued_downstream:
+            raise EventCacheConsistencyError(
+                "queued downstream cache does not match event history"
+            )
+
+        same_tick_entries = {
+            link_id: sum(
+                event.event_type == EventType.LINK_ENTRY
+                and event.entity_id == link_id
+                and event.physical_tick == self.current_tick
+                for event in self._event_log
+            )
+            for link_id in self.links
+        }
+        if self._same_tick_link_entries_by_link_id != same_tick_entries:
+            raise EventCacheConsistencyError(
+                "same-tick receiving acceptance cache does not match event history"
+            )
+
+        if len(self._pending_demands) != len(self._pending_demand_ids):
+            raise EventCacheConsistencyError(
+                "pending demand list and pending demand ID cache disagree"
+            )
+        for demand in self._pending_demands:
+            if demand.demand_id not in self._pending_demand_ids:
+                raise EventCacheConsistencyError(
+                    f"pending demand {demand.demand_id} is missing from ID cache"
+                )
+            if demand.demand_id in self._instantiated_demand_ids:
+                raise EventCacheConsistencyError(
+                    f"pending demand {demand.demand_id} has already instantiated"
+                )
 
     def conservation_summary(self) -> dict[str, int]:
         """Compute the simplified conservation ledger from the primary event log."""

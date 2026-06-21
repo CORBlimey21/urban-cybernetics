@@ -83,6 +83,76 @@ class EngineArchitectureTest(unittest.TestCase):
         self.assertEqual(sequence_numbers, list(range(len(sequence_numbers))))
         self.assertTrue(engine.check_event_cache_consistency())
 
+    def test_materialised_storage_and_packet_location_match_events(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L1": Link(link_id="L1", free_flow_ticks=1),
+                "L2": Link(link_id="L2", free_flow_ticks=1),
+            }
+        )
+        packet = engine.instantiate(
+            DemandDeclaration(demand_id="D1", departure_tick=0, route_intent=("L1", "L2"))
+        )
+
+        self.assertEqual(engine.link_storage("L1").storage, 1)
+        self.assertEqual(engine.packet_ids_on_link("L1"), (packet.packet_id,))
+        self.assertTrue(engine.check_event_cache_consistency())
+
+        engine.step()
+
+        self.assertEqual(engine.link_storage("L1").storage, 0)
+        self.assertEqual(engine.link_storage("L2").storage, 1)
+        self.assertEqual(engine.packet_ids_on_link("L1"), ())
+        self.assertEqual(engine.packet_ids_on_link("L2"), (packet.packet_id,))
+        self.assertTrue(engine.check_event_cache_consistency())
+
+    def test_completion_cache_removes_packet_from_active_membership(self) -> None:
+        engine = LoadingEngine(links={"L1": Link(link_id="L1", free_flow_ticks=1)})
+        packet = engine.instantiate(
+            DemandDeclaration(demand_id="D1", departure_tick=0, route_intent=("L1",))
+        )
+
+        engine.step()
+
+        self.assertEqual(engine.completed_packet_ids, frozenset({packet.packet_id}))
+        self.assertEqual(engine.packet_ids_on_link("L1"), ())
+        self.assertEqual(engine.link_storage("L1").storage, 0)
+        self.assertTrue(engine.check_event_cache_consistency())
+
+    def test_materialised_storage_disagreement_is_detected(self) -> None:
+        engine = LoadingEngine(links={"L1": Link(link_id="L1", free_flow_ticks=1)})
+        engine.instantiate(
+            DemandDeclaration(demand_id="D1", departure_tick=0, route_intent=("L1",))
+        )
+
+        engine._current_link_storage_by_link_id["L1"] = 99
+
+        with self.assertRaises(EventCacheConsistencyError):
+            engine.check_event_cache_consistency()
+
+    def test_origin_blocking_uses_materialised_storage_without_precreating_packet(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L1": Link(
+                    link_id="L1",
+                    free_flow_ticks=2,
+                    declared_storage_capacity_packets=1,
+                )
+            }
+        )
+        first_packet = engine.instantiate(
+            DemandDeclaration(demand_id="D1", departure_tick=0, route_intent=("L1",))
+        )
+        blocked_packet = engine.instantiate(
+            DemandDeclaration(demand_id="D2", departure_tick=0, route_intent=("L1",))
+        )
+
+        self.assertIsNone(blocked_packet)
+        self.assertEqual(tuple(engine.packets), (first_packet.packet_id,))
+        self.assertEqual(len(engine.pending_demands), 1)
+        self.assertEqual(engine.link_storage("L1").storage, 1)
+        self.assertTrue(engine.check_event_cache_consistency())
+
     def test_packet_is_frozen_or_externally_immutable(self) -> None:
         packet = Packet(
             packet_id="P1",
