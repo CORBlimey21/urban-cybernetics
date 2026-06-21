@@ -122,6 +122,14 @@ This milestone supports Sioux Falls smoke runs in which packets traverse multi-l
 
 ---
 
+### D1 Demand Boundary
+
+D1 introduces immutable OD demand manifests and scheduled loading, but these remain outside topology records. A topology may validate that demand origins and destinations reference known canonical nodes. It does not own demand, volume, trips, live OD counts, scheduled departures, packet lifecycle, or realised movement.
+
+Demand manifests reference `topology_id` and `topology_hash` so experiments can prove which immutable network they target. That reference does not make demand part of the topology hash.
+
+---
+
 ### The Adapter Layer
 
 NetworkX and OSMnx are adapter tools. They serve two legitimate purposes: topology import from OSM data, and routing computation convenience (shortest-path queries, graph traversal). They do not serve as canonical state stores.

@@ -12,6 +12,8 @@ A packet is instantiated from a demand declaration at the declared departure tim
 
 One demand declaration produces exactly one packet once it is admitted to the loading kernel. There is no mechanism by which a single demand declaration produces more than one packet in the base model. A pending demand that has not yet been admitted is not a zero-packet trip; it is a pre-instantiation demand awaiting origin storage.
 
+D1 adds a first-class OD demand layer before this loading-kernel admission boundary. `ODDemandDeclaration` records may contain `quantity_packets`; scheduled loading expands those quantities into one-unit loading admission requests. Those admission requests still do not become packets until `LoadingEngine.instantiate` accepts them onto the origin link.
+
 ---
 
 ### Packet Identity
