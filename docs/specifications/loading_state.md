@@ -78,6 +78,18 @@ These views belong only inside the loading engine. They must not be stored on `L
 
 Historical storage and cumulative count queries remain event-derived. Current hot-path loading decisions may use materialised views, but if a materialised view conflicts with the primary event log, the event log is authoritative.
 
+L3 tightens the queue hot path without changing queue semantics. The loading
+engine maintains FIFO queue deques by boundary and by upstream link, plus queued
+downstream-link metadata by packet ID. Normal stepping reads those live
+engine-owned structures rather than reconstructing queue state from the event
+log. Debug and test consistency checks still reconstruct queue state from
+QUEUE_ENTRY and QUEUE_EXIT events and compare it to the materialised views.
+
+Strict FIFO remains strict: if an upstream queue head is blocked, packets behind
+it cannot bypass it. When capacity permits, stepping considers only the FIFO
+prefix that could transfer this tick, bounded by upstream sending capacity and
+downstream receiving availability. It does not scan blocked queue tails.
+
 ---
 
 ### What Must Not Be Stored as Loading State

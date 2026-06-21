@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import deque
 from collections.abc import Mapping
 from dataclasses import replace
 from types import MappingProxyType
@@ -71,10 +72,10 @@ class LoadingEngine:
         self._current_link_entry_metadata_by_packet_id: dict[str, tuple[str, int, int]] = {}
         self._completed_packet_ids: set[str] = set()
         self._cancelled_packet_ids: set[str] = set()
-        self._queues: dict[str, list[str]] = {}
+        self._queues: dict[str, deque[str]] = {}
         self._queue_entry_metadata_by_packet_id: dict[str, tuple[int, int]] = {}
         self._queued_downstream_by_packet_id: dict[str, str] = {}
-        self._queued_packet_ids_by_upstream_link: dict[str, list[str]] = {}
+        self._queued_packet_ids_by_upstream_link: dict[str, deque[str]] = {}
         self._same_tick_link_entries_by_link_id: dict[str, int] = {
             link_id: 0 for link_id in self.links
         }
@@ -312,7 +313,7 @@ class LoadingEngine:
             self._current_link_entry_metadata_by_packet_id.pop(event.packet_id, None)
         elif event.event_type == EventType.QUEUE_ENTRY:
             upstream_link_id, downstream_link_id = self._parse_boundary_id(event.entity_id)
-            self._queues.setdefault(event.entity_id, []).append(event.packet_id)
+            self._queues.setdefault(event.entity_id, deque()).append(event.packet_id)
             self._queue_entry_metadata_by_packet_id[event.packet_id] = (
                 event.physical_tick,
                 event.sequence_number,
@@ -320,29 +321,29 @@ class LoadingEngine:
             self._queued_downstream_by_packet_id[event.packet_id] = downstream_link_id
             self._queued_packet_ids_by_upstream_link.setdefault(
                 upstream_link_id,
-                [],
+                deque(),
             ).append(event.packet_id)
         elif event.event_type == EventType.QUEUE_EXIT:
             upstream_link_id, _ = self._parse_boundary_id(event.entity_id)
-            queue = self._queues.setdefault(event.entity_id, [])
+            queue = self._queues.setdefault(event.entity_id, deque())
             if not queue or queue[0] != event.packet_id:
                 raise EventCacheConsistencyError(
                     f"packet_id {event.packet_id} exits queue {event.entity_id} "
                     "out of FIFO order or without queue entry"
                 )
-            queue.pop(0)
+            queue.popleft()
             self._queue_entry_metadata_by_packet_id.pop(event.packet_id, None)
             self._queued_downstream_by_packet_id.pop(event.packet_id, None)
             upstream_queue = self._queued_packet_ids_by_upstream_link.setdefault(
                 upstream_link_id,
-                [],
+                deque(),
             )
-            if event.packet_id not in upstream_queue:
+            if not upstream_queue or upstream_queue[0] != event.packet_id:
                 raise EventCacheConsistencyError(
-                    f"packet_id {event.packet_id} is missing from upstream queue "
-                    f"cache for {upstream_link_id}"
+                    f"packet_id {event.packet_id} exits upstream queue "
+                    f"{upstream_link_id} out of FIFO order or without queue entry"
                 )
-            upstream_queue.remove(event.packet_id)
+            upstream_queue.popleft()
         elif event.event_type == EventType.COMPLETED:
             self._completed_packet_ids.add(event.packet_id)
         elif event.event_type == EventType.CANCELLED:
@@ -439,8 +440,8 @@ class LoadingEngine:
         self._instantiate_pending_departures()
         completed_counts_by_link = self._complete_eligible_packets()
 
-        candidates = self._transfer_candidates(completed_counts_by_link)
         receiving_slots = self._receiving_slots_by_link()
+        candidates = self._transfer_candidates(completed_counts_by_link, receiving_slots)
         approved_candidates = self.node_transfer_policy.choose_transfers(
             candidates=candidates,
             receiving_slots_by_downstream_link=MappingProxyType(dict(receiving_slots)),
@@ -448,7 +449,7 @@ class LoadingEngine:
                 self._packet_ids_by_upstream_link_for_candidates(candidates)
             ),
             queued_downstream_by_packet_id=MappingProxyType(
-                self._queued_downstream_by_packet_id_from_events()
+                dict(self._queued_downstream_by_packet_id)
             ),
         )
         approved_candidate_set, remaining_slots = self._execute_approved_transfers(
@@ -607,8 +608,7 @@ class LoadingEngine:
         upstream_link_id: str,
         downstream_link_id: str,
     ) -> None:
-        boundary_id = self._boundary_id(upstream_link_id, downstream_link_id)
-        if packet_id in self._queues.get(boundary_id, ()):
+        if packet_id in self._queued_downstream_by_packet_id:
             return
         self._queue_packet(packet_id, upstream_link_id, downstream_link_id)
 
@@ -629,20 +629,82 @@ class LoadingEngine:
 
     def _transfer_candidates(
         self,
-        consumed_sending_slots_by_link: dict[str, int] | None = None,
+        consumed_sending_slots_by_link: dict[str, int],
+        receiving_slots_by_link: dict[str, int],
     ) -> tuple[TransferCandidate, ...]:
+        queued_candidates = self._queued_transfer_candidates(
+            consumed_sending_slots_by_link,
+            receiving_slots_by_link,
+        )
+        queued_candidate_counts_by_upstream_link: dict[str, int] = {}
+        for candidate in queued_candidates:
+            queued_candidate_counts_by_upstream_link[candidate.upstream_link_id] = (
+                queued_candidate_counts_by_upstream_link.get(
+                    candidate.upstream_link_id,
+                    0,
+                )
+                + 1
+            )
+        active_consumed_slots = dict(consumed_sending_slots_by_link)
+        for upstream_link_id, queued_candidate_count in (
+            queued_candidate_counts_by_upstream_link.items()
+        ):
+            active_consumed_slots[upstream_link_id] = (
+                active_consumed_slots.get(upstream_link_id, 0)
+                + queued_candidate_count
+            )
         candidates = [
-            *self._queued_transfer_candidates(),
-            *self._active_transfer_candidates(consumed_sending_slots_by_link or {}),
+            *queued_candidates,
+            *self._active_transfer_candidates(active_consumed_slots),
         ]
         return tuple(candidates)
 
-    def _queued_transfer_candidates(self) -> list[TransferCandidate]:
+    def _queued_transfer_candidates(
+        self,
+        consumed_sending_slots_by_link: dict[str, int],
+        receiving_slots_by_link: dict[str, int],
+    ) -> list[TransferCandidate]:
         candidates: list[TransferCandidate] = []
-        for boundary_id in sorted(self._queues):
-            upstream_link_id, downstream_link_id = self._parse_boundary_id(boundary_id)
-            self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
-            for packet_id in self._queues[boundary_id]:
+        for upstream_link_id in sorted(self._queued_packet_ids_by_upstream_link):
+            queue = self._queued_packet_ids_by_upstream_link[upstream_link_id]
+            if not queue:
+                continue
+            remaining_sending_capacity = (
+                self.links[upstream_link_id].declared_sending_capacity_per_tick
+                - consumed_sending_slots_by_link.get(upstream_link_id, 0)
+            )
+            if remaining_sending_capacity <= 0:
+                continue
+
+            emitted_count = 0
+            emitted_count_by_downstream_link: dict[str, int] = {}
+            emitted_count_by_boundary: dict[str, int] = {}
+            for packet_id in queue:
+                if emitted_count >= remaining_sending_capacity:
+                    break
+                downstream_link_id = self._queued_downstream_by_packet_id[packet_id]
+                downstream_slots_remaining = (
+                    receiving_slots_by_link.get(downstream_link_id, 0)
+                    - emitted_count_by_downstream_link.get(downstream_link_id, 0)
+                )
+                if downstream_slots_remaining <= 0:
+                    break
+                boundary_id = self._boundary_id(upstream_link_id, downstream_link_id)
+                boundary_queue = self._queues.get(boundary_id)
+                boundary_offset = emitted_count_by_boundary.get(boundary_id, 0)
+                if (
+                    not boundary_queue
+                    or len(boundary_queue) <= boundary_offset
+                    or boundary_queue[boundary_offset] != packet_id
+                ):
+                    raise EventCacheConsistencyError(
+                        f"packet_id {packet_id} is not in FIFO prefix for "
+                        f"queue {boundary_id}"
+                    )
+                self._validate_transfer_connectivity(
+                    upstream_link_id,
+                    downstream_link_id,
+                )
                 eligibility_tick, eligibility_sequence_number = (
                     self._queue_entry_metadata_by_packet_id[packet_id]
                 )
@@ -657,6 +719,11 @@ class LoadingEngine:
                         queued=True,
                     )
                 )
+                emitted_count += 1
+                emitted_count_by_downstream_link[downstream_link_id] = (
+                    emitted_count_by_downstream_link.get(downstream_link_id, 0) + 1
+                )
+                emitted_count_by_boundary[boundary_id] = boundary_offset + 1
         return candidates
 
     def _active_transfer_candidates(
@@ -809,6 +876,30 @@ class LoadingEngine:
             for packet_id in packet_ids:
                 queued_downstream_by_packet_id[packet_id] = downstream_link_id
         return queued_downstream_by_packet_id
+
+    def _queued_packet_ids_by_upstream_link_from_events(
+        self,
+    ) -> dict[str, tuple[str, ...]]:
+        """Derive upstream-link queue membership from queue events."""
+
+        queues: dict[str, deque[str]] = {}
+        for event in self._event_log:
+            if event.event_type == EventType.QUEUE_ENTRY:
+                upstream_link_id, _ = self._parse_boundary_id(event.entity_id)
+                queues.setdefault(upstream_link_id, deque()).append(event.packet_id)
+            elif event.event_type == EventType.QUEUE_EXIT:
+                upstream_link_id, _ = self._parse_boundary_id(event.entity_id)
+                queue = queues.setdefault(upstream_link_id, deque())
+                if not queue or queue[0] != event.packet_id:
+                    raise EventCacheConsistencyError(
+                        f"packet_id {event.packet_id} exits upstream queue "
+                        f"{upstream_link_id} out of FIFO order or without queue entry"
+                    )
+                queue.popleft()
+        return {
+            upstream_link_id: tuple(packet_ids)
+            for upstream_link_id, packet_ids in queues.items()
+        }
 
     def _queued_packet_ids_on_upstream_link(
         self,
@@ -1062,6 +1153,19 @@ class LoadingEngine:
                     f"queue cache for {boundary_id} is {cache_queue}, "
                     f"but event log implies {event_queue}"
                 )
+        event_upstream_queues = self._queued_packet_ids_by_upstream_link_from_events()
+        for upstream_link_id in set(event_upstream_queues) | set(
+            self._queued_packet_ids_by_upstream_link
+        ):
+            cache_queue = tuple(
+                self._queued_packet_ids_by_upstream_link.get(upstream_link_id, ())
+            )
+            event_queue = event_upstream_queues.get(upstream_link_id, ())
+            if cache_queue != event_queue:
+                raise EventCacheConsistencyError(
+                    f"upstream queue cache for {upstream_link_id} is {cache_queue}, "
+                    f"but event log implies {event_queue}"
+                )
         self._check_materialised_loading_views_consistent()
         return True
 
@@ -1118,6 +1222,7 @@ class LoadingEngine:
             raise EventCacheConsistencyError(
                 "queued downstream cache does not match event history"
             )
+        self._check_live_queue_membership_consistent()
 
         same_tick_entries = {
             link_id: sum(
@@ -1131,6 +1236,44 @@ class LoadingEngine:
         if self._same_tick_link_entries_by_link_id != same_tick_entries:
             raise EventCacheConsistencyError(
                 "same-tick receiving acceptance cache does not match event history"
+            )
+
+    def _check_live_queue_membership_consistent(self) -> None:
+        boundary_queued_packet_ids: list[str] = [
+            packet_id
+            for queue in self._queues.values()
+            for packet_id in queue
+        ]
+        upstream_queued_packet_ids: list[str] = [
+            packet_id
+            for queue in self._queued_packet_ids_by_upstream_link.values()
+            for packet_id in queue
+        ]
+        if len(boundary_queued_packet_ids) != len(set(boundary_queued_packet_ids)):
+            raise EventCacheConsistencyError(
+                "a packet appears in more than one boundary queue"
+            )
+        if len(upstream_queued_packet_ids) != len(set(upstream_queued_packet_ids)):
+            raise EventCacheConsistencyError(
+                "a packet appears more than once in upstream queues"
+            )
+        if set(boundary_queued_packet_ids) != set(upstream_queued_packet_ids):
+            raise EventCacheConsistencyError(
+                "boundary queue membership does not match upstream queue membership"
+            )
+        if set(boundary_queued_packet_ids) != set(self._queued_downstream_by_packet_id):
+            raise EventCacheConsistencyError(
+                "queue membership does not match queued downstream packet IDs"
+            )
+
+        terminal_packet_ids = self._completed_packet_ids | self._cancelled_packet_ids
+        queued_terminal_packet_ids = sorted(
+            set(boundary_queued_packet_ids) & terminal_packet_ids
+        )
+        if queued_terminal_packet_ids:
+            raise EventCacheConsistencyError(
+                "terminal packets remain queued: "
+                f"{tuple(queued_terminal_packet_ids)}"
             )
 
         if len(self._pending_demands) != len(self._pending_demand_ids):

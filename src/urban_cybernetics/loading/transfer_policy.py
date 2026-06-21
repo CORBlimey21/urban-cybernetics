@@ -67,8 +67,6 @@ class StrictFIFOJunctionPolicy:
             approved_candidates.append(candidate)
             approved_packet_ids.add(candidate.packet_id)
             remaining_slots[candidate.downstream_link_id] -= 1
-            if candidate.queued:
-                blocked_upstream_link_ids.add(candidate.upstream_link_id)
 
         return tuple(approved_candidates)
 
@@ -100,10 +98,9 @@ class StrictFIFOJunctionPolicy:
             if packet_id_ahead in approved_packet_ids:
                 continue
             queued_downstream = queued_downstream_by_packet_id.get(packet_id_ahead)
-            if queued_downstream is None:
+            if queued_downstream is not None:
                 return False
-            if queued_downstream != candidate.downstream_link_id:
-                return False
+            return False
         return True
 
 

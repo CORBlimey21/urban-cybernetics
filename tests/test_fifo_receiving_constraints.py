@@ -109,6 +109,116 @@ class FifoAndReceivingConstraintTest(unittest.TestCase):
             all(packet.lifecycle_state == LifecycleState.COMPLETED for packet in engine.packets.values())
         )
 
+    def test_step_does_not_reconstruct_queued_downstream_from_events(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L1": Link(link_id="L1", free_flow_ticks=1),
+                "L2": Link(link_id="L2", free_flow_ticks=1),
+            }
+        )
+        engine.set_receiving_open("L2", False)
+        packet = engine.instantiate(
+            DemandDeclaration(demand_id="D1", departure_tick=0, route_intent=("L1", "L2"))
+        )
+        engine.step()
+        engine.set_receiving_open("L2", True)
+
+        def fail_if_called():
+            raise AssertionError("event-derived queue reconstruction called in step")
+
+        engine._queued_downstream_by_packet_id_from_events = fail_if_called
+        engine.step()
+
+        self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), ())
+        self.assertIn(
+            packet.packet_id,
+            self.link_event_packet_ids(engine, EventType.LINK_ENTRY, "L2", 2),
+        )
+
+    def test_blocked_queue_head_does_not_inspect_tail(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L1": Link(
+                    link_id="L1",
+                    free_flow_ticks=1,
+                    declared_sending_capacity_per_tick=2,
+                ),
+                "L2": Link(link_id="L2", free_flow_ticks=1),
+            }
+        )
+        engine.set_receiving_open("L2", False)
+        packet_a = engine.instantiate(
+            DemandDeclaration(demand_id="D-A", departure_tick=0, route_intent=("L1", "L2"))
+        )
+        packet_b = engine.instantiate(
+            DemandDeclaration(demand_id="D-B", departure_tick=0, route_intent=("L1", "L2"))
+        )
+        engine.step()
+
+        class TailGuardDict(dict):
+            def __getitem__(self, key):
+                if key == packet_b.packet_id:
+                    raise AssertionError("blocked FIFO tail was inspected")
+                return super().__getitem__(key)
+
+        engine._queue_entry_metadata_by_packet_id = TailGuardDict(
+            engine._queue_entry_metadata_by_packet_id
+        )
+        engine.step()
+
+        self.assertEqual(
+            engine.packet_ids_in_queue("L1", "L2"),
+            (packet_a.packet_id, packet_b.packet_id),
+        )
+        self.assertFalse(self.has_event(engine, EventType.LINK_EXIT, "L1", 2))
+        self.assertFalse(self.has_event(engine, EventType.LINK_ENTRY, "L2", 2))
+
+    def test_fifo_prefix_release_stops_at_capacity(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L1": Link(
+                    link_id="L1",
+                    free_flow_ticks=1,
+                    declared_sending_capacity_per_tick=3,
+                ),
+                "L2": Link(
+                    link_id="L2",
+                    free_flow_ticks=1,
+                    declared_receiving_capacity_per_tick=2,
+                ),
+            }
+        )
+        engine.set_receiving_open("L2", False)
+        packets = [
+            engine.instantiate(
+                DemandDeclaration(
+                    demand_id=f"D-{index}",
+                    departure_tick=0,
+                    route_intent=("L1", "L2"),
+                )
+            )
+            for index in range(3)
+        ]
+        engine.step()
+        self.assertTrue(engine.check_event_cache_consistency())
+
+        engine.set_receiving_open("L2", True)
+        engine.step()
+
+        self.assertEqual(
+            self.queue_exit_packet_ids(engine, 2),
+            [packets[0].packet_id, packets[1].packet_id],
+        )
+        self.assertEqual(
+            self.link_event_packet_ids(engine, EventType.LINK_ENTRY, "L2", 2),
+            [packets[0].packet_id, packets[1].packet_id],
+        )
+        self.assertEqual(
+            engine.packet_ids_in_queue("L1", "L2"),
+            (packets[2].packet_id,),
+        )
+        self.assertTrue(engine.check_event_cache_consistency())
+
     def test_queue_event_ordering(self) -> None:
         engine = LoadingEngine(
             links={
@@ -305,6 +415,43 @@ class FifoAndReceivingConstraintTest(unittest.TestCase):
             + summary["completed"]
             + summary["cancelled"]
             + summary["unresolved"],
+        )
+
+    def link_event_packet_ids(
+        self,
+        engine: LoadingEngine,
+        event_type: EventType,
+        link_id: str,
+        tick: int,
+    ) -> list[str]:
+        return [
+            event.packet_id
+            for event in engine.event_log
+            if event.event_type == event_type
+            and event.entity_id == link_id
+            and event.physical_tick == tick
+        ]
+
+    def queue_exit_packet_ids(self, engine: LoadingEngine, tick: int) -> list[str]:
+        return [
+            event.packet_id
+            for event in engine.event_log
+            if event.event_type == EventType.QUEUE_EXIT
+            and event.physical_tick == tick
+        ]
+
+    def has_event(
+        self,
+        engine: LoadingEngine,
+        event_type: EventType,
+        entity_id: str,
+        tick: int,
+    ) -> bool:
+        return any(
+            event.event_type == event_type
+            and event.entity_id == entity_id
+            and event.physical_tick <= tick
+            for event in engine.event_log
         )
 
 
