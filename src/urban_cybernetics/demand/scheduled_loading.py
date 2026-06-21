@@ -6,6 +6,10 @@ from dataclasses import dataclass
 
 from urban_cybernetics.core import DemandDeclaration as LoadingDemandDeclaration
 from urban_cybernetics.core import Packet
+from urban_cybernetics.demand.manifest import (
+    GlobalUniformDepartureSchedule,
+    ODDemandDeclaration,
+)
 from urban_cybernetics.demand.resolution import ResolvedDemandManifest
 from urban_cybernetics.loading import LoadingEngine
 
@@ -78,13 +82,17 @@ class ScheduledDemandLoader:
     ) -> tuple[ScheduledLoadingRequest, ...]:
         route_by_demand_id = resolved_manifest.route_by_demand_id
         requests: list[ScheduledLoadingRequest] = []
-        for declaration in sorted(
-            resolved_manifest.demand_manifest.declarations,
-            key=lambda item: item.demand_id,
-        ):
+        declarations = tuple(
+            sorted(
+                resolved_manifest.demand_manifest.declarations,
+                key=lambda item: item.demand_id,
+            )
+        )
+        departure_ticks_by_demand_id = _departure_ticks_by_demand_id(declarations)
+        for declaration in declarations:
             route = route_by_demand_id[declaration.demand_id]
             for unit_index, departure_tick in enumerate(
-                declaration.expand_departure_ticks(),
+                departure_ticks_by_demand_id[declaration.demand_id],
                 start=1,
             ):
                 requests.append(
@@ -110,3 +118,33 @@ class ScheduledDemandLoader:
                 ),
             )
         )
+
+
+def _departure_ticks_by_demand_id(
+    declarations: tuple[ODDemandDeclaration, ...],
+) -> dict[str, tuple[int, ...]]:
+    global_schedules = {
+        declaration.departure_schedule
+        for declaration in declarations
+        if isinstance(declaration.departure_schedule, GlobalUniformDepartureSchedule)
+    }
+    if not global_schedules:
+        return {
+            declaration.demand_id: declaration.expand_departure_ticks()
+            for declaration in declarations
+        }
+    if len(global_schedules) > 1 or len(global_schedules) != len(
+        {declaration.departure_schedule for declaration in declarations}
+    ):
+        raise ValueError(
+            "GlobalUniformDepartureSchedule must be shared by every declaration "
+            "in the manifest"
+        )
+
+    schedule = next(iter(global_schedules))
+    return schedule.expand_manifest_departure_ticks(
+        tuple(
+            (declaration.demand_id, declaration.quantity_packets)
+            for declaration in declarations
+        )
+    )

@@ -73,6 +73,69 @@ class UniformWindowDepartureSchedule:
 
 
 @dataclass(frozen=True)
+class GlobalUniformDepartureSchedule:
+    """Spread all manifest departures over one inclusive global tick window."""
+
+    start_tick: int
+    end_tick: int
+
+    def __post_init__(self) -> None:
+        if self.start_tick < 0:
+            raise ValueError("start_tick cannot be negative")
+        if self.end_tick < self.start_tick:
+            raise ValueError("end_tick must be greater than or equal to start_tick")
+
+    def expand_departure_ticks(self, quantity_packets: int) -> tuple[int, ...]:
+        _validate_quantity(quantity_packets)
+        raise ValueError(
+            "GlobalUniformDepartureSchedule requires manifest-level expansion"
+        )
+
+    def expand_manifest_departure_ticks(
+        self,
+        declaration_quantities: tuple[tuple[str, int], ...],
+    ) -> dict[str, tuple[int, ...]]:
+        """Return departure ticks by demand_id using the full manifest quantity."""
+
+        for demand_id, quantity_packets in declaration_quantities:
+            if not demand_id:
+                raise ValueError("demand_id is required")
+            _validate_quantity(quantity_packets)
+
+        tick_count = self.end_tick - self.start_tick + 1
+        total_quantity = sum(quantity for _, quantity in declaration_quantities)
+        ticks = self._global_ticks(total_quantity, tick_count)
+        ticks_by_demand_id: dict[str, list[int]] = {
+            demand_id: [] for demand_id, _ in declaration_quantities
+        }
+        tick_index = 0
+        for demand_id, quantity_packets in declaration_quantities:
+            for _ in range(quantity_packets):
+                ticks_by_demand_id[demand_id].append(ticks[tick_index])
+                tick_index += 1
+        return {
+            demand_id: tuple(departure_ticks)
+            for demand_id, departure_ticks in ticks_by_demand_id.items()
+        }
+
+    def hash_payload(self) -> dict[str, Any]:
+        return {
+            "schedule_type": "global_uniform_window",
+            "start_tick": self.start_tick,
+            "end_tick": self.end_tick,
+        }
+
+    def _global_ticks(self, total_quantity: int, tick_count: int) -> tuple[int, ...]:
+        base_count = total_quantity // tick_count
+        remainder = total_quantity % tick_count
+        ticks: list[int] = []
+        for offset in range(tick_count):
+            departures_at_tick = base_count + (1 if offset < remainder else 0)
+            ticks.extend([self.start_tick + offset] * departures_at_tick)
+        return tuple(ticks)
+
+
+@dataclass(frozen=True)
 class DemandManifestSourceMetadata:
     """Immutable provenance and interpretation metadata for a demand manifest."""
 

@@ -5,6 +5,7 @@ from .manifest import (
     DemandManifestSourceMetadata,
     DepartureSchedule,
     FixedDepartureSchedule,
+    GlobalUniformDepartureSchedule,
     ODDemandDeclaration,
     UniformWindowDepartureSchedule,
 )
@@ -21,6 +22,7 @@ __all__ = [
     "DemandManifestSourceMetadata",
     "DepartureSchedule",
     "FixedDepartureSchedule",
+    "GlobalUniformDepartureSchedule",
     "ODDemandDeclaration",
     "ResolvedDemandManifest",
     "ResolvedDemandRoute",

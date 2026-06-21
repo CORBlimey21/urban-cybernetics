@@ -5,6 +5,7 @@ from __future__ import annotations
 import sys
 import tempfile
 import unittest
+from collections import Counter
 from dataclasses import FrozenInstanceError, replace
 from pathlib import Path
 
@@ -17,6 +18,7 @@ from urban_cybernetics.demand import (
     DemandManifest,
     DemandManifestSourceMetadata,
     FixedDepartureSchedule,
+    GlobalUniformDepartureSchedule,
     ODDemandDeclaration,
     ScheduledDemandLoader,
     UniformWindowDepartureSchedule,
@@ -56,6 +58,118 @@ class DemandManifestTest(unittest.TestCase):
         schedule = UniformWindowDepartureSchedule(start_tick=2, end_tick=4)
 
         self.assertEqual(schedule.expand_departure_ticks(8), (2, 2, 2, 3, 3, 3, 4, 4))
+
+    def test_global_uniform_schedule_uses_full_manifest_window(self) -> None:
+        topology = load_sioux_falls_topology()
+        schedule = GlobalUniformDepartureSchedule(start_tick=0, end_tick=9)
+        manifest = self.manifest(
+            self.raw_declaration(
+                demand_id="D-OD-1",
+                origin_node_id="N001",
+                destination_node_id="N002",
+                quantity_packets=10,
+                departure_schedule=schedule,
+            ),
+            self.raw_declaration(
+                demand_id="D-OD-2",
+                origin_node_id="N001",
+                destination_node_id="N002",
+                quantity_packets=10,
+                departure_schedule=schedule,
+            ),
+            self.raw_declaration(
+                demand_id="D-OD-3",
+                origin_node_id="N001",
+                destination_node_id="N002",
+                quantity_packets=10,
+                departure_schedule=schedule,
+            ),
+            topology_id=topology.topology_id,
+            topology_hash=topology.topology_hash,
+        )
+        resolved = resolve_demand_routes(manifest, topology)
+        loader = ScheduledDemandLoader(resolved)
+
+        departure_counts = Counter(
+            request.departure_tick for request in loader.scheduled_requests
+        )
+
+        self.assertIn(0, departure_counts)
+        self.assertIn(5, departure_counts)
+        self.assertIn(9, departure_counts)
+        self.assertEqual(len(departure_counts), 10)
+        self.assertEqual(set(departure_counts.values()), {3})
+
+    def test_global_uniform_schedule_balances_departure_counts(self) -> None:
+        topology = load_sioux_falls_topology()
+        schedule = GlobalUniformDepartureSchedule(start_tick=2, end_tick=6)
+        manifest = self.manifest(
+            self.raw_declaration(
+                demand_id="D-OD-1",
+                origin_node_id="N001",
+                destination_node_id="N002",
+                quantity_packets=8,
+                departure_schedule=schedule,
+            ),
+            self.raw_declaration(
+                demand_id="D-OD-2",
+                origin_node_id="N001",
+                destination_node_id="N002",
+                quantity_packets=7,
+                departure_schedule=schedule,
+            ),
+            self.raw_declaration(
+                demand_id="D-OD-3",
+                origin_node_id="N001",
+                destination_node_id="N002",
+                quantity_packets=8,
+                departure_schedule=schedule,
+            ),
+            topology_id=topology.topology_id,
+            topology_hash=topology.topology_hash,
+        )
+        resolved = resolve_demand_routes(manifest, topology)
+        loader = ScheduledDemandLoader(resolved)
+
+        departure_counts = Counter(
+            request.departure_tick for request in loader.scheduled_requests
+        )
+
+        self.assertEqual(set(departure_counts), {2, 3, 4, 5, 6})
+        self.assertLessEqual(
+            max(departure_counts.values()) - min(departure_counts.values()),
+            1,
+        )
+        self.assertEqual(sum(departure_counts.values()), 23)
+
+    def test_declaration_uniform_schedule_remains_per_declaration(self) -> None:
+        topology = load_sioux_falls_topology()
+        schedule = UniformWindowDepartureSchedule(start_tick=0, end_tick=4)
+        manifest = self.manifest(
+            self.raw_declaration(
+                demand_id="D-OD-1",
+                origin_node_id="N001",
+                destination_node_id="N002",
+                quantity_packets=2,
+                departure_schedule=schedule,
+            ),
+            self.raw_declaration(
+                demand_id="D-OD-2",
+                origin_node_id="N001",
+                destination_node_id="N002",
+                quantity_packets=2,
+                departure_schedule=schedule,
+            ),
+            topology_id=topology.topology_id,
+            topology_hash=topology.topology_hash,
+        )
+        resolved = resolve_demand_routes(manifest, topology)
+        loader = ScheduledDemandLoader(resolved)
+
+        self.assertEqual(
+            tuple(request.departure_tick for request in loader.scheduled_requests),
+            (0, 0, 1, 1),
+        )
 
     def test_manifest_hash_is_deterministic_and_content_sensitive(self) -> None:
         declaration = self.raw_declaration(quantity_packets=2)
@@ -274,13 +388,15 @@ class DemandManifestTest(unittest.TestCase):
         origin_node_id: str = "N001",
         destination_node_id: str = "N002",
         quantity_packets: int = 1,
+        departure_schedule=None,
     ) -> ODDemandDeclaration:
         return ODDemandDeclaration(
             demand_id=demand_id,
             origin_node_id=origin_node_id,
             destination_node_id=destination_node_id,
             quantity_packets=quantity_packets,
-            departure_schedule=FixedDepartureSchedule(departure_tick=0),
+            departure_schedule=departure_schedule
+            or FixedDepartureSchedule(departure_tick=0),
             cohort_id="cohort:test",
             authority_id="authority:test",
             source_origin_zone_id="1",
@@ -291,8 +407,7 @@ class DemandManifestTest(unittest.TestCase):
 
     def manifest(
         self,
-        declaration: ODDemandDeclaration,
-        *,
+        *declarations: ODDemandDeclaration,
         topology_id: str = "topology:test",
         topology_hash: str = "hash:test",
     ) -> DemandManifest:
@@ -300,7 +415,7 @@ class DemandManifestTest(unittest.TestCase):
             manifest_id="manifest:test",
             topology_id=topology_id,
             topology_hash=topology_hash,
-            declarations=(declaration,),
+            declarations=tuple(declarations),
             source_metadata=DemandManifestSourceMetadata(
                 source_name="fixture",
                 source_format="fixture",

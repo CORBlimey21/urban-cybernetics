@@ -1,6 +1,6 @@
 # Demand Generation
 
-**Status:** D1 executable specification.
+**Status:** D2 executable specification.
 **Scope:** immutable OD demand declarations, deterministic departure schedules, manifest hashing, Sioux Falls OD loading, route resolution, and scheduled loading admission.
 **Non-scope:** assignment, route choice behaviour, realistic departure-time choice, calibration, stochastic demand, governance, behavioural churn, Cork demand, OSM demand, plotting, dashboards, and experiment orchestration.
 
@@ -32,15 +32,19 @@ Raw demand declarations deliberately do not contain route IDs, route intents, pa
 
 ### Departure Schedules
 
-D1 supports deterministic schedules only.
+D1/D2 support deterministic schedules only.
 
 `FixedDepartureSchedule(departure_tick=N)` expands every unit in a declaration to tick `N`.
 
-`UniformWindowDepartureSchedule(start_tick=A, end_tick=B)` spreads a declaration over the inclusive tick window `[A, B]`. The expansion is deterministic: each tick receives the integer base share, and any remainder is assigned to earlier ticks. For example, eight units over ticks `[2, 4]` expand to:
+`UniformWindowDepartureSchedule(start_tick=A, end_tick=B)` is declaration-local. It spreads one OD declaration over the inclusive tick window `[A, B]`. The expansion is deterministic: each tick receives the integer base share for that declaration, and any remainder is assigned to earlier ticks. For example, eight units over ticks `[2, 4]` expand to:
 
 `(2, 2, 2, 3, 3, 3, 4, 4)`
 
-D1 does not implement Poisson processes, day profiles, peak-period calibration, stochastic resampling, or behavioural departure-time choice.
+`GlobalUniformDepartureSchedule(start_tick=A, end_tick=B)` is manifest-global. It is expanded by `ScheduledDemandLoader` only after the full resolved demand manifest is available. It distributes all unit loading requests across the inclusive tick window `[A, B]`, so the total manifest demand uses the whole window when the total quantity is large enough. Counts per tick differ by at most one under integer constraints.
+
+The global schedule remains pre-packet demand scheduling. It does not instantiate packets, inspect storage, move packets, create queues, or model physical behaviour. Loading remains responsible for admission and movement.
+
+D2 does not implement Poisson processes, day profiles, peak-period calibration, stochastic resampling, or behavioural departure-time choice.
 
 ---
 
@@ -92,6 +96,8 @@ The D1 resolver uses the existing deterministic shortest-link-count BFS route co
 
 `ScheduledDemandLoader` expands resolved demand into one-unit scheduled loading requests. At each engine tick it submits due, unsubmitted requests to `LoadingEngine.instantiate`.
 
+For declaration-local schedules, each OD declaration expands independently. For `GlobalUniformDepartureSchedule`, the loader expands the whole manifest as one deterministic unit stream before building loading requests.
+
 The adapter does not create packets. It does not append lifecycle events. It does not inspect or mutate storage directly. If the loading engine cannot admit a request because the origin link is full, the engine keeps that loading request pending and retries under the existing L1 origin-blocking semantics.
 
 Packet IDs appear only after the loading engine admits a request.
@@ -100,4 +106,4 @@ Packet IDs appear only after the loading engine admits a request.
 
 ### Explicit Non-Goals
 
-D1 does not implement assignment, route choice behaviour, realistic departure-time choice, calibration, stochastic demand, governance, behavioural churn, authority demand splitting, Cork demand, OSM demand, plotting, dashboards, or a large experiment framework.
+D2 does not implement assignment, route choice behaviour, realistic departure-time choice, calibration, stochastic demand, governance, behavioural churn, authority demand splitting, Cork demand, OSM demand, plotting, dashboards, or a large experiment framework.

@@ -28,6 +28,7 @@ Examples:
 
 P1 — Asymmetric-information experiment result artifact
 D1 — Pre-packet OD demand, route resolution, and scheduled loading
+D2 — True global uniform departure scheduling
 R1 — Repeated fresh-vs-stale authority experiment
 O1 — Storage and queue observation frames
 L1 — Origin-link departure blocking
