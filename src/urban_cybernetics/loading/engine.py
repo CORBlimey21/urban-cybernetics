@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import deque
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from dataclasses import replace
 from types import MappingProxyType
 
@@ -17,14 +17,23 @@ from urban_cybernetics.core import (
     Packet,
 )
 from urban_cybernetics.loading.cumulative_counts import (
+    CountConsistencyReport,
     CumulativeBoundaryCounts,
+    CumulativeCountProjection,
     LinkStorageView,
+    PacketBoundaryOrdinal,
+    RouteCumulativeBoundaryCounts,
+    count_consistency_report,
+    cumulative_count_projection,
     cumulative_count_series,
     cumulative_counts,
     cumulative_entries,
     cumulative_exits,
     link_storage,
     link_storage_series,
+    packet_boundary_ordinals,
+    route_cumulative_count_series,
+    route_cumulative_counts,
 )
 from urban_cybernetics.loading.receiving import LinkReceivingView, link_receiving_view
 from urban_cybernetics.loading.sending import LinkSendingView, link_sending_view
@@ -186,6 +195,90 @@ class LoadingEngine:
             self.event_log,
             link_id,
             self.current_tick if max_tick is None else max_tick,
+        )
+
+    def packet_boundary_ordinals(
+        self,
+        *,
+        link_ids: Iterable[str] | None = None,
+        max_tick: int | None = None,
+    ) -> tuple[PacketBoundaryOrdinal, ...]:
+        """Return event-derived packet ordinals for boundary count increments."""
+
+        ordinal_link_ids = tuple(link_ids) if link_ids is not None else tuple(self.links)
+        for link_id in ordinal_link_ids:
+            self._validate_count_link_id(link_id)
+        return packet_boundary_ordinals(
+            self.event_log,
+            packets=self.packets,
+            link_ids=ordinal_link_ids,
+            max_tick=self.current_tick if max_tick is None else max_tick,
+        )
+
+    def route_cumulative_counts(
+        self,
+        link_id: str,
+        route_key: str,
+        tick: int | None = None,
+    ) -> RouteCumulativeBoundaryCounts:
+        """Return event-derived route-disaggregated counts for one link and route."""
+
+        self._validate_count_link_id(link_id)
+        return route_cumulative_counts(
+            self.event_log,
+            self.packets,
+            link_id=link_id,
+            route_key=route_key,
+            tick=self.current_tick if tick is None else tick,
+        )
+
+    def route_cumulative_count_series(
+        self,
+        link_id: str,
+        route_key: str,
+        max_tick: int | None = None,
+    ) -> tuple[RouteCumulativeBoundaryCounts, ...]:
+        """Return route-disaggregated counts from tick 0 through max_tick."""
+
+        self._validate_count_link_id(link_id)
+        return route_cumulative_count_series(
+            self.event_log,
+            self.packets,
+            link_id=link_id,
+            route_key=route_key,
+            max_tick=self.current_tick if max_tick is None else max_tick,
+        )
+
+    def cumulative_count_projection(
+        self,
+        *,
+        max_tick: int | None = None,
+        prefix_event_count: int | None = None,
+    ) -> CumulativeCountProjection:
+        """Return a complete read-only M2 count projection from canonical events."""
+
+        return cumulative_count_projection(
+            self.event_log,
+            link_ids=tuple(self.links),
+            packets=self.packets,
+            max_tick=self.current_tick if max_tick is None else max_tick,
+            prefix_event_count=prefix_event_count,
+        )
+
+    def count_consistency_report(
+        self,
+        *,
+        max_tick: int | None = None,
+        prefix_event_count: int | None = None,
+    ) -> CountConsistencyReport:
+        """Return an M2 count/ordinal consistency report for validation artifacts."""
+
+        return count_consistency_report(
+            self.event_log,
+            link_ids=tuple(self.links),
+            packets=self.packets,
+            max_tick=self.current_tick if max_tick is None else max_tick,
+            prefix_event_count=prefix_event_count,
         )
 
     def link_storage(

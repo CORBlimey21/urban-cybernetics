@@ -2,10 +2,17 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 
-from urban_cybernetics.core import Event, EventType
+from urban_cybernetics.core import Event, EventType, Packet
+
+
+ENTRY_BOUNDARY = "entry"
+EXIT_BOUNDARY = "exit"
+BOUNDARY_TYPES = frozenset((ENTRY_BOUNDARY, EXIT_BOUNDARY))
+COUNT_TICK_CONVENTION = "inclusive_physical_tick"
+COUNT_ORDERING_CONVENTION = "physical_tick_then_sequence_number"
 
 
 @dataclass(frozen=True, slots=True)
@@ -25,6 +32,90 @@ class LinkStorageView:
     link_id: str
     tick: int
     storage: int
+
+
+@dataclass(frozen=True, slots=True)
+class PacketBoundaryOrdinal:
+    """Packet identity for one cumulative boundary-count increment."""
+
+    link_id: str
+    boundary_type: str
+    packet_id: str
+    physical_tick: int
+    sequence_number: int
+    aggregate_ordinal: int
+    route_key: str | None = None
+    route_link_ids: tuple[str, ...] = ()
+    route_ordinal: int | None = None
+
+    def __post_init__(self) -> None:
+        if self.boundary_type not in BOUNDARY_TYPES:
+            raise ValueError(f"unsupported boundary_type: {self.boundary_type}")
+        if self.aggregate_ordinal < 1:
+            raise ValueError("aggregate_ordinal must be positive")
+        if self.route_ordinal is not None and self.route_ordinal < 1:
+            raise ValueError("route_ordinal must be positive")
+        object.__setattr__(self, "route_link_ids", tuple(self.route_link_ids))
+
+
+@dataclass(frozen=True, slots=True)
+class RouteCumulativeBoundaryCounts:
+    """Route-disaggregated packet-unit cumulative boundary counts."""
+
+    link_id: str
+    route_key: str
+    route_link_ids: tuple[str, ...]
+    tick: int
+    entries: int
+    exits: int
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "route_link_ids", tuple(self.route_link_ids))
+
+
+@dataclass(frozen=True, slots=True)
+class CumulativeCountProjection:
+    """Complete read-only M2 event-to-count projection for a prefix."""
+
+    link_ids: tuple[str, ...]
+    max_tick: int
+    checked_event_count: int
+    tick_convention: str
+    ordering_convention: str
+    aggregate_counts: tuple[CumulativeBoundaryCounts, ...]
+    packet_ordinals: tuple[PacketBoundaryOrdinal, ...]
+    route_counts: tuple[RouteCumulativeBoundaryCounts, ...] = ()
+    route_counts_supported: bool = False
+    route_count_support_reason: str = "packet_route_intent_unavailable"
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "link_ids", tuple(self.link_ids))
+        object.__setattr__(self, "aggregate_counts", tuple(self.aggregate_counts))
+        object.__setattr__(self, "packet_ordinals", tuple(self.packet_ordinals))
+        object.__setattr__(self, "route_counts", tuple(self.route_counts))
+
+
+@dataclass(frozen=True, slots=True)
+class CountConsistencyReport:
+    """Validation/provenance-ready report for M2 count projection consistency."""
+
+    link_ids: tuple[str, ...]
+    max_tick: int
+    checked_event_count: int
+    tick_convention: str
+    ordering_convention: str
+    is_consistent: bool
+    ineligibility_reasons: tuple[str, ...] = ()
+    route_counts_supported: bool = False
+    route_count_support_reason: str = "packet_route_intent_unavailable"
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "link_ids", tuple(self.link_ids))
+        object.__setattr__(
+            self,
+            "ineligibility_reasons",
+            tuple(self.ineligibility_reasons),
+        )
 
 
 def cumulative_entries(events: Iterable[Event], link_id: str, tick: int) -> int:
@@ -136,3 +227,398 @@ def packet_ids_on_link_from_events(
                 )
             packet_ids.remove(event.packet_id)
     return tuple(packet_ids)
+
+
+def route_key_for_packet(packet: Packet) -> str:
+    """Return a deterministic route key from immutable packet route intent."""
+
+    return "route:" + "->".join(packet.route_intent)
+
+
+def packet_boundary_ordinals(
+    events: Iterable[Event],
+    *,
+    packets: Mapping[str, Packet] | None = None,
+    link_ids: Iterable[str] | None = None,
+    max_tick: int | None = None,
+) -> tuple[PacketBoundaryOrdinal, ...]:
+    """Return packet ordinals for LINK_ENTRY and LINK_EXIT count increments."""
+
+    link_id_filter = None if link_ids is None else set(link_ids)
+    aggregate_counts_by_boundary: dict[tuple[str, str], int] = {}
+    route_counts_by_boundary: dict[tuple[str, str, str], int] = {}
+    ordinals: list[PacketBoundaryOrdinal] = []
+    for event in _ordered_events(events):
+        if max_tick is not None and event.physical_tick > max_tick:
+            continue
+        boundary_type = _boundary_type_for_event(event)
+        if boundary_type is None:
+            continue
+        if link_id_filter is not None and event.entity_id not in link_id_filter:
+            continue
+
+        aggregate_key = (event.entity_id, boundary_type)
+        aggregate_ordinal = aggregate_counts_by_boundary.get(aggregate_key, 0) + 1
+        aggregate_counts_by_boundary[aggregate_key] = aggregate_ordinal
+
+        route_key: str | None = None
+        route_link_ids: tuple[str, ...] = ()
+        route_ordinal: int | None = None
+        if packets is not None:
+            packet = packets.get(event.packet_id)
+            if packet is None:
+                raise ValueError(
+                    f"event references packet_id {event.packet_id} without packet metadata"
+                )
+            if event.entity_id not in packet.route_intent:
+                raise ValueError(
+                    f"event for packet_id {event.packet_id} references link "
+                    f"{event.entity_id} outside route_intent"
+                )
+            route_key = route_key_for_packet(packet)
+            route_link_ids = packet.route_intent
+            route_count_key = (event.entity_id, boundary_type, route_key)
+            route_ordinal = route_counts_by_boundary.get(route_count_key, 0) + 1
+            route_counts_by_boundary[route_count_key] = route_ordinal
+
+        ordinals.append(
+            PacketBoundaryOrdinal(
+                link_id=event.entity_id,
+                boundary_type=boundary_type,
+                packet_id=event.packet_id,
+                physical_tick=event.physical_tick,
+                sequence_number=event.sequence_number,
+                aggregate_ordinal=aggregate_ordinal,
+                route_key=route_key,
+                route_link_ids=route_link_ids,
+                route_ordinal=route_ordinal,
+            )
+        )
+    return tuple(ordinals)
+
+
+def route_cumulative_counts(
+    events: Iterable[Event],
+    packets: Mapping[str, Packet],
+    *,
+    link_id: str,
+    route_key: str,
+    tick: int,
+) -> RouteCumulativeBoundaryCounts:
+    """Return route-disaggregated counts for one link, route key, and tick."""
+
+    route_link_ids_by_key = _route_link_ids_by_key(packets)
+    if route_key not in route_link_ids_by_key:
+        raise KeyError(f"unknown route_key for cumulative counts: {route_key}")
+    event_tuple = tuple(events)
+    entries = 0
+    exits = 0
+    for event in event_tuple:
+        if event.physical_tick > tick or event.entity_id != link_id:
+            continue
+        packet = packets.get(event.packet_id)
+        if packet is None or route_key_for_packet(packet) != route_key:
+            continue
+        if event.event_type == EventType.LINK_ENTRY:
+            entries += 1
+        elif event.event_type == EventType.LINK_EXIT:
+            exits += 1
+    return RouteCumulativeBoundaryCounts(
+        link_id=link_id,
+        route_key=route_key,
+        route_link_ids=route_link_ids_by_key[route_key],
+        tick=tick,
+        entries=entries,
+        exits=exits,
+    )
+
+
+def route_cumulative_count_series(
+    events: Iterable[Event],
+    packets: Mapping[str, Packet],
+    *,
+    link_id: str,
+    route_key: str,
+    max_tick: int,
+) -> tuple[RouteCumulativeBoundaryCounts, ...]:
+    """Return route-disaggregated counts for ticks 0 through max_tick."""
+
+    if max_tick < 0:
+        return ()
+    event_tuple = tuple(events)
+    return tuple(
+        route_cumulative_counts(
+            event_tuple,
+            packets,
+            link_id=link_id,
+            route_key=route_key,
+            tick=tick,
+        )
+        for tick in range(max_tick + 1)
+    )
+
+
+def cumulative_count_projection(
+    events: Iterable[Event],
+    *,
+    link_ids: Iterable[str],
+    packets: Mapping[str, Packet] | None = None,
+    max_tick: int | None = None,
+    prefix_event_count: int | None = None,
+) -> CumulativeCountProjection:
+    """Build a complete read-only count and ordinal projection from events."""
+
+    event_tuple = _event_prefix(events, prefix_event_count)
+    link_id_tuple = tuple(link_ids)
+    projection_max_tick = _projection_max_tick(event_tuple, max_tick)
+    aggregate = tuple(
+        counts
+        for link_id in link_id_tuple
+        for counts in cumulative_count_series(event_tuple, link_id, projection_max_tick)
+    )
+    ordinals = packet_boundary_ordinals(
+        event_tuple,
+        packets=packets,
+        link_ids=link_id_tuple,
+        max_tick=projection_max_tick,
+    )
+    route_counts_supported = packets is not None
+    route_support_reason = (
+        "packet_route_intent"
+        if route_counts_supported
+        else "packet_route_intent_unavailable"
+    )
+    route_counts: tuple[RouteCumulativeBoundaryCounts, ...] = ()
+    if packets is not None:
+        route_counts = tuple(
+            route_counts_item
+            for link_id in link_id_tuple
+            for route_key in sorted(_route_link_ids_by_key(packets))
+            for route_counts_item in route_cumulative_count_series(
+                event_tuple,
+                packets,
+                link_id=link_id,
+                route_key=route_key,
+                max_tick=projection_max_tick,
+            )
+        )
+    return CumulativeCountProjection(
+        link_ids=link_id_tuple,
+        max_tick=projection_max_tick,
+        checked_event_count=len(event_tuple),
+        tick_convention=COUNT_TICK_CONVENTION,
+        ordering_convention=COUNT_ORDERING_CONVENTION,
+        aggregate_counts=aggregate,
+        packet_ordinals=ordinals,
+        route_counts=route_counts,
+        route_counts_supported=route_counts_supported,
+        route_count_support_reason=route_support_reason,
+    )
+
+
+def count_consistency_report(
+    events: Iterable[Event],
+    *,
+    link_ids: Iterable[str],
+    packets: Mapping[str, Packet] | None = None,
+    max_tick: int | None = None,
+    prefix_event_count: int | None = None,
+) -> CountConsistencyReport:
+    """Check M2 count projection invariants without mutating loading state."""
+
+    event_source_tuple = tuple(events)
+    link_id_tuple = tuple(link_ids)
+    if prefix_event_count is not None and prefix_event_count < 0:
+        return CountConsistencyReport(
+            link_ids=link_id_tuple,
+            max_tick=_projection_max_tick(event_source_tuple, max_tick),
+            checked_event_count=0,
+            tick_convention=COUNT_TICK_CONVENTION,
+            ordering_convention=COUNT_ORDERING_CONVENTION,
+            is_consistent=False,
+            ineligibility_reasons=("prefix_event_count cannot be negative",),
+            route_counts_supported=packets is not None,
+            route_count_support_reason=(
+                "packet_route_intent"
+                if packets is not None
+                else "packet_route_intent_unavailable"
+            ),
+        )
+
+    reasons: list[str] = []
+    try:
+        projection = cumulative_count_projection(
+            event_source_tuple,
+            link_ids=link_id_tuple,
+            packets=packets,
+            max_tick=max_tick,
+            prefix_event_count=prefix_event_count,
+        )
+        _check_event_order(_event_prefix(event_source_tuple, prefix_event_count), reasons)
+        _check_aggregate_counts(projection.aggregate_counts, reasons)
+        _check_packet_ordinals(projection.packet_ordinals, reasons)
+        if projection.route_counts_supported:
+            _check_route_counts_sum_to_aggregate(projection, reasons)
+    except (KeyError, TypeError, ValueError) as exc:
+        event_tuple = _event_prefix(event_source_tuple, prefix_event_count)
+        return CountConsistencyReport(
+            link_ids=link_id_tuple,
+            max_tick=_projection_max_tick(event_tuple, max_tick),
+            checked_event_count=len(event_tuple),
+            tick_convention=COUNT_TICK_CONVENTION,
+            ordering_convention=COUNT_ORDERING_CONVENTION,
+            is_consistent=False,
+            ineligibility_reasons=(str(exc),),
+            route_counts_supported=packets is not None,
+            route_count_support_reason=(
+                "packet_route_intent"
+                if packets is not None
+                else "packet_route_intent_unavailable"
+            ),
+        )
+
+    return CountConsistencyReport(
+        link_ids=projection.link_ids,
+        max_tick=projection.max_tick,
+        checked_event_count=projection.checked_event_count,
+        tick_convention=projection.tick_convention,
+        ordering_convention=projection.ordering_convention,
+        is_consistent=not reasons,
+        ineligibility_reasons=tuple(reasons),
+        route_counts_supported=projection.route_counts_supported,
+        route_count_support_reason=projection.route_count_support_reason,
+    )
+
+
+def _event_prefix(
+    events: Iterable[Event],
+    prefix_event_count: int | None,
+) -> tuple[Event, ...]:
+    event_tuple = tuple(events)
+    if prefix_event_count is None:
+        return event_tuple
+    if prefix_event_count < 0:
+        raise ValueError("prefix_event_count cannot be negative")
+    return event_tuple[:prefix_event_count]
+
+
+def _ordered_events(events: Iterable[Event]) -> tuple[Event, ...]:
+    return tuple(
+        sorted(events, key=lambda event: (event.physical_tick, event.sequence_number))
+    )
+
+
+def _projection_max_tick(events: tuple[Event, ...], max_tick: int | None) -> int:
+    if max_tick is not None:
+        return max_tick
+    return max((event.physical_tick for event in events), default=0)
+
+
+def _boundary_type_for_event(event: Event) -> str | None:
+    if event.event_type == EventType.LINK_ENTRY:
+        return ENTRY_BOUNDARY
+    if event.event_type == EventType.LINK_EXIT:
+        return EXIT_BOUNDARY
+    return None
+
+
+def _route_link_ids_by_key(packets: Mapping[str, Packet]) -> dict[str, tuple[str, ...]]:
+    route_link_ids_by_key: dict[str, tuple[str, ...]] = {}
+    for packet in packets.values():
+        route_key = route_key_for_packet(packet)
+        route_link_ids = route_link_ids_by_key.setdefault(route_key, packet.route_intent)
+        if route_link_ids != packet.route_intent:
+            raise ValueError(f"route_key collision for {route_key}")
+    return route_link_ids_by_key
+
+
+def _check_event_order(events: tuple[Event, ...], reasons: list[str]) -> None:
+    for expected_sequence_number, event in enumerate(events):
+        if event.sequence_number != expected_sequence_number:
+            reasons.append(
+                "event_sequence_not_prefix_contiguous:"
+                f"expected_{expected_sequence_number}:actual_{event.sequence_number}"
+            )
+    ordered = _ordered_events(events)
+    if events != ordered:
+        reasons.append("events_not_ordered_by_tick_then_sequence")
+
+
+def _check_aggregate_counts(
+    aggregate_counts: tuple[CumulativeBoundaryCounts, ...],
+    reasons: list[str],
+) -> None:
+    previous_by_link: dict[str, CumulativeBoundaryCounts] = {}
+    for counts in aggregate_counts:
+        previous = previous_by_link.get(counts.link_id)
+        if previous is not None:
+            if counts.entries < previous.entries:
+                reasons.append(
+                    f"{counts.link_id}:entries_not_monotone_at_tick_{counts.tick}"
+                )
+            if counts.exits < previous.exits:
+                reasons.append(
+                    f"{counts.link_id}:exits_not_monotone_at_tick_{counts.tick}"
+                )
+        if counts.exits > counts.entries:
+            reasons.append(f"{counts.link_id}:exits_exceed_entries_at_tick_{counts.tick}")
+        previous_by_link[counts.link_id] = counts
+
+
+def _check_packet_ordinals(
+    ordinals: tuple[PacketBoundaryOrdinal, ...],
+    reasons: list[str],
+) -> None:
+    expected_by_boundary: dict[tuple[str, str], int] = {}
+    expected_by_route_boundary: dict[tuple[str, str, str], int] = {}
+    for ordinal in ordinals:
+        boundary_key = (ordinal.link_id, ordinal.boundary_type)
+        expected_aggregate = expected_by_boundary.get(boundary_key, 0) + 1
+        if ordinal.aggregate_ordinal != expected_aggregate:
+            reasons.append(
+                f"{ordinal.link_id}:{ordinal.boundary_type}:aggregate_ordinal_gap"
+            )
+        expected_by_boundary[boundary_key] = expected_aggregate
+
+        if ordinal.route_key is not None:
+            if ordinal.route_ordinal is None:
+                reasons.append(
+                    f"{ordinal.link_id}:{ordinal.boundary_type}:missing_route_ordinal"
+                )
+                continue
+            route_boundary_key = (
+                ordinal.link_id,
+                ordinal.boundary_type,
+                ordinal.route_key,
+            )
+            expected_route = expected_by_route_boundary.get(route_boundary_key, 0) + 1
+            if ordinal.route_ordinal != expected_route:
+                reasons.append(
+                    f"{ordinal.link_id}:{ordinal.boundary_type}:route_ordinal_gap"
+                )
+            expected_by_route_boundary[route_boundary_key] = expected_route
+
+
+def _check_route_counts_sum_to_aggregate(
+    projection: CumulativeCountProjection,
+    reasons: list[str],
+) -> None:
+    aggregate_by_link_tick = {
+        (counts.link_id, counts.tick): counts
+        for counts in projection.aggregate_counts
+    }
+    route_sum_by_link_tick: dict[tuple[str, int], tuple[int, int]] = {}
+    for counts in projection.route_counts:
+        key = (counts.link_id, counts.tick)
+        entries, exits = route_sum_by_link_tick.get(key, (0, 0))
+        route_sum_by_link_tick[key] = (
+            entries + counts.entries,
+            exits + counts.exits,
+        )
+
+    for key, aggregate_counts in aggregate_by_link_tick.items():
+        route_entries, route_exits = route_sum_by_link_tick.get(key, (0, 0))
+        if route_entries != aggregate_counts.entries:
+            reasons.append(f"{key[0]}:route_entries_do_not_sum_at_tick_{key[1]}")
+        if route_exits != aggregate_counts.exits:
+            reasons.append(f"{key[0]}:route_exits_do_not_sum_at_tick_{key[1]}")

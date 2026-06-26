@@ -30,6 +30,10 @@ The loading engine maintains the following record types. These are the canonical
 
 **[BASE MODEL] Cumulative boundary count functions.** In the packet-LTM implementation, the loading engine additionally maintains cumulative count functions N(x, t) at each link boundary: the total number of packets that have crossed boundary x up to and including time t. These are the materialised accounting structure used by LTM-derived travel time and flow calculations. They are derived from the packet lifecycle event log but are maintained explicitly for efficiency and for LTM mechanics.
 
+M2 defines the read-only parity convention for these count functions. A cumulative query at tick `t` is inclusive: it counts every matching `LINK_ENTRY` or `LINK_EXIT` event whose `physical_tick <= t`. Within one tick, `sequence_number` is the canonical total order. A same-tick transfer is interpreted according to the event log order emitted by the loading engine: upstream `LINK_EXIT` precedes downstream `LINK_ENTRY`; completion emits `LINK_EXIT` before `COMPLETED`. Counts at tick `t` include all same-tick boundary events, while packet boundary ordinals preserve their sequence order.
+
+M2 count projections are not physical state. Aggregate cumulative counts, route-disaggregated counts, packet boundary ordinals, prefix replay projections, and consistency reports are deterministic projections of the event log plus immutable packet route intent. If packet route metadata is not available, route-disaggregated counts are explicitly unsupported rather than inferred. If a count projection conflicts with the event log, the event log remains canonical and the projection is invalid evidence.
+
 The distinction between the packet event log as primary record and cumulative counts as derived-but-maintained is deliberate. It preserves the option to use a different loading representation in future variants while keeping the base model's physical accounting explicit.
 
 ---

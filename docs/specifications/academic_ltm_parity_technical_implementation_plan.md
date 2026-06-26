@@ -242,3 +242,11 @@ Tasks 6-11 add static physical-parameter scaffolding only. `Link` records can no
 The legacy loading profile remains the default. Existing loading movement logic still reads the existing declared sending, receiving, storage, and free-flow fields. M1 does not modify sending, receiving, transfer, queue, route progression, event logging, or packet movement.
 
 The current M1 timestep rule is deliberately conservative and static: a parity-eligible link must have a timestep no longer than either its physical free-flow travel time or its physical backward-wave travel time, and the resolved lags must satisfy the declared minimum lag. Scientific tolerances for later numerical validation remain an M2/M8 decision.
+
+## M2 Implementation Status
+
+Tasks 12-16 add a read-only event-to-count parity layer. Aggregate cumulative boundary counts, route-disaggregated cumulative counts, packet boundary ordinals, prefix replay projections, and count consistency reports are reconstructed from canonical events. They do not change packet movement and are not used by sending, receiving, transfer, queue, route progression, or completion logic.
+
+The M2 count convention is explicit: cumulative queries are inclusive through all boundary events with `physical_tick <= t`, and same-tick boundary events are ordered by canonical `sequence_number`. Current transfer events therefore project as upstream `LINK_EXIT` before downstream `LINK_ENTRY` at the same tick. Route-disaggregated counts are supported when immutable packet `route_intent` metadata is available; the route key is deterministically derived from the route link sequence because the core packet model does not carry an external route artifact ID.
+
+The M2 layer is evidence scaffolding for M3 and M4. It proves replayable count and ordinal projections of the current event stream, not canonical LTM sending, receiving, spillback, or node parity.
