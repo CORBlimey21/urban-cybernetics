@@ -9,6 +9,11 @@ from .claims import (
     ParityRunEvidence,
     parity_profile_status,
 )
+from .physical import (
+    PhysicalParameterEligibilityReport,
+    assess_physical_parameter_eligibility,
+    require_physical_parameter_eligibility,
+)
 
 __all__ = [
     "PARITY_CLAIM_TIERS",
@@ -17,5 +22,8 @@ __all__ = [
     "PARITY_SPEC_VERSION",
     "ParityEvidenceContract",
     "ParityRunEvidence",
+    "PhysicalParameterEligibilityReport",
     "parity_profile_status",
+    "assess_physical_parameter_eligibility",
+    "require_physical_parameter_eligibility",
 ]

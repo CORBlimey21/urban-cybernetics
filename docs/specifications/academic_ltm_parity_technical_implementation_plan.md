@@ -234,3 +234,11 @@ Do not build Cork, Anaheim, Los Angeles, or larger scientific case studies on pa
 ## Current Implementation Start
 
 Tasks 1-5 are the first implementation slice. They establish parity claim labels, kernel profile metadata, legacy-vs-parity classification, failure semantics, and a validation contract shell. They intentionally do not alter loading mechanics, topology semantics, event records, packet records, routing, observability, inspection, or scientific parity claims.
+
+## M1 Implementation Status
+
+Tasks 6-11 add static physical-parameter scaffolding only. `Link` records can now produce resolved physical-parameter reports covering triangular-FD consistency, lane-aware physical capacity, free-flow and backward-wave lags, jam-storage capacity, and timestep admissibility. Canonical topology links expose the same resolution path without storing dynamic state. The validation package can aggregate these reports for a set of links and classify whether the static metadata is eligible for the `parity_ltm_v1` profile.
+
+The legacy loading profile remains the default. Existing loading movement logic still reads the existing declared sending, receiving, storage, and free-flow fields. M1 does not modify sending, receiving, transfer, queue, route progression, event logging, or packet movement.
+
+The current M1 timestep rule is deliberately conservative and static: a parity-eligible link must have a timestep no longer than either its physical free-flow travel time or its physical backward-wave travel time, and the resolved lags must satisfy the declared minimum lag. Scientific tolerances for later numerical validation remain an M2/M8 decision.

@@ -146,6 +146,17 @@ Free-flow traversal time may be declared directly in ticks or derived from:
 
 This derived value is a static physical baseline. Congestion effects still emerge only through sending capacity, receiving capacity, storage constraints, queues, and spillback. The derived free-flow value is not a live travel time estimate.
 
+M1 adds explicit static parity-eligibility reports for this metadata. These reports resolve:
+
+- free-flow travel time and lag in ticks;
+- backward-wave travel time and lag in ticks;
+- jam-storage capacity in unit packets;
+- lane-aware physical capacity in vehicles per tick;
+- triangular fundamental-diagram capacity consistency;
+- timestep admissibility relative to free-flow and backward-wave travel times.
+
+These reports do not move packets and do not change the legacy loading profile. Existing declared sending and receiving capacities remain the values used by current movement logic. A parity profile or validation harness may reject a link whose physical metadata is incomplete or internally inconsistent, but the `Link` constructor continues to accept legacy-compatible synthetic links.
+
 Origin departure loading now respects origin-link storage. If the first link in a demand declaration has no available packet storage at the attempted departure tick, the demand remains pending and no packet is instantiated. Pending demand is pre-instantiation demand state, not packet physical state and not part of the conservation ledger until the packet actually exists.
 
 This improves:
@@ -163,6 +174,7 @@ This does not implement:
 - shockwave propagation
 - CTM equivalence
 - city-scale traffic realism
+- parity-profile movement semantics
 
 ---
 

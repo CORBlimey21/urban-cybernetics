@@ -49,6 +49,10 @@ The base packetised loading kernel may derive two static loading parameters from
 
 These derived values are immutable once the link record is built. They are not live occupancy, current density, observed speed, current travel time, active queue length, or effective runtime capacity. Dynamic quantities remain loading-engine-owned event records or derived views.
 
+For academic LTM parity planning, canonical topology links also expose a lane-aware physical-capacity calculation and a static physical-parameter resolution path. This is distinct from the legacy loading adapter. The legacy adapter continues to produce the declared integer loading capacities used by current simulations; the parity-resolution path reports whether the physical metadata is sufficient and internally consistent for a future parity profile.
+
+The M1 parity-resolution path is allowed to reject a link for missing physical metadata, triangular fundamental-diagram inconsistency, inconsistent explicit free-flow/storage overrides, or inadmissible timestep. It must not store live state on topology records, and it must not silently mutate the current loading kernel.
+
 ---
 
 ### Immutable Node Metadata

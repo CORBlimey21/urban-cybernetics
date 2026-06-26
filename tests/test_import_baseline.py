@@ -50,6 +50,7 @@ ACTIVE_MODULES = (
     "urban_cybernetics.topology.sioux_falls",
     "urban_cybernetics.validation",
     "urban_cybernetics.validation.claims",
+    "urban_cybernetics.validation.physical",
 )
 
 

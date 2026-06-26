@@ -8,7 +8,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from urban_cybernetics.core import Link, Node
+from urban_cybernetics.core import (
+    DEFAULT_FD_RELATIVE_TOLERANCE,
+    DEFAULT_MINIMUM_TIMESTEP_LAG_TICKS,
+    Link,
+    Node,
+    ResolvedPhysicalLinkParameters,
+)
 
 
 LEGACY_LOADING_STORAGE_CAPACITY_PACKETS = 1_000_000
@@ -107,6 +113,84 @@ class CanonicalTopologyLink:
             capacity_veh_per_hour_per_lane=self.capacity_veh_per_hour_per_lane,
             tick_duration_seconds=tick_duration_seconds,
         )
+
+    def physical_capacity_vehicles_per_tick(
+        self,
+        *,
+        tick_duration_seconds: float,
+    ) -> float | None:
+        """Return lane-aware physical capacity for parity checks, not legacy loading."""
+
+        if self.capacity_veh_per_hour_per_lane is None or self.lane_count is None:
+            return None
+        if tick_duration_seconds <= 0:
+            raise ValueError("tick_duration_seconds must be positive")
+        return (
+            self.capacity_veh_per_hour_per_lane
+            * self.lane_count
+            * tick_duration_seconds
+            / 3600.0
+        )
+
+    def resolved_physical_parameters(
+        self,
+        *,
+        tick_duration_seconds: float,
+        fd_relative_tolerance: float = DEFAULT_FD_RELATIVE_TOLERANCE,
+        minimum_lag_ticks: int = DEFAULT_MINIMUM_TIMESTEP_LAG_TICKS,
+    ) -> ResolvedPhysicalLinkParameters:
+        """Resolve static physical metadata without creating dynamic topology state."""
+
+        free_flow_ticks = (
+            0
+            if self.length_m is None or self.free_flow_speed_mps is None
+            else None
+        )
+        declared_storage_capacity_packets = (
+            0
+            if (
+                self.length_m is None
+                or self.lane_count is None
+                or self.jam_density_veh_per_km_per_lane is None
+            )
+            else None
+        )
+        return Link(
+            link_id=self.link_id,
+            free_flow_ticks=free_flow_ticks,
+            declared_storage_capacity_packets=declared_storage_capacity_packets,
+            length_m=self.length_m,
+            lane_count=self.lane_count,
+            free_flow_speed_mps=self.free_flow_speed_mps,
+            jam_density_veh_per_km_per_lane=self.jam_density_veh_per_km_per_lane,
+            backward_wave_speed_mps=self.backward_wave_speed_mps,
+            capacity_veh_per_hour_per_lane=self.capacity_veh_per_hour_per_lane,
+            tick_duration_seconds=tick_duration_seconds,
+        ).resolved_physical_parameters(
+            fd_relative_tolerance=fd_relative_tolerance,
+            minimum_lag_ticks=minimum_lag_ticks,
+        )
+
+    def require_parity_physical_parameters(
+        self,
+        *,
+        tick_duration_seconds: float,
+        fd_relative_tolerance: float = DEFAULT_FD_RELATIVE_TOLERANCE,
+        minimum_lag_ticks: int = DEFAULT_MINIMUM_TIMESTEP_LAG_TICKS,
+    ) -> ResolvedPhysicalLinkParameters:
+        """Resolve physical metadata or fail when the static link is not parity eligible."""
+
+        resolved = self.resolved_physical_parameters(
+            tick_duration_seconds=tick_duration_seconds,
+            fd_relative_tolerance=fd_relative_tolerance,
+            minimum_lag_ticks=minimum_lag_ticks,
+        )
+        if not resolved.parity_eligible:
+            raise ValueError(
+                f"canonical link {self.link_id} is not parity-eligible: "
+                f"{resolved.ineligibility_reasons}"
+            )
+        return resolved
 
     def _capacity_packets_per_tick(self, tick_duration_seconds: float) -> int:
         if self.capacity_veh_per_hour_per_lane is None:
