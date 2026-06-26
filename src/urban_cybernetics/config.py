@@ -6,6 +6,17 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+LEGACY_LOADING_PROFILE_ID = "legacy_packet_ltm_style"
+ACADEMIC_LTM_PARITY_PROFILE_ID = "parity_ltm_v1"
+DEFAULT_LOADING_PROFILE_ID = LEGACY_LOADING_PROFILE_ID
+SUPPORTED_LOADING_PROFILE_IDS = frozenset(
+    (
+        LEGACY_LOADING_PROFILE_ID,
+        ACADEMIC_LTM_PARITY_PROFILE_ID,
+    )
+)
+
+
 @dataclass(frozen=True, slots=True)
 class ProjectPaths:
     """Filesystem locations used by migrated scripts and adapters."""
@@ -43,6 +54,23 @@ def get_project_paths() -> ProjectPaths:
         graphs=data / "graphs",
         scenarios=data / "manifests",
     )
+
+
+def loading_profile_config(
+    model_profile_id: str = DEFAULT_LOADING_PROFILE_ID,
+) -> dict[str, object]:
+    """Return JSON-like loading-kernel profile metadata for run provenance."""
+
+    if model_profile_id not in SUPPORTED_LOADING_PROFILE_IDS:
+        raise ValueError(f"unsupported loading profile: {model_profile_id}")
+    return {
+        "model_kernel_profile_id": model_profile_id,
+        "model_kernel_profile_status": (
+            "parity_eligible"
+            if model_profile_id == ACADEMIC_LTM_PARITY_PROFILE_ID
+            else "legacy_compatible"
+        ),
+    }
 
 
 CORK_PLACE_QUERY = "Cork, County Cork, Ireland"
@@ -110,4 +138,3 @@ CITY_CENTRE_DESTINATIONS = (
 )
 
 CANONICAL_SELFISH_MANIFEST_FILENAME = "canonical_selfish_batch_manifest_v1.json"
-

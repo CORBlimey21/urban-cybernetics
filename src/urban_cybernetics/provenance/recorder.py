@@ -11,6 +11,7 @@ from urban_cybernetics.provenance.run import (
     RunSummary,
     _normalise_id_tuple,
 )
+from urban_cybernetics.validation.claims import ParityRunEvidence
 
 
 class RunRecorder:
@@ -79,6 +80,7 @@ class RunRecorder:
         self,
         *,
         validation_status: str = "not_run",
+        parity_evidence: ParityRunEvidence | None = None,
         notes: Iterable[str] = (),
     ) -> RunSummary:
         if self._sealed_summary is not None:
@@ -98,6 +100,7 @@ class RunRecorder:
             config_snapshot=self._config_snapshot,
             artifact_index=artifact_index,
             validation_status=validation_status,
+            parity_evidence=parity_evidence,
             notes=tuple(notes),
         )
         return self._sealed_summary

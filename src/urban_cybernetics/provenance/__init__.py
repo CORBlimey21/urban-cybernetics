@@ -7,6 +7,7 @@ from .run import (
     RunMetadata,
     RunSummary,
 )
+from urban_cybernetics.validation import ParityRunEvidence
 
 __all__ = [
     "RunArtifactIndex",
@@ -14,4 +15,5 @@ __all__ = [
     "RunMetadata",
     "RunRecorder",
     "RunSummary",
+    "ParityRunEvidence",
 ]

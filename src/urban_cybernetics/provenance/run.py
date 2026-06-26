@@ -6,6 +6,8 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from types import MappingProxyType
 
+from urban_cybernetics.validation.claims import ParityRunEvidence
+
 
 def _require_non_empty(value: str, field_name: str) -> None:
     if not value:
@@ -128,6 +130,7 @@ class RunSummary:
     config_snapshot: RunConfigSnapshot | None
     artifact_index: RunArtifactIndex
     validation_status: str = "not_run"
+    parity_evidence: ParityRunEvidence | None = None
     notes: tuple[str, ...] = ()
     schema_version: str = "p1.run_summary.v1"
 
@@ -137,6 +140,9 @@ class RunSummary:
                 raise ValueError("config_snapshot run_id must match metadata run_id")
         if self.artifact_index.run_id != self.metadata.run_id:
             raise ValueError("artifact_index run_id must match metadata run_id")
+        if self.parity_evidence is not None:
+            if self.parity_evidence.run_id != self.metadata.run_id:
+                raise ValueError("parity_evidence run_id must match metadata run_id")
         if self.validation_status not in {"not_run", "passed", "failed"}:
             raise ValueError("unsupported validation_status")
         object.__setattr__(
