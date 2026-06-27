@@ -48,7 +48,9 @@ from .sending import (
 )
 from .transfer_policy import (
     GlobalFIFOMergePolicy,
+    NodeTransferTrace,
     NodeTransferPolicy,
+    ParityNodeTransferPolicy,
     StrictFIFOJunctionPolicy,
     TransferCandidate,
 )
@@ -69,7 +71,9 @@ __all__ = [
     "LinkStorageView",
     "LinkSendingView",
     "LoadingEngine",
+    "NodeTransferTrace",
     "NodeTransferPolicy",
+    "ParityNodeTransferPolicy",
     "PacketBoundaryOrdinal",
     "ParityLinkSendingTrace",
     "ReceivingCause",

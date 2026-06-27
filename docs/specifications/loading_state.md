@@ -61,6 +61,16 @@ receiving bottlenecks, backward-wave vacancy delays, three-link propagation,
 and declared governance blockage. Loop/gridlock behavior that depends on
 node-model semantics remains outside scope until later milestones.
 
+M6 adds minimal parity node semantics for `parity_ltm_v1`. Immutable node
+records may label one-to-one, strict route-encoded diverge, and declared
+priority-merge nodes. Legacy loading continues to use the existing global FIFO
+merge policy by default. In parity loading, one-to-one and diverge allocation
+preserve strict upstream FIFO, while priority merges use declared incoming-link
+weights with bounded deficit accounting for indivisible packets. The loading
+engine still owns all transfer decisions and lifecycle events; node labels and
+priorities are static metadata, not physical state. Multi-input/multi-output
+urban nodes are rejected for parity evidence until a later node model exists.
+
 The distinction between the packet event log as primary record and cumulative counts as derived-but-maintained is deliberate. It preserves the option to use a different loading representation in future variants while keeping the base model's physical accounting explicit.
 
 ---

@@ -59,7 +59,9 @@ from urban_cybernetics.loading.sending import (
 )
 from urban_cybernetics.loading.transfer_policy import (
     GlobalFIFOMergePolicy,
+    NodeTransferTrace,
     NodeTransferPolicy,
+    ParityNodeTransferPolicy,
     TransferCandidate,
 )
 
@@ -88,9 +90,12 @@ class LoadingEngine:
         self._event_log: list[Event] = []
         self._packets: dict[str, Packet] = {}
         self.links = dict(links)
-        self.nodes = {node.node_id: node for node in nodes or ()}
-        self.node_transfer_policy = node_transfer_policy or GlobalFIFOMergePolicy()
+        node_tuple = nodes or ()
+        self.nodes = {node.node_id: node for node in node_tuple}
         self.model_profile_id = model_profile_id
+        self.node_transfer_policy = node_transfer_policy or self._default_node_policy(
+            node_tuple
+        )
         self._node_by_incoming_link_id: dict[str, Node] = {}
         self._next_packet_number = 1
         self._pending_demands: list[DemandDeclaration] = []
@@ -149,7 +154,7 @@ class LoadingEngine:
         self._receiving_open_by_link: dict[str, bool] = {
             link_id: True for link_id in self.links
         }
-        self._validate_nodes(nodes or ())
+        self._validate_nodes(node_tuple)
 
     @property
     def event_log(self) -> tuple[Event, ...]:
@@ -174,6 +179,16 @@ class LoadingEngine:
         """Current completed packet IDs from engine-owned materialised events."""
 
         return frozenset(self._completed_packet_ids)
+
+    def node_transfer_traces(self) -> tuple[NodeTransferTrace, ...]:
+        """Return read-only traces from the most recent parity node decision."""
+
+        return tuple(getattr(self.node_transfer_policy, "last_transfer_traces", ()))
+
+    def _default_node_policy(self, nodes: tuple[Node, ...]) -> NodeTransferPolicy:
+        if self.model_profile_id == ACADEMIC_LTM_PARITY_PROFILE_ID:
+            return ParityNodeTransferPolicy(nodes)
+        return GlobalFIFOMergePolicy()
 
     def _validate_nodes(self, nodes: tuple[Node, ...]) -> None:
         node_ids: set[str] = set()

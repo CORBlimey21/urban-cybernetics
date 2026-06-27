@@ -272,3 +272,11 @@ Tasks 26-29 add read-only spillback validation evidence for the current `parity_
 M5 fixtures cover a two-link downstream receiving bottleneck, a two-link backward-wave vacancy delay, a three-link delayed propagation case, and a declared governance blockage case. The declared-blockage fixture is used instead of a loop/gridlock node fixture because loop/gridlock behavior that depends on node families, priority merges, or multi-input/multi-output node semantics belongs to M6 or later milestones.
 
 M5 does not change sending, receiving, transfer, queue, event schema, packet identity, topology, routing, observability, provenance, or inspection ownership. Queue events remain canonical diagnostics rather than a second physical state. M5 proves that the existing parity sending and receiving path produces auditable delayed spillback evidence for simple one-to-one boundaries; it does not claim M6 node-model parity, priority-merge behavior, or city-scale spillback validity.
+
+## M6 Implementation Status
+
+Tasks 30-36 add the minimal parity node family under `parity_ltm_v1`. Immutable `Node` records can now carry a node-model label and declared merge priorities. Under the legacy profile, the loading engine still defaults to `GlobalFIFOMergePolicy`; under the parity profile, the default node policy resolves one-to-one nodes, strict route-encoded diverges, and declared-priority merges.
+
+The parity node policy preserves route intent before allocation: candidates are already route-realised by the loading engine, and diverge decisions do not invent downstream links. One-to-one and diverge nodes use strict upstream FIFO. Declared-priority merges use bounded deficit accounting so indivisible packets can approximate declared long-horizon shares while unused active share is reassigned only when sending demand and receiving supply exist.
+
+M6 rejects unsupported multi-input/multi-output parity nodes and priority merges without declared priorities. Node transfer traces are read-only evidence from the most recent parity node decision. M6 does not implement M7 multi-commodity parity, weighted packets, signalised node models beyond existing governance closure, or city-scale urban node semantics.
