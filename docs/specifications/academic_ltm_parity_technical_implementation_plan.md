@@ -264,3 +264,11 @@ Tasks 22-25 add profile-gated parity receiving. Under the legacy profile, the ex
 M4 adds `VacancyLagState`, `LinkSupplyView`, `ReceivingDecisionTrace`, and `ReceivingCause` structures for validation and provenance-facing evidence. Physical shortage and governance closure are separate causes. Receiving capacity uses bounded integer carry so fractional per-tick receiving rates can preserve long-horizon capacity without changing packet identity.
 
 M4 preserves event-log canonicality and existing event schemas. Packet movement still appends the existing `QUEUE_EXIT`, `LINK_EXIT`, and `LINK_ENTRY` events in the current order, and queued packets continue to release through the existing FIFO queue machinery. M4 does not implement M5 spillback validation, multi-boundary spillback traces, or M6 node-model changes.
+
+## M5 Implementation Status
+
+Tasks 26-29 add read-only spillback validation evidence for the current `parity_ltm_v1` scope. The validation layer derives boundary queue curves from canonical `QUEUE_ENTRY` and `QUEUE_EXIT` events, compares the final event-derived queue length with the loading engine's read-only queue view, and records downstream parity receiving causes for each queued boundary.
+
+M5 fixtures cover a two-link downstream receiving bottleneck, a two-link backward-wave vacancy delay, a three-link delayed propagation case, and a declared governance blockage case. The declared-blockage fixture is used instead of a loop/gridlock node fixture because loop/gridlock behavior that depends on node families, priority merges, or multi-input/multi-output node semantics belongs to M6 or later milestones.
+
+M5 does not change sending, receiving, transfer, queue, event schema, packet identity, topology, routing, observability, provenance, or inspection ownership. Queue events remain canonical diagnostics rather than a second physical state. M5 proves that the existing parity sending and receiving path produces auditable delayed spillback evidence for simple one-to-one boundaries; it does not claim M6 node-model parity, priority-merge behavior, or city-scale spillback validity.

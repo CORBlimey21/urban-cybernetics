@@ -51,6 +51,16 @@ existing immediate-storage receiving view. M4 does not implement M5 spillback
 validation or M6 node-model changes; any upstream queueing caused by zero
 parity receiving slots follows from the existing queue and transfer machinery.
 
+M5 adds read-only spillback validation artifacts for the parity profile. These
+artifacts fold canonical queue events into cumulative queue curves and compare
+the final event-derived queue length with the loading engine's read-only queue
+view. They may also record downstream parity receiving causes. They do not
+create another physical state store, and they do not change packet movement.
+The current M5 claim covers simple one-to-one boundary spillback, downstream
+receiving bottlenecks, backward-wave vacancy delays, three-link propagation,
+and declared governance blockage. Loop/gridlock behavior that depends on
+node-model semantics remains outside scope until later milestones.
+
 The distinction between the packet event log as primary record and cumulative counts as derived-but-maintained is deliberate. It preserves the option to use a different loading representation in future variants while keeping the base model's physical accounting explicit.
 
 ---

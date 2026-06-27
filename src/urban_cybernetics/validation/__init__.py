@@ -14,6 +14,12 @@ from .physical import (
     assess_physical_parameter_eligibility,
     require_physical_parameter_eligibility,
 )
+from .spillback import (
+    BoundarySpillbackTrace,
+    QueueCurvePoint,
+    SpillbackValidationReport,
+    build_spillback_validation_report,
+)
 
 __all__ = [
     "PARITY_CLAIM_TIERS",
@@ -23,7 +29,11 @@ __all__ = [
     "ParityEvidenceContract",
     "ParityRunEvidence",
     "PhysicalParameterEligibilityReport",
+    "BoundarySpillbackTrace",
+    "QueueCurvePoint",
+    "SpillbackValidationReport",
     "parity_profile_status",
     "assess_physical_parameter_eligibility",
+    "build_spillback_validation_report",
     "require_physical_parameter_eligibility",
 ]
