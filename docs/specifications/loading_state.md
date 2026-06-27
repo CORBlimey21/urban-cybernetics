@@ -34,6 +34,10 @@ M2 defines the read-only parity convention for these count functions. A cumulati
 
 M2 count projections are not physical state. Aggregate cumulative counts, route-disaggregated counts, packet boundary ordinals, prefix replay projections, and consistency reports are deterministic projections of the event log plus immutable packet route intent. If packet route metadata is not available, route-disaggregated counts are explicitly unsupported rather than inferred. If a count projection conflicts with the event log, the event log remains canonical and the projection is invalid evidence.
 
+M3 adds a profile-gated parity sending interpretation for `parity_ltm_v1`. The parity sending trace derives link demand from lagged cumulative entries and cumulative exits, then selects the FIFO packet prefix using M2 boundary ordinals. Capacity is converted to an integer sending budget through a bounded carry structure so long-horizon integer discharge can preserve the declared rate. The parity profile may declare an explicit per-link parity sending rate; otherwise it uses the link's declared sending capacity. It does not use M1 physical capacity as a movement rule. This changes only sending under the parity profile. Legacy loading keeps the existing declared integer sending capacity and membership-based sending view.
+
+M3 does not implement backward-wave receiving, vacancy supply, delayed spillback, or node-model parity. Downstream receiving availability, queue admission, and node transfer policy remain the current loading-engine semantics until their later milestones.
+
 The distinction between the packet event log as primary record and cumulative counts as derived-but-maintained is deliberate. It preserves the option to use a different loading representation in future variants while keeping the base model's physical accounting explicit.
 
 ---

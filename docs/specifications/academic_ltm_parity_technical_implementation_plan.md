@@ -250,3 +250,9 @@ Tasks 12-16 add a read-only event-to-count parity layer. Aggregate cumulative bo
 The M2 count convention is explicit: cumulative queries are inclusive through all boundary events with `physical_tick <= t`, and same-tick boundary events are ordered by canonical `sequence_number`. Current transfer events therefore project as upstream `LINK_EXIT` before downstream `LINK_ENTRY` at the same tick. Route-disaggregated counts are supported when immutable packet `route_intent` metadata is available; the route key is deterministically derived from the route link sequence because the core packet model does not carry an external route artifact ID.
 
 The M2 layer is evidence scaffolding for M3 and M4. It proves replayable count and ordinal projections of the current event stream, not canonical LTM sending, receiving, spillback, or node parity.
+
+## M3 Implementation Status
+
+Tasks 17-21 add profile-gated parity sending. Under the legacy profile, existing sending behaviour remains the default. Under `parity_ltm_v1`, sending traces derive link demand from lagged cumulative entries and cumulative exits, select the FIFO packet prefix by M2 boundary ordinals, and apply a bounded integer capacity-carry structure to the declared sending rate. A parity run may provide an explicit per-link parity sending rate; otherwise the declared link sending capacity is used. Final-link completion and transfer candidate collection consume the same profile-gated sending budget.
+
+M3 preserves event-log canonicality: packet movement still appends the existing `LINK_EXIT`, `LINK_ENTRY`, queue, and completion events in the current sequence order. M3 does not use M1 physical capacity as a movement rule; it uses the link's declared sending capacity until later physical-capacity acceptance is explicitly ratified. M3 does not implement M4 receiving/vacancy behaviour or M6 node-model changes.

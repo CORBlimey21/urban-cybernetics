@@ -27,7 +27,14 @@ from .cumulative_counts import (
 )
 from .engine import EventCacheConsistencyError, LoadingEngine
 from .receiving import LinkReceivingView, link_receiving_view
-from .sending import LinkSendingView, link_sending_view
+from .sending import (
+    BoundedIntegerCapacityCarry,
+    LinkSendingView,
+    ParityLinkSendingTrace,
+    bounded_integer_capacity_carry,
+    link_sending_view,
+    parity_link_sending_trace,
+)
 from .transfer_policy import (
     GlobalFIFOMergePolicy,
     NodeTransferPolicy,
@@ -36,6 +43,7 @@ from .transfer_policy import (
 )
 
 __all__ = [
+    "BoundedIntegerCapacityCarry",
     "CumulativeBoundaryCounts",
     "CumulativeCountProjection",
     "COUNT_ORDERING_CONVENTION",
@@ -51,9 +59,11 @@ __all__ = [
     "LoadingEngine",
     "NodeTransferPolicy",
     "PacketBoundaryOrdinal",
+    "ParityLinkSendingTrace",
     "RouteCumulativeBoundaryCounts",
     "StrictFIFOJunctionPolicy",
     "TransferCandidate",
+    "bounded_integer_capacity_carry",
     "count_consistency_report",
     "cumulative_count_projection",
     "cumulative_count_series",
@@ -64,6 +74,7 @@ __all__ = [
     "link_storage",
     "link_storage_series",
     "link_sending_view",
+    "parity_link_sending_trace",
     "packet_boundary_ordinals",
     "packet_ids_on_link_from_events",
     "route_cumulative_count_series",

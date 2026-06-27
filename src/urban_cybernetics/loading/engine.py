@@ -7,6 +7,11 @@ from collections.abc import Iterable, Mapping
 from dataclasses import replace
 from types import MappingProxyType
 
+from urban_cybernetics.config import (
+    ACADEMIC_LTM_PARITY_PROFILE_ID,
+    DEFAULT_LOADING_PROFILE_ID,
+    SUPPORTED_LOADING_PROFILE_IDS,
+)
 from urban_cybernetics.core import (
     DemandDeclaration,
     Event,
@@ -36,7 +41,13 @@ from urban_cybernetics.loading.cumulative_counts import (
     route_cumulative_counts,
 )
 from urban_cybernetics.loading.receiving import LinkReceivingView, link_receiving_view
-from urban_cybernetics.loading.sending import LinkSendingView, link_sending_view
+from urban_cybernetics.loading.sending import (
+    LinkSendingView,
+    ParityLinkSendingTrace,
+    bounded_integer_capacity_carry,
+    link_sending_view,
+    parity_link_sending_trace,
+)
 from urban_cybernetics.loading.transfer_policy import (
     GlobalFIFOMergePolicy,
     NodeTransferPolicy,
@@ -56,13 +67,19 @@ class LoadingEngine:
         links: dict[str, Link],
         nodes: tuple[Node, ...] | None = None,
         node_transfer_policy: NodeTransferPolicy | None = None,
+        model_profile_id: str = DEFAULT_LOADING_PROFILE_ID,
+        parity_sending_capacity_vehicles_per_tick_by_link: Mapping[str, float]
+        | None = None,
     ) -> None:
+        if model_profile_id not in SUPPORTED_LOADING_PROFILE_IDS:
+            raise ValueError(f"unsupported loading profile: {model_profile_id}")
         self.current_tick = 0
         self._event_log: list[Event] = []
         self._packets: dict[str, Packet] = {}
         self.links = dict(links)
         self.nodes = {node.node_id: node for node in nodes or ()}
         self.node_transfer_policy = node_transfer_policy or GlobalFIFOMergePolicy()
+        self.model_profile_id = model_profile_id
         self._node_by_incoming_link_id: dict[str, Node] = {}
         self._next_packet_number = 1
         self._pending_demands: list[DemandDeclaration] = []
@@ -87,6 +104,21 @@ class LoadingEngine:
         self._queued_packet_ids_by_upstream_link: dict[str, deque[str]] = {}
         self._same_tick_link_entries_by_link_id: dict[str, int] = {
             link_id: 0 for link_id in self.links
+        }
+        self._parity_sending_capacity_rate_by_link_id = (
+            self._normalise_parity_sending_capacity_rates(
+                parity_sending_capacity_vehicles_per_tick_by_link
+            )
+        )
+        self._parity_sending_capacity_carry_by_link_id: dict[str, float] = {
+            link_id: 0.0 for link_id in self.links
+        }
+        self._parity_sending_capacity_carry_in_by_link_id: dict[str, float] = {
+            link_id: 0.0 for link_id in self.links
+        }
+        self._parity_sending_integer_capacity_by_link_id: dict[str, int] = {
+            link_id: self.links[link_id].declared_sending_capacity_per_tick
+            for link_id in self.links
         }
         self._receiving_open_by_link: dict[str, bool] = {
             link_id: True for link_id in self.links
@@ -339,6 +371,36 @@ class LoadingEngine:
             ),
         )
 
+    def parity_link_sending_trace(
+        self,
+        link_id: str,
+        tick: int | None = None,
+        *,
+        already_consumed_count: int = 0,
+        excluded_packet_ids: Iterable[str] = (),
+    ) -> ParityLinkSendingTrace:
+        """Return a count- and ordinal-derived parity sending trace."""
+
+        self._validate_count_link_id(link_id)
+        view_tick = self.current_tick if tick is None else tick
+        carry_in = (
+            self._parity_sending_capacity_carry_in_by_link_id[link_id]
+            if tick is None or tick == self.current_tick
+            else 0.0
+        )
+        return parity_link_sending_trace(
+            self.event_log,
+            self.packets,
+            self.links[link_id],
+            view_tick,
+            capacity_carry_in=carry_in,
+            capacity_vehicles_per_tick=(
+                self._parity_sending_capacity_rate_by_link_id[link_id]
+            ),
+            already_consumed_count=already_consumed_count,
+            excluded_packet_ids=excluded_packet_ids,
+        )
+
     def link_receiving_view(
         self,
         link_id: str,
@@ -530,6 +592,7 @@ class LoadingEngine:
 
         self.current_tick += 1
         self._reset_same_tick_receiving_acceptance_counts()
+        self._prepare_parity_sending_capacity_for_tick()
         self._instantiate_pending_departures()
         completed_counts_by_link = self._complete_eligible_packets()
 
@@ -556,6 +619,64 @@ class LoadingEngine:
             remaining_slots,
         )
 
+    def _uses_parity_sending(self) -> bool:
+        return self.model_profile_id == ACADEMIC_LTM_PARITY_PROFILE_ID
+
+    def _normalise_parity_sending_capacity_rates(
+        self,
+        capacity_by_link_id: Mapping[str, float] | None,
+    ) -> dict[str, float]:
+        capacity_rates = {
+            link_id: float(link.declared_sending_capacity_per_tick)
+            for link_id, link in self.links.items()
+        }
+        if capacity_by_link_id is None:
+            return capacity_rates
+        for link_id, capacity_rate in capacity_by_link_id.items():
+            if link_id not in self.links:
+                raise KeyError(
+                    f"unknown link_id for parity sending capacity: {link_id}"
+                )
+            if capacity_rate < 0:
+                raise ValueError(
+                    "parity sending capacity cannot be negative for "
+                    f"{link_id}: {capacity_rate}"
+                )
+            capacity_rates[link_id] = float(capacity_rate)
+        return capacity_rates
+
+    def _prepare_parity_sending_capacity_for_tick(self) -> None:
+        if not self._uses_parity_sending():
+            self._parity_sending_integer_capacity_by_link_id = {
+                link_id: link.declared_sending_capacity_per_tick
+                for link_id, link in self.links.items()
+            }
+            return
+
+        integer_capacity_by_link: dict[str, int] = {}
+        carry_by_link: dict[str, float] = {}
+        carry_in_by_link: dict[str, float] = {}
+        for link_id, link in self.links.items():
+            carry_in = self._parity_sending_capacity_carry_by_link_id[link_id]
+            capacity = bounded_integer_capacity_carry(
+                link_id=link_id,
+                capacity_vehicles_per_tick=(
+                    self._parity_sending_capacity_rate_by_link_id[link_id]
+                ),
+                carry_in=carry_in,
+            )
+            carry_in_by_link[link_id] = carry_in
+            integer_capacity_by_link[link_id] = capacity.integer_capacity
+            carry_by_link[link_id] = capacity.carry_out
+        self._parity_sending_integer_capacity_by_link_id = integer_capacity_by_link
+        self._parity_sending_capacity_carry_in_by_link_id = carry_in_by_link
+        self._parity_sending_capacity_carry_by_link_id = carry_by_link
+
+    def _sending_capacity_limit_for_current_tick(self, link_id: str) -> int:
+        if self._uses_parity_sending():
+            return self._parity_sending_integer_capacity_by_link_id[link_id]
+        return self.links[link_id].declared_sending_capacity_per_tick
+
     @staticmethod
     def _boundary_id(upstream_link_id: str, downstream_link_id: str) -> str:
         return f"boundary:{upstream_link_id}->{downstream_link_id}"
@@ -581,7 +702,24 @@ class LoadingEngine:
         self,
         link_id: str,
         excluded_packet_ids: tuple[str, ...] = (),
+        already_consumed_count: int = 0,
     ) -> LinkSendingView:
+        if self._uses_parity_sending():
+            return parity_link_sending_trace(
+                self.event_log,
+                self.packets,
+                self.links[link_id],
+                self.current_tick,
+                capacity_carry_in=self._parity_sending_capacity_carry_in_by_link_id[
+                    link_id
+                ],
+                capacity_vehicles_per_tick=(
+                    self._parity_sending_capacity_rate_by_link_id[link_id]
+                ),
+                already_consumed_count=already_consumed_count,
+                excluded_packet_ids=excluded_packet_ids,
+            ).as_legacy_view()
+
         link = self.links[link_id]
         sending_capacity = link.declared_sending_capacity_per_tick
         excluded_packet_id_set = set(excluded_packet_ids)
@@ -763,7 +901,7 @@ class LoadingEngine:
             if not queue:
                 continue
             remaining_sending_capacity = (
-                self.links[upstream_link_id].declared_sending_capacity_per_tick
+                self._sending_capacity_limit_for_current_tick(upstream_link_id)
                 - consumed_sending_slots_by_link.get(upstream_link_id, 0)
             )
             if remaining_sending_capacity <= 0:
@@ -831,13 +969,12 @@ class LoadingEngine:
             sending_view = self._current_link_sending_view(
                 upstream_link_id,
                 excluded_packet_ids=tuple(queued_packet_ids),
+                already_consumed_count=consumed_sending_slots_by_link.get(
+                    upstream_link_id,
+                    0,
+                ),
             )
-            consumed_slots = consumed_sending_slots_by_link.get(upstream_link_id, 0)
-            remaining_sending_capacity = max(
-                link.declared_sending_capacity_per_tick - consumed_slots,
-                0,
-            )
-            for packet_id in sending_view.eligible_packet_ids[:remaining_sending_capacity]:
+            for packet_id in sending_view.sendable_packet_ids:
                 entry_link_id, entry_tick, entry_sequence_number = (
                     link_entry_metadata[packet_id]
                 )
