@@ -36,7 +36,20 @@ M2 count projections are not physical state. Aggregate cumulative counts, route-
 
 M3 adds a profile-gated parity sending interpretation for `parity_ltm_v1`. The parity sending trace derives link demand from lagged cumulative entries and cumulative exits, then selects the FIFO packet prefix using M2 boundary ordinals. Capacity is converted to an integer sending budget through a bounded carry structure so long-horizon integer discharge can preserve the declared rate. The parity profile may declare an explicit per-link parity sending rate; otherwise it uses the link's declared sending capacity. It does not use M1 physical capacity as a movement rule. This changes only sending under the parity profile. Legacy loading keeps the existing declared integer sending capacity and membership-based sending view.
 
-M3 does not implement backward-wave receiving, vacancy supply, delayed spillback, or node-model parity. Downstream receiving availability, queue admission, and node transfer policy remain the current loading-engine semantics until their later milestones.
+M4 adds a profile-gated parity receiving interpretation for `parity_ltm_v1`.
+The parity supply view computes upstream receiving availability from static
+packet storage, cumulative downstream exits lagged by the link's backward-wave
+travel time, and cumulative upstream entries through the query tick. A
+downstream exit does not create upstream receiving supply until the
+backward-wave lag has elapsed. The resulting vacancy is bounded by a receiving
+capacity budget with the same bounded integer carry convention used by parity
+sending. Governance closure and physical shortage are reported as distinct
+receiving causes.
+
+M4 changes receiving only under the parity profile. Legacy loading keeps the
+existing immediate-storage receiving view. M4 does not implement M5 spillback
+validation or M6 node-model changes; any upstream queueing caused by zero
+parity receiving slots follows from the existing queue and transfer machinery.
 
 The distinction between the packet event log as primary record and cumulative counts as derived-but-maintained is deliberate. It preserves the option to use a different loading representation in future variants while keeping the base model's physical accounting explicit.
 

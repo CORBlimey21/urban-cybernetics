@@ -256,3 +256,11 @@ The M2 layer is evidence scaffolding for M3 and M4. It proves replayable count a
 Tasks 17-21 add profile-gated parity sending. Under the legacy profile, existing sending behaviour remains the default. Under `parity_ltm_v1`, sending traces derive link demand from lagged cumulative entries and cumulative exits, select the FIFO packet prefix by M2 boundary ordinals, and apply a bounded integer capacity-carry structure to the declared sending rate. A parity run may provide an explicit per-link parity sending rate; otherwise the declared link sending capacity is used. Final-link completion and transfer candidate collection consume the same profile-gated sending budget.
 
 M3 preserves event-log canonicality: packet movement still appends the existing `LINK_EXIT`, `LINK_ENTRY`, queue, and completion events in the current sequence order. M3 does not use M1 physical capacity as a movement rule; it uses the link's declared sending capacity until later physical-capacity acceptance is explicitly ratified. M3 does not implement M4 receiving/vacancy behaviour or M6 node-model changes.
+
+## M4 Implementation Status
+
+Tasks 22-25 add profile-gated parity receiving. Under the legacy profile, the existing immediate-storage receiving behaviour remains unchanged. Under `parity_ltm_v1`, receiving supply is derived from event-count projections: static packet storage plus cumulative downstream exits lagged by the link's backward-wave lag, minus cumulative upstream entries through the current tick. A downstream exit therefore creates upstream vacancy only after the backward-wave lag has elapsed.
+
+M4 adds `VacancyLagState`, `LinkSupplyView`, `ReceivingDecisionTrace`, and `ReceivingCause` structures for validation and provenance-facing evidence. Physical shortage and governance closure are separate causes. Receiving capacity uses bounded integer carry so fractional per-tick receiving rates can preserve long-horizon capacity without changing packet identity.
+
+M4 preserves event-log canonicality and existing event schemas. Packet movement still appends the existing `QUEUE_EXIT`, `LINK_EXIT`, and `LINK_ENTRY` events in the current order, and queued packets continue to release through the existing FIFO queue machinery. M4 does not implement M5 spillback validation, multi-boundary spillback traces, or M6 node-model changes.

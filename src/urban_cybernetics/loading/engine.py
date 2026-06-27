@@ -40,7 +40,16 @@ from urban_cybernetics.loading.cumulative_counts import (
     route_cumulative_count_series,
     route_cumulative_counts,
 )
-from urban_cybernetics.loading.receiving import LinkReceivingView, link_receiving_view
+from urban_cybernetics.loading.receiving import (
+    LinkReceivingView,
+    LinkSupplyView,
+    ReceivingDecisionTrace,
+    bounded_integer_receiving_capacity_carry,
+    link_receiving_view,
+    parity_link_supply_view,
+    parity_supply_as_receiving_view,
+    receiving_decision_trace,
+)
 from urban_cybernetics.loading.sending import (
     LinkSendingView,
     ParityLinkSendingTrace,
@@ -69,6 +78,8 @@ class LoadingEngine:
         node_transfer_policy: NodeTransferPolicy | None = None,
         model_profile_id: str = DEFAULT_LOADING_PROFILE_ID,
         parity_sending_capacity_vehicles_per_tick_by_link: Mapping[str, float]
+        | None = None,
+        parity_receiving_capacity_vehicles_per_tick_by_link: Mapping[str, float]
         | None = None,
     ) -> None:
         if model_profile_id not in SUPPORTED_LOADING_PROFILE_IDS:
@@ -118,6 +129,21 @@ class LoadingEngine:
         }
         self._parity_sending_integer_capacity_by_link_id: dict[str, int] = {
             link_id: self.links[link_id].declared_sending_capacity_per_tick
+            for link_id in self.links
+        }
+        self._parity_receiving_capacity_rate_by_link_id = (
+            self._normalise_parity_receiving_capacity_rates(
+                parity_receiving_capacity_vehicles_per_tick_by_link
+            )
+        )
+        self._parity_receiving_capacity_carry_by_link_id: dict[str, float] = {
+            link_id: 0.0 for link_id in self.links
+        }
+        self._parity_receiving_capacity_carry_in_by_link_id: dict[str, float] = {
+            link_id: 0.0 for link_id in self.links
+        }
+        self._parity_receiving_integer_capacity_by_link_id: dict[str, int] = {
+            link_id: self.links[link_id].declared_receiving_capacity_per_tick
             for link_id in self.links
         }
         self._receiving_open_by_link: dict[str, bool] = {
@@ -416,12 +442,85 @@ class LoadingEngine:
                 link_id,
                 already_accepted_count=already_accepted_count,
             )
+        if self._uses_parity_receiving():
+            carry_in = (
+                self._parity_receiving_capacity_carry_in_by_link_id[link_id]
+                if tick == self.current_tick
+                else 0.0
+            )
+            return parity_supply_as_receiving_view(
+                self.event_log,
+                self.links[link_id],
+                view_tick,
+                receiving_open=self.is_receiving_open(link_id),
+                receiving_capacity_carry_in=carry_in,
+                already_accepted_count=already_accepted_count,
+                capacity_vehicles_per_tick=(
+                    self._parity_receiving_capacity_rate_by_link_id[link_id]
+                ),
+            )
         return link_receiving_view(
             self.event_log,
             self.links[link_id],
             view_tick,
             self.is_receiving_open(link_id),
             already_accepted_count=already_accepted_count,
+        )
+
+    def parity_link_supply_view(
+        self,
+        link_id: str,
+        tick: int | None = None,
+        *,
+        already_accepted_count: int = 0,
+    ) -> LinkSupplyView:
+        """Return a parity receiving supply view derived from canonical events."""
+
+        self._validate_count_link_id(link_id)
+        view_tick = self.current_tick if tick is None else tick
+        carry_in = (
+            self._parity_receiving_capacity_carry_in_by_link_id[link_id]
+            if tick is None or tick == self.current_tick
+            else 0.0
+        )
+        return parity_link_supply_view(
+            self.event_log,
+            self.links[link_id],
+            view_tick,
+            receiving_open=self.is_receiving_open(link_id),
+            receiving_capacity_carry_in=carry_in,
+            already_accepted_count=already_accepted_count,
+            capacity_vehicles_per_tick=(
+                self._parity_receiving_capacity_rate_by_link_id[link_id]
+            ),
+        )
+
+    def receiving_decision_trace(
+        self,
+        link_id: str,
+        tick: int | None = None,
+        *,
+        already_accepted_count: int = 0,
+    ) -> ReceivingDecisionTrace:
+        """Return a parity receiving trace for validation and provenance."""
+
+        self._validate_count_link_id(link_id)
+        view_tick = self.current_tick if tick is None else tick
+        carry_in = (
+            self._parity_receiving_capacity_carry_in_by_link_id[link_id]
+            if tick is None or tick == self.current_tick
+            else 0.0
+        )
+        return receiving_decision_trace(
+            self.event_log,
+            self.links[link_id],
+            view_tick,
+            receiving_open=self.is_receiving_open(link_id),
+            receiving_capacity_carry_in=carry_in,
+            already_accepted_count=already_accepted_count,
+            capacity_vehicles_per_tick=(
+                self._parity_receiving_capacity_rate_by_link_id[link_id]
+            ),
         )
 
     def _validate_count_link_id(self, link_id: str) -> None:
@@ -562,6 +661,11 @@ class LoadingEngine:
         return packet
 
     def _origin_link_has_storage_for_entry(self, link_id: str) -> bool:
+        if self._uses_parity_receiving():
+            return (
+                self._current_link_receiving_view(link_id).available_receiving_slots
+                > 0
+            )
         return (
             self._current_link_storage_by_link_id[link_id]
             < self.links[link_id].declared_storage_capacity_packets
@@ -593,6 +697,7 @@ class LoadingEngine:
         self.current_tick += 1
         self._reset_same_tick_receiving_acceptance_counts()
         self._prepare_parity_sending_capacity_for_tick()
+        self._prepare_parity_receiving_capacity_for_tick()
         self._instantiate_pending_departures()
         completed_counts_by_link = self._complete_eligible_packets()
 
@@ -622,6 +727,9 @@ class LoadingEngine:
     def _uses_parity_sending(self) -> bool:
         return self.model_profile_id == ACADEMIC_LTM_PARITY_PROFILE_ID
 
+    def _uses_parity_receiving(self) -> bool:
+        return self.model_profile_id == ACADEMIC_LTM_PARITY_PROFILE_ID
+
     def _normalise_parity_sending_capacity_rates(
         self,
         capacity_by_link_id: Mapping[str, float] | None,
@@ -640,6 +748,29 @@ class LoadingEngine:
             if capacity_rate < 0:
                 raise ValueError(
                     "parity sending capacity cannot be negative for "
+                    f"{link_id}: {capacity_rate}"
+                )
+            capacity_rates[link_id] = float(capacity_rate)
+        return capacity_rates
+
+    def _normalise_parity_receiving_capacity_rates(
+        self,
+        capacity_by_link_id: Mapping[str, float] | None,
+    ) -> dict[str, float]:
+        capacity_rates = {
+            link_id: float(link.declared_receiving_capacity_per_tick)
+            for link_id, link in self.links.items()
+        }
+        if capacity_by_link_id is None:
+            return capacity_rates
+        for link_id, capacity_rate in capacity_by_link_id.items():
+            if link_id not in self.links:
+                raise KeyError(
+                    f"unknown link_id for parity receiving capacity: {link_id}"
+                )
+            if capacity_rate < 0:
+                raise ValueError(
+                    "parity receiving capacity cannot be negative for "
                     f"{link_id}: {capacity_rate}"
                 )
             capacity_rates[link_id] = float(capacity_rate)
@@ -671,6 +802,33 @@ class LoadingEngine:
         self._parity_sending_integer_capacity_by_link_id = integer_capacity_by_link
         self._parity_sending_capacity_carry_in_by_link_id = carry_in_by_link
         self._parity_sending_capacity_carry_by_link_id = carry_by_link
+
+    def _prepare_parity_receiving_capacity_for_tick(self) -> None:
+        if not self._uses_parity_receiving():
+            self._parity_receiving_integer_capacity_by_link_id = {
+                link_id: link.declared_receiving_capacity_per_tick
+                for link_id, link in self.links.items()
+            }
+            return
+
+        integer_capacity_by_link: dict[str, int] = {}
+        carry_by_link: dict[str, float] = {}
+        carry_in_by_link: dict[str, float] = {}
+        for link_id in self.links:
+            carry_in = self._parity_receiving_capacity_carry_by_link_id[link_id]
+            integer_capacity, carry_out = bounded_integer_receiving_capacity_carry(
+                link_id=link_id,
+                capacity_vehicles_per_tick=(
+                    self._parity_receiving_capacity_rate_by_link_id[link_id]
+                ),
+                carry_in=carry_in,
+            )
+            carry_in_by_link[link_id] = carry_in
+            integer_capacity_by_link[link_id] = integer_capacity
+            carry_by_link[link_id] = carry_out
+        self._parity_receiving_integer_capacity_by_link_id = integer_capacity_by_link
+        self._parity_receiving_capacity_carry_in_by_link_id = carry_in_by_link
+        self._parity_receiving_capacity_carry_by_link_id = carry_by_link
 
     def _sending_capacity_limit_for_current_tick(self, link_id: str) -> int:
         if self._uses_parity_sending():
@@ -752,6 +910,21 @@ class LoadingEngine:
         link_id: str,
         already_accepted_count: int = 0,
     ) -> LinkReceivingView:
+        if self._uses_parity_receiving():
+            return parity_supply_as_receiving_view(
+                self.event_log,
+                self.links[link_id],
+                self.current_tick,
+                receiving_open=self.is_receiving_open(link_id),
+                receiving_capacity_carry_in=(
+                    self._parity_receiving_capacity_carry_in_by_link_id[link_id]
+                ),
+                already_accepted_count=already_accepted_count,
+                capacity_vehicles_per_tick=(
+                    self._parity_receiving_capacity_rate_by_link_id[link_id]
+                ),
+            )
+
         link = self.links[link_id]
         receiving_capacity = link.declared_receiving_capacity_per_tick
         storage_capacity = link.declared_storage_capacity_packets

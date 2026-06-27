@@ -30,7 +30,13 @@ class LTMParitySendingTest(unittest.TestCase):
 
     def test_parity_sending_trace_uses_lagged_cumulative_entries(self) -> None:
         engine = self.parity_engine(
-            links={"L1": Link("L1", free_flow_ticks=2, declared_sending_capacity_per_tick=2)}
+            links={
+                "L1": self.physical_link(
+                    "L1",
+                    free_flow_ticks=2,
+                    sending_capacity=2,
+                )
+            }
         )
         packet = engine.instantiate(
             DemandDeclaration("D1", departure_tick=0, route_intent=("L1",))
@@ -49,7 +55,7 @@ class LTMParitySendingTest(unittest.TestCase):
 
     def test_parity_sending_selects_fifo_prefix_from_boundary_ordinals(self) -> None:
         engine = self.parity_engine(
-            links={"L1": Link("L1", free_flow_ticks=1, declared_sending_capacity_per_tick=2)}
+            links={"L1": self.physical_link("L1", sending_capacity=2)}
         )
         packets = [
             engine.instantiate(
@@ -79,7 +85,7 @@ class LTMParitySendingTest(unittest.TestCase):
 
     def test_parity_final_link_completion_uses_parity_sending(self) -> None:
         engine = self.parity_engine(
-            links={"L1": Link("L1", free_flow_ticks=1, declared_sending_capacity_per_tick=1)}
+            links={"L1": self.physical_link("L1", sending_capacity=1)}
         )
         packet_a = engine.instantiate(
             DemandDeclaration("D-A", departure_tick=0, route_intent=("L1",))
@@ -125,11 +131,7 @@ class LTMParitySendingTest(unittest.TestCase):
     def test_parity_engine_uses_bounded_capacity_carry_for_fractional_rate(self) -> None:
         engine = LoadingEngine(
             links={
-                "L1": Link(
-                    "L1",
-                    free_flow_ticks=1,
-                    declared_sending_capacity_per_tick=99,
-                )
+                "L1": self.physical_link("L1", sending_capacity=99)
             },
             model_profile_id=ACADEMIC_LTM_PARITY_PROFILE_ID,
             parity_sending_capacity_vehicles_per_tick_by_link={"L1": 1.5},
@@ -166,8 +168,8 @@ class LTMParitySendingTest(unittest.TestCase):
     def test_parity_transfer_preserves_same_tick_exit_entry_order(self) -> None:
         engine = self.parity_engine(
             links={
-                "L1": Link("L1", free_flow_ticks=1),
-                "L2": Link("L2", free_flow_ticks=1),
+                "L1": self.physical_link("L1"),
+                "L2": self.physical_link("L2"),
             }
         )
         packet = engine.instantiate(
@@ -197,8 +199,8 @@ class LTMParitySendingTest(unittest.TestCase):
     def test_parity_sending_does_not_change_receiving_blockage_semantics(self) -> None:
         engine = self.parity_engine(
             links={
-                "L1": Link("L1", free_flow_ticks=1, declared_sending_capacity_per_tick=2),
-                "L2": Link("L2", free_flow_ticks=1, declared_receiving_capacity_per_tick=1),
+                "L1": self.physical_link("L1", sending_capacity=2),
+                "L2": self.physical_link("L2", receiving_capacity=1),
             }
         )
         engine.set_receiving_open("L2", False)
@@ -216,8 +218,8 @@ class LTMParitySendingTest(unittest.TestCase):
     def test_parity_sending_trace_excludes_queued_packets(self) -> None:
         engine = self.parity_engine(
             links={
-                "L1": Link("L1", free_flow_ticks=1, declared_sending_capacity_per_tick=2),
-                "L2": Link("L2", free_flow_ticks=1),
+                "L1": self.physical_link("L1", sending_capacity=2),
+                "L2": self.physical_link("L2"),
             }
         )
         engine.set_receiving_open("L2", False)
@@ -260,6 +262,30 @@ class LTMParitySendingTest(unittest.TestCase):
         return LoadingEngine(
             links=links,
             model_profile_id=ACADEMIC_LTM_PARITY_PROFILE_ID,
+        )
+
+    def physical_link(
+        self,
+        link_id: str,
+        *,
+        free_flow_ticks: int = 1,
+        sending_capacity: int = 5,
+        receiving_capacity: int = 5,
+        storage: int = 100,
+    ) -> Link:
+        return Link(
+            link_id=link_id,
+            free_flow_ticks=free_flow_ticks,
+            declared_sending_capacity_per_tick=sending_capacity,
+            declared_receiving_capacity_per_tick=receiving_capacity,
+            declared_storage_capacity_packets=storage,
+            length_m=10.0,
+            lane_count=1,
+            free_flow_speed_mps=10.0,
+            jam_density_veh_per_km_per_lane=100.0,
+            backward_wave_speed_mps=5.0,
+            capacity_veh_per_hour_per_lane=1200.0,
+            tick_duration_seconds=1.0,
         )
 
     def link_event_packet_ids(
