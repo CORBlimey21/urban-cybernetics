@@ -11,7 +11,9 @@ from typing import Any
 from urban_cybernetics.core import (
     DEFAULT_FD_RELATIVE_TOLERANCE,
     DEFAULT_MINIMUM_TIMESTEP_LAG_TICKS,
+    JunctionSpec,
     Link,
+    MovementSpec,
     Node,
     ResolvedPhysicalLinkParameters,
 )
@@ -66,6 +68,18 @@ class CanonicalNode:
     source_node_id: str
     incoming_link_ids: tuple[str, ...] = ()
     outgoing_link_ids: tuple[str, ...] = ()
+    movement_specs: tuple[MovementSpec, ...] = ()
+
+    def junction_spec(self) -> JunctionSpec:
+        """Return the immutable movement specification for this topology node."""
+
+        return JunctionSpec(
+            node_id=self.node_id,
+            incoming_link_ids=self.incoming_link_ids,
+            outgoing_link_ids=self.outgoing_link_ids,
+            movement_specs=self.movement_specs,
+            provenance=(("source_node_id", self.source_node_id),),
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -242,6 +256,7 @@ class CanonicalTopology:
                 raise ValueError(f"incoming connectivity mismatch for {node.node_id}")
             if node.outgoing_link_ids != tuple(sorted(outgoing_by_node[node.node_id])):
                 raise ValueError(f"outgoing connectivity mismatch for {node.node_id}")
+            node.junction_spec()
 
         return True
 
@@ -276,6 +291,7 @@ class CanonicalTopology:
                 node_id=node.node_id,
                 incoming_link_ids=node.incoming_link_ids,
                 outgoing_link_ids=node.outgoing_link_ids,
+                junction_spec=node.junction_spec(),
             )
             for node in self.nodes
         )
@@ -291,6 +307,21 @@ class CanonicalTopology:
                     "source_node_id": node.source_node_id,
                     "incoming_link_ids": list(node.incoming_link_ids),
                     "outgoing_link_ids": list(node.outgoing_link_ids),
+                    "movement_specs": [
+                        {
+                            "movement_id": movement.movement_id,
+                            "upstream_link_id": movement.upstream_link_id,
+                            "downstream_link_id": movement.downstream_link_id,
+                            "priority_weight": movement.priority_weight,
+                            "lane_group_ids": list(movement.lane_group_ids),
+                            "conflict_resource_ids": list(
+                                movement.conflict_resource_ids
+                            ),
+                            "signal_group_id": movement.signal_group_id,
+                            "provenance": list(movement.provenance),
+                        }
+                        for movement in node.junction_spec().movement_specs
+                    ],
                 }
                 for node in sorted(self.nodes, key=lambda item: item.node_id)
             ],

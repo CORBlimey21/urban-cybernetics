@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from collections import deque
 from collections.abc import Iterable, Mapping
 from dataclasses import replace
@@ -60,11 +62,14 @@ from urban_cybernetics.loading.sending import (
     parity_link_sending_trace,
 )
 from urban_cybernetics.loading.transfer_policy import (
+    GeneralMovementAllocator,
     GlobalFIFOMergePolicy,
+    JunctionAllocationDecision,
+    JunctionAllocationInput,
+    MovementAllocator,
     NodeTransferTrace,
     NodeTransferPolicy,
-    ParityNodeTransferPolicy,
-    TransferCandidate,
+    TransferRequest,
 )
 
 
@@ -95,9 +100,8 @@ class LoadingEngine:
         node_tuple = nodes or ()
         self.nodes = {node.node_id: node for node in node_tuple}
         self.model_profile_id = model_profile_id
-        self.node_transfer_policy = node_transfer_policy or self._default_node_policy(
-            node_tuple
-        )
+        self.movement_allocator = node_transfer_policy or self._default_node_policy(node_tuple)
+        self.node_transfer_policy = self.movement_allocator
         self._node_by_incoming_link_id: dict[str, Node] = {}
         self._next_packet_number = 1
         self._pending_demands: list[DemandDeclaration] = []
@@ -183,13 +187,68 @@ class LoadingEngine:
         return frozenset(self._completed_packet_ids)
 
     def node_transfer_traces(self) -> tuple[NodeTransferTrace, ...]:
-        """Return read-only traces from the most recent parity node decision."""
+        """Return read-only traces from the most recent movement allocation."""
 
-        return tuple(getattr(self.node_transfer_policy, "last_transfer_traces", ()))
+        return tuple(
+            getattr(
+                self.movement_allocator,
+                "last_allocation_traces",
+                getattr(self.movement_allocator, "last_transfer_traces", ()),
+            )
+        )
 
-    def _default_node_policy(self, nodes: tuple[Node, ...]) -> NodeTransferPolicy:
+    def allocation_traces(self) -> tuple[NodeTransferTrace, ...]:
+        """Return read-only traces from the most recent movement allocation."""
+
+        return self.node_transfer_traces()
+
+    @property
+    def movement_allocator_id(self) -> str:
+        """Stable allocator identity for provenance records."""
+
+        return str(
+            getattr(
+                self.movement_allocator,
+                "allocator_id",
+                type(self.movement_allocator).__name__,
+            )
+        )
+
+    @property
+    def movement_spec_hash(self) -> str:
+        """Deterministic fingerprint of static movement specs consumed by loading."""
+
+        payload = {
+            "nodes": [
+                {
+                    "node_id": node.node_id,
+                    "incoming_link_ids": list(node.incoming_link_ids),
+                    "outgoing_link_ids": list(node.outgoing_link_ids),
+                    "movement_specs": [
+                        {
+                            "movement_id": movement.movement_id,
+                            "upstream_link_id": movement.upstream_link_id,
+                            "downstream_link_id": movement.downstream_link_id,
+                            "priority_weight": movement.priority_weight,
+                            "lane_group_ids": list(movement.lane_group_ids),
+                            "conflict_resource_ids": list(
+                                movement.conflict_resource_ids
+                            ),
+                            "signal_group_id": movement.signal_group_id,
+                            "provenance": list(movement.provenance),
+                        }
+                        for movement in node.junction_spec.movement_specs
+                    ],
+                }
+                for node in sorted(self.nodes.values(), key=lambda item: item.node_id)
+            ],
+        }
+        serialised = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(serialised.encode("utf-8")).hexdigest()
+
+    def _default_node_policy(self, nodes: tuple[Node, ...]) -> NodeTransferPolicy | MovementAllocator:
         if self.model_profile_id == ACADEMIC_LTM_PARITY_PROFILE_ID:
-            return ParityNodeTransferPolicy(nodes)
+            return GeneralMovementAllocator(nodes)
         return GlobalFIFOMergePolicy()
 
     def _validate_nodes(self, nodes: tuple[Node, ...]) -> None:
@@ -734,15 +793,9 @@ class LoadingEngine:
 
         receiving_slots = self._receiving_slots_by_link()
         candidates = self._transfer_candidates(completed_counts_by_link, receiving_slots)
-        approved_candidates = self.node_transfer_policy.choose_transfers(
-            candidates=candidates,
-            receiving_slots_by_downstream_link=MappingProxyType(dict(receiving_slots)),
-            packet_ids_by_upstream_link=MappingProxyType(
-                self._packet_ids_by_upstream_link_for_candidates(candidates)
-            ),
-            queued_downstream_by_packet_id=MappingProxyType(
-                dict(self._queued_downstream_by_packet_id)
-            ),
+        approved_candidates = self._allocate_transfer_requests(
+            transfer_requests=candidates,
+            receiving_slots=receiving_slots,
         )
         approved_candidate_set, remaining_slots = self._execute_approved_transfers(
             approved_candidates,
@@ -1066,7 +1119,7 @@ class LoadingEngine:
         self,
         consumed_sending_slots_by_link: dict[str, int],
         receiving_slots_by_link: dict[str, int],
-    ) -> tuple[TransferCandidate, ...]:
+    ) -> tuple[TransferRequest, ...]:
         queued_candidates = self._queued_transfer_candidates(
             consumed_sending_slots_by_link,
             receiving_slots_by_link,
@@ -1098,8 +1151,8 @@ class LoadingEngine:
         self,
         consumed_sending_slots_by_link: dict[str, int],
         receiving_slots_by_link: dict[str, int],
-    ) -> list[TransferCandidate]:
-        candidates: list[TransferCandidate] = []
+    ) -> list[TransferRequest]:
+        candidates: list[TransferRequest] = []
         for upstream_link_id in sorted(self._queued_packet_ids_by_upstream_link):
             queue = self._queued_packet_ids_by_upstream_link[upstream_link_id]
             if not queue:
@@ -1144,7 +1197,7 @@ class LoadingEngine:
                     self._queue_entry_metadata_by_packet_id[packet_id]
                 )
                 candidates.append(
-                    TransferCandidate(
+                    TransferRequest(
                         packet_id=packet_id,
                         upstream_link_id=upstream_link_id,
                         downstream_link_id=downstream_link_id,
@@ -1152,6 +1205,11 @@ class LoadingEngine:
                         eligibility_tick=eligibility_tick,
                         eligibility_sequence_number=eligibility_sequence_number,
                         queued=True,
+                        node_id=(
+                            self._node_by_incoming_link_id[upstream_link_id].node_id
+                            if upstream_link_id in self._node_by_incoming_link_id
+                            else None
+                        ),
                     )
                 )
                 emitted_count += 1
@@ -1164,10 +1222,10 @@ class LoadingEngine:
     def _active_transfer_candidates(
         self,
         consumed_sending_slots_by_link: dict[str, int],
-    ) -> list[TransferCandidate]:
+    ) -> list[TransferRequest]:
         link_entry_metadata = self._current_link_entry_metadata_by_packet_id
         queued_packet_ids = set(self._queued_downstream_by_packet_id)
-        candidates: list[TransferCandidate] = []
+        candidates: list[TransferRequest] = []
         for upstream_link_id in sorted(self.links):
             link = self.links[upstream_link_id]
             sending_view = self._current_link_sending_view(
@@ -1194,7 +1252,7 @@ class LoadingEngine:
 
                 self._validate_transfer_connectivity(upstream_link_id, downstream_link_id)
                 candidates.append(
-                    TransferCandidate(
+                    TransferRequest(
                         packet_id=packet_id,
                         upstream_link_id=upstream_link_id,
                         downstream_link_id=downstream_link_id,
@@ -1205,13 +1263,93 @@ class LoadingEngine:
                         eligibility_tick=entry_tick
                         + self.links[upstream_link_id].free_flow_ticks,
                         eligibility_sequence_number=entry_sequence_number,
+                        node_id=(
+                            self._node_by_incoming_link_id[upstream_link_id].node_id
+                            if upstream_link_id in self._node_by_incoming_link_id
+                            else None
+                        ),
                     )
                 )
         return candidates
 
+    def _allocate_transfer_requests(
+        self,
+        *,
+        transfer_requests: tuple[TransferRequest, ...],
+        receiving_slots: dict[str, int],
+    ) -> tuple[TransferRequest, ...]:
+        packet_ids_by_upstream_link = MappingProxyType(
+            self._packet_ids_by_upstream_link_for_candidates(transfer_requests)
+        )
+        queued_downstream_by_packet_id = MappingProxyType(
+            dict(self._queued_downstream_by_packet_id)
+        )
+        receiving_slots_view = MappingProxyType(dict(receiving_slots))
+        if hasattr(self.movement_allocator, "allocate"):
+            decision: JunctionAllocationDecision = self.movement_allocator.allocate(
+                allocation_inputs=self._junction_allocation_inputs(
+                    transfer_requests=transfer_requests,
+                    receiving_slots_by_downstream_link=receiving_slots_view,
+                    packet_ids_by_upstream_link=packet_ids_by_upstream_link,
+                    queued_downstream_by_packet_id=queued_downstream_by_packet_id,
+                )
+            )
+            return decision.approved_transfers
+        return self.movement_allocator.choose_transfers(
+            candidates=transfer_requests,
+            receiving_slots_by_downstream_link=receiving_slots_view,
+            packet_ids_by_upstream_link=packet_ids_by_upstream_link,
+            queued_downstream_by_packet_id=queued_downstream_by_packet_id,
+        )
+
+    def _junction_allocation_inputs(
+        self,
+        *,
+        transfer_requests: tuple[TransferRequest, ...],
+        receiving_slots_by_downstream_link: Mapping[str, int],
+        packet_ids_by_upstream_link: Mapping[str, tuple[str, ...]],
+        queued_downstream_by_packet_id: Mapping[str, str],
+    ) -> tuple[JunctionAllocationInput, ...]:
+        requests_by_node_id: dict[str, list[TransferRequest]] = {}
+        fallback_requests: list[TransferRequest] = []
+        for request in transfer_requests:
+            node = self._node_by_incoming_link_id.get(request.upstream_link_id)
+            if node is None:
+                fallback_requests.append(request)
+                continue
+            requests_by_node_id.setdefault(node.node_id, []).append(request)
+
+        allocation_inputs: list[JunctionAllocationInput] = []
+        for node in sorted(self.nodes.values(), key=lambda item: item.node_id):
+            node_requests = tuple(requests_by_node_id.get(node.node_id, ()))
+            if not node_requests:
+                continue
+            allocation_inputs.append(
+                JunctionAllocationInput(
+                    node_id=node.node_id,
+                    junction_spec=node.junction_spec,
+                    transfer_requests=node_requests,
+                    receiving_slots_by_downstream_link=receiving_slots_by_downstream_link,
+                    packet_ids_by_upstream_link=packet_ids_by_upstream_link,
+                    queued_downstream_by_packet_id=queued_downstream_by_packet_id,
+                )
+            )
+        if fallback_requests:
+            allocation_inputs.append(
+                JunctionAllocationInput(
+                    node_id="__implicit_junction__",
+                    junction_spec=None,
+                    transfer_requests=tuple(fallback_requests),
+                    receiving_slots_by_downstream_link=receiving_slots_by_downstream_link,
+                    packet_ids_by_upstream_link=packet_ids_by_upstream_link,
+                    queued_downstream_by_packet_id=queued_downstream_by_packet_id,
+                )
+            )
+        return tuple(allocation_inputs)
+
     def _packet_ids_by_upstream_link_for_candidates(
         self,
-        candidates: tuple[TransferCandidate, ...],
+        candidates: tuple[TransferRequest, ...],
     ) -> dict[str, tuple[str, ...]]:
         return {
             upstream_link_id: self.packet_ids_on_link(upstream_link_id)
@@ -1222,12 +1360,12 @@ class LoadingEngine:
 
     def _execute_approved_transfers(
         self,
-        approved_candidates: tuple[TransferCandidate, ...],
-        candidates: tuple[TransferCandidate, ...],
+        approved_candidates: tuple[TransferRequest, ...],
+        candidates: tuple[TransferRequest, ...],
         receiving_slots: dict[str, int],
-    ) -> tuple[set[TransferCandidate], dict[str, int]]:
+    ) -> tuple[set[TransferRequest], dict[str, int]]:
         candidate_set = set(candidates)
-        approved_candidate_set: set[TransferCandidate] = set()
+        approved_candidate_set: set[TransferRequest] = set()
         remaining_slots = dict(receiving_slots)
 
         for candidate in approved_candidates:
@@ -1251,7 +1389,7 @@ class LoadingEngine:
 
         return approved_candidate_set, remaining_slots
 
-    def _execute_transfer_candidate(self, candidate: TransferCandidate) -> None:
+    def _execute_transfer_candidate(self, candidate: TransferRequest) -> None:
         if candidate.queued:
             queue = self._queues[candidate.boundary_id]
             if not queue or queue[0] != candidate.packet_id:
@@ -1273,8 +1411,8 @@ class LoadingEngine:
 
     def _queue_non_approved_candidates(
         self,
-        candidates: tuple[TransferCandidate, ...],
-        approved_candidate_set: set[TransferCandidate],
+        candidates: tuple[TransferRequest, ...],
+        approved_candidate_set: set[TransferRequest],
         remaining_slots: dict[str, int],
     ) -> None:
         for candidate in candidates:

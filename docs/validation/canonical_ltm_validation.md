@@ -55,7 +55,10 @@ inclusive physical-tick count convention.
 - Inclusive cumulative-count convention.
 - No rerouting.
 - No weighted packets.
-- No new node families.
+- General movement allocation is used for parity node transfer semantics.
+- No advanced junction constraints such as signal phases, conflict-resource
+  solving, lane-group allocation, adaptive control, gap acceptance, or
+  roundabout-specific behaviour.
 - Route travel-time curves use completed packet instantiation and completion
   ticks, tied to final-link route ordinals.
 
@@ -122,21 +125,21 @@ Current status:
   the parity physical gate currently reports 152 missing-metadata reasons:
   each link lacks `backward_wave_speed_mps` and
   `jam_density_veh_per_km_per_lane`.
-- `parity_profile_full_topology_initialization`: fail. Full Sioux Falls cannot
-  currently initialize under `parity_ltm_v1` because the minimal M6 node family
-  rejects multi-input/multi-output Sioux Falls nodes, for example `N001`.
-- `parity_commodity_evidence`: not run, because full-topology parity
-  initialization fails first.
-- `parity_spillback_evidence`: not run, because full-topology parity
-  initialization fails first.
+- `parity_profile_full_topology_initialization`: pass. Full Sioux Falls
+  topology can initialize under the Stage 1 movement allocator. This is a
+  structural allocation-readiness signal only.
+- `parity_commodity_evidence`: not run, because the full topology is not
+  parity-eligible until physical metadata is supplied.
+- `parity_spillback_evidence`: not run, because the full topology is not
+  parity-eligible until physical metadata is supplied.
 - `legacy_profile_readiness_stress_run`: pass, labelled explicitly as
   readiness/stress evidence only. It uses `legacy_packet_ltm_style`, so it is
   not parity evidence.
 
 Therefore the current machine-readable evidence label is
 `sioux_falls_readiness_stress_only`, and `can_run_as_parity_ltm_v1` is false.
-No kernel bug is indicated by the readiness check. The failures are benchmark
-metadata and scope constraints, not demonstrated loading-mechanics defects.
+No kernel bug is indicated by the readiness check. The blocking full-network
+failure is benchmark physical metadata, not MIMO topology shape.
 
 Before true Sioux Falls parity validation, the project needs:
 
@@ -145,12 +148,83 @@ Before true Sioux Falls parity validation, the project needs:
   and storage/timestep gates.
 - A benchmark-loader path that can construct parity-eligible loading links from
   those physical parameters without using legacy storage overrides as evidence.
-- A node-family decision for full Sioux Falls multi-input/multi-output nodes, or
-  a documented restriction to a parity-supported subnetwork. Adding new node
-  families is outside the current Phase II readiness scope.
-- Successful `parity_ltm_v1` full-topology initialization before commodity,
-  route-count, travel-time, spillback, and external-validation claims are
-  allowed.
+- Explicit rejection metadata for any future full-network junction that declares
+  signal phases, conflict resources, lane-group control, adaptive control, or
+  other advanced semantics not yet supported by Stage 1 movement allocation.
+- Successful physical metadata eligibility before commodity, route-count,
+  travel-time, spillback, and external-validation claims are allowed.
+
+## Supported Sioux Falls Subnetwork Bridge
+
+Phase II also provides an interim recognised-network readiness bridge:
+`sioux_falls_supported_movement_subnetwork_v1`. This is not full Sioux Falls
+parity validation. It is a connected Sioux Falls subnetwork selected so every
+adapted internal junction is expressible with Stage 1 movement-allocation
+semantics and reviewed physical metadata assumptions.
+
+Run it with:
+
+```bash
+.venv/bin/python -m urban_cybernetics.canonical_validation.sioux_falls_readiness --subnetwork
+```
+
+Selected source nodes:
+
+- `1`, `2`, `3`, `4`, `5`, `6`, `8`
+
+Selected directed source links:
+
+- `1->2` (`L0001`)
+- `1->3` (`L0002`)
+- `2->1` (`L0003`)
+- `2->6` (`L0004`)
+- `3->4` (`L0006`)
+- `4->5` (`L0009`)
+- `5->6` (`L0012`)
+- `6->8` (`L0016`)
+
+Adapted internal movement specifications:
+
+- `N002`: route-encoded diverge movements, `L0001 -> {L0003, L0004}`
+- `N003`: one-to-one movement, `L0002 -> L0006`
+- `N004`: one-to-one movement, `L0006 -> L0009`
+- `N005`: one-to-one movement, `L0009 -> L0012`
+- `N006`: merge movements, `{L0004, L0012} -> L0016`, equal priority weights
+
+The full Sioux Falls node records are no longer rejected merely because they are
+multi-input/multi-output. Any future full-network rejection should identify
+unsupported advanced junction semantics, not the absence of a specialised node
+class. The subnetwork remains useful because it supplies reviewed physical
+metadata assumptions over a small recognised-network slice.
+
+Subnetwork physical metadata assumptions:
+
+- `backward_wave_speed_mps = 5.0`, labelled
+  `benchmark_assumption_not_empirical_calibration`.
+- `jam_density_veh_per_km_per_lane` is derived per selected link from TNTP
+  capacity, TNTP free-flow speed, and the assumed backward-wave speed so the
+  selected link is triangular-FD consistent.
+- `declared_storage_capacity_packets` is derived from length, lane count, and
+  assumed jam density. The adapter does not use the legacy synthetic storage
+  override as parity evidence.
+
+Current subnetwork gate status:
+
+- `supported_subnetwork_structure`: pass.
+- `physical_metadata`: pass.
+- `parity_profile_initialization`: pass under `parity_ltm_v1`.
+- `parity_commodity_evidence`: pass.
+- `parity_spillback_evidence`: pass.
+- `count_evidence`: pass.
+- `packet_conservation`: pass.
+- `deterministic_replay`: pass.
+
+The subnetwork readiness label is
+`sioux_falls_supported_movement_subnetwork_parity_ready`. This means the selected
+subnetwork is ready to serve as the first recognised-network parity readiness
+target. It does not mean the full Sioux Falls benchmark has been validated, and
+it does not remove the future need for signal, conflict-resource, lane-group,
+and adaptive-control solver layers.
 
 ## Yperman Thesis
 

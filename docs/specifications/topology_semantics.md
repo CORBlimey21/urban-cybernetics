@@ -62,15 +62,33 @@ Every node record carries the following fields. All are immutable after the topo
 - canonical node ID
 - latitude and longitude in WGS84
 - connectivity set: the set of canonical link IDs for which this node is head or tail
+- immutable movement specifications for admissible incoming-to-outgoing transfers
+- static movement priority weights and movement-level provenance, when declared
 - OSM node ID and OSM snapshot date as provenance metadata
 
-Node transfer rules — merge priority, diverge logic, signal phases — are not topology. They are specified in node_model_assumptions.md and instantiated as governance or loading state during a run.
+Topology owns admissible movement specifications because they describe what static
+turning movements physically exist at a junction. A node with no explicit
+movement specs is interpreted as allowing the Cartesian set of incoming-to-
+outgoing movements. This default is still immutable topology interpretation.
+
+Topology does not own runtime transfer decisions. Movement allocation, queues,
+packet transfers, cumulative counts, and allocation traces remain loading state.
+Signal phases, closures, and adaptive control programs remain governance state.
+Lane groups and conflict-resource references may appear as immutable static
+metadata, but any runtime service rule that uses them belongs to governance and
+loading allocation, not to topology mutation.
 
 ---
 
 ### Topology Hash
 
-The topology hash is computed over the canonical content of the topology record: canonical node IDs, canonical directed link IDs, directed connectivity, immutable static physical metadata, source IDs preserved as provenance, and declared source-interpretation assumptions. OSM provenance fields, geometric polyline detail beyond node coordinates, absolute local file paths, file read order, and NetworkX adapter state do not affect the hash.
+The topology hash is computed over the canonical content of the topology record:
+canonical node IDs, canonical directed link IDs, directed connectivity,
+immutable movement specifications, immutable static physical metadata, source
+IDs preserved as provenance, and declared source-interpretation assumptions.
+OSM provenance fields, geometric polyline detail beyond node coordinates,
+absolute local file paths, file read order, and NetworkX adapter state do not
+affect the hash.
 
 Two runs share the same topology if and only if their topology hashes match. Shared OSM origin, shared visual appearance, or shared approximate extent is not sufficient.
 
@@ -84,6 +102,7 @@ T1 introduces executable canonical topology artifacts. A canonical topology is a
 - canonical directed link IDs
 - immutable node and link records
 - directed connectivity
+- immutable junction movement specifications
 - static physical metadata where available or explicitly interpreted
 - source/provenance metadata
 - deterministic topology hash
@@ -120,7 +139,11 @@ Routes are packet intent artifacts. They are not stored on links or nodes, and t
 
 The initial path builder uses deterministic breadth-first search over canonical outgoing link IDs and returns a shortest-link-count path. This is deliberately modest. It is intended to produce valid benchmark-topology movement routes, not realistic route choice, dynamic traffic assignment, congestion-aware routing, UE, SO, or route optimisation.
 
-The Sioux Falls topology can now be adapted into loading-engine `Link` and `Node` records. These records preserve static physical metadata and directed connectivity while leaving all dynamic packet movement, event history, storage, sending, receiving, and queue state inside the loading engine.
+The Sioux Falls topology can now be adapted into loading-engine `Link` and
+`Node` records. These records preserve static physical metadata, directed
+connectivity, and immutable junction movement specifications while leaving all
+dynamic packet movement, event history, storage, sending, receiving, allocation,
+and queue state inside the loading engine.
 
 This milestone supports Sioux Falls smoke runs in which packets traverse multi-link benchmark routes and complete under existing loading invariants. It does not implement calibrated demand, assignment algorithms, Cork or OSM import, visualisation, behaviour, governance, or dynamic costs.
 

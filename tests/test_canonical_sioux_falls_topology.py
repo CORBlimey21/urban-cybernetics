@@ -11,7 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from urban_cybernetics.benchmarks.sioux_falls import SIOUX_FALLS_NET_PATH
-from urban_cybernetics.core import Link
+from urban_cybernetics.core import Link, MovementSpec
 from urban_cybernetics.topology import (
     CanonicalNode,
     CanonicalTopology,
@@ -122,6 +122,57 @@ class CanonicalSiouxFallsTopologyTest(unittest.TestCase):
         )
 
         self.assertNotEqual(topology.topology_hash, edited_topology.topology_hash)
+
+    def test_topology_hash_changes_when_movement_specs_change(self) -> None:
+        topology = self.passthrough_topology()
+        edited_first_node = replace(
+            topology.nodes[1],
+            movement_specs=(
+                MovementSpec(
+                    upstream_link_id="L0001",
+                    downstream_link_id="L0002",
+                    priority_weight=2,
+                ),
+            ),
+        )
+        edited_topology = CanonicalTopology(
+            topology_id=topology.topology_id,
+            nodes=(topology.nodes[0], edited_first_node, topology.nodes[2]),
+            links=topology.links,
+            source_metadata=topology.source_metadata,
+            interpretation_assumptions=topology.interpretation_assumptions,
+        )
+
+        self.assertNotEqual(topology.topology_hash, edited_topology.topology_hash)
+
+    def test_loading_node_mapping_preserves_movement_specs(self) -> None:
+        topology = self.passthrough_topology(
+            nodes=(
+                CanonicalNode("N001", "1", outgoing_link_ids=("L0001",)),
+                CanonicalNode(
+                    "N002",
+                    "2",
+                    incoming_link_ids=("L0001",),
+                    outgoing_link_ids=("L0002",),
+                    movement_specs=(
+                        MovementSpec(
+                            upstream_link_id="L0001",
+                            downstream_link_id="L0002",
+                            priority_weight=3,
+                        ),
+                    ),
+                ),
+                CanonicalNode("N003", "3", incoming_link_ids=("L0002",)),
+            )
+        )
+
+        loading_nodes = topology.as_loading_nodes()
+        loaded_node = loading_nodes[1]
+
+        self.assertEqual(
+            loaded_node.junction_spec.movement_specs[0].priority_weight,
+            3,
+        )
 
     def test_validation_rejects_duplicate_node_ids(self) -> None:
         with self.assertRaises(ValueError):
@@ -243,6 +294,37 @@ class CanonicalSiouxFallsTopologyTest(unittest.TestCase):
             lane_count=1,
             free_flow_speed_mps=10.0,
             capacity_veh_per_hour_per_lane=1000.0,
+        )
+
+    def passthrough_topology(
+        self,
+        *,
+        nodes: tuple[CanonicalNode, ...] | None = None,
+    ) -> CanonicalTopology:
+        return self.tiny_topology(
+            nodes=nodes
+            or (
+                CanonicalNode("N001", "1", outgoing_link_ids=("L0001",)),
+                CanonicalNode(
+                    "N002",
+                    "2",
+                    incoming_link_ids=("L0001",),
+                    outgoing_link_ids=("L0002",),
+                ),
+                CanonicalNode("N003", "3", incoming_link_ids=("L0002",)),
+            ),
+            links=(
+                self.tiny_link(),
+                replace(
+                    self.tiny_link(),
+                    link_id="L0002",
+                    tail_node_id="N002",
+                    head_node_id="N003",
+                    source_link_id="2->3",
+                    source_tail_node_id="2",
+                    source_head_node_id="3",
+                ),
+            ),
         )
 
 

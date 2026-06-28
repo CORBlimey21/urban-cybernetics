@@ -5,9 +5,6 @@ from __future__ import annotations
 from urban_cybernetics.core import (
     EventType,
     Node,
-    PARITY_NODE_MODEL_ONE_TO_ONE,
-    PARITY_NODE_MODEL_PRIORITY_MERGE,
-    PARITY_NODE_MODEL_STRICT_DIVERGE,
 )
 
 from .helpers import (
@@ -104,7 +101,6 @@ def test_receiving_limit_creates_grows_releases_fifo_queue_with_count_agreement(
                 "N",
                 incoming_link_ids=("L1",),
                 outgoing_link_ids=("L2",),
-                node_model=PARITY_NODE_MODEL_ONE_TO_ONE,
             ),
         ),
     )
@@ -140,7 +136,6 @@ def test_blocked_diverge_head_prevents_tail_from_bypassing_to_open_branch() -> N
                 "N",
                 incoming_link_ids=("L1",),
                 outgoing_link_ids=("L2", "L3"),
-                node_model=PARITY_NODE_MODEL_STRICT_DIVERGE,
             ),
         ),
     )
@@ -257,7 +252,6 @@ def _priority_merge_engine(
                 "N",
                 incoming_link_ids=("L1", "L2"),
                 outgoing_link_ids=("L3",),
-                node_model=PARITY_NODE_MODEL_PRIORITY_MERGE,
                 merge_priorities=weights,
             ),
         ),

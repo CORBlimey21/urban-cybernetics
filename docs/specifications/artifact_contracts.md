@@ -23,10 +23,17 @@ Every experiment run produces a run bundle: a directory or structured archive co
 - config_snapshot: complete serialised run configuration (every parameter, declared explicitly; no defaults assumed)
 - seed_registry: all random seeds by component name, registered before run start, immutable after registration
 - code_version: git commit hash or equivalent version identifier
+- movement_allocator_id: stable identity of the allocator used for junction
+  allocation, when loading performs movement allocation
+- movement_spec_hash: deterministic fingerprint of the static movement
+  specifications consumed by loading
 - schema_version: version of the artifact contract schema this bundle conforms to
 - provenance_chain: list of upstream artifact IDs (prior run IDs, topology source IDs, manifest source IDs) that this run depends on
 
-Two runs are scientifically comparable if and only if topology_hash, manifest_hash, config_snapshot, seed_registry, and code_version all match, or all differences are documented as the declared experimental variable.
+Two runs are scientifically comparable if and only if topology_hash,
+manifest_hash, config_snapshot, seed_registry, code_version, allocator identity,
+and movement-spec identity all match, or all differences are documented as the
+declared experimental variable.
 
 ---
 
@@ -34,9 +41,19 @@ Two runs are scientifically comparable if and only if topology_hash, manifest_ha
 
 The topology artifact is a serialised record of the canonical topology used in the run. It must be sufficient to recompute the topology_hash independently.
 
-**Required fields:** canonical link records (canonical_link_id, head_node_id, tail_node_id, length_metres, declared_static_capacity, free_flow_speed_mps, lane_count), canonical node records (canonical_node_id, latitude, longitude), OSM provenance metadata (osm_way_ids, osm_node_ids, osm_snapshot_date, bounding_box, filter_parameters), and the topology_hash itself.
+**Required fields:** canonical link records (canonical_link_id, head_node_id,
+tail_node_id, length_metres, declared_static_capacity, free_flow_speed_mps,
+lane_count), canonical node records (canonical_node_id, latitude, longitude,
+incoming_link_ids, outgoing_link_ids, movement_specs), static movement metadata
+(movement_id, upstream_link_id, downstream_link_id, priority_weight, declared
+lane-group references, declared conflict-resource references, signal/governance
+references when present), OSM provenance metadata (osm_way_ids, osm_node_ids,
+osm_snapshot_date, bounding_box, filter_parameters), and the topology_hash
+itself.
 
-**Forbidden fields:** travel_time_seconds, simulated_volume, live_occupancy_count, bpr_alpha, bpr_beta, any dynamic simulation field.
+**Forbidden fields:** travel_time_seconds, simulated_volume,
+live_occupancy_count, effective_runtime_capacity, current_signal_phase,
+bpr_alpha, bpr_beta, any dynamic simulation field.
 
 ---
 
@@ -56,7 +73,17 @@ The demand manifest is a committed input artifact. It must be immutable once com
 
 Raw event logs are the primary output of a run. They must be preserved in full. Derived summaries may be discarded and recomputed; raw event logs may not.
 
-**Packet lifecycle event log.** One record per packet lifecycle event: packet_id, event_type (instantiation, link_entry, link_exit, node_transfer, queue_entry, queue_exit, reroute, completion, cancellation), canonical_link_id or canonical_node_id, physical_timestamp (simulation tick), sequence_number.
+**Packet lifecycle event log.** One record per packet lifecycle event:
+packet_id, event_type (instantiation, link_entry, link_exit, node_transfer,
+queue_entry, queue_exit, reroute, completion, cancellation), canonical_link_id
+or canonical_node_id, physical_timestamp (simulation tick), sequence_number.
+
+**Movement allocation trace.** When a run uses movement allocation, each
+allocation trace must record allocator_id, node_id, candidate packet IDs,
+approved packet IDs, rejected transfer reason codes, downstream receiving slots,
+movement flow summaries, and deterministic allocator state needed for replay.
+Allocation traces are evidence over loading decisions; packet lifecycle events
+remain the physical truth.
 
 **Governance intervention log.** One record per governance intervention: intervention_id, type, target_entity_id, parameter_values, action_time, visibility_time.
 

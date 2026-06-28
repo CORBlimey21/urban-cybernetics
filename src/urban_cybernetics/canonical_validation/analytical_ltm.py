@@ -14,10 +14,6 @@ from typing import TypeAlias
 
 from urban_cybernetics.config import ACADEMIC_LTM_PARITY_PROFILE_ID
 from urban_cybernetics.core import DemandDeclaration, EventType, Link, Node
-from urban_cybernetics.core.node import (
-    PARITY_NODE_MODEL_PRIORITY_MERGE,
-    PARITY_NODE_MODEL_STRICT_DIVERGE,
-)
 from urban_cybernetics.loading import LoadingEngine
 from urban_cybernetics.validation import build_spillback_validation_report
 
@@ -209,7 +205,6 @@ def analytical_strict_diverge_result() -> CanonicalScenarioResult:
                 "N-diverge",
                 incoming_link_ids=("L1",),
                 outgoing_link_ids=("L2", "L3"),
-                node_model=PARITY_NODE_MODEL_STRICT_DIVERGE,
             ),
         ),
     )
@@ -253,7 +248,6 @@ def analytical_priority_merge_result() -> CanonicalScenarioResult:
                 "N-merge",
                 incoming_link_ids=("L1", "L2"),
                 outgoing_link_ids=("L3",),
-                node_model=PARITY_NODE_MODEL_PRIORITY_MERGE,
                 merge_priorities=(("L1", 2), ("L2", 1)),
             ),
         ),

@@ -61,15 +61,33 @@ receiving bottlenecks, backward-wave vacancy delays, three-link propagation,
 and declared governance blockage. Loop/gridlock behavior that depends on
 node-model semantics remains outside scope until later milestones.
 
-M6 adds minimal parity node semantics for `parity_ltm_v1`. Immutable node
-records may label one-to-one, strict route-encoded diverge, and declared
-priority-merge nodes. Legacy loading continues to use the existing global FIFO
-merge policy by default. In parity loading, one-to-one and diverge allocation
-preserve strict upstream FIFO, while priority merges use declared incoming-link
-weights with bounded deficit accounting for indivisible packets. The loading
-engine still owns all transfer decisions and lifecycle events; node labels and
-priorities are static metadata, not physical state. Multi-input/multi-output
-urban nodes are rejected for parity evidence until a later node model exists.
+The parity node architecture now uses general movement allocation for
+`parity_ltm_v1`. Immutable topology records define junction connectivity and
+movement specifications. During each tick, loading constructs
+`TransferRequest` records, groups them into `JunctionAllocationInput` records,
+calls the `MovementAllocator`, receives a `JunctionAllocationDecision`, and then
+alone emits canonical lifecycle events.
+
+The current production allocator supports one-to-one junctions, strict
+route-encoded diverges, declared-priority merges, and simple arbitrary
+multi-input/multi-output junctions whose behaviour requires no conflict
+resources, lane-group allocation, signal phases, or adaptive control. It
+preserves strict upstream FIFO, demand/supply compliance, deterministic
+tie-breaking, packet identity, and event-log canonicality. Declared priority is
+movement metadata and is implemented with bounded deficit accounting for
+indivisible unit packets.
+
+Unsupported advanced junction semantics are rejected explicitly rather than
+silently simplified. This includes signal phases, movement conflict resources,
+lane-group service rules, adaptive control, gap acceptance, roundabout-specific
+logic, weighted packets, rerouting, and empirical calibration. Legacy global
+FIFO merge policy remains available only for the non-parity legacy profile and
+for labelled regression comparison.
+
+The loading engine exposes read-only allocation traces, allocator identity, and
+a deterministic movement-spec fingerprint for provenance. These are evidence
+artifacts; they do not replace the packet lifecycle event log as physical
+truth.
 
 The distinction between the packet event log as primary record and cumulative counts as derived-but-maintained is deliberate. It preserves the option to use a different loading representation in future variants while keeping the base model's physical accounting explicit.
 
@@ -162,8 +180,9 @@ count ordinals, not a mutable travel-time field and not observation truth.
 
 M7 does not implement rerouting. If realised link-entry events stop matching
 the immutable route-intent prefix, the run is not valid M7 parity evidence.
-M7 also does not implement weighted packets, new node families, new loading
-mechanics, canonical benchmark validation, or Sioux Falls parity validation.
+M7 also does not implement weighted packets, advanced junction constraints, new
+loading mechanics, canonical benchmark validation, or Sioux Falls parity
+validation.
 
 ---
 

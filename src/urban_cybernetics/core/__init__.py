@@ -12,13 +12,10 @@ from .link import (
     TimestepAdmissibilityReport,
 )
 from .node import (
-    PARITY_NODE_MODEL_AUTO,
-    PARITY_NODE_MODEL_LEGACY_GLOBAL_FIFO,
-    PARITY_NODE_MODEL_ONE_TO_ONE,
-    PARITY_NODE_MODEL_PRIORITY_MERGE,
-    PARITY_NODE_MODEL_STRICT_DIVERGE,
-    SUPPORTED_NODE_MODEL_IDS,
+    JunctionSpec,
+    MovementSpec,
     Node,
+    movement_id,
 )
 from .packet import Packet
 
@@ -31,14 +28,11 @@ __all__ = [
     "FundamentalDiagramConsistencyReport",
     "LifecycleState",
     "Link",
+    "JunctionSpec",
+    "MovementSpec",
     "Node",
-    "PARITY_NODE_MODEL_AUTO",
-    "PARITY_NODE_MODEL_LEGACY_GLOBAL_FIFO",
-    "PARITY_NODE_MODEL_ONE_TO_ONE",
-    "PARITY_NODE_MODEL_PRIORITY_MERGE",
-    "PARITY_NODE_MODEL_STRICT_DIVERGE",
     "Packet",
     "ResolvedPhysicalLinkParameters",
-    "SUPPORTED_NODE_MODEL_IDS",
     "TimestepAdmissibilityReport",
+    "movement_id",
 ]

@@ -92,7 +92,7 @@ Parity tests should be added beside these tests rather than rewriting the curren
 | M3 Sending parity | `loading/sending.py`, `loading/engine.py`, validation fixtures | Read-only layers and topology | link demand view, capacity carry, sending trace | Existing `LinkSendingView` retained | analytical sending, long-horizon capacity, FIFO ordinal discharge | Transfer/completion ticks change | High |
 | M4 Receiving and vacancy parity | `loading/receiving.py`, `loading/engine.py`, validation fixtures | Routing/observability/provenance write boundaries | link supply view, vacancy lag state, receiving cause | Immediate-storage receiving remains legacy | backward-wave, supply curve, closure-vs-physical cause | Queue release/admission changes network-wide | Very high |
 | M5 Spillback validation | `loading/engine.py`, `loading/receiving.py`, inspection labels if needed | Queue event ontology, event truth | spillback trace, queue-curve comparison, gridlock status | Queue events remain canonical diagnostics | lane-drop, three-link propagation, loop/gridlock | High-demand outcomes move | High |
-| M6 Minimal node family | `core/node.py`, `loading/transfer_policy.py`, `loading/engine.py` | Link physics, packet/event identity | node model spec, merge priority spec, node trace | Global FIFO remains legacy/default | one-to-one, strict diverge, priority merge | Merge timing and fairness change | High |
+| M6 Movement allocation | `core/node.py`, `loading/transfer_policy.py`, `loading/engine.py`, `topology/canonical.py` | Link physics, packet/event identity | movement spec, junction spec, allocation input/decision/trace | Global FIFO remains legacy comparison/default outside parity | one-to-one, strict diverge, priority merge, simple MIMO | Allocation ordering and fairness change | High |
 | M7 Packet and multi-commodity parity | counts, engine, scheduled loading, inspection/probe readers | Packet identity and demand pre-packet boundary | commodity key, route counts, ordinal map, route travel-time curve | Unit packets only; weighted packets rejected | route-count sums, ordinal FIFO, high-commodity memory | Memory pressure and reroute ambiguity | Very high |
 | M8 Canonical validation gate | `validation`, tests, fixture data, provenance status | Physics once under validation | reference fixtures, output digests, validation result | Current synthetic suite remains current-semantics suite | analytical/reference LTM, timestep convergence, replay/failure | Circular validation risk | High |
 | M9 Scale and reproducibility claim | benchmarks, provenance, artifact indexing, inspection summaries | Kernel semantics after M8 | scale profile, kernel version, reproducibility bundle, performance budget | Sioux Falls remains plumbing evidence | scale ladder, rerun reproducibility, memory/runtime budgets | Scale may be mistaken for parity | Medium-high |
@@ -107,7 +107,7 @@ flowchart TD
   M3["M3 Sending Parity"]
   M4["M4 Receiving and Vacancy Parity"]
   M5["M5 Spillback Validation"]
-  M6["M6 Minimal Node Family"]
+  M6["M6 Movement Allocation"]
   M7["M7 Packet Multi-Commodity Parity"]
   M8["M8 Canonical Validation Gate"]
   M9["M9 Scale and Reproducibility Claim"]
@@ -209,7 +209,13 @@ Literature interpretation risks:
 33. Add declared-priority merge policy for parity profile. Files: `transfer_policy.py`, `engine.py`. Tests: unequal-priority merge. Claim: T2. Must not remove global FIFO legacy policy.
 34. Add merge unused-share redistribution tests. Files: `transfer_policy.py`, `validation`. Tests: starvation/reassignment. Claim: T2. Must not break conservation.
 35. Add node decision traces for validation only. Files: `transfer_policy.py`, `validation`. Tests: trace consistency. Claim: T2. Must not replace event log truth.
-36. Reject unsupported multi-input/multi-output urban nodes in parity profile. Files: `core/node.py`, `validation`. Tests: unsupported node. Claim: T2 boundary. Must not broaden scope.
+36. Superseded by movement allocation: reject only advanced junction semantics
+    that require unsupported conflict resources, lane groups, signal phases, or
+    adaptive control. Simple multi-input/multi-output movement sets are now
+    supported when they are expressible as independent movement allocation.
+    Files: `core/node.py`, `loading/transfer_policy.py`, `topology/canonical.py`,
+    validation. Tests: simple MIMO, unsupported advanced junction. Claim: T2
+    boundary. Must not silently simplify unsupported semantics.
 37. Enforce unit-packet parity eligibility. Files: `core/packet.py`, demand/loading validation. Tests: weighted-packet rejection. Claim: T3. Must not change packet identity.
 38. Prove route counts sum to aggregate counts. Files: `loading/cumulative_counts.py`. Tests: route-disaggregated counts. Claim: T3. Must not break aggregate APIs.
 39. Map nth cumulative increment to nth packet. Files: counts and engine. Tests: ordinal map. Claim: T3. Must not change FIFO order.
@@ -227,7 +233,11 @@ Literature interpretation risks:
 
 ## Acceptance Gates
 
-Smallest viable parity is reached only when M0-M8 pass under `parity_ltm_v1`: coherent triangular FD parameters, complete event-to-count projection, lagged sending and receiving, delayed spillback, one-to-one/strict-diverge/priority-merge nodes, route-disaggregated counts, packet ordinal mapping, and independent validation fixtures with declared tolerances.
+Smallest viable parity is reached only when M0-M8 pass under `parity_ltm_v1`:
+coherent triangular FD parameters, complete event-to-count projection, lagged
+sending and receiving, delayed spillback, movement-allocation junction
+semantics, route-disaggregated counts, packet ordinal mapping, and independent
+validation fixtures with declared tolerances.
 
 Do not build Cork, Anaheim, Los Angeles, or larger scientific case studies on parity claims until M8 passes. Current benchmarks remain useful as plumbing, performance, and regression evidence if labelled accordingly.
 
@@ -275,11 +285,27 @@ M5 does not change sending, receiving, transfer, queue, event schema, packet ide
 
 ## M6 Implementation Status
 
-Tasks 30-36 add the minimal parity node family under `parity_ltm_v1`. Immutable `Node` records can now carry a node-model label and declared merge priorities. Under the legacy profile, the loading engine still defaults to `GlobalFIFOMergePolicy`; under the parity profile, the default node policy resolves one-to-one nodes, strict route-encoded diverges, and declared-priority merges.
+The original M6 minimal node-family design is superseded. The parity profile now
+uses the Stage 1 movement-allocation architecture. Immutable topology and node
+records carry `JunctionSpec` and `MovementSpec` data; loading constructs
+`TransferRequest` and `JunctionAllocationInput` records, calls the
+`MovementAllocator`, receives a `JunctionAllocationDecision`, and remains the
+only owner of packet transfer execution and canonical lifecycle events.
 
-The parity node policy preserves route intent before allocation: candidates are already route-realised by the loading engine, and diverge decisions do not invent downstream links. One-to-one and diverge nodes use strict upstream FIFO. Declared-priority merges use bounded deficit accounting so indivisible packets can approximate declared long-horizon shares while unused active share is reassigned only when sending demand and receiving supply exist.
+The allocator preserves the scientific behaviours originally required from M6:
+one-to-one movement, strict route-encoded diverge, and declared-priority merge.
+Those behaviours are now movement-allocation cases rather than specialised node
+classes. The allocator also supports simple arbitrary multi-input/multi-output
+junctions when their behaviour requires only admissible movements, sending
+eligibility, receiving slots, strict FIFO, static priority weights, and
+deterministic tie-breaking.
 
-M6 rejects unsupported multi-input/multi-output parity nodes and priority merges without declared priorities. Node transfer traces are read-only evidence from the most recent parity node decision. M6 does not implement M7 multi-commodity parity, weighted packets, signalised node models beyond existing governance closure, or city-scale urban node semantics.
+Unsupported advanced junction semantics are rejected explicitly. Stage 1 does
+not implement conflict-resource solving, lane-group allocation, signal phases,
+adaptive control, gap acceptance, roundabout-specific logic, weighted packets,
+rerouting, or empirical calibration. Legacy node-model labels and the global
+FIFO merge policy may remain only as labelled compatibility or regression
+paths; they are not the current parity architecture.
 
 ## M7 Implementation Status
 

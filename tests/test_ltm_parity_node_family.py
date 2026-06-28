@@ -1,4 +1,4 @@
-"""M6 minimal parity node-family tests."""
+"""General movement-allocation parity tests."""
 
 from __future__ import annotations
 
@@ -11,19 +11,22 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from urban_cybernetics.config import ACADEMIC_LTM_PARITY_PROFILE_ID
 from urban_cybernetics.core import (
-    PARITY_NODE_MODEL_ONE_TO_ONE,
-    PARITY_NODE_MODEL_PRIORITY_MERGE,
-    PARITY_NODE_MODEL_STRICT_DIVERGE,
     DemandDeclaration,
     Event,
     EventType,
+    JunctionSpec,
     Link,
+    MovementSpec,
     Node,
 )
-from urban_cybernetics.loading import GlobalFIFOMergePolicy, LoadingEngine
+from urban_cybernetics.loading import (
+    GeneralMovementAllocator,
+    GlobalFIFOMergePolicy,
+    LoadingEngine,
+)
 
 
-class LTMParityNodeFamilyTest(unittest.TestCase):
+class LTMParityMovementAllocatorTest(unittest.TestCase):
     def test_one_to_one_transfer_is_bounded_by_sending_and_receiving(self) -> None:
         engine = self.parity_engine(
             links={
@@ -35,7 +38,6 @@ class LTMParityNodeFamilyTest(unittest.TestCase):
                     "N",
                     incoming_link_ids=("L1",),
                     outgoing_link_ids=("L2",),
-                    node_model=PARITY_NODE_MODEL_ONE_TO_ONE,
                 ),
             ),
         )
@@ -59,9 +61,13 @@ class LTMParityNodeFamilyTest(unittest.TestCase):
         self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), (packets[2].packet_id,))
         trace = engine.node_transfer_traces()[0]
         self.assertEqual(trace.node_id, "N")
-        self.assertEqual(trace.node_model, PARITY_NODE_MODEL_ONE_TO_ONE)
+        self.assertEqual(trace.allocator_id, "uc_movement_allocator_stage1_v1")
         self.assertEqual(len(trace.candidate_packet_ids), 3)
         self.assertEqual(len(trace.approved_packet_ids), 2)
+        self.assertEqual(
+            trace.movement_flow_summaries[0].movement_id,
+            "movement:L1->L2",
+        )
         self.assertTrue(engine.check_conservation())
 
     def test_strict_route_diverge_blocks_tail_when_fifo_head_branch_is_closed(
@@ -78,7 +84,6 @@ class LTMParityNodeFamilyTest(unittest.TestCase):
                     "N",
                     incoming_link_ids=("L1",),
                     outgoing_link_ids=("L2", "L3"),
-                    node_model=PARITY_NODE_MODEL_STRICT_DIVERGE,
                 ),
             ),
         )
@@ -208,8 +213,49 @@ class LTMParityNodeFamilyTest(unittest.TestCase):
             self.l3_entry_source_sequence(second_engine),
         )
 
-    def test_unsupported_multi_input_multi_output_parity_node_fails_clearly(self) -> None:
-        with self.assertRaisesRegex(ValueError, "multi-input/multi-output"):
+    def test_simple_mimo_junction_runs_through_movement_allocator(self) -> None:
+        engine = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1"),
+                "L2": self.physical_link("L2"),
+                "L3": self.physical_link("L3", receiving_capacity=1),
+                "L4": self.physical_link("L4", receiving_capacity=1),
+            },
+            nodes=(
+                Node(
+                    "N",
+                    incoming_link_ids=("L1", "L2"),
+                    outgoing_link_ids=("L3", "L4"),
+                ),
+            ),
+        )
+        packet_l1_l4 = engine.instantiate(
+            DemandDeclaration("D-L1-L4", departure_tick=0, route_intent=("L1", "L4"))
+        )
+        packet_l2_l3 = engine.instantiate(
+            DemandDeclaration("D-L2-L3", departure_tick=0, route_intent=("L2", "L3"))
+        )
+
+        engine.step()
+
+        self.assertEqual(
+            self.realised_path(engine, packet_l1_l4.packet_id),
+            ("L1", "L4"),
+        )
+        self.assertEqual(
+            self.realised_path(engine, packet_l2_l3.packet_id),
+            ("L2", "L3"),
+        )
+        trace = engine.allocation_traces()[0]
+        self.assertEqual(trace.node_id, "N")
+        self.assertEqual(
+            {summary.movement_id for summary in trace.movement_flow_summaries},
+            {"movement:L1->L4", "movement:L2->L3"},
+        )
+        self.assertTrue(engine.check_conservation())
+
+    def test_advanced_junction_semantics_fail_explicitly(self) -> None:
+        with self.assertRaisesRegex(ValueError, "conflict_resource_solver_unsupported"):
             self.parity_engine(
                 links={
                     "L1": self.physical_link("L1"),
@@ -222,26 +268,43 @@ class LTMParityNodeFamilyTest(unittest.TestCase):
                         "N",
                         incoming_link_ids=("L1", "L2"),
                         outgoing_link_ids=("L3", "L4"),
+                        junction_spec=JunctionSpec(
+                            node_id="N",
+                            incoming_link_ids=("L1", "L2"),
+                            outgoing_link_ids=("L3", "L4"),
+                            movement_specs=(
+                                MovementSpec("L1", "L3"),
+                                MovementSpec("L2", "L4"),
+                            ),
+                            conflict_resource_ids=("crossing-conflict",),
+                        ),
                     ),
                 ),
             )
 
-    def test_priority_merge_without_declared_priorities_fails_clearly(self) -> None:
-        with self.assertRaisesRegex(ValueError, "requires declared priorities"):
-            self.parity_engine(
-                links={
-                    "L1": self.physical_link("L1"),
-                    "L2": self.physical_link("L2"),
-                    "L3": self.physical_link("L3"),
-                },
-                nodes=(
-                    Node(
-                        "N",
-                        incoming_link_ids=("L1", "L2"),
-                        outgoing_link_ids=("L3",),
-                        node_model=PARITY_NODE_MODEL_PRIORITY_MERGE,
-                    ),
-                ),
+    def test_explicit_junction_spec_cannot_share_legacy_node_metadata(self) -> None:
+        junction_spec = JunctionSpec(
+            node_id="N",
+            incoming_link_ids=("L1",),
+            outgoing_link_ids=("L2",),
+        )
+
+        with self.assertRaisesRegex(ValueError, "merge_priorities"):
+            Node(
+                "N",
+                incoming_link_ids=("L1",),
+                outgoing_link_ids=("L2",),
+                merge_priorities=(("L1", 2),),
+                junction_spec=junction_spec,
+            )
+
+    def test_removed_specialised_node_model_labels_are_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "specialised node_model labels"):
+            Node(
+                "N",
+                incoming_link_ids=("L1",),
+                outgoing_link_ids=("L2",),
+                node_model="one_to_one",
             )
 
     def test_legacy_profile_keeps_global_fifo_default_policy(self) -> None:
@@ -255,12 +318,62 @@ class LTMParityNodeFamilyTest(unittest.TestCase):
                     "N",
                     incoming_link_ids=("L1",),
                     outgoing_link_ids=("L2",),
-                    node_model=PARITY_NODE_MODEL_ONE_TO_ONE,
                 ),
             ),
         )
 
         self.assertIsInstance(engine.node_transfer_policy, GlobalFIFOMergePolicy)
+
+    def test_parity_profile_uses_general_movement_allocator(self) -> None:
+        engine = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1"),
+                "L2": self.physical_link("L2"),
+            },
+            nodes=(Node("N", incoming_link_ids=("L1",), outgoing_link_ids=("L2",)),),
+        )
+
+        self.assertIsInstance(engine.movement_allocator, GeneralMovementAllocator)
+
+    def test_movement_allocator_identity_and_spec_hash_are_provenance_visible(
+        self,
+    ) -> None:
+        links = {
+            "L1": self.physical_link("L1"),
+            "L2": self.physical_link("L2"),
+        }
+        default_engine = self.parity_engine(
+            links=links,
+            nodes=(Node("N", incoming_link_ids=("L1",), outgoing_link_ids=("L2",)),),
+        )
+        weighted_engine = self.parity_engine(
+            links=links,
+            nodes=(
+                Node(
+                    "N",
+                    incoming_link_ids=("L1",),
+                    outgoing_link_ids=("L2",),
+                    junction_spec=JunctionSpec(
+                        node_id="N",
+                        incoming_link_ids=("L1",),
+                        outgoing_link_ids=("L2",),
+                        movement_specs=(
+                            MovementSpec("L1", "L2", priority_weight=2),
+                        ),
+                    ),
+                ),
+            ),
+        )
+
+        self.assertEqual(
+            default_engine.movement_allocator_id,
+            "uc_movement_allocator_stage1_v1",
+        )
+        self.assertEqual(len(default_engine.movement_spec_hash), 64)
+        self.assertNotEqual(
+            default_engine.movement_spec_hash,
+            weighted_engine.movement_spec_hash,
+        )
 
     def priority_merge_engine(
         self,
@@ -295,7 +408,6 @@ class LTMParityNodeFamilyTest(unittest.TestCase):
                     "N",
                     incoming_link_ids=("L1", "L2"),
                     outgoing_link_ids=("L3",),
-                    node_model=PARITY_NODE_MODEL_PRIORITY_MERGE,
                     merge_priorities=priority_weights,
                 ),
             ),
