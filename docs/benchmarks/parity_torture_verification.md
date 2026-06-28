@@ -17,6 +17,9 @@ The tests live under `tests/parity_torture/` and are organized by intent:
 - `test_sioux_falls_regression.py` uses Sioux Falls only as a regression fixture:
   deterministic replay, conservation, cumulative-count consistency, queue sanity,
   and absence of impossible states.
+- `test_commodity_parity.py` covers M7 unit-packet commodity evidence, route
+  disaggregation, packet ordinal correspondence, route travel-time curves,
+  high-commodity fixtures, and legacy-profile non-evidence.
 - `helpers.py` contains the shared fixtures, generators, and invariant assertions.
 
 ## Extension Rules
@@ -30,4 +33,3 @@ bookkeeping unless a separate validation artifact supports stronger conclusions.
 The package intentionally avoids Hypothesis or network-scale generation so every
 failure is reproducible from a seed and can be reduced into a deterministic
 regression fixture.
-

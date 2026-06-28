@@ -14,6 +14,7 @@ from urban_cybernetics.loading import (
     packet_ids_on_link_from_events,
 )
 from urban_cybernetics.validation import build_spillback_validation_report
+from urban_cybernetics.validation import build_commodity_parity_validation_report
 
 
 @dataclass(frozen=True, slots=True)
@@ -210,6 +211,7 @@ def assert_core_invariants(engine: LoadingEngine) -> None:
     assert_link_fifo(engine)
     assert_queue_consistency(engine)
     assert_trace_bounds(engine)
+    assert_commodity_parity(engine)
 
 
 def assert_monotone_counts_and_storage_bounds(engine: LoadingEngine) -> None:
@@ -348,6 +350,14 @@ def assert_trace_bounds(engine: LoadingEngine) -> None:
                 receiving_view.available_receiving_capacity,
                 0,
             ), receiving_view
+
+
+def assert_commodity_parity(engine: LoadingEngine) -> None:
+    if engine.model_profile_id != ACADEMIC_LTM_PARITY_PROFILE_ID:
+        return
+
+    report = build_commodity_parity_validation_report(engine)
+    assert report.is_valid, report.invariant_violations
 
 
 def assert_same_events(first: LoadingEngine, second: LoadingEngine) -> None:

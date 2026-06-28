@@ -36,6 +36,20 @@ What a packet represents is a modelling choice declared in the experiment config
 
 The selected granularity must be declared in the experiment configuration and must be consistent throughout a single conservation ledger. Mixed granularity within one run is not permitted unless explicitly modelled with separate conservation ledgers.
 
+M7 makes the current parity-evidence boundary explicit: the base loading model
+admits unit packets only. `packet_unit_weight` is fixed at `1` on demand and
+packet records, and non-unit values are rejected rather than interpreted as
+vehicle-equivalent weights. This is not weighted-packet support; it is an
+explicit guard against accidentally treating weighted or mixed-granularity runs
+as academic LTM parity evidence.
+
+For M7 parity evidence, a commodity is the immutable route-intent class:
+`route:<link_1>->...-><link_n>`. All packets with the same ordered route-intent
+link sequence belong to the same current UC commodity. There is no separate OD,
+vehicle-class, cohort-size, or behavioural-class commodity dimension in the
+current loading kernel. Those dimensions may exist upstream as demand metadata,
+but they are not part of the current packet-LTM commodity ledger.
+
 ---
 
 ### Lifecycle States
@@ -120,6 +134,12 @@ A packet may have its route intent updated mid-journey. A re-route event records
 The loading engine appends the re-route event. Prior route intent is archived, not deleted. The packet ID does not change.
 
 [OPEN] Priority ordering when multiple subsystems propose a re-route simultaneously. → routing_authorities.md, governance_model.md.
+
+M7 does not implement rerouting. Route-disaggregated counts, packet boundary
+ordinals, and route travel-time curves are valid parity evidence only while the
+realised link-entry sequence is the prefix of immutable route intent. Any
+future reroute event semantics must define how route keys, commodity counts,
+and travel-time curves split before those runs can be labelled M7 evidence.
 
 ---
 

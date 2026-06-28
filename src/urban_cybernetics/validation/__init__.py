@@ -9,6 +9,12 @@ from .claims import (
     ParityRunEvidence,
     parity_profile_status,
 )
+from .commodity import (
+    COMMODITY_MODEL_ID,
+    CommodityDefinition,
+    CommodityParityValidationReport,
+    build_commodity_parity_validation_report,
+)
 from .physical import (
     PhysicalParameterEligibilityReport,
     assess_physical_parameter_eligibility,
@@ -26,6 +32,9 @@ __all__ = [
     "PARITY_EVIDENCE_STATUSES",
     "PARITY_FAILURE_REASONS",
     "PARITY_SPEC_VERSION",
+    "COMMODITY_MODEL_ID",
+    "CommodityDefinition",
+    "CommodityParityValidationReport",
     "ParityEvidenceContract",
     "ParityRunEvidence",
     "PhysicalParameterEligibilityReport",
@@ -34,6 +43,7 @@ __all__ = [
     "SpillbackValidationReport",
     "parity_profile_status",
     "assess_physical_parameter_eligibility",
+    "build_commodity_parity_validation_report",
     "build_spillback_validation_report",
     "require_physical_parameter_eligibility",
 ]

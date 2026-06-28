@@ -11,6 +11,8 @@ from .cumulative_counts import (
     LinkStorageView,
     PacketBoundaryOrdinal,
     RouteCumulativeBoundaryCounts,
+    RouteTravelTimeCurve,
+    RouteTravelTimePoint,
     count_consistency_report,
     cumulative_count_projection,
     cumulative_count_series,
@@ -24,6 +26,7 @@ from .cumulative_counts import (
     route_cumulative_count_series,
     route_cumulative_counts,
     route_key_for_packet,
+    route_travel_time_curves,
 )
 from .engine import EventCacheConsistencyError, LoadingEngine
 from .receiving import (
@@ -79,6 +82,8 @@ __all__ = [
     "ReceivingCause",
     "ReceivingDecisionTrace",
     "RouteCumulativeBoundaryCounts",
+    "RouteTravelTimeCurve",
+    "RouteTravelTimePoint",
     "StrictFIFOJunctionPolicy",
     "TransferCandidate",
     "VacancyLagState",
@@ -103,4 +108,5 @@ __all__ = [
     "route_cumulative_count_series",
     "route_cumulative_counts",
     "route_key_for_packet",
+    "route_travel_time_curves",
 ]

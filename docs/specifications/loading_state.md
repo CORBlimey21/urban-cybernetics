@@ -139,6 +139,32 @@ canonical history retention. The default event retention mode remains full
 in-memory history; inspection and provenance continue to consume the same
 canonical artifacts and IDs.
 
+M7 adds packet and multi-commodity parity evidence without changing movement
+mechanics. The current UC commodity model is immutable route intent: a commodity
+key is the ordered route-link sequence stored on the packet, rendered as
+`route:<link_1>->...-><link_n>`. Counts remain packet-unit counts. The base
+loading records reject non-unit `packet_unit_weight` values, so weighted packets
+and mixed-granularity ledgers cannot be accidentally treated as parity evidence.
+
+M7 strengthens the read-only count projection by tying three views together:
+
+- aggregate cumulative boundary counts;
+- route-disaggregated cumulative boundary counts for each route-intent
+  commodity;
+- packet boundary ordinals, including the route ordinal for each route-keyed
+  count increment.
+
+For completed packets, M7 also derives route travel-time curves from canonical
+events. A route travel-time point is keyed by route intent, packet ID,
+instantiation tick, completion tick, and the packet's final-link exit route
+ordinal. The curve is therefore a derived audit view over the event log and
+count ordinals, not a mutable travel-time field and not observation truth.
+
+M7 does not implement rerouting. If realised link-entry events stop matching
+the immutable route-intent prefix, the run is not valid M7 parity evidence.
+M7 also does not implement weighted packets, new node families, new loading
+mechanics, canonical benchmark validation, or Sioux Falls parity validation.
+
 ---
 
 ### What Must Not Be Stored as Loading State

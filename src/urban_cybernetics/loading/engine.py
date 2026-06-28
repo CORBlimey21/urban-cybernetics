@@ -28,6 +28,7 @@ from urban_cybernetics.loading.cumulative_counts import (
     LinkStorageView,
     PacketBoundaryOrdinal,
     RouteCumulativeBoundaryCounts,
+    RouteTravelTimeCurve,
     count_consistency_report,
     cumulative_count_projection,
     cumulative_count_series,
@@ -39,6 +40,7 @@ from urban_cybernetics.loading.cumulative_counts import (
     packet_boundary_ordinals,
     route_cumulative_count_series,
     route_cumulative_counts,
+    route_travel_time_curves,
 )
 from urban_cybernetics.loading.receiving import (
     LinkReceivingView,
@@ -336,6 +338,19 @@ class LoadingEngine:
             packets=self.packets,
             max_tick=self.current_tick if max_tick is None else max_tick,
             prefix_event_count=prefix_event_count,
+        )
+
+    def route_travel_time_curves(
+        self,
+        *,
+        max_tick: int | None = None,
+    ) -> tuple[RouteTravelTimeCurve, ...]:
+        """Return route-keyed completed-packet travel-time curves."""
+
+        return route_travel_time_curves(
+            self.event_log,
+            self.packets,
+            max_tick=self.current_tick if max_tick is None else max_tick,
         )
 
     def count_consistency_report(
@@ -667,6 +682,7 @@ class LoadingEngine:
             demand_id=demand.demand_id,
             route_intent=demand.route_intent,
             lifecycle_state=LifecycleState.IN_TRANSIT,
+            packet_unit_weight=demand.packet_unit_weight,
         )
         self._packets[packet_id] = packet
         self._packet_instantiation_orders[packet_id] = packet_number

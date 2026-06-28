@@ -74,6 +74,41 @@ class RouteCumulativeBoundaryCounts:
 
 
 @dataclass(frozen=True, slots=True)
+class RouteTravelTimePoint:
+    """Completed packet travel-time observation for one route commodity."""
+
+    route_key: str
+    route_link_ids: tuple[str, ...]
+    packet_id: str
+    departure_tick: int
+    completion_tick: int
+    travel_time_ticks: int
+    completion_sequence_number: int
+    final_link_id: str
+    final_link_exit_route_ordinal: int
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "route_link_ids", tuple(self.route_link_ids))
+        if self.travel_time_ticks < 0:
+            raise ValueError("travel_time_ticks cannot be negative")
+        if self.final_link_exit_route_ordinal < 1:
+            raise ValueError("final_link_exit_route_ordinal must be positive")
+
+
+@dataclass(frozen=True, slots=True)
+class RouteTravelTimeCurve:
+    """Route-keyed completed-packet travel-time curve."""
+
+    route_key: str
+    route_link_ids: tuple[str, ...]
+    points: tuple[RouteTravelTimePoint, ...]
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "route_link_ids", tuple(self.route_link_ids))
+        object.__setattr__(self, "points", tuple(self.points))
+
+
+@dataclass(frozen=True, slots=True)
 class CumulativeCountProjection:
     """Complete read-only M2 event-to-count projection for a prefix."""
 
@@ -85,6 +120,7 @@ class CumulativeCountProjection:
     aggregate_counts: tuple[CumulativeBoundaryCounts, ...]
     packet_ordinals: tuple[PacketBoundaryOrdinal, ...]
     route_counts: tuple[RouteCumulativeBoundaryCounts, ...] = ()
+    route_travel_time_curves: tuple[RouteTravelTimeCurve, ...] = ()
     route_counts_supported: bool = False
     route_count_support_reason: str = "packet_route_intent_unavailable"
 
@@ -93,6 +129,11 @@ class CumulativeCountProjection:
         object.__setattr__(self, "aggregate_counts", tuple(self.aggregate_counts))
         object.__setattr__(self, "packet_ordinals", tuple(self.packet_ordinals))
         object.__setattr__(self, "route_counts", tuple(self.route_counts))
+        object.__setattr__(
+            self,
+            "route_travel_time_curves",
+            tuple(self.route_travel_time_curves),
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -358,6 +399,86 @@ def route_cumulative_count_series(
     )
 
 
+def route_travel_time_curves(
+    events: Iterable[Event],
+    packets: Mapping[str, Packet],
+    *,
+    max_tick: int | None = None,
+) -> tuple[RouteTravelTimeCurve, ...]:
+    """Return route-keyed completed-packet travel-time curves.
+
+    Curves are currently supported only for immutable route intent with no
+    reroute event semantics. Each point is tied to the packet's final-link exit
+    route ordinal, so completed-packet travel time remains auditable against the
+    cumulative boundary-count projection.
+    """
+
+    event_tuple = tuple(events)
+    instantiation_tick_by_packet_id: dict[str, int] = {}
+    completion_events: list[Event] = []
+    for event in event_tuple:
+        if max_tick is not None and event.physical_tick > max_tick:
+            continue
+        if event.event_type == EventType.INSTANTIATED:
+            instantiation_tick_by_packet_id[event.packet_id] = event.physical_tick
+        elif event.event_type == EventType.COMPLETED:
+            completion_events.append(event)
+
+    final_exit_ordinal_by_packet_id = _final_link_exit_route_ordinals(
+        event_tuple,
+        packets,
+        max_tick=max_tick,
+    )
+    points_by_route_key: dict[str, list[RouteTravelTimePoint]] = {}
+    route_link_ids_by_key = _route_link_ids_by_key(packets)
+    for completion in sorted(
+        completion_events,
+        key=lambda event: (event.physical_tick, event.sequence_number),
+    ):
+        packet = packets.get(completion.packet_id)
+        if packet is None:
+            raise ValueError(
+                f"completion references packet_id {completion.packet_id} "
+                "without packet metadata"
+            )
+        if not packet.route_intent:
+            raise ValueError(f"packet_id {packet.packet_id} has empty route_intent")
+        if completion.packet_id not in instantiation_tick_by_packet_id:
+            raise ValueError(
+                f"packet_id {completion.packet_id} completes without instantiation"
+            )
+        route_key = route_key_for_packet(packet)
+        final_link_id = packet.route_intent[-1]
+        final_exit_ordinal = final_exit_ordinal_by_packet_id.get(packet.packet_id)
+        if final_exit_ordinal is None:
+            raise ValueError(
+                f"packet_id {packet.packet_id} completes without final-link exit ordinal"
+            )
+        departure_tick = instantiation_tick_by_packet_id[packet.packet_id]
+        points_by_route_key.setdefault(route_key, []).append(
+            RouteTravelTimePoint(
+                route_key=route_key,
+                route_link_ids=route_link_ids_by_key[route_key],
+                packet_id=packet.packet_id,
+                departure_tick=departure_tick,
+                completion_tick=completion.physical_tick,
+                travel_time_ticks=completion.physical_tick - departure_tick,
+                completion_sequence_number=completion.sequence_number,
+                final_link_id=final_link_id,
+                final_link_exit_route_ordinal=final_exit_ordinal,
+            )
+        )
+
+    return tuple(
+        RouteTravelTimeCurve(
+            route_key=route_key,
+            route_link_ids=route_link_ids_by_key[route_key],
+            points=tuple(points_by_route_key.get(route_key, ())),
+        )
+        for route_key in sorted(route_link_ids_by_key)
+    )
+
+
 def cumulative_count_projection(
     events: Iterable[Event],
     *,
@@ -389,6 +510,7 @@ def cumulative_count_projection(
         else "packet_route_intent_unavailable"
     )
     route_counts: tuple[RouteCumulativeBoundaryCounts, ...] = ()
+    travel_time_curves: tuple[RouteTravelTimeCurve, ...] = ()
     if packets is not None:
         route_counts = tuple(
             route_counts_item
@@ -402,6 +524,11 @@ def cumulative_count_projection(
                 max_tick=projection_max_tick,
             )
         )
+        travel_time_curves = route_travel_time_curves(
+            event_tuple,
+            packets,
+            max_tick=projection_max_tick,
+        )
     return CumulativeCountProjection(
         link_ids=link_id_tuple,
         max_tick=projection_max_tick,
@@ -411,6 +538,7 @@ def cumulative_count_projection(
         aggregate_counts=aggregate,
         packet_ordinals=ordinals,
         route_counts=route_counts,
+        route_travel_time_curves=travel_time_curves,
         route_counts_supported=route_counts_supported,
         route_count_support_reason=route_support_reason,
     )
@@ -459,6 +587,7 @@ def count_consistency_report(
         _check_packet_ordinals(projection.packet_ordinals, reasons)
         if projection.route_counts_supported:
             _check_route_counts_sum_to_aggregate(projection, reasons)
+            _check_route_travel_time_curves(projection, reasons)
     except (KeyError, TypeError, ValueError) as exc:
         event_tuple = _event_prefix(event_source_tuple, prefix_event_count)
         return CountConsistencyReport(
@@ -530,6 +659,32 @@ def _route_link_ids_by_key(packets: Mapping[str, Packet]) -> dict[str, tuple[str
         if route_link_ids != packet.route_intent:
             raise ValueError(f"route_key collision for {route_key}")
     return route_link_ids_by_key
+
+
+def _final_link_exit_route_ordinals(
+    events: tuple[Event, ...],
+    packets: Mapping[str, Packet],
+    *,
+    max_tick: int | None,
+) -> dict[str, int]:
+    final_exit_ordinal_by_packet_id: dict[str, int] = {}
+    for ordinal in packet_boundary_ordinals(
+        events,
+        packets=packets,
+        max_tick=max_tick,
+    ):
+        packet = packets[ordinal.packet_id]
+        if (
+            ordinal.boundary_type == EXIT_BOUNDARY
+            and packet.route_intent
+            and ordinal.link_id == packet.route_intent[-1]
+        ):
+            if ordinal.route_ordinal is None:
+                raise ValueError(
+                    f"packet_id {packet.packet_id} final exit has no route ordinal"
+                )
+            final_exit_ordinal_by_packet_id[packet.packet_id] = ordinal.route_ordinal
+    return final_exit_ordinal_by_packet_id
 
 
 def _check_event_order(events: tuple[Event, ...], reasons: list[str]) -> None:
@@ -622,3 +777,28 @@ def _check_route_counts_sum_to_aggregate(
             reasons.append(f"{key[0]}:route_entries_do_not_sum_at_tick_{key[1]}")
         if route_exits != aggregate_counts.exits:
             reasons.append(f"{key[0]}:route_exits_do_not_sum_at_tick_{key[1]}")
+
+
+def _check_route_travel_time_curves(
+    projection: CumulativeCountProjection,
+    reasons: list[str],
+) -> None:
+    completion_keys: set[tuple[str, int]] = set()
+    for curve in projection.route_travel_time_curves:
+        previous_completion: tuple[int, int] | None = None
+        for point in curve.points:
+            if point.route_key != curve.route_key:
+                reasons.append(f"{curve.route_key}:travel_time_point_route_key_mismatch")
+            if point.route_link_ids != curve.route_link_ids:
+                reasons.append(f"{curve.route_key}:travel_time_point_route_links_mismatch")
+            completion_key = (point.packet_id, point.completion_sequence_number)
+            if completion_key in completion_keys:
+                reasons.append(f"{curve.route_key}:duplicate_travel_time_packet")
+            completion_keys.add(completion_key)
+            current_completion = (
+                point.completion_tick,
+                point.completion_sequence_number,
+            )
+            if previous_completion is not None and current_completion < previous_completion:
+                reasons.append(f"{curve.route_key}:travel_time_curve_not_ordered")
+            previous_completion = current_completion

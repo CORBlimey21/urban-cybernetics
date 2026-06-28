@@ -280,3 +280,25 @@ Tasks 30-36 add the minimal parity node family under `parity_ltm_v1`. Immutable 
 The parity node policy preserves route intent before allocation: candidates are already route-realised by the loading engine, and diverge decisions do not invent downstream links. One-to-one and diverge nodes use strict upstream FIFO. Declared-priority merges use bounded deficit accounting so indivisible packets can approximate declared long-horizon shares while unused active share is reassigned only when sending demand and receiving supply exist.
 
 M6 rejects unsupported multi-input/multi-output parity nodes and priority merges without declared priorities. Node transfer traces are read-only evidence from the most recent parity node decision. M6 does not implement M7 multi-commodity parity, weighted packets, signalised node models beyond existing governance closure, or city-scale urban node semantics.
+
+## M7 Implementation Status
+
+Tasks 37-41 add packet and multi-commodity parity evidence under the existing
+`parity_ltm_v1` profile. The current UC commodity is immutable route intent:
+all unit packets with the same ordered route-link sequence share one commodity
+key. Demand and packet records now explicitly reject non-unit
+`packet_unit_weight` values, so weighted packets and mixed-granularity runs are
+not silently admitted as parity evidence.
+
+M7 keeps aggregate cumulative counts, route-disaggregated cumulative counts,
+and packet boundary ordinals tied to the same canonical event projection. Route
+travel-time curves are generated only where currently supported: completed
+packets with immutable route intent and no reroute semantics. Each travel-time
+point records the packet's instantiation tick, completion tick, experienced
+travel time in ticks, and final-link exit route ordinal, linking the point back
+to the route cumulative count curve.
+
+M7 does not change sending, receiving, spillback, queue release, node allocation,
+legacy profile behaviour, topology, routing, observability, or inspection
+ownership. It does not implement rerouting, weighted packets, new node
+families, canonical benchmark validation, or Sioux Falls parity validation.
