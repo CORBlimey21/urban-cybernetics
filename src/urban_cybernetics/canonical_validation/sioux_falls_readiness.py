@@ -207,6 +207,7 @@ def build_sioux_falls_parity_readiness_report(
             ),
         ),
         _physical_gate(physical_report),
+        _junction_metadata_gate(nodes),
     ]
 
     parity_engine: LoadingEngine | None = None
@@ -223,11 +224,11 @@ def build_sioux_falls_parity_readiness_report(
     if parity_error is None:
         gates.append(
             _pass_gate(
-                "parity_profile_full_topology_initialization",
-                "Full Sioux Falls topology initialized with the movement allocator.",
+                "allocator_capability",
+                "Full Sioux Falls topology initialized with the Stage 2 movement allocator.",
             )
         )
-        if physical_report.is_parity_eligible:
+        if physical_report.is_parity_eligible and gates[-2].is_pass:
             assert parity_engine is not None
             _run_scheduled_slice(parity_engine, resolved, tick_limit=tick_limit)
             commodity_report = build_commodity_parity_validation_report(parity_engine)
@@ -243,11 +244,11 @@ def build_sioux_falls_parity_readiness_report(
                 (
                     _not_run_gate(
                         "parity_commodity_evidence",
-                        "Skipped because full-topology physical metadata is not parity-eligible.",
+                        "Skipped because full-topology physical or junction metadata is not parity-eligible.",
                     ),
                     _not_run_gate(
                         "parity_spillback_evidence",
-                        "Skipped because full-topology physical metadata is not parity-eligible.",
+                        "Skipped because full-topology physical or junction metadata is not parity-eligible.",
                     ),
                 )
             )
@@ -255,18 +256,18 @@ def build_sioux_falls_parity_readiness_report(
         gates.extend(
             (
                 _fail_gate(
-                    "parity_profile_full_topology_initialization",
+                    "allocator_capability",
                     "Full Sioux Falls topology cannot currently initialize under "
-                    "the movement-allocation parity path.",
+                    "the Stage 2 movement-allocation parity path.",
                     details=(parity_error,),
                 ),
                 _not_run_gate(
                     "parity_commodity_evidence",
-                    "Skipped because parity_ltm_v1 full-topology initialization failed.",
+                    "Skipped because Stage 2 allocator capability failed.",
                 ),
                 _not_run_gate(
                     "parity_spillback_evidence",
-                    "Skipped because parity_ltm_v1 full-topology initialization failed.",
+                    "Skipped because Stage 2 allocator capability failed.",
                 ),
             )
         )
@@ -631,6 +632,40 @@ def _physical_gate(
     )
 
 
+def _junction_metadata_gate(nodes: tuple[Node, ...]) -> SiouxFallsReadinessGate:
+    missing_metadata_node_ids = tuple(
+        node.node_id
+        for node in nodes
+        if _node_needs_reviewed_stage2_junction_metadata(node)
+        and not _node_has_stage2_junction_metadata(node)
+    )
+    if not missing_metadata_node_ids:
+        return _pass_gate(
+            "junction_semantics_metadata",
+            "All full-topology junctions have reviewed Stage 2 junction metadata or do not require it.",
+        )
+    return _fail_gate(
+        "junction_semantics_metadata",
+        "Full Sioux Falls contains complex junctions without reviewed conflict, lane-group, or signal metadata.",
+        detail_count=len(missing_metadata_node_ids),
+        details=missing_metadata_node_ids[:12],
+    )
+
+
+def _node_needs_reviewed_stage2_junction_metadata(node: Node) -> bool:
+    return len(node.incoming_link_ids) > 1 and len(node.outgoing_link_ids) > 1
+
+
+def _node_has_stage2_junction_metadata(node: Node) -> bool:
+    junction_spec = node.junction_spec
+    return bool(
+        junction_spec.lane_group_ids
+        or junction_spec.movement_lane_group_mappings
+        or junction_spec.conflict_resource_ids
+        or any(movement.signal_group_id is not None for movement in junction_spec.movement_specs)
+    )
+
+
 def _commodity_gate(
     report: CommodityParityValidationReport,
 ) -> SiouxFallsReadinessGate:
@@ -737,7 +772,7 @@ def _subnetwork_structure_gate(nodes: tuple[Node, ...]) -> SiouxFallsReadinessGa
     )
     return _pass_gate(
         "supported_subnetwork_structure",
-        "Selected Sioux Falls subnetwork uses Stage 1 movement-allocation semantics.",
+        "Selected Sioux Falls subnetwork uses Stage 2 movement-allocation semantics.",
         details=details,
     )
 
@@ -818,7 +853,7 @@ def main() -> None:
     parser.add_argument(
         "--subnetwork",
         action="store_true",
-        help="Run the supported M6 Sioux Falls subnetwork readiness gates.",
+        help="Run the supported movement-allocation Sioux Falls subnetwork readiness gates.",
     )
     args = parser.parse_args()
     if args.subnetwork:

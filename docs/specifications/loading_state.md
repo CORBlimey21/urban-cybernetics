@@ -69,20 +69,19 @@ calls the `MovementAllocator`, receives a `JunctionAllocationDecision`, and then
 alone emits canonical lifecycle events.
 
 The current production allocator supports one-to-one junctions, strict
-route-encoded diverges, declared-priority merges, and simple arbitrary
-multi-input/multi-output junctions whose behaviour requires no conflict
-resources, lane-group allocation, signal phases, or adaptive control. It
-preserves strict upstream FIFO, demand/supply compliance, deterministic
-tie-breaking, packet identity, and event-log canonicality. Declared priority is
-movement metadata and is implemented with bounded deficit accounting for
-indivisible unit packets.
+route-encoded diverges, declared-priority merges, arbitrary
+multi-input/multi-output movement sets, conflict-resource capacity, lane-group
+capacity, signal gates, governance movement closures, and declared partial FIFO
+where disjoint movements may bypass blocked non-coupled movements. It preserves
+demand/supply compliance, deterministic tie-breaking, packet identity, and
+event-log canonicality. Declared priority is movement metadata and is
+implemented with bounded deficit accounting for indivisible unit packets.
 
 Unsupported advanced junction semantics are rejected explicitly rather than
-silently simplified. This includes signal phases, movement conflict resources,
-lane-group service rules, adaptive control, gap acceptance, roundabout-specific
-logic, weighted packets, rerouting, and empirical calibration. Legacy global
-FIFO merge policy remains available only for the non-parity legacy profile and
-for labelled regression comparison.
+silently simplified. This includes adaptive signal control, lane-changing,
+gap acceptance, roundabout-specific logic, weighted packets, rerouting, and
+empirical calibration. Legacy global FIFO merge policy remains available only
+for the non-parity legacy profile and for labelled regression comparison.
 
 The loading engine exposes read-only allocation traces, allocator identity, and
 a deterministic movement-spec fingerprint for provenance. These are evidence

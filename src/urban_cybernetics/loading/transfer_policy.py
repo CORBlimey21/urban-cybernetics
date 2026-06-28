@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from urban_cybernetics.core.node import (
+    JUNCTION_FIFO_PARTIAL_BY_MOVEMENT,
+    JUNCTION_FIFO_STRICT,
     PARITY_NODE_MODEL_LEGACY_GLOBAL_FIFO,
     JunctionSpec,
     MovementSpec,
@@ -16,10 +18,16 @@ from urban_cybernetics.core.node import (
 
 
 STAGE1_MOVEMENT_ALLOCATOR_ID = "uc_movement_allocator_stage1_v1"
+STAGE2_MOVEMENT_ALLOCATOR_ID = "uc_movement_allocator_stage2_v1"
 REJECTED_DOWNSTREAM_SUPPLY = "downstream_supply_unavailable"
 REJECTED_UPSTREAM_FIFO = "upstream_fifo_blocked"
 REJECTED_MOVEMENT_UNDECLARED = "movement_not_declared"
 REJECTED_NOT_SELECTED = "not_selected_this_tick"
+REJECTED_CONFLICT_RESOURCE_CAPACITY = "conflict_resource_capacity_unavailable"
+REJECTED_LANE_GROUP_CAPACITY = "lane_group_capacity_unavailable"
+REJECTED_SIGNAL_CLOSED = "signal_gate_closed"
+REJECTED_GOVERNANCE_CLOSED = "governance_gate_closed"
+UNSUPPORTED_ADAPTIVE_CONTROL = "adaptive_control_unsupported"
 
 
 @dataclass(frozen=True, slots=True)
@@ -79,6 +87,10 @@ class AllocationTrace:
     rejected_transfer_reasons: tuple[tuple[str, str], ...]
     receiving_slots_by_downstream_link: tuple[tuple[str, int], ...]
     movement_flow_summaries: tuple[MovementFlowSummary, ...]
+    conflict_resource_capacity_by_id: tuple[tuple[str, int], ...] = ()
+    lane_group_capacity_by_id: tuple[tuple[str, int], ...] = ()
+    open_signal_group_ids: tuple[str, ...] = ()
+    closed_movement_ids: tuple[str, ...] = ()
     priority_deficit_by_movement_id: tuple[tuple[str, float], ...] = ()
 
     @property
@@ -107,6 +119,10 @@ class JunctionAllocationInput:
     receiving_slots_by_downstream_link: Mapping[str, int]
     packet_ids_by_upstream_link: Mapping[str, tuple[str, ...]]
     queued_downstream_by_packet_id: Mapping[str, str]
+    conflict_resource_capacity_by_id: Mapping[str, int] | None = None
+    lane_group_capacity_by_id: Mapping[str, int] | None = None
+    open_signal_group_ids: frozenset[str] = frozenset()
+    closed_movement_ids: frozenset[str] = frozenset()
 
 
 @dataclass(frozen=True, slots=True)
@@ -223,9 +239,9 @@ class GlobalFIFOMergePolicy(StrictFIFOJunctionPolicy):
 
 
 class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
-    """Stage 1 movement allocator for declarative junction specifications."""
+    """Stage 2 movement allocator for declarative junction specifications."""
 
-    allocator_id = STAGE1_MOVEMENT_ALLOCATOR_ID
+    allocator_id = STAGE2_MOVEMENT_ALLOCATOR_ID
 
     def __init__(self, nodes: Iterable[Node]) -> None:
         self._nodes = tuple(nodes)
@@ -322,7 +338,7 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
                 )
             junction_spec = node.junction_spec
             assert junction_spec is not None
-            self._validate_stage1_junction_spec(junction_spec)
+            self._validate_stage2_junction_spec(junction_spec)
             self._junction_spec_by_node_id[node.node_id] = junction_spec
             for incoming_link_id in node.incoming_link_ids:
                 if incoming_link_id in self._node_by_incoming_link_id:
@@ -346,25 +362,17 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
                     (node.node_id, movement.movement_id)
                 ] = 0.0
 
-    def _validate_stage1_junction_spec(self, junction_spec: JunctionSpec) -> None:
+    def _validate_stage2_junction_spec(self, junction_spec: JunctionSpec) -> None:
         unsupported_reasons: list[str] = []
-        if junction_spec.lane_group_ids or junction_spec.movement_lane_group_mappings:
-            unsupported_reasons.append("lane_group_allocation_unsupported")
-        if junction_spec.conflict_resource_ids:
-            unsupported_reasons.append("conflict_resource_solver_unsupported")
-        if junction_spec.governance_refs:
-            unsupported_reasons.append("governance_constraint_solver_unsupported")
+        if "adaptive_control" in junction_spec.governance_refs:
+            unsupported_reasons.append(UNSUPPORTED_ADAPTIVE_CONTROL)
         for movement in junction_spec.movement_specs:
-            if movement.lane_group_ids:
-                unsupported_reasons.append("movement_lane_group_allocation_unsupported")
-            if movement.conflict_resource_ids:
-                unsupported_reasons.append("movement_conflict_resources_unsupported")
-            if movement.signal_group_id is not None:
-                unsupported_reasons.append("signal_phase_allocation_unsupported")
+            if ("adaptive_control", "true") in movement.provenance:
+                unsupported_reasons.append(UNSUPPORTED_ADAPTIVE_CONTROL)
         if unsupported_reasons:
             unique_reasons = tuple(dict.fromkeys(unsupported_reasons))
             raise ValueError(
-                f"unsupported advanced junction semantics for {junction_spec.node_id}: "
+                f"unsupported Stage 2 junction semantics for {junction_spec.node_id}: "
                 f"{unique_reasons}"
             )
 
@@ -470,6 +478,7 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
             allocation_input.queued_downstream_by_packet_id,
             approved_packet_ids,
             junction_spec=allocation_input.junction_spec,
+            allocation_input=allocation_input,
         )
         summaries = self._movement_flow_summaries(
             allocation_input.transfer_requests,
@@ -505,6 +514,10 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
     ) -> tuple[TransferRequest, ...]:
         junction_spec = allocation_input.junction_spec
         assert junction_spec is not None
+        remaining_conflict_capacity = self._conflict_resource_capacity(
+            allocation_input,
+        )
+        remaining_lane_capacity = self._lane_group_capacity(allocation_input)
         requests_by_movement_id: dict[str, list[TransferRequest]] = {
             movement.movement_id: []
             for movement in junction_spec.movement_specs
@@ -547,6 +560,8 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
                 requests_by_movement_id=requests_by_movement_id,
                 approved_packet_ids=approved_packet_ids_for_node,
                 remaining_slots=remaining_slots,
+                remaining_conflict_capacity=remaining_conflict_capacity,
+                remaining_lane_capacity=remaining_lane_capacity,
             )
             if not selectable:
                 break
@@ -560,6 +575,12 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
                 (allocation_input.node_id, movement.movement_id)
             ] -= 1
             remaining_slots[request.downstream_link_id] -= 1
+            self._consume_movement_resources(
+                movement,
+                junction_spec,
+                remaining_conflict_capacity,
+                remaining_lane_capacity,
+            )
         return tuple(approved_transfers)
 
     def _selectable_movement_requests(
@@ -569,6 +590,8 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
         requests_by_movement_id: Mapping[str, list[TransferRequest]],
         approved_packet_ids: set[str],
         remaining_slots: Mapping[str, int],
+        remaining_conflict_capacity: Mapping[str, int],
+        remaining_lane_capacity: Mapping[str, int],
     ) -> list[tuple[float, int, tuple[int, int, str], TransferRequest, MovementSpec]]:
         junction_spec = allocation_input.junction_spec
         assert junction_spec is not None
@@ -590,11 +613,20 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
             movement = movement_by_id[movement_id_value]
             if remaining_slots.get(movement.downstream_link_id, 0) <= 0:
                 continue
+            if not self._movement_runtime_open(movement, allocation_input):
+                continue
+            if not self._movement_resources_available(
+                movement,
+                junction_spec,
+                remaining_conflict_capacity,
+                remaining_lane_capacity,
+            ):
+                continue
             request = self._first_fifo_request(
-                requests_by_movement_id.get(movement_id_value, ()),
-                approved_packet_ids,
-                allocation_input.packet_ids_by_upstream_link,
-                allocation_input.queued_downstream_by_packet_id,
+                requests=requests_by_movement_id.get(movement_id_value, ()),
+                approved_packet_ids=approved_packet_ids,
+                allocation_input=allocation_input,
+                candidate_movement=movement,
             )
             if request is None:
                 continue
@@ -619,23 +651,242 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
 
     def _first_fifo_request(
         self,
+        *,
         requests: Iterable[TransferRequest],
         approved_packet_ids: set[str],
-        packet_ids_by_upstream_link: Mapping[str, tuple[str, ...]],
-        queued_downstream_by_packet_id: Mapping[str, str],
+        allocation_input: JunctionAllocationInput,
+        candidate_movement: MovementSpec,
     ) -> TransferRequest | None:
         for request in requests:
             if request.packet_id in approved_packet_ids:
                 continue
-            if self._respects_upstream_fifo(
+            if self._respects_junction_fifo(
                 request,
+                candidate_movement,
                 approved_packet_ids,
-                packet_ids_by_upstream_link,
-                queued_downstream_by_packet_id,
+                allocation_input,
             ):
                 return request
             return None
         return None
+
+    def _respects_junction_fifo(
+        self,
+        candidate: TransferRequest,
+        candidate_movement: MovementSpec,
+        approved_packet_ids: set[str],
+        allocation_input: JunctionAllocationInput,
+    ) -> bool:
+        junction_spec = allocation_input.junction_spec
+        if junction_spec is None or junction_spec.fifo_policy == JUNCTION_FIFO_STRICT:
+            return self._respects_upstream_fifo(
+                candidate,
+                approved_packet_ids,
+                allocation_input.packet_ids_by_upstream_link,
+                allocation_input.queued_downstream_by_packet_id,
+            )
+
+        if junction_spec.fifo_policy != JUNCTION_FIFO_PARTIAL_BY_MOVEMENT:
+            raise ValueError(f"unsupported junction fifo_policy: {junction_spec.fifo_policy}")
+
+        packet_ids_on_upstream_link = allocation_input.packet_ids_by_upstream_link.get(
+            candidate.upstream_link_id,
+            (),
+        )
+        request_by_packet_id = {
+            request.packet_id: request for request in allocation_input.transfer_requests
+        }
+        movement_by_id = junction_spec.movement_by_id
+        try:
+            packet_position = packet_ids_on_upstream_link.index(candidate.packet_id)
+        except ValueError:
+            return False
+        for packet_id_ahead in packet_ids_on_upstream_link[:packet_position]:
+            if packet_id_ahead in approved_packet_ids:
+                continue
+            ahead_request = request_by_packet_id.get(packet_id_ahead)
+            if ahead_request is None:
+                return False
+            ahead_movement = movement_by_id.get(ahead_request.movement_id)
+            if ahead_movement is None:
+                return False
+            if self._movements_are_coupled(candidate_movement, ahead_movement, junction_spec):
+                return False
+        return True
+
+    def _conflict_resource_capacity(
+        self,
+        allocation_input: JunctionAllocationInput,
+    ) -> dict[str, int]:
+        junction_spec = allocation_input.junction_spec
+        assert junction_spec is not None
+        capacity = junction_spec.conflict_resource_capacity_by_id
+        if allocation_input.conflict_resource_capacity_by_id is not None:
+            capacity.update(
+                self._normalise_runtime_capacity(
+                    allocation_input.conflict_resource_capacity_by_id,
+                    supported_ids=set(junction_spec.conflict_resource_ids),
+                    field_name="conflict_resource_capacity_by_id",
+                )
+            )
+        return capacity
+
+    def _lane_group_capacity(
+        self,
+        allocation_input: JunctionAllocationInput,
+    ) -> dict[str, int]:
+        junction_spec = allocation_input.junction_spec
+        assert junction_spec is not None
+        capacity = junction_spec.lane_group_capacity_by_id
+        if allocation_input.lane_group_capacity_by_id is not None:
+            capacity.update(
+                self._normalise_runtime_capacity(
+                    allocation_input.lane_group_capacity_by_id,
+                    supported_ids=set(junction_spec.lane_group_ids),
+                    field_name="lane_group_capacity_by_id",
+                )
+            )
+        return capacity
+
+    @staticmethod
+    def _normalise_runtime_capacity(
+        capacity_by_id: Mapping[str, int],
+        *,
+        supported_ids: set[str],
+        field_name: str,
+    ) -> dict[str, int]:
+        normalised: dict[str, int] = {}
+        for resource_id, capacity in capacity_by_id.items():
+            if resource_id not in supported_ids:
+                raise ValueError(f"{field_name} references unknown id: {resource_id}")
+            if not isinstance(capacity, int):
+                raise TypeError(f"{field_name} values must be ints")
+            if capacity < 0:
+                raise ValueError(f"{field_name} values must be non-negative")
+            normalised[resource_id] = capacity
+        return normalised
+
+    def _movement_runtime_open(
+        self,
+        movement: MovementSpec,
+        allocation_input: JunctionAllocationInput,
+    ) -> bool:
+        if movement.movement_id in allocation_input.closed_movement_ids:
+            return False
+        if (
+            movement.signal_group_id is not None
+            and movement.signal_group_id not in allocation_input.open_signal_group_ids
+        ):
+            return False
+        return True
+
+    def _movement_resources_available(
+        self,
+        movement: MovementSpec,
+        junction_spec: JunctionSpec,
+        remaining_conflict_capacity: Mapping[str, int],
+        remaining_lane_capacity: Mapping[str, int],
+    ) -> bool:
+        for resource_id in movement.conflict_resource_ids:
+            if remaining_conflict_capacity.get(resource_id, 0) <= 0:
+                return False
+        for lane_group_id in junction_spec.lane_group_ids_by_movement_id[
+            movement.movement_id
+        ]:
+            if remaining_lane_capacity.get(lane_group_id, 0) <= 0:
+                return False
+        return True
+
+    def _consume_movement_resources(
+        self,
+        movement: MovementSpec,
+        junction_spec: JunctionSpec,
+        remaining_conflict_capacity: dict[str, int],
+        remaining_lane_capacity: dict[str, int],
+    ) -> None:
+        for resource_id in movement.conflict_resource_ids:
+            remaining_conflict_capacity[resource_id] -= 1
+        for lane_group_id in junction_spec.lane_group_ids_by_movement_id[
+            movement.movement_id
+        ]:
+            remaining_lane_capacity[lane_group_id] -= 1
+
+    def _conflict_resource_capacity_after_approved(
+        self,
+        allocation_input: JunctionAllocationInput,
+        approved_transfers: tuple[TransferRequest, ...],
+    ) -> dict[str, int]:
+        junction_spec = allocation_input.junction_spec
+        assert junction_spec is not None
+        remaining = self._conflict_resource_capacity(allocation_input)
+        movement_by_id = junction_spec.movement_by_id
+        for transfer in approved_transfers:
+            movement = movement_by_id.get(transfer.movement_id)
+            if movement is None:
+                continue
+            for resource_id in movement.conflict_resource_ids:
+                remaining[resource_id] -= 1
+        return remaining
+
+    def _lane_group_capacity_after_approved(
+        self,
+        allocation_input: JunctionAllocationInput,
+        approved_transfers: tuple[TransferRequest, ...],
+    ) -> dict[str, int]:
+        junction_spec = allocation_input.junction_spec
+        assert junction_spec is not None
+        remaining = self._lane_group_capacity(allocation_input)
+        movement_by_id = junction_spec.movement_by_id
+        for transfer in approved_transfers:
+            movement = movement_by_id.get(transfer.movement_id)
+            if movement is None:
+                continue
+            for lane_group_id in junction_spec.lane_group_ids_by_movement_id[
+                movement.movement_id
+            ]:
+                remaining[lane_group_id] -= 1
+        return remaining
+
+    @staticmethod
+    def _conflict_resources_available_for_movement(
+        movement: MovementSpec,
+        remaining_conflict_capacity: Mapping[str, int],
+    ) -> bool:
+        return all(
+            remaining_conflict_capacity.get(resource_id, 0) > 0
+            for resource_id in movement.conflict_resource_ids
+        )
+
+    def _lane_groups_available_for_movement(
+        self,
+        movement: MovementSpec,
+        junction_spec: JunctionSpec,
+        remaining_lane_capacity: Mapping[str, int],
+    ) -> bool:
+        return all(
+            remaining_lane_capacity.get(lane_group_id, 0) > 0
+            for lane_group_id in junction_spec.lane_group_ids_by_movement_id[
+                movement.movement_id
+            ]
+        )
+
+    def _movements_are_coupled(
+        self,
+        first: MovementSpec,
+        second: MovementSpec,
+        junction_spec: JunctionSpec,
+    ) -> bool:
+        if first.movement_id == second.movement_id:
+            return True
+        if first.downstream_link_id == second.downstream_link_id:
+            return True
+        if set(first.conflict_resource_ids) & set(second.conflict_resource_ids):
+            return True
+        lane_groups_by_movement = junction_spec.lane_group_ids_by_movement_id
+        return bool(
+            set(lane_groups_by_movement[first.movement_id])
+            & set(lane_groups_by_movement[second.movement_id])
+        )
 
     def _choose_strict_fifo_transfers(
         self,
@@ -676,18 +927,66 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
         approved_packet_ids: set[str],
         *,
         junction_spec: JunctionSpec | None = None,
+        allocation_input: JunctionAllocationInput | None = None,
     ) -> tuple[RejectedTransfer, ...]:
         approved_set = set(approved_transfers)
         movement_by_id = junction_spec.movement_by_id if junction_spec else {}
+        remaining_conflict_capacity: dict[str, int] = {}
+        remaining_lane_capacity: dict[str, int] = {}
+        if junction_spec is not None:
+            assert allocation_input is not None
+            remaining_conflict_capacity = self._conflict_resource_capacity_after_approved(
+                allocation_input,
+                approved_transfers,
+            )
+            remaining_lane_capacity = self._lane_group_capacity_after_approved(
+                allocation_input,
+                approved_transfers,
+            )
         rejected: list[RejectedTransfer] = []
         for request in transfer_requests:
             if request in approved_set:
                 continue
             if junction_spec is not None and request.movement_id not in movement_by_id:
                 reason = REJECTED_MOVEMENT_UNDECLARED
+            elif junction_spec is not None and request.movement_id in movement_by_id:
+                assert allocation_input is not None
+                movement = movement_by_id[request.movement_id]
+                if request.movement_id in allocation_input.closed_movement_ids:
+                    reason = REJECTED_GOVERNANCE_CLOSED
+                elif (
+                    movement.signal_group_id is not None
+                    and movement.signal_group_id
+                    not in allocation_input.open_signal_group_ids
+                ):
+                    reason = REJECTED_SIGNAL_CLOSED
+                elif not self._respects_junction_fifo(
+                    request,
+                    movement,
+                    set(approved_packet_ids)
+                    | {item.packet_id for item in approved_transfers},
+                    allocation_input,
+                ):
+                    reason = REJECTED_UPSTREAM_FIFO
+                elif not self._conflict_resources_available_for_movement(
+                    movement,
+                    remaining_conflict_capacity,
+                ):
+                    reason = REJECTED_CONFLICT_RESOURCE_CAPACITY
+                elif not self._lane_groups_available_for_movement(
+                    movement,
+                    junction_spec,
+                    remaining_lane_capacity,
+                ):
+                    reason = REJECTED_LANE_GROUP_CAPACITY
+                elif remaining_slots.get(request.downstream_link_id, 0) <= 0:
+                    reason = REJECTED_DOWNSTREAM_SUPPLY
+                else:
+                    reason = REJECTED_NOT_SELECTED
             elif not self._respects_upstream_fifo(
                 request,
-                set(approved_packet_ids) | {item.packet_id for item in approved_transfers},
+                set(approved_packet_ids)
+                | {item.packet_id for item in approved_transfers},
                 packet_ids_by_upstream_link,
                 queued_downstream_by_packet_id,
             ):
@@ -779,6 +1078,32 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
             ),
             receiving_slots_by_downstream_link=tuple(sorted(remaining_slots.items())),
             movement_flow_summaries=movement_flow_summaries,
+            conflict_resource_capacity_by_id=tuple(
+                sorted(
+                    (
+                        allocation_input.conflict_resource_capacity_by_id
+                        or (
+                            allocation_input.junction_spec.conflict_resource_capacity_by_id
+                            if allocation_input.junction_spec is not None
+                            else {}
+                        )
+                    ).items()
+                )
+            ),
+            lane_group_capacity_by_id=tuple(
+                sorted(
+                    (
+                        allocation_input.lane_group_capacity_by_id
+                        or (
+                            allocation_input.junction_spec.lane_group_capacity_by_id
+                            if allocation_input.junction_spec is not None
+                            else {}
+                        )
+                    ).items()
+                )
+            ),
+            open_signal_group_ids=tuple(sorted(allocation_input.open_signal_group_ids)),
+            closed_movement_ids=tuple(sorted(allocation_input.closed_movement_ids)),
             priority_deficit_by_movement_id=priority_deficits,
         )
 

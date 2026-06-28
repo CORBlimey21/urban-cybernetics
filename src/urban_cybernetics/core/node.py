@@ -6,6 +6,12 @@ from dataclasses import dataclass
 from typing import Self
 
 
+JUNCTION_FIFO_STRICT = "strict"
+JUNCTION_FIFO_PARTIAL_BY_MOVEMENT = "partial_by_movement"
+SUPPORTED_JUNCTION_FIFO_POLICIES = frozenset(
+    (JUNCTION_FIFO_STRICT, JUNCTION_FIFO_PARTIAL_BY_MOVEMENT)
+)
+
 # Legacy comparison labels. MovementSpec/JunctionSpec are the architecture.
 PARITY_NODE_MODEL_AUTO = "auto"
 PARITY_NODE_MODEL_LEGACY_GLOBAL_FIFO = "legacy_global_fifo"
@@ -85,12 +91,17 @@ class JunctionSpec:
     movement_specs: tuple[MovementSpec, ...] = ()
     lane_group_ids: tuple[str, ...] = ()
     movement_lane_group_mappings: tuple[tuple[str, tuple[str, ...]], ...] = ()
+    lane_group_capacities: tuple[tuple[str, int], ...] = ()
     conflict_resource_ids: tuple[str, ...] = ()
+    conflict_resource_capacities: tuple[tuple[str, int], ...] = ()
     governance_refs: tuple[str, ...] = ()
     provenance: tuple[tuple[str, str], ...] = ()
+    fifo_policy: str = JUNCTION_FIFO_STRICT
 
     def __post_init__(self) -> None:
         _require_non_empty_string(self.node_id, "node_id")
+        if self.fifo_policy not in SUPPORTED_JUNCTION_FIFO_POLICIES:
+            raise ValueError(f"unsupported junction fifo_policy: {self.fifo_policy}")
         object.__setattr__(
             self,
             "incoming_link_ids",
@@ -125,6 +136,16 @@ class JunctionSpec:
             _normalise_movement_lane_group_mappings(
                 self.movement_lane_group_mappings,
                 movement_ids={movement.movement_id for movement in self.movement_specs},
+                declared_lane_group_ids=set(self.lane_group_ids),
+            ),
+        )
+        object.__setattr__(
+            self,
+            "lane_group_capacities",
+            _normalise_capacity_tuple(
+                self.lane_group_capacities,
+                "lane_group_capacities",
+                supported_ids=set(self.lane_group_ids),
             ),
         )
         object.__setattr__(
@@ -137,6 +158,15 @@ class JunctionSpec:
         )
         object.__setattr__(
             self,
+            "conflict_resource_capacities",
+            _normalise_capacity_tuple(
+                self.conflict_resource_capacities,
+                "conflict_resource_capacities",
+                supported_ids=set(self.conflict_resource_ids),
+            ),
+        )
+        object.__setattr__(
+            self,
             "governance_refs",
             _normalise_string_tuple(self.governance_refs, "governance_refs"),
         )
@@ -145,6 +175,7 @@ class JunctionSpec:
             "provenance",
             _normalise_metadata_tuple(self.provenance, "junction provenance"),
         )
+        _validate_movement_resource_references(self.movement_specs, self)
 
     @classmethod
     def from_node_connectivity(
@@ -185,6 +216,40 @@ class JunctionSpec:
 
         return {
             (movement.upstream_link_id, movement.downstream_link_id): movement
+            for movement in self.movement_specs
+        }
+
+    @property
+    def lane_group_capacity_by_id(self) -> dict[str, int]:
+        """Return declared lane-group capacities, defaulting declared groups to one."""
+
+        explicit = dict(self.lane_group_capacities)
+        return {lane_group_id: explicit.get(lane_group_id, 1) for lane_group_id in self.lane_group_ids}
+
+    @property
+    def conflict_resource_capacity_by_id(self) -> dict[str, int]:
+        """Return declared conflict-resource capacities, defaulting resources to one."""
+
+        explicit = dict(self.conflict_resource_capacities)
+        return {
+            resource_id: explicit.get(resource_id, 1)
+            for resource_id in self.conflict_resource_ids
+        }
+
+    @property
+    def lane_group_ids_by_movement_id(self) -> dict[str, tuple[str, ...]]:
+        """Return lane groups used by each movement."""
+
+        mapped = dict(self.movement_lane_group_mappings)
+        return {
+            movement.movement_id: tuple(
+                dict.fromkeys(
+                    (
+                        *mapped.get(movement.movement_id, ()),
+                        *movement.lane_group_ids,
+                    )
+                )
+            )
             for movement in self.movement_specs
         }
 
@@ -314,12 +379,13 @@ def _normalise_movement_lane_group_mappings(
     mappings: tuple[tuple[str, tuple[str, ...]], ...],
     *,
     movement_ids: set[str],
+    declared_lane_group_ids: set[str],
 ) -> tuple[tuple[str, tuple[str, ...]], ...]:
     if not isinstance(mappings, tuple):
         raise TypeError("movement_lane_group_mappings must be a tuple")
     normalised: list[tuple[str, tuple[str, ...]]] = []
     seen_movement_ids: set[str] = set()
-    for movement_id_value, lane_group_ids in mappings:
+    for movement_id_value, mapped_lane_group_ids in mappings:
         _require_non_empty_string(movement_id_value, "movement lane-group movement_id")
         if movement_id_value not in movement_ids:
             raise ValueError(
@@ -330,13 +396,65 @@ def _normalise_movement_lane_group_mappings(
                 f"duplicate lane-group mapping for movement_id: {movement_id_value}"
             )
         seen_movement_ids.add(movement_id_value)
+        normalised_lane_group_ids = _normalise_string_tuple(
+            mapped_lane_group_ids,
+            "mapping lane_group_ids",
+        )
+        for lane_group_id in normalised_lane_group_ids:
+            if lane_group_id not in declared_lane_group_ids:
+                raise ValueError(
+                    f"lane-group mapping references unknown lane_group_id: {lane_group_id}"
+                )
         normalised.append(
             (
                 movement_id_value,
-                _normalise_string_tuple(lane_group_ids, "mapping lane_group_ids"),
+                normalised_lane_group_ids,
             )
         )
     return tuple(normalised)
+
+
+def _normalise_capacity_tuple(
+    values: tuple[tuple[str, int], ...],
+    field_name: str,
+    *,
+    supported_ids: set[str],
+) -> tuple[tuple[str, int], ...]:
+    if not isinstance(values, tuple):
+        raise TypeError(f"{field_name} must be a tuple")
+    seen_ids: set[str] = set()
+    normalised: list[tuple[str, int]] = []
+    for resource_id, capacity in values:
+        _require_non_empty_string(resource_id, f"{field_name} resource_id")
+        if resource_id not in supported_ids:
+            raise ValueError(f"{field_name} references unknown id: {resource_id}")
+        if resource_id in seen_ids:
+            raise ValueError(f"{field_name} contains duplicate id: {resource_id}")
+        seen_ids.add(resource_id)
+        _validate_positive_int(capacity, f"{field_name} capacity")
+        normalised.append((resource_id, capacity))
+    return tuple(normalised)
+
+
+def _validate_movement_resource_references(
+    movement_specs: tuple[MovementSpec, ...],
+    junction_spec: JunctionSpec,
+) -> None:
+    lane_group_ids = set(junction_spec.lane_group_ids)
+    conflict_resource_ids = set(junction_spec.conflict_resource_ids)
+    for movement in movement_specs:
+        for lane_group_id in movement.lane_group_ids:
+            if lane_group_id not in lane_group_ids:
+                raise ValueError(
+                    f"movement {movement.movement_id} references unknown lane_group_id: "
+                    f"{lane_group_id}"
+                )
+        for resource_id in movement.conflict_resource_ids:
+            if resource_id not in conflict_resource_ids:
+                raise ValueError(
+                    f"movement {movement.movement_id} references unknown "
+                    f"conflict_resource_id: {resource_id}"
+                )
 
 
 def _normalise_metadata_tuple(

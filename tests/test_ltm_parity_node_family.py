@@ -14,6 +14,7 @@ from urban_cybernetics.core import (
     DemandDeclaration,
     Event,
     EventType,
+    JUNCTION_FIFO_PARTIAL_BY_MOVEMENT,
     JunctionSpec,
     Link,
     MovementSpec,
@@ -61,7 +62,7 @@ class LTMParityMovementAllocatorTest(unittest.TestCase):
         self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), (packets[2].packet_id,))
         trace = engine.node_transfer_traces()[0]
         self.assertEqual(trace.node_id, "N")
-        self.assertEqual(trace.allocator_id, "uc_movement_allocator_stage1_v1")
+        self.assertEqual(trace.allocator_id, "uc_movement_allocator_stage2_v1")
         self.assertEqual(len(trace.candidate_packet_ids), 3)
         self.assertEqual(len(trace.approved_packet_ids), 2)
         self.assertEqual(
@@ -254,29 +255,195 @@ class LTMParityMovementAllocatorTest(unittest.TestCase):
         )
         self.assertTrue(engine.check_conservation())
 
-    def test_advanced_junction_semantics_fail_explicitly(self) -> None:
-        with self.assertRaisesRegex(ValueError, "conflict_resource_solver_unsupported"):
+    def test_conflict_resources_limit_mutually_incompatible_movements(self) -> None:
+        engine = self.stage2_crossing_engine()
+        packet_l1_l3 = engine.instantiate(
+            DemandDeclaration("D-L1-L3", departure_tick=0, route_intent=("L1", "L3"))
+        )
+        packet_l2_l4 = engine.instantiate(
+            DemandDeclaration("D-L2-L4", departure_tick=0, route_intent=("L2", "L4"))
+        )
+
+        engine.step()
+
+        self.assertEqual(
+            self.realised_path(engine, packet_l1_l3.packet_id),
+            ("L1", "L3"),
+        )
+        self.assertEqual(
+            self.realised_path(engine, packet_l2_l4.packet_id),
+            ("L2",),
+        )
+        trace = engine.allocation_traces()[0]
+        self.assertEqual(trace.conflict_resource_capacity_by_id, (("crossing", 1),))
+        self.assertIn(
+            (packet_l2_l4.packet_id, "conflict_resource_capacity_unavailable"),
+            trace.rejected_transfer_reasons,
+        )
+        self.assertTrue(engine.check_conservation())
+
+    def test_shared_lane_group_capacity_limits_parallel_movements(self) -> None:
+        engine = self.stage2_crossing_engine(conflict_capacity=2, lane_capacity=1)
+        first_packet = engine.instantiate(
+            DemandDeclaration("D-L1-L3", departure_tick=0, route_intent=("L1", "L3"))
+        )
+        second_packet = engine.instantiate(
+            DemandDeclaration("D-L2-L4", departure_tick=0, route_intent=("L2", "L4"))
+        )
+
+        engine.step()
+
+        self.assertEqual(
+            self.realised_path(engine, first_packet.packet_id),
+            ("L1", "L3"),
+        )
+        self.assertEqual(self.realised_path(engine, second_packet.packet_id), ("L2",))
+        trace = engine.allocation_traces()[0]
+        self.assertEqual(trace.lane_group_capacity_by_id, (("shared-through", 1),))
+        self.assertIn(
+            (second_packet.packet_id, "lane_group_capacity_unavailable"),
+            trace.rejected_transfer_reasons,
+        )
+        self.assertTrue(engine.check_conservation())
+
+    def test_partial_fifo_allows_disjoint_open_movement_to_bypass_blocked_head(
+        self,
+    ) -> None:
+        engine = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1", sending_capacity=2, storage=10),
+                "L2": self.physical_link("L2", receiving_capacity=1, storage=10),
+                "L3": self.physical_link("L3", receiving_capacity=1, storage=10),
+            },
+            nodes=(
+                Node(
+                    "N",
+                    incoming_link_ids=("L1",),
+                    outgoing_link_ids=("L2", "L3"),
+                    junction_spec=JunctionSpec(
+                        node_id="N",
+                        incoming_link_ids=("L1",),
+                        outgoing_link_ids=("L2", "L3"),
+                        lane_group_ids=("left", "right"),
+                        fifo_policy=JUNCTION_FIFO_PARTIAL_BY_MOVEMENT,
+                        movement_specs=(
+                            MovementSpec(
+                                "L1",
+                                "L2",
+                                lane_group_ids=("left",),
+                                signal_group_id="red",
+                            ),
+                            MovementSpec(
+                                "L1",
+                                "L3",
+                                lane_group_ids=("right",),
+                                signal_group_id="green",
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        engine.set_signal_group_open("green", True)
+        blocked_head = engine.instantiate(
+            DemandDeclaration("D-L2", departure_tick=0, route_intent=("L1", "L2"))
+        )
+        bypass_tail = engine.instantiate(
+            DemandDeclaration("D-L3", departure_tick=0, route_intent=("L1", "L3"))
+        )
+
+        engine.step()
+
+        self.assertEqual(self.realised_path(engine, blocked_head.packet_id), ("L1",))
+        self.assertEqual(self.realised_path(engine, bypass_tail.packet_id), ("L1", "L3"))
+        self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), (blocked_head.packet_id,))
+        trace = engine.allocation_traces()[0]
+        self.assertIn(
+            (blocked_head.packet_id, "signal_gate_closed"),
+            trace.rejected_transfer_reasons,
+        )
+        self.assertTrue(engine.check_conservation())
+
+    def test_signal_phase_gate_blocks_declared_signal_movement(self) -> None:
+        engine = self.stage2_signal_engine()
+        packet = engine.instantiate(
+            DemandDeclaration("D-L1-L2", departure_tick=0, route_intent=("L1", "L2"))
+        )
+
+        engine.step()
+
+        self.assertEqual(self.realised_path(engine, packet.packet_id), ("L1",))
+        self.assertEqual(
+            engine.allocation_traces()[0].rejected_transfer_reasons,
+            ((packet.packet_id, "signal_gate_closed"),),
+        )
+        engine.set_signal_group_open("phase-a", True)
+        engine.step()
+        self.assertEqual(self.realised_path(engine, packet.packet_id), ("L1", "L2"))
+        self.assertTrue(engine.check_conservation())
+
+    def test_governance_closure_is_distinct_from_downstream_physical_shortage(
+        self,
+    ) -> None:
+        governance_engine = self.stage2_signal_engine(signal_open=True)
+        packet = governance_engine.instantiate(
+            DemandDeclaration("D-governance", departure_tick=0, route_intent=("L1", "L2"))
+        )
+        governance_engine.set_movement_governance_open(
+            "N",
+            "movement:L1->L2",
+            False,
+        )
+        governance_engine.step()
+
+        physical_engine = self.stage2_signal_engine(signal_open=True, receiving_open=False)
+        physical_packet = physical_engine.instantiate(
+            DemandDeclaration("D-physical", departure_tick=0, route_intent=("L1", "L2"))
+        )
+        physical_engine.step()
+
+        self.assertEqual(
+            governance_engine.allocation_traces()[0].rejected_transfer_reasons,
+            ((packet.packet_id, "governance_gate_closed"),),
+        )
+        self.assertEqual(
+            physical_engine.allocation_traces()[0].rejected_transfer_reasons,
+            ((physical_packet.packet_id, "downstream_supply_unavailable"),),
+        )
+
+    def test_stage2_ordering_invariance_and_deterministic_replay(self) -> None:
+        first_engine = self.stage2_crossing_engine(link_order=("L1", "L2", "L3", "L4"))
+        second_engine = self.stage2_crossing_engine(link_order=("L4", "L3", "L2", "L1"))
+        for engine in (first_engine, second_engine):
+            engine.instantiate(
+                DemandDeclaration("D-L1-L3", departure_tick=0, route_intent=("L1", "L3"))
+            )
+            engine.instantiate(
+                DemandDeclaration("D-L2-L4", departure_tick=0, route_intent=("L2", "L4"))
+            )
+            engine.step()
+
+        self.assertEqual(first_engine.event_log, second_engine.event_log)
+        self.assertTrue(first_engine.check_conservation())
+        self.assertTrue(second_engine.check_conservation())
+
+    def test_unsupported_stage2_adaptive_control_fails_explicitly(self) -> None:
+        with self.assertRaisesRegex(ValueError, "adaptive_control_unsupported"):
             self.parity_engine(
                 links={
                     "L1": self.physical_link("L1"),
                     "L2": self.physical_link("L2"),
-                    "L3": self.physical_link("L3"),
-                    "L4": self.physical_link("L4"),
                 },
                 nodes=(
                     Node(
                         "N",
-                        incoming_link_ids=("L1", "L2"),
-                        outgoing_link_ids=("L3", "L4"),
+                        incoming_link_ids=("L1",),
+                        outgoing_link_ids=("L2",),
                         junction_spec=JunctionSpec(
                             node_id="N",
-                            incoming_link_ids=("L1", "L2"),
-                            outgoing_link_ids=("L3", "L4"),
-                            movement_specs=(
-                                MovementSpec("L1", "L3"),
-                                MovementSpec("L2", "L4"),
-                            ),
-                            conflict_resource_ids=("crossing-conflict",),
+                            incoming_link_ids=("L1",),
+                            outgoing_link_ids=("L2",),
+                            governance_refs=("adaptive_control",),
                         ),
                     ),
                 ),
@@ -367,7 +534,7 @@ class LTMParityMovementAllocatorTest(unittest.TestCase):
 
         self.assertEqual(
             default_engine.movement_allocator_id,
-            "uc_movement_allocator_stage1_v1",
+            "uc_movement_allocator_stage2_v1",
         )
         self.assertEqual(len(default_engine.movement_spec_hash), 64)
         self.assertNotEqual(
@@ -412,6 +579,84 @@ class LTMParityMovementAllocatorTest(unittest.TestCase):
                 ),
             ),
         )
+
+    def stage2_crossing_engine(
+        self,
+        *,
+        conflict_capacity: int = 1,
+        lane_capacity: int = 2,
+        link_order: tuple[str, ...] = ("L1", "L2", "L3", "L4"),
+    ) -> LoadingEngine:
+        link_by_id = {
+            "L1": self.physical_link("L1"),
+            "L2": self.physical_link("L2"),
+            "L3": self.physical_link("L3", receiving_capacity=2),
+            "L4": self.physical_link("L4", receiving_capacity=2),
+        }
+        return self.parity_engine(
+            links={link_id: link_by_id[link_id] for link_id in link_order},
+            nodes=(
+                Node(
+                    "N",
+                    incoming_link_ids=("L1", "L2"),
+                    outgoing_link_ids=("L3", "L4"),
+                    junction_spec=JunctionSpec(
+                        node_id="N",
+                        incoming_link_ids=("L1", "L2"),
+                        outgoing_link_ids=("L3", "L4"),
+                        lane_group_ids=("shared-through",),
+                        lane_group_capacities=(("shared-through", lane_capacity),),
+                        conflict_resource_ids=("crossing",),
+                        conflict_resource_capacities=(("crossing", conflict_capacity),),
+                        movement_specs=(
+                            MovementSpec(
+                                "L1",
+                                "L3",
+                                lane_group_ids=("shared-through",),
+                                conflict_resource_ids=("crossing",),
+                            ),
+                            MovementSpec(
+                                "L2",
+                                "L4",
+                                lane_group_ids=("shared-through",),
+                                conflict_resource_ids=("crossing",),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        )
+
+    def stage2_signal_engine(
+        self,
+        *,
+        signal_open: bool = False,
+        receiving_open: bool = True,
+    ) -> LoadingEngine:
+        engine = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1", storage=10),
+                "L2": self.physical_link("L2", receiving_capacity=1, storage=10),
+            },
+            nodes=(
+                Node(
+                    "N",
+                    incoming_link_ids=("L1",),
+                    outgoing_link_ids=("L2",),
+                    junction_spec=JunctionSpec(
+                        node_id="N",
+                        incoming_link_ids=("L1",),
+                        outgoing_link_ids=("L2",),
+                        movement_specs=(
+                            MovementSpec("L1", "L2", signal_group_id="phase-a"),
+                        ),
+                    ),
+                ),
+            ),
+        )
+        engine.set_signal_group_open("phase-a", signal_open)
+        engine.set_receiving_open("L2", receiving_open)
+        return engine
 
     def parity_engine(
         self,

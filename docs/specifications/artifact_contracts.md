@@ -46,7 +46,8 @@ tail_node_id, length_metres, declared_static_capacity, free_flow_speed_mps,
 lane_count), canonical node records (canonical_node_id, latitude, longitude,
 incoming_link_ids, outgoing_link_ids, movement_specs), static movement metadata
 (movement_id, upstream_link_id, downstream_link_id, priority_weight, declared
-lane-group references, declared conflict-resource references, signal/governance
+lane-group references, lane-group capacities, declared conflict-resource
+references, conflict-resource capacities, FIFO policy, signal/governance
 references when present), OSM provenance metadata (osm_way_ids, osm_node_ids,
 osm_snapshot_date, bounding_box, filter_parameters), and the topology_hash
 itself.
@@ -81,7 +82,9 @@ or canonical_node_id, physical_timestamp (simulation tick), sequence_number.
 **Movement allocation trace.** When a run uses movement allocation, each
 allocation trace must record allocator_id, node_id, candidate packet IDs,
 approved packet IDs, rejected transfer reason codes, downstream receiving slots,
-movement flow summaries, and deterministic allocator state needed for replay.
+movement flow summaries, conflict-resource capacities, lane-group capacities,
+open signal groups, closed movement IDs, and deterministic allocator state
+needed for replay.
 Allocation traces are evidence over loading decisions; packet lifecycle events
 remain the physical truth.
 

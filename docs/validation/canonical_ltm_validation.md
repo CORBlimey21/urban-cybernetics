@@ -56,9 +56,10 @@ inclusive physical-tick count convention.
 - No rerouting.
 - No weighted packets.
 - General movement allocation is used for parity node transfer semantics.
-- No advanced junction constraints such as signal phases, conflict-resource
-  solving, lane-group allocation, adaptive control, gap acceptance, or
-  roundabout-specific behaviour.
+- Stage 2 movement allocation supports conflict resources, lane groups, signal
+  gates, governance closures, and declared partial FIFO.
+- No adaptive signal control, gap acceptance, roundabout-specific behaviour,
+  weighted packets, rerouting, or empirical calibration.
 - Route travel-time curves use completed packet instantiation and completion
   ticks, tied to final-link route ordinals.
 
@@ -125,13 +126,16 @@ Current status:
   the parity physical gate currently reports 152 missing-metadata reasons:
   each link lacks `backward_wave_speed_mps` and
   `jam_density_veh_per_km_per_lane`.
-- `parity_profile_full_topology_initialization`: pass. Full Sioux Falls
-  topology can initialize under the Stage 1 movement allocator. This is a
-  structural allocation-readiness signal only.
+- `junction_semantics_metadata`: fail. The committed Sioux Falls TNTP topology
+  has complex full-network junctions but no reviewed conflict-resource,
+  lane-group, or signal metadata.
+- `allocator_capability`: pass. Full Sioux Falls topology can initialize under
+  the Stage 2 movement allocator. This is an architecture-readiness signal
+  only.
 - `parity_commodity_evidence`: not run, because the full topology is not
-  parity-eligible until physical metadata is supplied.
+  parity-eligible until physical and junction semantics metadata are supplied.
 - `parity_spillback_evidence`: not run, because the full topology is not
-  parity-eligible until physical metadata is supplied.
+  parity-eligible until physical and junction semantics metadata are supplied.
 - `legacy_profile_readiness_stress_run`: pass, labelled explicitly as
   readiness/stress evidence only. It uses `legacy_packet_ltm_style`, so it is
   not parity evidence.
@@ -139,7 +143,8 @@ Current status:
 Therefore the current machine-readable evidence label is
 `sioux_falls_readiness_stress_only`, and `can_run_as_parity_ltm_v1` is false.
 No kernel bug is indicated by the readiness check. The blocking full-network
-failure is benchmark physical metadata, not MIMO topology shape.
+failures are benchmark physical metadata and missing reviewed junction metadata,
+not allocator architecture or MIMO topology shape.
 
 Before true Sioux Falls parity validation, the project needs:
 
@@ -148,9 +153,9 @@ Before true Sioux Falls parity validation, the project needs:
   and storage/timestep gates.
 - A benchmark-loader path that can construct parity-eligible loading links from
   those physical parameters without using legacy storage overrides as evidence.
-- Explicit rejection metadata for any future full-network junction that declares
-  signal phases, conflict resources, lane-group control, adaptive control, or
-  other advanced semantics not yet supported by Stage 1 movement allocation.
+- Reviewed full-network junction metadata: conflict resources, lane groups,
+  signal groups, and any governance-controlled movement gates required for a
+  defensible Sioux Falls parity claim.
 - Successful physical metadata eligibility before commodity, route-count,
   travel-time, spillback, and external-validation claims are allowed.
 
@@ -159,7 +164,7 @@ Before true Sioux Falls parity validation, the project needs:
 Phase II also provides an interim recognised-network readiness bridge:
 `sioux_falls_supported_movement_subnetwork_v1`. This is not full Sioux Falls
 parity validation. It is a connected Sioux Falls subnetwork selected so every
-adapted internal junction is expressible with Stage 1 movement-allocation
+adapted internal junction is expressible with Stage 2 movement-allocation
 semantics and reviewed physical metadata assumptions.
 
 Run it with:
@@ -193,8 +198,8 @@ Adapted internal movement specifications:
 
 The full Sioux Falls node records are no longer rejected merely because they are
 multi-input/multi-output. Any future full-network rejection should identify
-unsupported advanced junction semantics, not the absence of a specialised node
-class. The subnetwork remains useful because it supplies reviewed physical
+missing junction data or unsupported semantics, not the absence of a specialised
+node class. The subnetwork remains useful because it supplies reviewed physical
 metadata assumptions over a small recognised-network slice.
 
 Subnetwork physical metadata assumptions:
@@ -223,8 +228,8 @@ The subnetwork readiness label is
 `sioux_falls_supported_movement_subnetwork_parity_ready`. This means the selected
 subnetwork is ready to serve as the first recognised-network parity readiness
 target. It does not mean the full Sioux Falls benchmark has been validated, and
-it does not remove the future need for signal, conflict-resource, lane-group,
-and adaptive-control solver layers.
+it does not remove the future need for full-network conflict-resource,
+lane-group, and signal metadata, nor for future adaptive-control solver layers.
 
 ## Yperman Thesis
 

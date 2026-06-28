@@ -286,7 +286,7 @@ M5 does not change sending, receiving, transfer, queue, event schema, packet ide
 ## M6 Implementation Status
 
 The original M6 minimal node-family design is superseded. The parity profile now
-uses the Stage 1 movement-allocation architecture. Immutable topology and node
+uses the Stage 2 movement-allocation architecture. Immutable topology and node
 records carry `JunctionSpec` and `MovementSpec` data; loading constructs
 `TransferRequest` and `JunctionAllocationInput` records, calls the
 `MovementAllocator`, receives a `JunctionAllocationDecision`, and remains the
@@ -295,17 +295,17 @@ only owner of packet transfer execution and canonical lifecycle events.
 The allocator preserves the scientific behaviours originally required from M6:
 one-to-one movement, strict route-encoded diverge, and declared-priority merge.
 Those behaviours are now movement-allocation cases rather than specialised node
-classes. The allocator also supports simple arbitrary multi-input/multi-output
-junctions when their behaviour requires only admissible movements, sending
-eligibility, receiving slots, strict FIFO, static priority weights, and
-deterministic tie-breaking.
+classes. The allocator also supports arbitrary multi-input/multi-output
+junctions with declared conflict resources, lane-group capacity, signal gates,
+governance movement closures, and partial FIFO for disjoint non-coupled
+movements.
 
-Unsupported advanced junction semantics are rejected explicitly. Stage 1 does
-not implement conflict-resource solving, lane-group allocation, signal phases,
-adaptive control, gap acceptance, roundabout-specific logic, weighted packets,
-rerouting, or empirical calibration. Legacy node-model labels and the global
-FIFO merge policy may remain only as labelled compatibility or regression
-paths; they are not the current parity architecture.
+Unsupported advanced junction semantics are rejected explicitly. Stage 2 does
+not implement adaptive signal control, lane-changing, gap acceptance,
+roundabout-specific logic, weighted packets, rerouting, cybernetics
+experiments, real-city import semantics, or empirical calibration. Legacy
+node-model labels and the global FIFO merge policy may remain only as labelled
+compatibility or regression paths; they are not the current parity architecture.
 
 ## M7 Implementation Status
 

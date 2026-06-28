@@ -2,11 +2,11 @@
 
 **Status:** specification.
 **Scope:** defines UC's general junction architecture, movement allocation
-semantics, Stage 1 supported cases, and explicit rejection boundaries.
-**Non-scope:** does not implement signal timing, conflict-resource solving,
-lane-group allocation, adaptive control, pedestrian interaction, gap
-acceptance, roundabout-specific logic, weighted packets, rerouting, or
-empirical calibration.
+semantics, Stage 2 supported cases, and explicit rejection boundaries.
+**Non-scope:** does not implement adaptive signal control, signal timing
+optimisation, pedestrian interaction, gap acceptance, roundabout-specific
+logic, weighted packets, rerouting, real-city import semantics, cybernetics
+experiments, or empirical calibration.
 
 ---
 
@@ -150,14 +150,53 @@ adapter traversal order must not affect allocation decisions.
 
 ---
 
+## Stage 2 Supported Semantics
+
+Stage 2 keeps `MovementSpec` and `JunctionSpec` as the only junction
+abstractions and adds executable constraint layers over them:
+
+- conflict resources: movements that declare the same conflict resource consume
+  shared per-tick resource capacity;
+- lane groups: movements consume declared lane-group capacity through direct
+  movement lane groups or movement-to-lane-group mappings;
+- partial FIFO: junctions may declare `partial_by_movement` FIFO, allowing a
+  later packet to use a disjoint open movement when a packet ahead is blocked by
+  a non-coupled movement constraint;
+- signal gates: a movement with a signal group is eligible only when loading is
+  given that signal group as open for the tick;
+- governance gates: loading may close individual movements through runtime
+  governance state without mutating topology;
+- rejection reasons: allocation traces distinguish downstream physical supply,
+  conflict-resource capacity, lane-group capacity, signal closure, governance
+  closure, undeclared movement, FIFO blockage, and non-selection.
+
+Conflict-resource and lane-group capacities are integer packet capacities for
+the allocation tick. They may be declared statically on the junction spec and
+overridden at runtime by loading/governance inputs. A declared resource without
+an explicit capacity defaults to one packet per allocation tick.
+
+Signal support is deliberately a gate, not a controller. Stage 2 consumes the
+current set of open signal groups supplied by loading. It does not compute phase
+plans, cycle offsets, adaptive timings, saturation flow, or lost time.
+
+Governance support is likewise a gate. Governance may close a movement or set a
+runtime resource capacity. Loading reads that state when assembling allocation
+inputs. Governance does not move packets, mutate topology, or write canonical
+events.
+
+Partial FIFO is only allowed where the junction declares it. Two movements are
+coupled, and therefore cannot bypass each other, if they are the same movement,
+share the same downstream link, share a conflict resource, or share a lane
+group. Otherwise, a packet may bypass a blocked packet ahead on the same
+upstream link when its own movement is open and resource-feasible.
+
+---
+
 ## Explicit Rejection Boundaries
 
 If a junction requires any of the following semantics for scientific
-correctness, Stage 1 must reject it explicitly:
+correctness, Stage 2 must reject it explicitly:
 
-- signal phases or cycle-dependent movement service;
-- conflict-resource solving between crossing movements;
-- lane-group capacity allocation;
 - lane-changing or lane-use assignment;
 - adaptive signal or metering control;
 - pedestrian, bicycle, transit-priority, or multimodal interaction;
@@ -192,6 +231,11 @@ Stage 1 does not claim the full Tampere generic-node space. In particular,
 conflict constraints, lane groups, signal phases, and richer supply interaction
 belong to deferred constraint layers over the same movement abstraction.
 
+Stage 2 implements the first of those deferred constraint layers while
+preserving the same requirements: conservation, demand/supply compliance,
+invariance, FIFO consistency under declared FIFO policy, priority handling,
+determinism, and replayable allocation traces.
+
 ---
 
 ## Relationship to de Souza-Style General Cross Nodes
@@ -200,10 +244,11 @@ UC's architecture intentionally converges toward a general movement-allocation
 solver compatible with cross-node ideas: arbitrary inbound/outbound movement
 demand, movement-level admissibility, constraints, and deterministic allocation.
 
-The current implementation is a first production slice of that architecture,
-not a full cross-node solver. It supports independent simple MIMO movements but
-rejects scientifically coupled junctions until conflict resources, lane groups,
-signal phases, and adaptive control are represented as explicit constraints.
+The current implementation is a second production slice of that architecture.
+It supports independent MIMO movements plus conflict resources, lane groups,
+runtime signal/governance gates, and declared partial FIFO. It still rejects
+adaptive control, lane-changing, gap acceptance, roundabout-specific behaviour,
+weighted packets, rerouting, and empirical calibration.
 
 This keeps the ontology stable while allowing future de Souza-style behaviour
 to be added as solver inputs rather than new node subclasses.

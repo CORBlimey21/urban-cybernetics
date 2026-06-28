@@ -69,6 +69,11 @@ from urban_cybernetics.loading.transfer_policy import (
     MovementAllocator,
     NodeTransferTrace,
     NodeTransferPolicy,
+    REJECTED_CONFLICT_RESOURCE_CAPACITY,
+    REJECTED_DOWNSTREAM_SUPPLY,
+    REJECTED_GOVERNANCE_CLOSED,
+    REJECTED_LANE_GROUP_CAPACITY,
+    REJECTED_SIGNAL_CLOSED,
     TransferRequest,
 )
 
@@ -160,6 +165,11 @@ class LoadingEngine:
         self._receiving_open_by_link: dict[str, bool] = {
             link_id: True for link_id in self.links
         }
+        self._closed_movement_ids_by_node_id: dict[str, set[str]] = {}
+        self._open_signal_group_ids: set[str] = set()
+        self._conflict_resource_capacity_by_node_id: dict[str, dict[str, int]] = {}
+        self._lane_group_capacity_by_node_id: dict[str, dict[str, int]] = {}
+        self._last_rejected_transfer_reason_by_candidate: dict[TransferRequest, str] = {}
         self._validate_nodes(node_tuple)
 
     @property
@@ -239,6 +249,24 @@ class LoadingEngine:
                         }
                         for movement in node.junction_spec.movement_specs
                     ],
+                    "lane_group_ids": list(node.junction_spec.lane_group_ids),
+                    "movement_lane_group_mappings": [
+                        (movement_id, list(lane_group_ids))
+                        for movement_id, lane_group_ids in (
+                            node.junction_spec.movement_lane_group_mappings
+                        )
+                    ],
+                    "lane_group_capacities": list(
+                        node.junction_spec.lane_group_capacities
+                    ),
+                    "conflict_resource_ids": list(
+                        node.junction_spec.conflict_resource_ids
+                    ),
+                    "conflict_resource_capacities": list(
+                        node.junction_spec.conflict_resource_capacities
+                    ),
+                    "governance_refs": list(node.junction_spec.governance_refs),
+                    "fifo_policy": node.junction_spec.fifo_policy,
                 }
                 for node in sorted(self.nodes.values(), key=lambda item: item.node_id)
             ],
@@ -266,8 +294,23 @@ class LoadingEngine:
                 if incoming_link_id in self._node_by_incoming_link_id:
                     raise ValueError(
                         f"incoming link {incoming_link_id} belongs to multiple nodes"
-                    )
+                )
                 self._node_by_incoming_link_id[incoming_link_id] = node
+
+    def _movement_ids_for_node(self, node_id: str) -> set[str]:
+        if node_id not in self.nodes:
+            raise KeyError(f"unknown node_id: {node_id}")
+        return {
+            movement.movement_id
+            for movement in self.nodes[node_id].junction_spec.movement_specs
+        }
+
+    @staticmethod
+    def _validate_runtime_capacity(capacity: int) -> None:
+        if not isinstance(capacity, int):
+            raise TypeError("runtime capacity must be an int")
+        if capacity < 0:
+            raise ValueError("runtime capacity must be non-negative")
 
     def set_receiving_open(self, link_id: str, is_open: bool) -> None:
         """Set engine-owned receiving state for a link."""
@@ -282,6 +325,65 @@ class LoadingEngine:
         if link_id not in self.links:
             raise KeyError(f"unknown link_id for receiving state: {link_id}")
         return self._receiving_open_by_link.get(link_id, True)
+
+    def set_signal_group_open(self, signal_group_id: str, is_open: bool) -> None:
+        """Set engine-owned signal gate state read by movement allocation."""
+
+        if not isinstance(signal_group_id, str) or not signal_group_id:
+            raise ValueError("signal_group_id must be non-empty")
+        if is_open:
+            self._open_signal_group_ids.add(signal_group_id)
+        else:
+            self._open_signal_group_ids.discard(signal_group_id)
+
+    def set_movement_governance_open(
+        self,
+        node_id: str,
+        movement_id: str,
+        is_open: bool,
+    ) -> None:
+        """Set engine-owned governance closure state for one movement."""
+
+        movement_ids = self._movement_ids_for_node(node_id)
+        if movement_id not in movement_ids:
+            raise KeyError(f"unknown movement_id for {node_id}: {movement_id}")
+        closed = self._closed_movement_ids_by_node_id.setdefault(node_id, set())
+        if is_open:
+            closed.discard(movement_id)
+        else:
+            closed.add(movement_id)
+
+    def set_conflict_resource_capacity(
+        self,
+        node_id: str,
+        resource_id: str,
+        capacity: int,
+    ) -> None:
+        """Set runtime conflict-resource capacity for one junction resource."""
+
+        self._validate_runtime_capacity(capacity)
+        resource_ids = set(self.nodes[node_id].junction_spec.conflict_resource_ids)
+        if resource_id not in resource_ids:
+            raise KeyError(f"unknown conflict resource for {node_id}: {resource_id}")
+        self._conflict_resource_capacity_by_node_id.setdefault(node_id, {})[
+            resource_id
+        ] = capacity
+
+    def set_lane_group_capacity(
+        self,
+        node_id: str,
+        lane_group_id: str,
+        capacity: int,
+    ) -> None:
+        """Set runtime lane-group capacity for one junction lane group."""
+
+        self._validate_runtime_capacity(capacity)
+        lane_group_ids = set(self.nodes[node_id].junction_spec.lane_group_ids)
+        if lane_group_id not in lane_group_ids:
+            raise KeyError(f"unknown lane group for {node_id}: {lane_group_id}")
+        self._lane_group_capacity_by_node_id.setdefault(node_id, {})[
+            lane_group_id
+        ] = capacity
 
     def cumulative_entries(self, link_id: str, tick: int | None = None) -> int:
         """Return event-derived cumulative LINK_ENTRY count for one link."""
@@ -1285,6 +1387,7 @@ class LoadingEngine:
             dict(self._queued_downstream_by_packet_id)
         )
         receiving_slots_view = MappingProxyType(dict(receiving_slots))
+        self._last_rejected_transfer_reason_by_candidate = {}
         if hasattr(self.movement_allocator, "allocate"):
             decision: JunctionAllocationDecision = self.movement_allocator.allocate(
                 allocation_inputs=self._junction_allocation_inputs(
@@ -1294,6 +1397,10 @@ class LoadingEngine:
                     queued_downstream_by_packet_id=queued_downstream_by_packet_id,
                 )
             )
+            self._last_rejected_transfer_reason_by_candidate = {
+                rejected.transfer_request: rejected.reason
+                for rejected in decision.rejected_transfers
+            }
             return decision.approved_transfers
         return self.movement_allocator.choose_transfers(
             candidates=transfer_requests,
@@ -1332,6 +1439,26 @@ class LoadingEngine:
                     receiving_slots_by_downstream_link=receiving_slots_by_downstream_link,
                     packet_ids_by_upstream_link=packet_ids_by_upstream_link,
                     queued_downstream_by_packet_id=queued_downstream_by_packet_id,
+                    conflict_resource_capacity_by_id=MappingProxyType(
+                        dict(
+                            self._conflict_resource_capacity_by_node_id.get(
+                                node.node_id,
+                                {},
+                            )
+                        )
+                    ),
+                    lane_group_capacity_by_id=MappingProxyType(
+                        dict(
+                            self._lane_group_capacity_by_node_id.get(
+                                node.node_id,
+                                {},
+                            )
+                        )
+                    ),
+                    open_signal_group_ids=frozenset(self._open_signal_group_ids),
+                    closed_movement_ids=frozenset(
+                        self._closed_movement_ids_by_node_id.get(node.node_id, set())
+                    ),
                 )
             )
         if fallback_requests:
@@ -1418,9 +1545,20 @@ class LoadingEngine:
         for candidate in candidates:
             if candidate in approved_candidate_set or candidate.queued:
                 continue
+            rejection_reason = self._last_rejected_transfer_reason_by_candidate.get(
+                candidate
+            )
             if (
                 remaining_slots.get(candidate.downstream_link_id, 0) <= 0
                 or self._queues.get(candidate.boundary_id)
+                or rejection_reason
+                in {
+                    REJECTED_DOWNSTREAM_SUPPLY,
+                    REJECTED_CONFLICT_RESOURCE_CAPACITY,
+                    REJECTED_LANE_GROUP_CAPACITY,
+                    REJECTED_SIGNAL_CLOSED,
+                    REJECTED_GOVERNANCE_CLOSED,
+                }
             ):
                 self._queue_packet_once(
                     candidate.packet_id,

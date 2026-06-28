@@ -12,6 +12,8 @@ from .link import (
     TimestepAdmissibilityReport,
 )
 from .node import (
+    JUNCTION_FIFO_PARTIAL_BY_MOVEMENT,
+    JUNCTION_FIFO_STRICT,
     JunctionSpec,
     MovementSpec,
     Node,
@@ -29,6 +31,8 @@ __all__ = [
     "LifecycleState",
     "Link",
     "JunctionSpec",
+    "JUNCTION_FIFO_PARTIAL_BY_MOVEMENT",
+    "JUNCTION_FIFO_STRICT",
     "MovementSpec",
     "Node",
     "Packet",

@@ -34,13 +34,15 @@ def test_sioux_falls_readiness_report_names_current_failing_gates() -> None:
     assert "missing_physical_metadata:backward_wave_speed_mps" in (
         gates["physical_metadata"].details[0]
     )
-    assert gates["parity_profile_full_topology_initialization"].status == "pass"
+    assert gates["junction_semantics_metadata"].status == "fail"
+    assert gates["junction_semantics_metadata"].detail_count > 0
+    assert gates["allocator_capability"].status == "pass"
     assert gates["parity_commodity_evidence"].status == "not_run"
-    assert "physical metadata" in gates["parity_commodity_evidence"].reason
+    assert "physical or junction metadata" in gates["parity_commodity_evidence"].reason
     assert gates["parity_spillback_evidence"].status == "not_run"
-    assert "physical metadata" in gates["parity_spillback_evidence"].reason
+    assert "physical or junction metadata" in gates["parity_spillback_evidence"].reason
     assert gates["legacy_profile_readiness_stress_run"].status == "pass"
-    assert report.failed_gate_ids == ("physical_metadata",)
+    assert report.failed_gate_ids == ("physical_metadata", "junction_semantics_metadata")
     assert report.not_run_gate_ids == (
         "parity_commodity_evidence",
         "parity_spillback_evidence",
@@ -52,7 +54,10 @@ def test_sioux_falls_readiness_status_payload_is_json_ready() -> None:
     payload = report.status_payload()
 
     assert payload["benchmark_id"] == "sioux_falls_tntp_v1"
-    assert payload["failed_gate_ids"] == ("physical_metadata",)
+    assert payload["failed_gate_ids"] == (
+        "physical_metadata",
+        "junction_semantics_metadata",
+    )
     assert payload["not_run_gate_ids"] == (
         "parity_commodity_evidence",
         "parity_spillback_evidence",

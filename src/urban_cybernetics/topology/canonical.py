@@ -69,6 +69,13 @@ class CanonicalNode:
     incoming_link_ids: tuple[str, ...] = ()
     outgoing_link_ids: tuple[str, ...] = ()
     movement_specs: tuple[MovementSpec, ...] = ()
+    lane_group_ids: tuple[str, ...] = ()
+    movement_lane_group_mappings: tuple[tuple[str, tuple[str, ...]], ...] = ()
+    lane_group_capacities: tuple[tuple[str, int], ...] = ()
+    conflict_resource_ids: tuple[str, ...] = ()
+    conflict_resource_capacities: tuple[tuple[str, int], ...] = ()
+    governance_refs: tuple[str, ...] = ()
+    fifo_policy: str = "strict"
 
     def junction_spec(self) -> JunctionSpec:
         """Return the immutable movement specification for this topology node."""
@@ -78,7 +85,14 @@ class CanonicalNode:
             incoming_link_ids=self.incoming_link_ids,
             outgoing_link_ids=self.outgoing_link_ids,
             movement_specs=self.movement_specs,
+            lane_group_ids=self.lane_group_ids,
+            movement_lane_group_mappings=self.movement_lane_group_mappings,
+            lane_group_capacities=self.lane_group_capacities,
+            conflict_resource_ids=self.conflict_resource_ids,
+            conflict_resource_capacities=self.conflict_resource_capacities,
+            governance_refs=self.governance_refs,
             provenance=(("source_node_id", self.source_node_id),),
+            fifo_policy=self.fifo_policy,
         )
 
 
@@ -322,6 +336,24 @@ class CanonicalTopology:
                         }
                         for movement in node.junction_spec().movement_specs
                     ],
+                    "lane_group_ids": list(node.junction_spec().lane_group_ids),
+                    "movement_lane_group_mappings": [
+                        (movement_id, list(lane_group_ids))
+                        for movement_id, lane_group_ids in (
+                            node.junction_spec().movement_lane_group_mappings
+                        )
+                    ],
+                    "lane_group_capacities": list(
+                        node.junction_spec().lane_group_capacities
+                    ),
+                    "conflict_resource_ids": list(
+                        node.junction_spec().conflict_resource_ids
+                    ),
+                    "conflict_resource_capacities": list(
+                        node.junction_spec().conflict_resource_capacities
+                    ),
+                    "governance_refs": list(node.junction_spec().governance_refs),
+                    "fifo_policy": node.junction_spec().fifo_policy,
                 }
                 for node in sorted(self.nodes, key=lambda item: item.node_id)
             ],

@@ -145,6 +145,37 @@ class CanonicalSiouxFallsTopologyTest(unittest.TestCase):
 
         self.assertNotEqual(topology.topology_hash, edited_topology.topology_hash)
 
+    def test_topology_hash_changes_when_stage2_junction_metadata_changes(self) -> None:
+        topology = self.passthrough_topology()
+        edited_node = replace(
+            topology.nodes[1],
+            lane_group_ids=("through",),
+            lane_group_capacities=(("through", 1),),
+            conflict_resource_ids=("crossing",),
+            conflict_resource_capacities=(("crossing", 1),),
+            movement_specs=(
+                MovementSpec(
+                    upstream_link_id="L0001",
+                    downstream_link_id="L0002",
+                    lane_group_ids=("through",),
+                    conflict_resource_ids=("crossing",),
+                ),
+            ),
+        )
+        edited_topology = CanonicalTopology(
+            topology_id=topology.topology_id,
+            nodes=(
+                topology.nodes[0],
+                edited_node,
+                topology.nodes[2],
+            ),
+            links=topology.links,
+            source_metadata=topology.source_metadata,
+            interpretation_assumptions=topology.interpretation_assumptions,
+        )
+
+        self.assertNotEqual(topology.topology_hash, edited_topology.topology_hash)
+
     def test_loading_node_mapping_preserves_movement_specs(self) -> None:
         topology = self.passthrough_topology(
             nodes=(
