@@ -231,6 +231,170 @@ target. It does not mean the full Sioux Falls benchmark has been validated, and
 it does not remove the future need for full-network conflict-resource,
 lane-group, and signal metadata, nor for future adaptive-control solver layers.
 
+## Full Sioux Falls Engineering-Assumption Physical Profile
+
+The first full-network physical profile is
+`SiouxFallsPhysicalProfile_UC_Default_v1`. It exists to exercise the complete
+M0-M7 parity kernel and Stage 2 movement-allocation path on the full committed
+Sioux Falls topology. It is not empirical calibration, and it does not claim
+that the derived values are the true physical parameters of Sioux Falls.
+
+Run the assumption-profile execution with:
+
+```bash
+.venv/bin/python -m urban_cybernetics.canonical_validation.sioux_falls_readiness --assumption-profile --tick-limit 600 --max-pairs 12 --max-total-quantity-packets 24
+```
+
+The profile keeps the topology immutable. The profile owns the assumptions and
+derivations:
+
+- Published Sioux Falls TNTP topology, free-flow times/speeds, capacities, and
+  the current one-lane topology interpretation are retained.
+- `backward_wave_speed_mps = 5.0` is assumed globally.
+- Jam density is derived per link from the triangular fundamental diagram:
+  `kj = q(v + w) / (v * w)`, where `q` is the published per-lane capacity,
+  `v` is free-flow speed, and `w` is the assumed backward-wave speed.
+- Storage capacity is derived per link as
+  `floor(length_km * lane_count * kj)`.
+- No manual storage values are specified.
+
+The profile records:
+
+- profile identifier and version;
+- deterministic generated timestamp;
+- source topology hash and source-file hash;
+- assumption list;
+- derivation equations;
+- derived fields;
+- per-link derived parameters;
+- profile hash;
+- the explicit statement that the profile is an engineering assumption profile,
+  not empirical calibration.
+
+Current profile use supports this claim:
+
+- UC can build a reproducible assumption-owned full-network physical profile
+  that makes all 76 Sioux Falls loading links physically eligible for the
+  current `parity_ltm_v1` physical metadata gate.
+- UC can run a bounded deterministic demand slice on the full 24-node, 76-link
+  topology under `parity_ltm_v1` using that profile.
+- The run can report packet conservation, count consistency, FIFO validation,
+  spillback validation, commodity validation, node movement validation, and
+  deterministic replay status.
+
+### Deterministic Replay Policy
+
+Deterministic replay is a reproducibility and release-regression check. It is
+not the same category as packet conservation, count consistency, FIFO,
+spillback, commodity, or node movement validation. Those internal validators
+ask whether a completed event log is internally coherent under the model
+contracts. Replay asks whether a second full execution with identical inputs
+produces the same event log.
+
+Replay status must therefore be reported separately:
+
+- `passed_exact_replay`: an actual second execution ran and matched.
+- `skipped_by_policy_after_determinism_certification`: exact replay was not
+  run for this rung after smaller representative deterministic runs matched.
+- `timeout`: replay or the guarded run exceeded the budget.
+- `failed_mismatch`: a second execution ran and diverged.
+- `not_run`: no replay evidence was attempted.
+
+Never report replay as passed unless a rerun actually occurred and matched.
+Policy skip is permitted only when recent deterministic certification exists
+for representative Sioux Falls assumption-profile runs, the change under test
+is not determinism-sensitive, and all internal validators still run for the
+scale rung being reported. Determinism-sensitive changes include event ordering,
+packet identity, movement tie-breaking, cumulative count projection,
+validation-context reconstruction, mutable state ownership, and any loading
+mechanics change.
+
+Safe claims under the policy:
+
+- The internally validated rung passed conservation/count/FIFO/spillback/
+  commodity/node checks.
+- Exact replay was either passed, skipped by stated policy, timed out, failed,
+  or not run.
+- A skipped replay is evidence of scale progress only, not exact replay
+  evidence for that rung.
+
+Unsafe claims:
+
+- A policy-skipped rung must not be called replay-passed.
+- Determinism certification at one scale must not be treated as proof that all
+  larger scales are deterministic.
+- Internal validation plus skipped replay is not external Sioux Falls
+  calibration or canonical benchmark validation.
+
+July 2, 2026 determinism experiments on the UC-default Sioux Falls
+assumption-profile runner found exact repeated-run matches at 24, 100, and
+1,000 packets. The 5,000-packet repeated comparison was attempted but stopped
+after exceeding the prior 180 second budget during the second full engine
+execution; no mismatch was observed before interruption, but 5,000 exact replay
+is not certified by that run.
+
+After materialising deterministic cumulative entry/exit prefix counts inside
+the loading engine, exact replay still matched at 24, 100, and 1,000 packets
+with the same event-log fingerprints. With exact replay required through 1,000
+packets and skipped above that by explicit policy, the scale ladder result was:
+
+| Rung | Submitted | Instantiated | Completed | Unresolved | Ticks | Primary s | Projection s | Validators s | Replay status | Scale status |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |
+| 1,000 | 1,000 | 1,000 | 1,000 | 0 | 19 | 0.056 | 0.577 | 0.056 | `passed_exact_replay` | passed |
+| 5,000 | 5,000 | 5,000 | 5,000 | 0 | 81 | 0.901 | 19.024 | 2.774 | `skipped_by_policy_after_determinism_certification` | passed |
+| 10,000 | 10,000 | 10,000 | 8,900 | 1,100 | 20,000 | 112.333 | timeout after 187.630 | not run | `not_run` | failed incomplete/projection timeout |
+| 25,000 | not run | not run | not run | not run | not run | not run | not run | not run | `not_run` | stopped after 10,000 |
+
+The removed primary-stepping bottleneck was repeated event-log scans and sorts
+inside parity sending/receiving view construction. The new dominant bottleneck
+is no longer primary stepping at the largest internally validated rung: 5,000
+primary stepping dropped from about 130 seconds to under 1 second. At 10,000,
+the engine reaches the 20,000 tick limit with 1,100 packets unresolved; the
+subsequent shared projection build times out on a 106,674-event incomplete run.
+
+Follow-up unresolved-packet diagnostics classify the 10,000-packet stop as a
+queue-release / movement-allocation issue, not ordinary congestion or an
+insufficient runtime horizon. Continuing the same run to 50,000 ticks produced
+no additional events or completions after tick 1,000. The terminal state was:
+
+- 8,900 completed packets and 1,100 unresolved packets.
+- All unresolved packets were on `L0002` or queued at
+  `boundary:L0002->L0006`.
+- 400 unresolved packets remained in transit on `L0002`, with FIFO head
+  `P9101` wanting movement `L0002->L0007`.
+- 700 unresolved packets were queued for `L0002->L0006`.
+- Downstream supply was available: `L0006` had 285 receiving slots and `L0007`
+  had 390 receiving slots at the inspected terminal state.
+- There were no active signal, governance, lane-group, or conflict-resource
+  closures explaining the stop.
+- The blocked-edge SCC analysis found no cyclic spillback component.
+- The allocator rejected one active head packet as `not_selected_this_tick` and
+  the remaining 389 terminal candidates as `upstream_fifo_blocked`.
+
+The minimal reproducer is recorded as an expected-failure test:
+`test_strict_fifo_allows_active_head_ahead_of_queued_tail`. It constructs one
+upstream FIFO with active head `P1 -> L3` and queued tail `P2 -> L2`, both with
+available downstream supply. The current Stage 2 allocator excludes the active
+head merely because some queued request exists on the same upstream link, then
+rejects the queued tail because the active head remains ahead in strict FIFO.
+That creates a self-sustaining release deadlock.
+
+Current profile use does not support these claims:
+
+- It does not prove canonical Sioux Falls parity.
+- It does not validate the full OD demand table.
+- It does not provide empirical jam-density or backward-wave-speed calibration.
+- It does not reproduce an independent Sioux Falls packet-LTM reference run.
+- It does not resolve the lack of reviewed full-network junction metadata.
+- It does not validate adaptive signals, lane changing, gap acceptance,
+  roundabout-specific behaviour, weighted packets, or rerouting.
+
+The remaining scientific blocker is no longer that the full Sioux Falls network
+cannot initialize under the Stage 2 allocator. The remaining scientific blocker
+is evidence quality: reviewed physical metadata or defensible benchmark
+assumptions, reviewed junction semantics, and independent reference validation
+before any canonical full-Sioux-Falls parity claim.
+
 ## Yperman Thesis
 
 Deferred by user for this pass; not yet reproduced.

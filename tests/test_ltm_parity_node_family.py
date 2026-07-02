@@ -23,7 +23,9 @@ from urban_cybernetics.core import (
 from urban_cybernetics.loading import (
     GeneralMovementAllocator,
     GlobalFIFOMergePolicy,
+    JunctionAllocationInput,
     LoadingEngine,
+    TransferRequest,
 )
 
 
@@ -129,6 +131,50 @@ class LTMParityMovementAllocatorTest(unittest.TestCase):
             ("L1", "L3"),
         )
         self.assertTrue(engine.check_conservation())
+
+    @unittest.expectedFailure
+    def test_strict_fifo_allows_active_head_ahead_of_queued_tail(self) -> None:
+        node = Node(
+            "N",
+            incoming_link_ids=("L1",),
+            outgoing_link_ids=("L2", "L3"),
+        )
+        allocator = GeneralMovementAllocator(nodes=(node,))
+        active_head = TransferRequest(
+            packet_id="P1",
+            upstream_link_id="L1",
+            downstream_link_id="L3",
+            boundary_id="boundary:L1->L3",
+            eligibility_tick=1,
+            eligibility_sequence_number=1,
+            queued=False,
+            node_id="N",
+        )
+        queued_tail = TransferRequest(
+            packet_id="P2",
+            upstream_link_id="L1",
+            downstream_link_id="L2",
+            boundary_id="boundary:L1->L2",
+            eligibility_tick=1,
+            eligibility_sequence_number=2,
+            queued=True,
+            node_id="N",
+        )
+
+        decision = allocator.allocate(
+            allocation_inputs=(
+                JunctionAllocationInput(
+                    node_id="N",
+                    junction_spec=node.junction_spec,
+                    transfer_requests=(queued_tail, active_head),
+                    receiving_slots_by_downstream_link={"L2": 1, "L3": 1},
+                    packet_ids_by_upstream_link={"L1": ("P1", "P2")},
+                    queued_downstream_by_packet_id={"P2": "L2"},
+                ),
+            )
+        )
+
+        self.assertEqual(decision.approved_transfers, (active_head,))
 
     def test_declared_priority_merge_achieves_long_horizon_share(self) -> None:
         engine = self.priority_merge_engine()
