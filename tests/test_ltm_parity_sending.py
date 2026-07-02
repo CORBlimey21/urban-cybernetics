@@ -196,6 +196,35 @@ class LTMParitySendingTest(unittest.TestCase):
         self.assertEqual(l1_exit.physical_tick, l2_entry.physical_tick)
         self.assertLess(l1_exit.sequence_number, l2_entry.sequence_number)
 
+    def test_parity_final_completion_does_not_bypass_fifo_transfer_head(self) -> None:
+        engine = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1", sending_capacity=2),
+                "L2": self.physical_link("L2"),
+            }
+        )
+        transfer_head = engine.instantiate(
+            DemandDeclaration("D-transfer", departure_tick=0, route_intent=("L1", "L2"))
+        )
+        final_tail = engine.instantiate(
+            DemandDeclaration("D-final", departure_tick=0, route_intent=("L1",))
+        )
+
+        engine.step()
+
+        self.assertEqual(
+            self.link_event_packet_ids(engine, EventType.LINK_EXIT, "L1", 1),
+            [transfer_head.packet_id, final_tail.packet_id],
+        )
+        self.assertEqual(
+            engine.packets[transfer_head.packet_id].lifecycle_state,
+            LifecycleState.IN_TRANSIT,
+        )
+        self.assertEqual(
+            engine.packets[final_tail.packet_id].lifecycle_state,
+            LifecycleState.COMPLETED,
+        )
+
     def test_parity_sending_does_not_change_receiving_blockage_semantics(self) -> None:
         engine = self.parity_engine(
             links={

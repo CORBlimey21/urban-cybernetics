@@ -887,14 +887,27 @@ class LoadingEngine:
         """Advance the loading engine by exactly one deterministic tick."""
 
         self.current_tick += 1
+        self._extend_cumulative_boundary_count_views_to_current_tick()
         self._reset_same_tick_receiving_acceptance_counts()
         self._prepare_parity_sending_capacity_for_tick()
         self._prepare_parity_receiving_capacity_for_tick()
         self._instantiate_pending_departures()
-        completed_counts_by_link = self._complete_eligible_packets()
+        final_completion_packet_ids_by_link = (
+            self._final_completion_packet_ids_by_link()
+        )
+        completed_counts_by_link = {
+            link_id: len(packet_ids)
+            for link_id, packet_ids in final_completion_packet_ids_by_link.items()
+        }
 
-        receiving_slots = self._receiving_slots_by_link()
-        candidates = self._transfer_candidates(completed_counts_by_link, receiving_slots)
+        receiving_slots = self._receiving_slots_by_link(
+            final_completion_counts_by_link=completed_counts_by_link,
+        )
+        candidates = self._transfer_candidates(
+            completed_counts_by_link,
+            receiving_slots,
+            final_completion_packet_ids_by_link=final_completion_packet_ids_by_link,
+        )
         approved_candidates = self._allocate_transfer_requests(
             transfer_requests=candidates,
             receiving_slots=receiving_slots,
@@ -903,6 +916,7 @@ class LoadingEngine:
             approved_candidates,
             candidates,
             receiving_slots,
+            final_completion_packet_ids_by_link=final_completion_packet_ids_by_link,
         )
         self._queue_non_approved_candidates(
             candidates,
@@ -1031,11 +1045,33 @@ class LoadingEngine:
         upstream_link_id, downstream_link_id = boundary.split("->", 1)
         return upstream_link_id, downstream_link_id
 
-    def _receiving_slots_by_link(self) -> dict[str, int]:
-        return {
-            link_id: self._current_link_receiving_view(link_id).available_receiving_slots
-            for link_id in self.links
-        }
+    def _receiving_slots_by_link(
+        self,
+        *,
+        final_completion_counts_by_link: Mapping[str, int] | None = None,
+    ) -> dict[str, int]:
+        final_completion_counts_by_link = final_completion_counts_by_link or {}
+        receiving_slots: dict[str, int] = {}
+        for link_id in self.links:
+            receiving_view = self._current_link_receiving_view(link_id)
+            slots = receiving_view.available_receiving_slots
+            final_completion_count = final_completion_counts_by_link.get(link_id, 0)
+            if (
+                final_completion_count
+                and receiving_view.receiving_open
+                and not self._uses_parity_receiving()
+            ):
+                available_receiving_capacity = max(
+                    receiving_view.receiving_capacity
+                    - receiving_view.already_accepted_count,
+                    0,
+                )
+                slots = min(
+                    receiving_view.available_storage_space + final_completion_count,
+                    available_receiving_capacity,
+                )
+            receiving_slots[link_id] = slots
+        return receiving_slots
 
     def _reset_same_tick_receiving_acceptance_counts(self) -> None:
         self._same_tick_link_entries_by_link_id = {
@@ -1202,25 +1238,38 @@ class LoadingEngine:
             return
         self._queue_packet(packet_id, upstream_link_id, downstream_link_id)
 
-    def _complete_eligible_packets(self) -> dict[str, int]:
-        completed_counts_by_link: dict[str, int] = {}
+    def _final_completion_packet_ids_by_link(self) -> dict[str, tuple[str, ...]]:
+        completion_packet_ids_by_link: dict[str, tuple[str, ...]] = {}
         for link_id in sorted(self.links):
             sending_view = self._current_link_sending_view(
                 link_id,
                 excluded_packet_ids=self._queued_packet_ids_on_upstream_link(link_id),
             )
-            for packet_id in sending_view.sendable_packet_ids:
-                if self._next_link_id(packet_id) is None:
-                    self._complete_packet(packet_id, link_id)
-                    completed_counts_by_link[link_id] = (
-                        completed_counts_by_link.get(link_id, 0) + 1
-                    )
+            packet_ids = tuple(
+                packet_id
+                for packet_id in sending_view.sendable_packet_ids
+                if self._next_link_id(packet_id) is None
+            )
+            if packet_ids:
+                completion_packet_ids_by_link[link_id] = packet_ids
+        return completion_packet_ids_by_link
+
+    def _complete_eligible_packets(self) -> dict[str, int]:
+        completed_counts_by_link: dict[str, int] = {}
+        for link_id, packet_ids in self._final_completion_packet_ids_by_link().items():
+            for packet_id in packet_ids:
+                self._complete_packet(packet_id, link_id)
+                completed_counts_by_link[link_id] = (
+                    completed_counts_by_link.get(link_id, 0) + 1
+                )
         return completed_counts_by_link
 
     def _transfer_candidates(
         self,
         consumed_sending_slots_by_link: dict[str, int],
         receiving_slots_by_link: dict[str, int],
+        *,
+        final_completion_packet_ids_by_link: Mapping[str, tuple[str, ...]] | None = None,
     ) -> tuple[TransferRequest, ...]:
         queued_candidates = self._queued_transfer_candidates(
             consumed_sending_slots_by_link,
@@ -1245,7 +1294,12 @@ class LoadingEngine:
             )
         candidates = [
             *queued_candidates,
-            *self._active_transfer_candidates(active_consumed_slots),
+            *self._active_transfer_candidates(
+                active_consumed_slots,
+                final_completion_packet_ids_by_link=(
+                    final_completion_packet_ids_by_link or {}
+                ),
+            ),
         ]
         return tuple(candidates)
 
@@ -1324,15 +1378,29 @@ class LoadingEngine:
     def _active_transfer_candidates(
         self,
         consumed_sending_slots_by_link: dict[str, int],
+        *,
+        final_completion_packet_ids_by_link: Mapping[str, tuple[str, ...]] | None = None,
     ) -> list[TransferRequest]:
         link_entry_metadata = self._current_link_entry_metadata_by_packet_id
         queued_packet_ids = set(self._queued_downstream_by_packet_id)
+        final_completion_packet_ids_by_link = final_completion_packet_ids_by_link or {}
         candidates: list[TransferRequest] = []
         for upstream_link_id in sorted(self.links):
             link = self.links[upstream_link_id]
+            excluded_packet_ids = tuple(
+                sorted(
+                    queued_packet_ids
+                    | set(
+                        final_completion_packet_ids_by_link.get(
+                            upstream_link_id,
+                            (),
+                        )
+                    )
+                )
+            )
             sending_view = self._current_link_sending_view(
                 upstream_link_id,
-                excluded_packet_ids=tuple(queued_packet_ids),
+                excluded_packet_ids=excluded_packet_ids,
                 already_consumed_count=consumed_sending_slots_by_link.get(
                     upstream_link_id,
                     0,
@@ -1490,10 +1558,13 @@ class LoadingEngine:
         approved_candidates: tuple[TransferRequest, ...],
         candidates: tuple[TransferRequest, ...],
         receiving_slots: dict[str, int],
+        *,
+        final_completion_packet_ids_by_link: Mapping[str, tuple[str, ...]] | None = None,
     ) -> tuple[set[TransferRequest], dict[str, int]]:
         candidate_set = set(candidates)
         approved_candidate_set: set[TransferRequest] = set()
         remaining_slots = dict(receiving_slots)
+        final_completion_packet_ids_by_link = final_completion_packet_ids_by_link or {}
 
         for candidate in approved_candidates:
             if candidate not in candidate_set:
@@ -1510,11 +1581,60 @@ class LoadingEngine:
                     f"for {candidate.downstream_link_id}"
                 )
 
-            self._execute_transfer_candidate(candidate)
             approved_candidate_set.add(candidate)
             remaining_slots[candidate.downstream_link_id] -= 1
 
+        self._execute_link_departures_in_fifo_order(
+            approved_candidates=approved_candidates,
+            final_completion_packet_ids_by_link=final_completion_packet_ids_by_link,
+        )
+
         return approved_candidate_set, remaining_slots
+
+    def _execute_link_departures_in_fifo_order(
+        self,
+        *,
+        approved_candidates: tuple[TransferRequest, ...],
+        final_completion_packet_ids_by_link: Mapping[str, tuple[str, ...]],
+    ) -> None:
+        departures_by_link: dict[str, list[tuple[str, str | TransferRequest]]] = {}
+        for link_id, packet_ids in final_completion_packet_ids_by_link.items():
+            departures_by_link.setdefault(link_id, []).extend(
+                ("complete", packet_id) for packet_id in packet_ids
+            )
+        for candidate in approved_candidates:
+            departures_by_link.setdefault(candidate.upstream_link_id, []).append(
+                ("transfer", candidate)
+            )
+
+        for link_id in sorted(departures_by_link):
+            departures = sorted(
+                departures_by_link[link_id],
+                key=self._departure_fifo_sort_key,
+            )
+            for departure_type, departure in departures:
+                if departure_type == "complete":
+                    assert isinstance(departure, str)
+                    self._complete_packet(departure, link_id)
+                else:
+                    assert isinstance(departure, TransferRequest)
+                    self._execute_transfer_candidate(departure)
+
+    def _departure_fifo_sort_key(
+        self,
+        departure: tuple[str, str | TransferRequest],
+    ) -> tuple[int, int, str]:
+        _, value = departure
+        packet_id = value if isinstance(value, str) else value.packet_id
+        try:
+            _, entry_tick, sequence_number = (
+                self._current_link_entry_metadata_by_packet_id[packet_id]
+            )
+        except KeyError as exc:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} has no current link entry metadata"
+            ) from exc
+        return (entry_tick, sequence_number, packet_id)
 
     def _execute_transfer_candidate(self, candidate: TransferRequest) -> None:
         if candidate.queued:
