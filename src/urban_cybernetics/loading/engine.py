@@ -7,6 +7,7 @@ import json
 from collections import deque
 from collections.abc import Iterable, Mapping
 from dataclasses import replace
+from math import ceil
 from types import MappingProxyType
 
 from urban_cybernetics.config import (
@@ -131,6 +132,12 @@ class LoadingEngine:
         self._queued_packet_ids_by_upstream_link: dict[str, deque[str]] = {}
         self._same_tick_link_entries_by_link_id: dict[str, int] = {
             link_id: 0 for link_id in self.links
+        }
+        self._cumulative_link_entries_by_tick: dict[str, list[int]] = {
+            link_id: [0] for link_id in self.links
+        }
+        self._cumulative_link_exits_by_tick: dict[str, list[int]] = {
+            link_id: [0] for link_id in self.links
         }
         self._parity_sending_capacity_rate_by_link_id = (
             self._normalise_parity_sending_capacity_rates(
@@ -736,6 +743,11 @@ class LoadingEngine:
         """Update engine-owned acceleration views from one canonical event."""
 
         if event.event_type == EventType.LINK_ENTRY:
+            self._increment_cumulative_boundary_count(
+                self._cumulative_link_entries_by_tick,
+                event.entity_id,
+                event.physical_tick,
+            )
             self._current_link_storage_by_link_id[event.entity_id] += 1
             self._packet_ids_by_link_id[event.entity_id].append(event.packet_id)
             self._current_link_ids[event.packet_id] = event.entity_id
@@ -747,6 +759,11 @@ class LoadingEngine:
             )
             self._same_tick_link_entries_by_link_id[event.entity_id] += 1
         elif event.event_type == EventType.LINK_EXIT:
+            self._increment_cumulative_boundary_count(
+                self._cumulative_link_exits_by_tick,
+                event.entity_id,
+                event.physical_tick,
+            )
             self._current_link_storage_by_link_id[event.entity_id] -= 1
             if self._current_link_storage_by_link_id[event.entity_id] < 0:
                 raise EventCacheConsistencyError(
@@ -1078,6 +1095,174 @@ class LoadingEngine:
             link_id: 0 for link_id in self.links
         }
 
+    def _extend_cumulative_boundary_count_views_to_current_tick(self) -> None:
+        for counts_by_tick in (
+            self._cumulative_link_entries_by_tick,
+            self._cumulative_link_exits_by_tick,
+        ):
+            for link_id in self.links:
+                counts = counts_by_tick[link_id]
+                while len(counts) <= self.current_tick:
+                    counts.append(counts[-1])
+
+    def _increment_cumulative_boundary_count(
+        self,
+        counts_by_tick: dict[str, list[int]],
+        link_id: str,
+        tick: int,
+    ) -> None:
+        counts = counts_by_tick[link_id]
+        while len(counts) <= tick:
+            counts.append(counts[-1])
+        counts[tick] += 1
+
+    def _cumulative_link_entries(self, link_id: str, tick: int) -> int:
+        return self._cumulative_link_boundary_count(
+            self._cumulative_link_entries_by_tick,
+            link_id,
+            tick,
+        )
+
+    def _cumulative_link_exits(self, link_id: str, tick: int) -> int:
+        return self._cumulative_link_boundary_count(
+            self._cumulative_link_exits_by_tick,
+            link_id,
+            tick,
+        )
+
+    def _cumulative_link_boundary_count(
+        self,
+        counts_by_tick: dict[str, list[int]],
+        link_id: str,
+        tick: int,
+    ) -> int:
+        if tick < 0:
+            return 0
+        counts = counts_by_tick[link_id]
+        if tick >= len(counts):
+            return counts[-1]
+        return counts[tick]
+
+    def _current_parity_link_sending_view(
+        self,
+        link_id: str,
+        *,
+        excluded_packet_ids: tuple[str, ...],
+        already_consumed_count: int,
+    ) -> LinkSendingView:
+        if already_consumed_count < 0:
+            raise ValueError("already_consumed_count cannot be negative")
+        link = self.links[link_id]
+        capacity = bounded_integer_capacity_carry(
+            link_id=link_id,
+            capacity_vehicles_per_tick=(
+                self._parity_sending_capacity_rate_by_link_id[link_id]
+            ),
+            carry_in=self._parity_sending_capacity_carry_in_by_link_id[link_id],
+        )
+        lagged_entry_tick = self.current_tick - link.free_flow_ticks
+        lagged_entry_count = self._cumulative_link_entries(
+            link_id,
+            lagged_entry_tick,
+        )
+        current_exit_count = self._cumulative_link_exits(link_id, self.current_tick)
+        ltm_sending_demand = max(lagged_entry_count - current_exit_count, 0)
+        available_sending_slots = max(
+            min(capacity.integer_capacity, ltm_sending_demand)
+            - already_consumed_count,
+            0,
+        )
+        excluded_packet_id_set = set(excluded_packet_ids)
+        eligible_packet_ids = tuple(
+            packet_id
+            for packet_id in self._packet_ids_by_link_id[link_id]
+            if packet_id not in excluded_packet_id_set
+            and self.current_tick
+            - self._current_link_entry_metadata_by_packet_id[packet_id][1]
+            >= link.free_flow_ticks
+        )
+        return LinkSendingView(
+            link_id=link_id,
+            tick=self.current_tick,
+            eligible_packet_ids=eligible_packet_ids,
+            sending_capacity=capacity.integer_capacity,
+            sendable_packet_ids=eligible_packet_ids[:available_sending_slots],
+        )
+
+    def _current_parity_link_receiving_view(
+        self,
+        link_id: str,
+        *,
+        already_accepted_count: int,
+    ) -> LinkReceivingView:
+        if already_accepted_count < 0:
+            raise ValueError("already_accepted_count cannot be negative")
+        link = self.links[link_id]
+        if link.length_m is None or link.backward_wave_speed_mps is None:
+            raise ValueError(
+                "parity receiving requires length_m and backward_wave_speed_mps "
+                f"for {link_id}"
+            )
+        backward_wave_lag_ticks = max(
+            1,
+            ceil(
+                (link.length_m / link.backward_wave_speed_mps)
+                / link.tick_duration_seconds
+            ),
+        )
+        lagged_downstream_exit_tick = self.current_tick - backward_wave_lag_ticks
+        lagged_downstream_exit_count = self._cumulative_link_exits(
+            link_id,
+            lagged_downstream_exit_tick,
+        )
+        current_upstream_entry_count = self._cumulative_link_entries(
+            link_id,
+            self.current_tick,
+        )
+        raw_physical_vacancy = (
+            link.declared_storage_capacity_packets
+            + lagged_downstream_exit_count
+            - current_upstream_entry_count
+        )
+        capacity_rate = self._parity_receiving_capacity_rate_by_link_id[link_id]
+        integer_capacity, _ = bounded_integer_receiving_capacity_carry(
+            link_id=link_id,
+            capacity_vehicles_per_tick=capacity_rate,
+            carry_in=self._parity_receiving_capacity_carry_in_by_link_id[link_id],
+        )
+        same_tick_accepted_count = self._same_tick_link_entries_by_link_id[link_id]
+        total_accepted_count = same_tick_accepted_count + already_accepted_count
+        available_physical_vacancy = max(
+            raw_physical_vacancy - already_accepted_count,
+            0,
+        )
+        available_receiving_capacity = max(integer_capacity - total_accepted_count, 0)
+        if not self.is_receiving_open(link_id):
+            available_receiving_slots = 0
+        elif available_physical_vacancy <= 0:
+            available_receiving_slots = 0
+        elif available_receiving_capacity <= 0:
+            available_receiving_slots = 0
+        else:
+            available_receiving_slots = min(
+                available_physical_vacancy,
+                available_receiving_capacity,
+            )
+        return LinkReceivingView(
+            link_id=link_id,
+            tick=self.current_tick,
+            receiving_open=self.is_receiving_open(link_id),
+            receiving_capacity=integer_capacity,
+            already_accepted_count=total_accepted_count,
+            current_storage=(
+                self._cumulative_link_entries(link_id, self.current_tick)
+                - self._cumulative_link_exits(link_id, self.current_tick)
+            ),
+            storage_capacity=link.declared_storage_capacity_packets,
+            available_storage_space=available_physical_vacancy,
+            available_receiving_slots=available_receiving_slots,
+        )
+
     def _current_link_sending_view(
         self,
         link_id: str,
@@ -1085,20 +1270,11 @@ class LoadingEngine:
         already_consumed_count: int = 0,
     ) -> LinkSendingView:
         if self._uses_parity_sending():
-            return parity_link_sending_trace(
-                self.event_log,
-                self.packets,
-                self.links[link_id],
-                self.current_tick,
-                capacity_carry_in=self._parity_sending_capacity_carry_in_by_link_id[
-                    link_id
-                ],
-                capacity_vehicles_per_tick=(
-                    self._parity_sending_capacity_rate_by_link_id[link_id]
-                ),
-                already_consumed_count=already_consumed_count,
+            return self._current_parity_link_sending_view(
+                link_id,
                 excluded_packet_ids=excluded_packet_ids,
-            ).as_legacy_view()
+                already_consumed_count=already_consumed_count,
+            )
 
         link = self.links[link_id]
         sending_capacity = link.declared_sending_capacity_per_tick
@@ -1133,18 +1309,9 @@ class LoadingEngine:
         already_accepted_count: int = 0,
     ) -> LinkReceivingView:
         if self._uses_parity_receiving():
-            return parity_supply_as_receiving_view(
-                self.event_log,
-                self.links[link_id],
-                self.current_tick,
-                receiving_open=self.is_receiving_open(link_id),
-                receiving_capacity_carry_in=(
-                    self._parity_receiving_capacity_carry_in_by_link_id[link_id]
-                ),
+            return self._current_parity_link_receiving_view(
+                link_id,
                 already_accepted_count=already_accepted_count,
-                capacity_vehicles_per_tick=(
-                    self._parity_receiving_capacity_rate_by_link_id[link_id]
-                ),
             )
 
         link = self.links[link_id]
@@ -2067,6 +2234,39 @@ class LoadingEngine:
             raise EventCacheConsistencyError(
                 "same-tick receiving acceptance cache does not match event history"
             )
+        self._check_cumulative_boundary_count_views_consistent()
+
+    def _check_cumulative_boundary_count_views_consistent(self) -> None:
+        event_entries_by_link_tick: dict[str, list[int]] = {
+            link_id: [0] * (self.current_tick + 1) for link_id in self.links
+        }
+        event_exits_by_link_tick: dict[str, list[int]] = {
+            link_id: [0] * (self.current_tick + 1) for link_id in self.links
+        }
+        for event in self._event_log:
+            if event.event_type == EventType.LINK_ENTRY:
+                event_entries_by_link_tick[event.entity_id][event.physical_tick] += 1
+            elif event.event_type == EventType.LINK_EXIT:
+                event_exits_by_link_tick[event.entity_id][event.physical_tick] += 1
+
+        for link_id in self.links:
+            event_entry_prefix = 0
+            event_exit_prefix = 0
+            for tick in range(self.current_tick + 1):
+                event_entry_prefix += event_entries_by_link_tick[link_id][tick]
+                cached_entries = self._cumulative_link_entries(link_id, tick)
+                if cached_entries != event_entry_prefix:
+                    raise EventCacheConsistencyError(
+                        f"entry prefix cache for {link_id} at tick {tick} is "
+                        f"{cached_entries}, but event log implies {event_entry_prefix}"
+                    )
+                event_exit_prefix += event_exits_by_link_tick[link_id][tick]
+                cached_exits = self._cumulative_link_exits(link_id, tick)
+                if cached_exits != event_exit_prefix:
+                    raise EventCacheConsistencyError(
+                        f"exit prefix cache for {link_id} at tick {tick} is "
+                        f"{cached_exits}, but event log implies {event_exit_prefix}"
+                    )
 
     def _check_live_queue_membership_consistent(self) -> None:
         boundary_queued_packet_ids: list[str] = [
