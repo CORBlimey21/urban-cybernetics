@@ -512,17 +512,11 @@ def cumulative_count_projection(
     route_counts: tuple[RouteCumulativeBoundaryCounts, ...] = ()
     travel_time_curves: tuple[RouteTravelTimeCurve, ...] = ()
     if packets is not None:
-        route_counts = tuple(
-            route_counts_item
-            for link_id in link_id_tuple
-            for route_key in sorted(_route_link_ids_by_key(packets))
-            for route_counts_item in route_cumulative_count_series(
-                event_tuple,
-                packets,
-                link_id=link_id,
-                route_key=route_key,
-                max_tick=projection_max_tick,
-            )
+        route_counts = _route_cumulative_count_grid(
+            event_tuple,
+            packets,
+            link_ids=link_id_tuple,
+            max_tick=projection_max_tick,
         )
         travel_time_curves = route_travel_time_curves(
             event_tuple,
@@ -582,12 +576,10 @@ def count_consistency_report(
             max_tick=max_tick,
             prefix_event_count=prefix_event_count,
         )
-        _check_event_order(_event_prefix(event_source_tuple, prefix_event_count), reasons)
-        _check_aggregate_counts(projection.aggregate_counts, reasons)
-        _check_packet_ordinals(projection.packet_ordinals, reasons)
-        if projection.route_counts_supported:
-            _check_route_counts_sum_to_aggregate(projection, reasons)
-            _check_route_travel_time_curves(projection, reasons)
+        return count_consistency_report_from_projection(
+            projection,
+            events=_event_prefix(event_source_tuple, prefix_event_count),
+        )
     except (KeyError, TypeError, ValueError) as exc:
         event_tuple = _event_prefix(event_source_tuple, prefix_event_count)
         return CountConsistencyReport(
@@ -606,6 +598,24 @@ def count_consistency_report(
             ),
         )
 
+
+def count_consistency_report_from_projection(
+    projection: CumulativeCountProjection,
+    *,
+    events: Iterable[Event],
+) -> CountConsistencyReport:
+    """Check count projection invariants without rebuilding the projection."""
+
+    reasons: list[str] = []
+    try:
+        _check_event_order(tuple(events), reasons)
+        _check_aggregate_counts(projection.aggregate_counts, reasons)
+        _check_packet_ordinals(projection.packet_ordinals, reasons)
+        if projection.route_counts_supported:
+            _check_route_counts_sum_to_aggregate(projection, reasons)
+            _check_route_travel_time_curves(projection, reasons)
+    except (KeyError, TypeError, ValueError) as exc:
+        reasons.append(str(exc))
     return CountConsistencyReport(
         link_ids=projection.link_ids,
         max_tick=projection.max_tick,
@@ -659,6 +669,65 @@ def _route_link_ids_by_key(packets: Mapping[str, Packet]) -> dict[str, tuple[str
         if route_link_ids != packet.route_intent:
             raise ValueError(f"route_key collision for {route_key}")
     return route_link_ids_by_key
+
+
+def _route_cumulative_count_grid(
+    events: tuple[Event, ...],
+    packets: Mapping[str, Packet],
+    *,
+    link_ids: tuple[str, ...],
+    max_tick: int,
+) -> tuple[RouteCumulativeBoundaryCounts, ...]:
+    """Return route counts for all requested links/routes without rescanning."""
+
+    if max_tick < 0:
+        return ()
+
+    route_link_ids_by_key = _route_link_ids_by_key(packets)
+    route_keys = tuple(sorted(route_link_ids_by_key))
+    increments_by_tick: dict[tuple[int, str, str], tuple[int, int]] = {}
+    for event in events:
+        if event.physical_tick > max_tick:
+            continue
+        boundary_type = _boundary_type_for_event(event)
+        if boundary_type is None:
+            continue
+        packet = packets.get(event.packet_id)
+        if packet is None:
+            continue
+        route_key = route_key_for_packet(packet)
+        key = (event.physical_tick, event.entity_id, route_key)
+        entries, exits = increments_by_tick.get(key, (0, 0))
+        if boundary_type == ENTRY_BOUNDARY:
+            entries += 1
+        else:
+            exits += 1
+        increments_by_tick[key] = (entries, exits)
+
+    route_counts: list[RouteCumulativeBoundaryCounts] = []
+    for link_id in link_ids:
+        for route_key in route_keys:
+            entries = 0
+            exits = 0
+            route_link_ids = route_link_ids_by_key[route_key]
+            for tick in range(max_tick + 1):
+                entry_increment, exit_increment = increments_by_tick.get(
+                    (tick, link_id, route_key),
+                    (0, 0),
+                )
+                entries += entry_increment
+                exits += exit_increment
+                route_counts.append(
+                    RouteCumulativeBoundaryCounts(
+                        link_id=link_id,
+                        route_key=route_key,
+                        route_link_ids=route_link_ids,
+                        tick=tick,
+                        entries=entries,
+                        exits=exits,
+                    )
+                )
+    return tuple(route_counts)
 
 
 def _final_link_exit_route_ordinals(

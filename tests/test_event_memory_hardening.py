@@ -13,6 +13,10 @@ from urban_cybernetics.core import (
     Packet,
 )
 from urban_cybernetics.loading import LoadingEngine
+from urban_cybernetics.loading.cumulative_counts import (
+    cumulative_entries,
+    cumulative_exits,
+)
 
 
 class EventMemoryHardeningTest(unittest.TestCase):
@@ -66,6 +70,32 @@ class EventMemoryHardeningTest(unittest.TestCase):
             [event.event_type for event in event_log],
             [EventType.INSTANTIATED, EventType.LINK_ENTRY],
         )
+
+    def test_materialised_cumulative_counts_match_event_log_truth(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L1": Link("L1", free_flow_ticks=1),
+            }
+        )
+        engine.instantiate(
+            DemandDeclaration(
+                demand_id="D1",
+                departure_tick=0,
+                route_intent=("L1",),
+            )
+        )
+        engine.step()
+
+        self.assertTrue(engine.check_event_cache_consistency())
+        for tick in range(engine.current_tick + 1):
+            self.assertEqual(
+                engine._cumulative_link_entries("L1", tick),
+                cumulative_entries(engine.event_log, "L1", tick),
+            )
+            self.assertEqual(
+                engine._cumulative_link_exits("L1", tick),
+                cumulative_exits(engine.event_log, "L1", tick),
+            )
 
 
 if __name__ == "__main__":

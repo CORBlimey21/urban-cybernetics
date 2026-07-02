@@ -8,6 +8,7 @@ from urban_cybernetics.core import DemandDeclaration, EventType, LifecycleState,
 from urban_cybernetics.loading import LoadingEngine, route_key_for_packet
 from urban_cybernetics.validation import (
     COMMODITY_MODEL_ID,
+    ValidationContext,
     build_commodity_parity_validation_report,
 )
 
@@ -93,6 +94,40 @@ def test_m7_commodity_is_immutable_route_intent_and_route_counts_sum_to_aggregat
         if counts.link_id == "L1" and counts.tick == projection.max_tick
     )
     assert l1_final_route_entries == engine.cumulative_counts("L1").entries
+
+
+def test_commodity_validation_context_preserves_direct_validation_semantics() -> None:
+    engine = parity_engine(
+        links={
+            "L1": physical_link("L1", sending_capacity=4, storage=8),
+            "L2": physical_link("L2", receiving_capacity=4, storage=8),
+            "L3": physical_link("L3", receiving_capacity=4, storage=8),
+        },
+        nodes=(
+            Node(
+                "N-diverge",
+                incoming_link_ids=("L1",),
+                outgoing_link_ids=("L2", "L3"),
+            ),
+        ),
+    )
+    instantiate_demands(
+        engine,
+        (
+            demand("D-L2-a", ("L1", "L2")),
+            demand("D-L2-b", ("L1", "L2")),
+            demand("D-L3", ("L1", "L3")),
+        ),
+    )
+
+    run_ticks(engine, 3)
+    direct_report = build_commodity_parity_validation_report(engine)
+    context_report = build_commodity_parity_validation_report(
+        engine,
+        validation_context=ValidationContext.from_engine(engine),
+    )
+
+    assert context_report == direct_report
 
 
 def test_route_travel_time_curve_points_match_final_link_exit_route_ordinals() -> None:

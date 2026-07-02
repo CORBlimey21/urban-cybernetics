@@ -12,6 +12,7 @@ from urban_cybernetics.loading.cumulative_counts import (
     RouteTravelTimeCurve,
     route_key_for_packet,
 )
+from urban_cybernetics.validation.context import ValidationContext
 
 
 COMMODITY_MODEL_ID = "immutable_route_intent_unit_packet_v1"
@@ -69,28 +70,31 @@ class CommodityParityValidationReport:
 
 def build_commodity_parity_validation_report(
     engine: Any,
+    *,
+    validation_context: ValidationContext | None = None,
 ) -> CommodityParityValidationReport:
     """Validate M7 packet and multi-commodity parity evidence without mutation."""
 
-    packets = dict(engine.packets)
-    projection = engine.cumulative_count_projection()
+    context = validation_context or ValidationContext.from_engine(engine)
+    packets = dict(context.packets)
+    projection = context.cumulative_count_projection
     reasons: list[str] = []
-    if engine.model_profile_id != ACADEMIC_LTM_PARITY_PROFILE_ID:
+    if context.model_profile_id != ACADEMIC_LTM_PARITY_PROFILE_ID:
         reasons.append("model_profile_not_parity_ltm_v1")
 
     _check_unit_packet_weights(packets, reasons)
-    _check_count_projection(engine, projection, reasons)
+    _check_count_projection(context, projection, reasons)
     _check_packet_route_ordinal_correspondence(packets, projection, reasons)
-    _check_realised_paths_do_not_imply_rerouting(engine, packets, reasons)
+    _check_realised_paths_do_not_imply_rerouting(context, packets, reasons)
     _check_route_travel_time_curves(projection, reasons)
 
     completed_packet_ids = {
         event.packet_id
-        for event in engine.event_log
+        for event in context.event_log
         if event.event_type == EventType.COMPLETED
     }
     return CommodityParityValidationReport(
-        model_profile_id=engine.model_profile_id,
+        model_profile_id=context.model_profile_id,
         commodity_model_id=COMMODITY_MODEL_ID,
         unit_packet_weight=1,
         commodity_definitions=_commodity_definitions(packets, completed_packet_ids),
@@ -118,11 +122,11 @@ def _check_unit_packet_weights(
 
 
 def _check_count_projection(
-    engine: Any,
+    context: ValidationContext,
     projection: CumulativeCountProjection,
     reasons: list[str],
 ) -> None:
-    report = engine.count_consistency_report()
+    report = context.count_consistency_report
     if not report.is_consistent:
         reasons.extend(
             f"count_consistency:{reason}" for reason in report.ineligibility_reasons
@@ -189,12 +193,12 @@ def _check_packet_route_ordinal_correspondence(
 
 
 def _check_realised_paths_do_not_imply_rerouting(
-    engine: Any,
+    context: ValidationContext,
     packets: dict[str, Packet],
     reasons: list[str],
 ) -> None:
     entries_by_packet: dict[str, list[str]] = {packet_id: [] for packet_id in packets}
-    for event in engine.event_log:
+    for event in context.event_log:
         if event.event_type == EventType.LINK_ENTRY:
             entries_by_packet.setdefault(event.packet_id, []).append(event.entity_id)
     for packet_id, realised_path in sorted(entries_by_packet.items()):

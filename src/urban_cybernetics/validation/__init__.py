@@ -15,6 +15,7 @@ from .commodity import (
     CommodityParityValidationReport,
     build_commodity_parity_validation_report,
 )
+from .context import ValidationContext
 from .physical import (
     PhysicalParameterEligibilityReport,
     assess_physical_parameter_eligibility,
@@ -41,6 +42,7 @@ __all__ = [
     "BoundarySpillbackTrace",
     "QueueCurvePoint",
     "SpillbackValidationReport",
+    "ValidationContext",
     "parity_profile_status",
     "assess_physical_parameter_eligibility",
     "build_commodity_parity_validation_report",
