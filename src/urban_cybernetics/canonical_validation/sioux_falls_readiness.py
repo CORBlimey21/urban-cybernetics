@@ -26,9 +26,15 @@ from urban_cybernetics.validation import (
     CommodityParityValidationReport,
     PhysicalParameterEligibilityReport,
     SpillbackValidationReport,
+    ValidationContext,
     assess_physical_parameter_eligibility,
     build_commodity_parity_validation_report,
     build_spillback_validation_report,
+)
+from urban_cybernetics.canonical_validation.sioux_falls_physical_profile import (
+    SIOUX_FALLS_UC_DEFAULT_PROFILE_ID,
+    SiouxFallsPhysicalProfile,
+    build_sioux_falls_uc_default_physical_profile,
 )
 
 
