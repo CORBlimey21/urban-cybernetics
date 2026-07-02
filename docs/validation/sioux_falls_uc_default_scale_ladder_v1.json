@@ -1,0 +1,160 @@
+{
+  "artifact_generated_at_utc": "2026-07-02T11:40:48.090102+00:00",
+  "benchmark_id": "sioux_falls_tntp_v1",
+  "bounded_packet_rungs": [
+    1000,
+    5000,
+    10000,
+    25000
+  ],
+  "determinism_certification": {
+    "attempted_packet_counts": [
+      24,
+      100,
+      1000,
+      5000
+    ],
+    "certified_packet_count": 1000,
+    "exact_matches": [
+      24,
+      100,
+      1000
+    ],
+    "not_certified": {
+      "5000": "attempted; interrupted during second full engine run after exceeding the prior 180s budget; no mismatch observed before interruption"
+    }
+  },
+  "evidence_label": "sioux_falls_uc_default_assumption_profile_scale_ladder",
+  "full_demand_requested_packet_count": 360600,
+  "full_demand_run_attempted": false,
+  "physical_profile_hash": "5c29ec863dface7d4a8bcbe3798c93665d4edc5f67fbf222a23d3761ad6449de",
+  "physical_profile_id": "SiouxFallsPhysicalProfile_UC_Default_v1",
+  "physical_profile_version": "v1",
+  "replay_policy": {
+    "determinism_certified_packet_count": 1000,
+    "exact_replay_packet_limit": 1000,
+    "large_rung_status": "skipped_by_policy_after_determinism_certification"
+  },
+  "unresolved_packet_diagnostics": {
+    "classification": "queue_release_movement_allocation_issue",
+    "continued_to_tick": 50000,
+    "completed_after_tick_1000": 0,
+    "unresolved_packets": 1100,
+    "unresolved_in_transit_on_L0002": 400,
+    "unresolved_queued_boundary_L0002_L0006": 700,
+    "downstream_supply_available": {
+      "L0006_receiving_slots": 285,
+      "L0007_receiving_slots": 390
+    },
+    "terminal_allocator_rejections": {
+      "not_selected_this_tick": 1,
+      "upstream_fifo_blocked": 389
+    },
+    "blocked_scc_count": 0,
+    "minimal_reproducer": "test_strict_fifo_allows_active_head_ahead_of_queued_tail"
+  },
+  "requested_model_profile_id": "parity_ltm_v1",
+  "rung_reports": [
+    {
+      "commodity_validation_passed": true,
+      "completed_packet_count": 1000,
+      "count_consistency_passed": true,
+      "deterministic_replay_passed": true,
+      "event_count": 6866,
+      "failure_reason": null,
+      "fifo_validation_passed": true,
+      "instantiated_packet_count": 1000,
+      "internal_validation_status": "passed",
+      "node_validation_passed": true,
+      "packet_conservation_passed": true,
+            "primary_engine_runtime_seconds": 0.056310290994588286,
+            "replay_runtime_seconds": 0.05413500001304783,
+      "replay_status": "passed_exact_replay",
+      "requested_packet_count": 1000,
+      "run_completed": true,
+      "rung_label": "1000",
+      "scale_status": "passed",
+      "spillback_validation_passed": true,
+      "submitted_packet_count": 1000,
+      "ticks_run": 19,
+            "total_runtime_seconds": 0.7633517920039594,
+      "unresolved_packet_count": 0,
+            "validation_projection_runtime_seconds": 0.5772174580197316,
+      "validation_status": "passed",
+            "validator_runtime_seconds": 0.05577058397466317
+    },
+    {
+      "commodity_validation_passed": true,
+      "completed_packet_count": 5000,
+      "count_consistency_passed": true,
+      "deterministic_replay_passed": false,
+      "event_count": 55650,
+      "failure_reason": null,
+      "fifo_validation_passed": true,
+      "instantiated_packet_count": 5000,
+      "internal_validation_status": "passed",
+      "node_validation_passed": true,
+      "packet_conservation_passed": true,
+            "primary_engine_runtime_seconds": 0.9010852919891477,
+      "replay_runtime_seconds": null,
+      "replay_status": "skipped_by_policy_after_determinism_certification",
+      "requested_packet_count": 5000,
+      "run_completed": true,
+      "rung_label": "5000",
+      "scale_status": "passed",
+      "spillback_validation_passed": true,
+      "submitted_packet_count": 5000,
+      "ticks_run": 81,
+            "total_runtime_seconds": 22.85867012498784,
+      "unresolved_packet_count": 0,
+            "validation_projection_runtime_seconds": 19.02431708300719,
+      "validation_status": "passed",
+            "validator_runtime_seconds": 2.7742210419964977
+    },
+    {
+      "commodity_validation_passed": null,
+            "completed_packet_count": 8900,
+      "count_consistency_passed": null,
+      "deterministic_replay_passed": false,
+            "event_count": 106674,
+            "failure_reason": "runtime_limit_exceeded:300.0s:shared_projection_build",
+      "fifo_validation_passed": null,
+      "instantiated_packet_count": 10000,
+      "internal_validation_status": "not_run",
+      "node_validation_passed": null,
+      "packet_conservation_passed": null,
+            "primary_engine_runtime_seconds": 112.33276479202323,
+      "replay_runtime_seconds": null,
+      "replay_status": "not_run",
+      "requested_packet_count": 10000,
+      "run_completed": false,
+      "rung_label": "10000",
+      "scale_status": "failed_runtime",
+      "spillback_validation_passed": null,
+      "submitted_packet_count": 10000,
+            "ticks_run": 20000,
+            "total_runtime_seconds": 300.0,
+            "unresolved_packet_count": 1100,
+            "validation_projection_runtime_seconds": 187.62982199998805,
+      "validation_status": "failed",
+      "validator_runtime_seconds": null
+    },
+    {
+      "failure_reason": "not_run_after_10000_runtime_stop",
+      "replay_status": "not_run",
+      "requested_packet_count": 25000,
+      "rung_label": "25000",
+      "scale_status": "not_run"
+    }
+  ],
+  "runner": {
+    "determinism_certified_packet_count": 1000,
+    "exact_replay_packet_limit": 1000,
+    "max_runtime_seconds_per_rung": 300.0,
+    "script": "scripts/run_sioux_falls_scale_ladder.py",
+    "tick_limit": 20000
+  },
+  "stop_reason": "10000:runtime_limit_exceeded:300.0s:shared_projection_build",
+  "stopped_early": true,
+  "topology_hash": "0531866e3d3594f0e67bd10877acc8d1e38266a6d059dbb4d04b096b3f362b5b"
+}

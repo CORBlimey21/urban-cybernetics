@@ -1,0 +1,364 @@
+{
+  "artifact_generated_at_utc": "2026-07-01T23:46:03.768809+00:00",
+  "artifact_writing_seconds": 0.00026533298660069704,
+  "profiles": [
+    {
+      "completed_packet_count": 1000,
+      "event_count": 6866,
+      "failure_reason": null,
+      "instantiated_packet_count": 1000,
+      "phase_timings": [
+        {
+          "details": {},
+          "phase": "tntp_topology_loading",
+          "seconds": 0.004685959022026509,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "physical_profile_build",
+          "seconds": 0.0003463329921942204,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "physical_profile_application",
+          "seconds": 0.0005671249818988144,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "declared_packets": 1000,
+            "od_pairs": 5
+          },
+          "phase": "od_pair_selection_and_demand_manifest_creation",
+          "seconds": 0.00036041700514033437,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "resolved_routes": 5
+          },
+          "phase": "route_resolution",
+          "seconds": 7.20410025678575e-05,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "scheduled_requests": 1000
+          },
+          "phase": "scheduled_loading_expansion",
+          "seconds": 0.0007746250194031745,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "junction_passed": false,
+            "physical_passed": true
+          },
+          "phase": "parity_readiness_checks",
+          "seconds": 0.0003182909858878702,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "engine_initialisation",
+          "seconds": 9.408401092514396e-05,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 0,
+            "events": 1580,
+            "instantiated": 790,
+            "pending": 210,
+            "submitted": 1000,
+            "tick": 0
+          },
+          "phase": "initial_departure_submission",
+          "seconds": 0.10380262500257231,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "engine_stepping_primary",
+          "seconds": 3.164772541989805,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "events": 6866,
+            "links": 76,
+            "nodes": 24,
+            "packets": 1000
+          },
+          "phase": "validation_context_snapshot",
+          "seconds": 5.308300023898482e-05,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "aggregate_counts": 1520,
+            "packet_ordinals": 4000,
+            "route_counts": 7600,
+            "route_travel_time_curves": 5
+          },
+          "phase": "shared_projection_build",
+          "seconds": 0.565094624995254,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_count_consistency",
+          "seconds": 0.004748250008560717,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_fifo",
+          "seconds": 0.011546458001248538,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_spillback",
+          "seconds": 0.03900124999927357,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_commodity",
+          "seconds": 0.0019973750167991966,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_node",
+          "seconds": 0.000739125011023134,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed_packets": 1000,
+            "events": 6866,
+            "ticks": 19
+          },
+          "phase": "deterministic_replay_engine_stepping",
+          "seconds": 3.2839130829961505,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_replay_compare",
+          "seconds": 0.0005494169890880585,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "artifact_serialisation",
+          "seconds": 7.041700882837176e-05,
+          "status": "completed"
+        }
+      ],
+      "requested_packet_count": 1000,
+      "status": "passed",
+      "submitted_packet_count": 1000,
+      "ticks_run": 19,
+      "unresolved_packet_count": 0,
+      "validations": {
+        "commodity": true,
+        "count_consistency": true,
+        "deterministic_replay": true,
+        "fifo": true,
+        "node": true,
+        "packet_conservation": true,
+        "spillback": true
+      }
+    },
+    {
+      "completed_packet_count": 5000,
+      "event_count": 55650,
+      "failure_reason": "runtime_limit_exceeded:180.0s:deterministic_replay_engine_stepping",
+      "instantiated_packet_count": 5000,
+      "phase_timings": [
+        {
+          "details": {},
+          "phase": "tntp_topology_loading",
+          "seconds": 0.004654999997001141,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "physical_profile_build",
+          "seconds": 0.00035620899870991707,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "physical_profile_application",
+          "seconds": 0.0005560829886235297,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "declared_packets": 5000,
+            "od_pairs": 11
+          },
+          "phase": "od_pair_selection_and_demand_manifest_creation",
+          "seconds": 0.0003972919948864728,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "resolved_routes": 11
+          },
+          "phase": "route_resolution",
+          "seconds": 0.00013433300773613155,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "scheduled_requests": 5000
+          },
+          "phase": "scheduled_loading_expansion",
+          "seconds": 0.004059875005623326,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "junction_passed": false,
+            "physical_passed": true
+          },
+          "phase": "parity_readiness_checks",
+          "seconds": 0.00031725000008009374,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "engine_initialisation",
+          "seconds": 8.854200132191181e-05,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 0,
+            "events": 1642,
+            "instantiated": 821,
+            "pending": 4179,
+            "submitted": 5000,
+            "tick": 0
+          },
+          "phase": "initial_departure_submission",
+          "seconds": 0.8580107500019949,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "engine_stepping_primary",
+          "seconds": 128.7434294160048,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "events": 55650,
+            "links": 76,
+            "nodes": 24,
+            "packets": 5000
+          },
+          "phase": "validation_context_snapshot",
+          "seconds": 0.00023862498346716166,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "aggregate_counts": 6232,
+            "packet_ordinals": 31800,
+            "route_counts": 68552,
+            "route_travel_time_curves": 11
+          },
+          "phase": "shared_projection_build",
+          "seconds": 18.664468292001402,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_count_consistency",
+          "seconds": 0.01645904200267978,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_fifo",
+          "seconds": 0.09769175000838004,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_spillback",
+          "seconds": 2.6112175839953125,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_commodity",
+          "seconds": 0.026726249983767048,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_node",
+          "seconds": 0.006046708003850654,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 5000,
+            "events": 55650,
+            "instantiated": 5000,
+            "pending": 0,
+            "submitted": 5000,
+            "tick": 81
+          },
+          "phase": "deterministic_replay_engine_stepping",
+          "seconds": 28.96969674999127,
+          "status": "timeout"
+        }
+      ],
+      "requested_packet_count": 5000,
+      "status": "failed",
+      "submitted_packet_count": 5000,
+      "ticks_run": 81,
+      "unresolved_packet_count": 0,
+      "validations": {
+        "commodity": true,
+        "count_consistency": true,
+        "deterministic_replay": null,
+        "fifo": true,
+        "node": true,
+        "packet_conservation": null,
+        "spillback": true
+      }
+    }
+  ],
+  "runner": {
+    "packet_counts": [
+      1000,
+      5000
+    ],
+    "script": "scripts/profile_sioux_falls_scale_ladder.py",
+    "tick_limit": 20000,
+    "timeout_seconds_per_rung": 180.0
+  }
+}

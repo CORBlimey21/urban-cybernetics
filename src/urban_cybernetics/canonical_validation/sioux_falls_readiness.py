@@ -857,24 +857,62 @@ def main() -> None:
     parser.add_argument("--max-pairs", type=int, default=3)
     parser.add_argument("--max-total-quantity-packets", type=int, default=6)
     parser.add_argument(
+        "--max-runtime-seconds-per-rung",
+        type=float,
+        default=None,
+        help="Optional per-rung runtime budget for the assumption-profile scale ladder.",
+    )
+    parser.add_argument(
+        "--output-json",
+        type=Path,
+        default=None,
+        help="Optional path for writing the emitted JSON payload.",
+    )
+    parser.add_argument(
         "--subnetwork",
         action="store_true",
         help="Run the supported movement-allocation Sioux Falls subnetwork readiness gates.",
     )
-    args = parser.parse_args()
-    if args.subnetwork:
-        subnetwork_report = build_sioux_falls_supported_subnetwork_readiness_report(
-            tick_limit=args.tick_limit,
-        )
-        print(json.dumps(subnetwork_report.status_payload(), indent=2, sort_keys=True))
-        return
-    report = build_sioux_falls_parity_readiness_report(
-        scale_factor=args.scale_factor,
-        max_pairs=args.max_pairs,
-        max_total_quantity_packets=args.max_total_quantity_packets,
-        tick_limit=args.tick_limit,
+    parser.add_argument(
+        "--assumption-profile",
+        action="store_true",
+        help="Run the full topology under SiouxFallsPhysicalProfile_UC_Default_v1.",
     )
-    print(json.dumps(report.status_payload(), indent=2, sort_keys=True))
+    parser.add_argument(
+        "--assumption-profile-scale-ladder",
+        action="store_true",
+        help="Run bounded Sioux Falls assumption-profile packet scales and then a full-demand run if all bounded rungs pass.",
+    )
+    args = parser.parse_args()
+
+    if args.assumption_profile_scale_ladder:
+        payload = build_sioux_falls_assumption_profile_scale_ladder_report(
+            tick_limit=args.tick_limit,
+            max_runtime_seconds_per_rung=args.max_runtime_seconds_per_rung,
+        ).status_payload()
+    elif args.assumption_profile:
+        payload = build_sioux_falls_assumption_profile_run_report(
+            scale_factor=args.scale_factor,
+            max_pairs=args.max_pairs,
+            max_total_quantity_packets=args.max_total_quantity_packets,
+            tick_limit=args.tick_limit,
+        ).status_payload()
+    elif args.subnetwork:
+        payload = build_sioux_falls_supported_subnetwork_readiness_report(
+            tick_limit=args.tick_limit,
+        ).status_payload()
+    else:
+        payload = build_sioux_falls_parity_readiness_report(
+            scale_factor=args.scale_factor,
+            max_pairs=args.max_pairs,
+            max_total_quantity_packets=args.max_total_quantity_packets,
+            tick_limit=args.tick_limit,
+        ).status_payload()
+
+    rendered = json.dumps(payload, indent=2, sort_keys=True)
+    if args.output_json is not None:
+        args.output_json.write_text(rendered + "\n", encoding="utf-8")
+    print(rendered)
 
 
 if __name__ == "__main__":
