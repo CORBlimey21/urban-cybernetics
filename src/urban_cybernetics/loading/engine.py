@@ -870,14 +870,15 @@ class LoadingEngine:
         return packet
 
     def _origin_link_has_storage_for_entry(self, link_id: str) -> bool:
+        return self._origin_link_admission_slots(link_id) > 0
+
+    def _origin_link_admission_slots(self, link_id: str) -> int:
         if self._uses_parity_receiving():
-            return (
-                self._current_link_receiving_view(link_id).available_receiving_slots
-                > 0
-            )
-        return (
-            self._current_link_storage_by_link_id[link_id]
-            < self.links[link_id].declared_storage_capacity_packets
+            return self._current_link_receiving_view(link_id).available_receiving_slots
+        return max(
+            self.links[link_id].declared_storage_capacity_packets
+            - self._current_link_storage_by_link_id[link_id],
+            0,
         )
 
     def _instantiate_pending_departures(self) -> None:
@@ -885,6 +886,7 @@ class LoadingEngine:
             return
 
         still_pending: list[DemandDeclaration] = []
+        remaining_origin_slots_by_link_id: dict[str, int] = {}
         self._pending_demand_ids.clear()
         for demand in self._pending_demands:
             if demand.departure_tick > self.current_tick:
@@ -893,9 +895,20 @@ class LoadingEngine:
                 continue
 
             first_link_id = demand.route_intent[0]
-            if self._origin_link_has_storage_for_entry(first_link_id):
+            remaining_origin_slots = remaining_origin_slots_by_link_id.get(
+                first_link_id
+            )
+            if remaining_origin_slots is None:
+                remaining_origin_slots = self._origin_link_admission_slots(
+                    first_link_id
+                )
+            if remaining_origin_slots > 0:
                 self._instantiate_now(demand)
+                remaining_origin_slots_by_link_id[first_link_id] = (
+                    remaining_origin_slots - 1
+                )
             else:
+                remaining_origin_slots_by_link_id[first_link_id] = 0
                 still_pending.append(demand)
                 self._pending_demand_ids.add(demand.demand_id)
         self._pending_demands = still_pending

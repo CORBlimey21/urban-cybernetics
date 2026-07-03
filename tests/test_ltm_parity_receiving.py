@@ -6,6 +6,7 @@ import sys
 import unittest
 from dataclasses import FrozenInstanceError
 from pathlib import Path
+from types import MethodType
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
@@ -169,6 +170,143 @@ class LTMParityReceivingTest(unittest.TestCase):
         )
         self.assertEqual(len(engine.pending_demands), 0)
 
+    def test_pending_origin_admission_preserves_same_origin_order(self) -> None:
+        engine = self.parity_engine(
+            links={"L1": self.physical_link("L1", storage=2, receiving_capacity=2)}
+        )
+        first = engine.instantiate(
+            DemandDeclaration("D1", departure_tick=0, route_intent=("L1",))
+        )
+        second = engine.instantiate(
+            DemandDeclaration("D2", departure_tick=0, route_intent=("L1",))
+        )
+        self.assertIsNone(
+            engine.instantiate(
+                DemandDeclaration("D3", departure_tick=0, route_intent=("L1",))
+            )
+        )
+        self.assertIsNone(
+            engine.instantiate(
+                DemandDeclaration("D4", departure_tick=0, route_intent=("L1",))
+            )
+        )
+
+        for _ in range(3):
+            engine.step()
+
+        self.assertEqual(
+            self.link_event_packet_ids(engine, EventType.LINK_EXIT, "L1", 1),
+            [first.packet_id, second.packet_id],
+        )
+        self.assertEqual(
+            self.link_event_packet_ids(engine, EventType.LINK_ENTRY, "L1", 3),
+            ["P3", "P4"],
+        )
+        self.assertEqual(engine.pending_demands, ())
+
+    def test_pending_origin_admission_preserves_global_order_across_origins(self) -> None:
+        engine = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1", storage=1, receiving_capacity=1),
+                "L2": self.physical_link("L2", storage=1, receiving_capacity=1),
+            }
+        )
+        engine.instantiate(DemandDeclaration("D-fill-1", 0, ("L1",)))
+        engine.instantiate(DemandDeclaration("D-fill-2", 0, ("L2",)))
+        for demand_id, link_id in (
+            ("D1", "L1"),
+            ("D2", "L2"),
+            ("D3", "L1"),
+            ("D4", "L2"),
+        ):
+            self.assertIsNone(
+                engine.instantiate(
+                    DemandDeclaration(demand_id, 0, (link_id,)),
+                )
+            )
+
+        for _ in range(3):
+            engine.step()
+
+        self.assertEqual(
+            self.link_event_packet_ids(engine, EventType.LINK_ENTRY, "L1", 3),
+            ["P3"],
+        )
+        self.assertEqual(
+            self.link_event_packet_ids(engine, EventType.LINK_ENTRY, "L2", 3),
+            ["P4"],
+        )
+        self.assertEqual(
+            tuple(demand.demand_id for demand in engine.pending_demands),
+            ("D3", "D4"),
+        )
+        self.assertEqual(
+            [
+                event.packet_id
+                for event in engine.event_log
+                if event.event_type == EventType.LINK_ENTRY
+                and event.physical_tick == 3
+            ],
+            ["P3", "P4"],
+        )
+
+    def test_batched_pending_origin_admission_matches_naive_one_by_one(self) -> None:
+        batched = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1", storage=2, receiving_capacity=2),
+                "L2": self.physical_link("L2", storage=1, receiving_capacity=1),
+            }
+        )
+        naive = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1", storage=2, receiving_capacity=2),
+                "L2": self.physical_link("L2", storage=1, receiving_capacity=1),
+            }
+        )
+        naive._instantiate_pending_departures = MethodType(  # noqa: SLF001
+            type(self)._naive_instantiate_pending_departures,
+            naive,
+        )
+        demands = (
+            DemandDeclaration("D-fill-1a", 0, ("L1",)),
+            DemandDeclaration("D-fill-1b", 0, ("L1",)),
+            DemandDeclaration("D-fill-2", 0, ("L2",)),
+            DemandDeclaration("D1", 0, ("L1",)),
+            DemandDeclaration("D2", 0, ("L2",)),
+            DemandDeclaration("D3", 0, ("L1",)),
+            DemandDeclaration("D4", 0, ("L2",)),
+        )
+        for demand in demands:
+            batched.instantiate(demand)
+            naive.instantiate(demand)
+
+        for _ in range(6):
+            batched.step()
+            naive.step()
+
+        self.assertEqual(batched.event_log, naive.event_log)
+        self.assertEqual(tuple(batched.packets), tuple(naive.packets))
+        self.assertEqual(batched.pending_demands, naive.pending_demands)
+
+    def test_pending_origin_admission_honours_receiving_slot_exhaustion(self) -> None:
+        engine = self.parity_engine(
+            links={"L1": self.physical_link("L1", storage=10, receiving_capacity=1)}
+        )
+        engine.instantiate(DemandDeclaration("D1", 0, ("L1",)))
+        self.assertIsNone(engine.instantiate(DemandDeclaration("D2", 0, ("L1",))))
+        self.assertIsNone(engine.instantiate(DemandDeclaration("D3", 0, ("L1",))))
+
+        engine.step()
+
+        self.assertEqual(
+            self.link_event_packet_ids(engine, EventType.LINK_ENTRY, "L1", 1),
+            ["P2"],
+        )
+        self.assertEqual(
+            tuple(demand.demand_id for demand in engine.pending_demands),
+            ("D3",),
+        )
+
     def test_parity_receiving_preserves_fifo_and_same_tick_event_order(self) -> None:
         engine = self.parity_engine(
             links={
@@ -293,6 +431,26 @@ class LTMParityReceivingTest(unittest.TestCase):
             links=links,
             model_profile_id=ACADEMIC_LTM_PARITY_PROFILE_ID,
         )
+
+    def _naive_instantiate_pending_departures(self: LoadingEngine) -> None:
+        if not self._pending_demands:  # noqa: SLF001
+            return
+
+        still_pending = []
+        self._pending_demand_ids.clear()  # noqa: SLF001
+        for demand in self._pending_demands:  # noqa: SLF001
+            if demand.departure_tick > self.current_tick:
+                still_pending.append(demand)
+                self._pending_demand_ids.add(demand.demand_id)  # noqa: SLF001
+                continue
+
+            first_link_id = demand.route_intent[0]
+            if self._origin_link_has_storage_for_entry(first_link_id):  # noqa: SLF001
+                self._instantiate_now(demand)  # noqa: SLF001
+            else:
+                still_pending.append(demand)
+                self._pending_demand_ids.add(demand.demand_id)  # noqa: SLF001
+        self._pending_demands = still_pending  # noqa: SLF001
 
     def physical_link(
         self,
