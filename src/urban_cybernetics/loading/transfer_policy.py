@@ -252,6 +252,10 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
             MovementSpec,
         ] = {}
         self._movement_order_by_node_id: dict[str, tuple[str, ...]] = {}
+        self._lane_group_ids_by_junction_spec_id: dict[
+            int,
+            dict[str, tuple[str, ...]],
+        ] = {}
         self._movement_deficit_by_node_movement: dict[tuple[str, str], float] = {}
         self._last_allocation_traces: tuple[AllocationTrace, ...] = ()
         self._validate_nodes()
@@ -350,6 +354,9 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
                 movement.movement_id for movement in junction_spec.movement_specs
             )
             self._movement_order_by_node_id[node.node_id] = movement_order
+            self._lane_group_ids_by_junction_spec_id[id(junction_spec)] = (
+                junction_spec.lane_group_ids_by_movement_id
+            )
             for movement in junction_spec.movement_specs:
                 self._movement_by_node_and_links[
                     (
@@ -780,9 +787,10 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
         for resource_id in movement.conflict_resource_ids:
             if remaining_conflict_capacity.get(resource_id, 0) <= 0:
                 return False
-        for lane_group_id in junction_spec.lane_group_ids_by_movement_id[
-            movement.movement_id
-        ]:
+        lane_group_ids_by_movement = self._lane_group_ids_by_movement_id(
+            junction_spec
+        )
+        for lane_group_id in lane_group_ids_by_movement[movement.movement_id]:
             if remaining_lane_capacity.get(lane_group_id, 0) <= 0:
                 return False
         return True
@@ -796,9 +804,10 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
     ) -> None:
         for resource_id in movement.conflict_resource_ids:
             remaining_conflict_capacity[resource_id] -= 1
-        for lane_group_id in junction_spec.lane_group_ids_by_movement_id[
-            movement.movement_id
-        ]:
+        lane_group_ids_by_movement = self._lane_group_ids_by_movement_id(
+            junction_spec
+        )
+        for lane_group_id in lane_group_ids_by_movement[movement.movement_id]:
             remaining_lane_capacity[lane_group_id] -= 1
 
     def _conflict_resource_capacity_after_approved(
@@ -827,13 +836,12 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
         assert junction_spec is not None
         remaining = self._lane_group_capacity(allocation_input)
         movement_by_id = junction_spec.movement_by_id
+        lane_group_ids_by_movement = self._lane_group_ids_by_movement_id(junction_spec)
         for transfer in approved_transfers:
             movement = movement_by_id.get(transfer.movement_id)
             if movement is None:
                 continue
-            for lane_group_id in junction_spec.lane_group_ids_by_movement_id[
-                movement.movement_id
-            ]:
+            for lane_group_id in lane_group_ids_by_movement[movement.movement_id]:
                 remaining[lane_group_id] -= 1
         return remaining
 
@@ -853,11 +861,12 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
         junction_spec: JunctionSpec,
         remaining_lane_capacity: Mapping[str, int],
     ) -> bool:
+        lane_group_ids_by_movement = self._lane_group_ids_by_movement_id(
+            junction_spec
+        )
         return all(
             remaining_lane_capacity.get(lane_group_id, 0) > 0
-            for lane_group_id in junction_spec.lane_group_ids_by_movement_id[
-                movement.movement_id
-            ]
+            for lane_group_id in lane_group_ids_by_movement[movement.movement_id]
         )
 
     def _movements_are_coupled(
@@ -872,11 +881,20 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
             return True
         if set(first.conflict_resource_ids) & set(second.conflict_resource_ids):
             return True
-        lane_groups_by_movement = junction_spec.lane_group_ids_by_movement_id
+        lane_groups_by_movement = self._lane_group_ids_by_movement_id(junction_spec)
         return bool(
             set(lane_groups_by_movement[first.movement_id])
             & set(lane_groups_by_movement[second.movement_id])
         )
+
+    def _lane_group_ids_by_movement_id(
+        self,
+        junction_spec: JunctionSpec,
+    ) -> dict[str, tuple[str, ...]]:
+        cached = self._lane_group_ids_by_junction_spec_id.get(id(junction_spec))
+        if cached is not None:
+            return cached
+        return junction_spec.lane_group_ids_by_movement_id
 
     def _choose_strict_fifo_transfers(
         self,
