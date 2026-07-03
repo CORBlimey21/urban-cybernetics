@@ -228,6 +228,98 @@ class LTMParitySpillbackValidationTest(unittest.TestCase):
         self.assertEqual(dict(engine.packets), before_packets)
         self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), before_queue)
 
+    def test_queue_curve_matches_raw_event_reconstruction(self) -> None:
+        engine = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1", storage=5, receiving_capacity=5),
+                "L2": self.physical_link("L2", storage=1, receiving_capacity=5),
+                "L3": self.physical_link("L3", storage=1, receiving_capacity=5),
+            }
+        )
+        engine.instantiate(
+            DemandDeclaration("D-BLOCKER", departure_tick=0, route_intent=("L3",))
+        )
+        engine.instantiate(
+            DemandDeclaration("D-MID", departure_tick=0, route_intent=("L2", "L3"))
+        )
+        engine.instantiate(
+            DemandDeclaration("D-UP", departure_tick=0, route_intent=("L1", "L2", "L3"))
+        )
+        for _ in range(5):
+            engine.step()
+
+        report = build_spillback_validation_report(engine)
+        trace = next(
+            trace
+            for trace in report.boundary_traces
+            if trace.boundary_id == "boundary:L1->L2"
+        )
+        expected_curve = []
+        for tick in range(engine.current_tick + 1):
+            entries = sum(
+                event.event_type == EventType.QUEUE_ENTRY
+                and event.entity_id == trace.boundary_id
+                and event.physical_tick <= tick
+                for event in engine.event_log
+            )
+            exits = sum(
+                event.event_type == EventType.QUEUE_EXIT
+                and event.entity_id == trace.boundary_id
+                and event.physical_tick <= tick
+                for event in engine.event_log
+            )
+            expected_curve.append((tick, entries, exits, entries - exits))
+
+        self.assertEqual(
+            [
+                (
+                    point.tick,
+                    point.cumulative_queue_entries,
+                    point.cumulative_queue_exits,
+                    point.queue_length,
+                )
+                for point in trace.queue_curve
+            ],
+            expected_curve,
+        )
+
+    def test_downstream_receiving_causes_match_raw_engine_trace(self) -> None:
+        engine = self.parity_engine(
+            links={
+                "L1": self.physical_link("L1", storage=5, receiving_capacity=5),
+                "L2": self.physical_link("L2", storage=1, receiving_capacity=5),
+                "L3": self.physical_link("L3", storage=1, receiving_capacity=5),
+            }
+        )
+        engine.instantiate(
+            DemandDeclaration("D-BLOCKER", departure_tick=0, route_intent=("L3",))
+        )
+        engine.instantiate(
+            DemandDeclaration("D-MID", departure_tick=0, route_intent=("L2", "L3"))
+        )
+        engine.instantiate(
+            DemandDeclaration("D-UP", departure_tick=0, route_intent=("L1", "L2", "L3"))
+        )
+        for _ in range(5):
+            engine.step()
+
+        report = build_spillback_validation_report(engine)
+        trace = next(
+            trace
+            for trace in report.boundary_traces
+            if trace.boundary_id == "boundary:L1->L2"
+        )
+        expected_causes = []
+        for tick in range(engine.current_tick + 1):
+            cause = engine.receiving_decision_trace(
+                trace.downstream_link_id,
+                tick=tick,
+            ).supply_view.receiving_cause.value
+            if cause not in expected_causes:
+                expected_causes.append(cause)
+
+        self.assertEqual(trace.downstream_receiving_causes, tuple(expected_causes))
+
     def test_legacy_profile_is_not_valid_spillback_parity_evidence(self) -> None:
         engine = LoadingEngine(
             links={

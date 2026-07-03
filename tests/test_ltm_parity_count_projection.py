@@ -26,6 +26,7 @@ from urban_cybernetics.loading import (
     EXIT_BOUNDARY,
     LoadingEngine,
     count_consistency_report,
+    cumulative_count_series,
     cumulative_count_projection,
     route_key_for_packet,
 )
@@ -279,6 +280,39 @@ class LTMParityCountProjectionTest(unittest.TestCase):
         self.assertTrue(report.is_consistent)
         with self.assertRaises(FrozenInstanceError):
             projection.packet_ordinals[0].aggregate_ordinal = 99
+
+    def test_indexed_aggregate_projection_matches_raw_event_reconstruction(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L1": Link("L1", free_flow_ticks=1),
+                "L2": Link("L2", free_flow_ticks=2),
+                "L3": Link("L3", free_flow_ticks=1),
+            }
+        )
+        for index in range(6):
+            route = ("L1", "L2") if index % 2 == 0 else ("L1", "L3")
+            engine.instantiate(
+                DemandDeclaration(
+                    f"D{index}",
+                    departure_tick=0,
+                    route_intent=route,
+                )
+            )
+        for _ in range(3):
+            engine.step()
+
+        projection = engine.cumulative_count_projection()
+        expected = tuple(
+            counts
+            for link_id in ("L1", "L2", "L3")
+            for counts in cumulative_count_series(
+                engine.event_log,
+                link_id,
+                projection.max_tick,
+            )
+        )
+
+        self.assertEqual(projection.aggregate_counts, expected)
 
     def test_route_metadata_mismatch_fails_report_instead_of_guessing(self) -> None:
         events = (

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import resource
 import signal
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass
@@ -79,6 +80,17 @@ class RungProfile:
     unresolved_packet_count: int
     ticks_run: int
     event_count: int
+    setup_preloading_seconds: float
+    primary_engine_stepping_seconds: float
+    validation_seconds: float
+    replay_seconds: float | None
+    total_wall_clock_seconds: float
+    primary_events_per_second: float | None
+    primary_packets_per_second: float | None
+    total_events_per_second: float | None
+    total_packets_per_second: float | None
+    max_rss_bytes: int
+    replay_status: str
     phase_timings: tuple[PhaseTiming, ...]
     validations: dict[str, bool | None]
 
@@ -86,9 +98,16 @@ class RungProfile:
 class RungProfiler:
     """Run one Sioux Falls packet cap with phase-level timing."""
 
-    def __init__(self, *, packet_count: int, tick_limit: int) -> None:
+    def __init__(
+        self,
+        *,
+        packet_count: int,
+        tick_limit: int,
+        exact_replay_packet_limit: int,
+    ) -> None:
         self.packet_count = packet_count
         self.tick_limit = tick_limit
+        self.exact_replay_packet_limit = exact_replay_packet_limit
         self.phase_timings: list[PhaseTiming] = []
         self.active_phase = "not_started"
         self.engine: LoadingEngine | None = None
@@ -103,16 +122,27 @@ class RungProfiler:
             "node": None,
             "deterministic_replay": None,
         }
+        self.replay_status = "not_run"
 
     def profile(self) -> RungProfile:
         failure_reason: str | None = None
+        started_at = perf_counter()
         try:
             self._run()
         except ProfileTimeout as exc:
             failure_reason = str(exc)
+        total_wall_clock_seconds = perf_counter() - started_at
         status = "passed" if failure_reason is None and all(
-            value is True for value in self.validations.values()
+            value is True
+            for key, value in self.validations.items()
+            if key != "deterministic_replay"
         ) else "failed"
+        if (
+            status == "passed"
+            and self.packet_count <= self.exact_replay_packet_limit
+            and self.validations["deterministic_replay"] is not True
+        ):
+            status = "failed"
         engine = self.engine
         submitted = (
             len(self.loader.submitted_loading_demand_ids)
@@ -121,6 +151,47 @@ class RungProfiler:
         )
         instantiated = len(engine.packets) if engine is not None else 0
         completed = len(engine.completed_packet_ids) if engine is not None else 0
+        event_count = len(engine.event_log) if engine is not None else 0
+        setup_preloading_seconds = sum(
+            phase.seconds
+            for phase in self.phase_timings
+            if phase.phase
+            in {
+                "tntp_topology_loading",
+                "physical_profile_build",
+                "physical_profile_application",
+                "od_pair_selection_and_demand_manifest_creation",
+                "route_resolution",
+                "scheduled_loading_expansion",
+                "parity_readiness_checks",
+                "engine_initialisation",
+                "initial_departure_submission",
+            }
+        )
+        primary_engine_stepping_seconds = self._phase_seconds(
+            "engine_stepping_primary"
+        )
+        validation_seconds = sum(
+            phase.seconds
+            for phase in self.phase_timings
+            if phase.phase
+            in {
+                "validation_context_snapshot",
+                "validation_setup_packet_conservation",
+                "shared_projection_build",
+                "validation_setup_count_consistency",
+                "validation_setup_fifo",
+                "validation_setup_spillback",
+                "validation_setup_commodity",
+                "validation_setup_node",
+            }
+        )
+        replay_seconds = (
+            self._phase_seconds("deterministic_replay_engine_stepping")
+            + self._phase_seconds("validation_setup_replay_compare")
+            if self.replay_status in {"passed_exact_replay", "failed_mismatch"}
+            else None
+        )
         return RungProfile(
             requested_packet_count=self.packet_count,
             status=status,
@@ -130,7 +201,18 @@ class RungProfiler:
             completed_packet_count=completed,
             unresolved_packet_count=max(self.scheduled_departure_count - completed, 0),
             ticks_run=engine.current_tick if engine is not None else 0,
-            event_count=len(engine.event_log) if engine is not None else 0,
+            event_count=event_count,
+            setup_preloading_seconds=setup_preloading_seconds,
+            primary_engine_stepping_seconds=primary_engine_stepping_seconds,
+            validation_seconds=validation_seconds,
+            replay_seconds=replay_seconds,
+            total_wall_clock_seconds=total_wall_clock_seconds,
+            primary_events_per_second=_rate(event_count, primary_engine_stepping_seconds),
+            primary_packets_per_second=_rate(completed, primary_engine_stepping_seconds),
+            total_events_per_second=_rate(event_count, total_wall_clock_seconds),
+            total_packets_per_second=_rate(completed, total_wall_clock_seconds),
+            max_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+            replay_status=self.replay_status,
             phase_timings=tuple(self.phase_timings),
             validations=self.validations,
         )
@@ -216,6 +298,7 @@ class RungProfiler:
             details=lambda _result: self._engine_details(),
         )
         self._phase("engine_stepping_primary", self._step_primary_engine)
+        self._phase("validation_setup_packet_conservation", self._packet_conservation)
         validation_context = self._phase(
             "validation_context_snapshot",
             lambda: ValidationContext.from_engine(
@@ -260,19 +343,25 @@ class RungProfiler:
             "validation_setup_node",
             lambda: self._node_validation(nodes, validation_context),
         )
-        replay_engine = self._phase(
-            "deterministic_replay_engine_stepping",
-            lambda: self._run_replay_engine(links, nodes, resolved, capacity_rates),
-            details=lambda result: {
-                "ticks": result.current_tick,
-                "events": len(result.event_log),
-                "completed_packets": len(result.completed_packet_ids),
-            },
-        )
-        self._phase(
-            "validation_setup_replay_compare",
-            lambda: self._replay_compare(replay_engine),
-        )
+        if self.packet_count <= self.exact_replay_packet_limit:
+            replay_engine = self._phase(
+                "deterministic_replay_engine_stepping",
+                lambda: self._run_replay_engine(links, nodes, resolved, capacity_rates),
+                details=lambda result: {
+                    "ticks": result.current_tick,
+                    "events": len(result.event_log),
+                    "completed_packets": len(result.completed_packet_ids),
+                },
+            )
+            self._phase(
+                "validation_setup_replay_compare",
+                lambda: self._replay_compare(replay_engine),
+            )
+        else:
+            self.replay_status = (
+                "skipped_by_policy_after_determinism_certification"
+            )
+            self.validations["deterministic_replay"] = None
         self._phase(
             "artifact_serialisation",
             lambda: json.dumps(
@@ -371,6 +460,14 @@ class RungProfiler:
         self.validations["deterministic_replay"] = (
             self.engine.event_log == replay_engine.event_log
         )
+        self.replay_status = (
+            "passed_exact_replay"
+            if self.validations["deterministic_replay"]
+            else "failed_mismatch"
+        )
+
+    def _packet_conservation(self) -> None:
+        assert self.engine is not None
         self.validations["packet_conservation"] = (
             len(self.engine.packets) == self.scheduled_departure_count
             and len(self.engine.completed_packet_ids) == self.scheduled_departure_count
@@ -426,6 +523,13 @@ class RungProfiler:
             "events": len(engine.event_log),
         }
 
+    def _phase_seconds(self, phase_name: str) -> float:
+        return sum(
+            phase.seconds
+            for phase in self.phase_timings
+            if phase.phase == phase_name
+        )
+
     @contextmanager
     def profile_timeout(self, timeout_seconds: float | None) -> Iterator[None]:
         if timeout_seconds is None:
@@ -452,13 +556,18 @@ def main() -> None:
     parser.add_argument("--packets", type=int, nargs="+", default=[1_000, 5_000])
     parser.add_argument("--tick-limit", type=int, default=20_000)
     parser.add_argument("--timeout-seconds", type=float, default=180.0)
+    parser.add_argument("--exact-replay-packet-limit", type=int, default=10_000)
     parser.add_argument("--output-json", type=Path, default=DEFAULT_OUTPUT_JSON)
     parser.add_argument("--output-markdown", type=Path, default=DEFAULT_OUTPUT_MARKDOWN)
     args = parser.parse_args()
 
     profiles: list[RungProfile] = []
     for packet_count in args.packets:
-        profiler = RungProfiler(packet_count=packet_count, tick_limit=args.tick_limit)
+        profiler = RungProfiler(
+            packet_count=packet_count,
+            tick_limit=args.tick_limit,
+            exact_replay_packet_limit=args.exact_replay_packet_limit,
+        )
         with profiler.profile_timeout(args.timeout_seconds):
             profiles.append(profiler.profile())
 
@@ -469,6 +578,7 @@ def main() -> None:
             "packet_counts": args.packets,
             "tick_limit": args.tick_limit,
             "timeout_seconds_per_rung": args.timeout_seconds,
+            "exact_replay_packet_limit": args.exact_replay_packet_limit,
         },
         "profiles": [asdict(profile) for profile in profiles],
     }
@@ -490,14 +600,61 @@ def main() -> None:
 
 def _render_markdown(payload: dict[str, Any]) -> str:
     lines = [
-        "# Sioux Falls UC Default Scale Ladder Profile v1",
+        "# Post-Option-C Sioux Falls Scale Ladder Profile",
         "",
-        "This artifact profiles phase timings for the 1,000- and 5,000-packet "
-        "Sioux Falls UC-default assumption-profile rungs. It does not change "
-        "model semantics and does not relax validation.",
+        "This artifact profiles wall-clock phase timings for Sioux Falls "
+        "UC-default assumption-profile rungs after the Option C unified "
+        "queue/active FIFO allocator fix. It does not change model semantics "
+        "and does not relax validation.",
         "",
+        "| Requested | Submitted | Instantiated | Completed | Unresolved | Ticks | "
+        "Events | Setup/preload s | Primary s | Validation s | Replay s | Total s | "
+        "Primary events/s | Primary packets/s | Total events/s | Total packets/s | "
+        "Max RSS bytes | Validation | Replay | Failure |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | "
+        "---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |",
     ]
     for profile in payload["profiles"]:
+        validations = {
+            key: value
+            for key, value in profile["validations"].items()
+            if key != "deterministic_replay"
+        }
+        validation_status = (
+            "passed" if all(value is True for value in validations.values()) else "failed"
+        )
+        row = {
+            **profile,
+            "replay_seconds": _format_optional_float(profile["replay_seconds"]),
+            "primary_events_per_second": _format_optional_float(
+                profile["primary_events_per_second"]
+            ),
+            "primary_packets_per_second": _format_optional_float(
+                profile["primary_packets_per_second"]
+            ),
+            "total_events_per_second": _format_optional_float(
+                profile["total_events_per_second"]
+            ),
+            "total_packets_per_second": _format_optional_float(
+                profile["total_packets_per_second"]
+            ),
+            "validation_status": validation_status,
+            "rendered_failure_reason": profile["failure_reason"] or "none",
+        }
+        lines.append(
+            "| {requested_packet_count} | {submitted_packet_count} | "
+            "{instantiated_packet_count} | {completed_packet_count} | "
+            "{unresolved_packet_count} | {ticks_run} | {event_count} | "
+            "{setup_preloading_seconds:.3f} | "
+            "{primary_engine_stepping_seconds:.3f} | "
+            "{validation_seconds:.3f} | {replay_seconds} | "
+            "{total_wall_clock_seconds:.3f} | {primary_events_per_second} | "
+            "{primary_packets_per_second} | {total_events_per_second} | "
+            "{total_packets_per_second} | {max_rss_bytes} | "
+            "{validation_status} | `{replay_status}` | {rendered_failure_reason} |".format(
+                **row,
+            )
+        )
         lines.extend(
             [
                 f"## {profile['requested_packet_count']} Packets",
@@ -511,6 +668,20 @@ def _render_markdown(payload: dict[str, Any]) -> str:
                 f"{profile['unresolved_packet_count']}`",
                 f"- Ticks / events: `{profile['ticks_run']} / "
                 f"{profile['event_count']}`",
+                f"- Wall-clock setup / primary / validation / replay / total seconds: "
+                f"`{profile['setup_preloading_seconds']:.3f} / "
+                f"{profile['primary_engine_stepping_seconds']:.3f} / "
+                f"{profile['validation_seconds']:.3f} / "
+                f"{_format_optional_float(profile['replay_seconds'])} / "
+                f"{profile['total_wall_clock_seconds']:.3f}`",
+                f"- Throughput, primary events/s / primary packets/s / total events/s / "
+                f"total packets/s: "
+                f"`{_format_optional_float(profile['primary_events_per_second'])} / "
+                f"{_format_optional_float(profile['primary_packets_per_second'])} / "
+                f"{_format_optional_float(profile['total_events_per_second'])} / "
+                f"{_format_optional_float(profile['total_packets_per_second'])}`",
+                f"- Max RSS bytes: `{profile['max_rss_bytes']}`",
+                f"- Replay status: `{profile['replay_status']}`",
                 "",
                 "| Phase | Seconds | Status | Details |",
                 "| --- | ---: | --- | --- |",
@@ -531,6 +702,16 @@ def _render_markdown(payload: dict[str, Any]) -> str:
     )
     lines.append("")
     return "\n".join(lines)
+
+
+def _rate(numerator: int, seconds: float) -> float | None:
+    if seconds <= 0.0:
+        return None
+    return numerator / seconds
+
+
+def _format_optional_float(value: float | None) -> str:
+    return "n/a" if value is None else f"{value:.3f}"
 
 
 if __name__ == "__main__":

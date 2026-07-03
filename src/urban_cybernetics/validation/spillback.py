@@ -4,10 +4,15 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass
+from math import ceil
 from typing import Any
 
 from urban_cybernetics.config import ACADEMIC_LTM_PARITY_PROFILE_ID
 from urban_cybernetics.core import Event, EventType
+from urban_cybernetics.loading.receiving import (
+    ReceivingCause,
+    bounded_integer_receiving_capacity_carry,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -77,6 +82,7 @@ def build_spillback_validation_report(
         invariant_violations.append("model_profile_not_parity_ltm_v1")
 
     traces: list[BoundarySpillbackTrace] = []
+    downstream_causes_by_link_id: dict[str, tuple[str, ...]] = {}
     for boundary_id in selected_boundary_ids:
         upstream_link_id, downstream_link_id = _parse_boundary_id(boundary_id)
         if upstream_link_id not in engine.links:
@@ -92,6 +98,7 @@ def build_spillback_validation_report(
             upstream_link_id=upstream_link_id,
             downstream_link_id=downstream_link_id,
             max_tick=report_max_tick,
+            downstream_causes_by_link_id=downstream_causes_by_link_id,
         )
         traces.append(trace)
         if not trace.is_queue_consistent_with_engine:
@@ -114,6 +121,7 @@ def _boundary_spillback_trace(
     upstream_link_id: str,
     downstream_link_id: str,
     max_tick: int,
+    downstream_causes_by_link_id: dict[str, tuple[str, ...]],
 ) -> BoundarySpillbackTrace:
     queue_curve = _queue_curve(engine.event_log, boundary_id, max_tick)
     queue_entry_count = queue_curve[-1].cumulative_queue_entries if queue_curve else 0
@@ -125,11 +133,14 @@ def _boundary_spillback_trace(
         else None
     )
     queued_ticks = tuple(point.tick for point in queue_curve if point.queue_length > 0)
-    causes = _downstream_receiving_causes(
-        engine,
-        downstream_link_id=downstream_link_id,
-        max_tick=max_tick,
-    )
+    causes = downstream_causes_by_link_id.get(downstream_link_id)
+    if causes is None:
+        causes = _downstream_receiving_causes(
+            engine,
+            downstream_link_id=downstream_link_id,
+            max_tick=max_tick,
+        )
+        downstream_causes_by_link_id[downstream_link_id] = causes
     return BoundarySpillbackTrace(
         boundary_id=boundary_id,
         upstream_link_id=upstream_link_id,
@@ -156,20 +167,26 @@ def _queue_curve(
     max_tick: int,
 ) -> tuple[QueueCurvePoint, ...]:
     event_tuple = tuple(events)
+    entry_increments_by_tick: dict[int, int] = {}
+    exit_increments_by_tick: dict[int, int] = {}
+    for event in event_tuple:
+        if event.entity_id != boundary_id or event.physical_tick > max_tick:
+            continue
+        if event.event_type == EventType.QUEUE_ENTRY:
+            entry_increments_by_tick[event.physical_tick] = (
+                entry_increments_by_tick.get(event.physical_tick, 0) + 1
+            )
+        elif event.event_type == EventType.QUEUE_EXIT:
+            exit_increments_by_tick[event.physical_tick] = (
+                exit_increments_by_tick.get(event.physical_tick, 0) + 1
+            )
+
     points: list[QueueCurvePoint] = []
+    cumulative_entries = 0
+    cumulative_exits = 0
     for tick in range(max_tick + 1):
-        cumulative_entries = _queue_event_count(
-            event_tuple,
-            boundary_id,
-            EventType.QUEUE_ENTRY,
-            tick,
-        )
-        cumulative_exits = _queue_event_count(
-            event_tuple,
-            boundary_id,
-            EventType.QUEUE_EXIT,
-            tick,
-        )
+        cumulative_entries += entry_increments_by_tick.get(tick, 0)
+        cumulative_exits += exit_increments_by_tick.get(tick, 0)
         points.append(
             QueueCurvePoint(
                 boundary_id=boundary_id,
@@ -189,6 +206,14 @@ def _downstream_receiving_causes(
     max_tick: int,
 ) -> tuple[str, ...]:
     causes: list[str] = []
+    indexed_causes = _indexed_downstream_receiving_causes(
+        engine,
+        downstream_link_id=downstream_link_id,
+        max_tick=max_tick,
+    )
+    if indexed_causes is not None:
+        return indexed_causes
+
     for tick in range(max_tick + 1):
         try:
             cause = engine.receiving_decision_trace(
@@ -197,6 +222,103 @@ def _downstream_receiving_causes(
             ).supply_view.receiving_cause
         except ValueError:
             continue
+        cause_value = getattr(cause, "value", str(cause))
+        if cause_value not in causes:
+            causes.append(cause_value)
+    return tuple(causes)
+
+
+def _indexed_downstream_receiving_causes(
+    engine: Any,
+    *,
+    downstream_link_id: str,
+    max_tick: int,
+) -> tuple[str, ...] | None:
+    link = engine.links.get(downstream_link_id)
+    if link is None:
+        return None
+    if link.length_m is None or link.backward_wave_speed_mps is None:
+        return None
+
+    capacity_rates = getattr(
+        engine,
+        "_parity_receiving_capacity_rate_by_link_id",
+        {},
+    )
+    capacity_rate = capacity_rates.get(
+        downstream_link_id,
+        float(link.declared_receiving_capacity_per_tick),
+    )
+    receiving_open = engine.is_receiving_open(downstream_link_id)
+    entry_increments_by_tick: dict[int, int] = {}
+    exit_increments_by_tick: dict[int, int] = {}
+    for event in engine.event_log:
+        if event.entity_id != downstream_link_id or event.physical_tick > max_tick:
+            continue
+        if event.event_type == EventType.LINK_ENTRY:
+            entry_increments_by_tick[event.physical_tick] = (
+                entry_increments_by_tick.get(event.physical_tick, 0) + 1
+            )
+        elif event.event_type == EventType.LINK_EXIT:
+            exit_increments_by_tick[event.physical_tick] = (
+                exit_increments_by_tick.get(event.physical_tick, 0) + 1
+            )
+
+    backward_wave_lag_ticks = max(
+        1,
+        ceil(
+            (link.length_m / link.backward_wave_speed_mps)
+            / link.tick_duration_seconds
+        ),
+    )
+    cumulative_entries_by_tick: list[int] = []
+    cumulative_exits_by_tick: list[int] = []
+    entries = 0
+    exits = 0
+    for tick in range(max_tick + 1):
+        entries += entry_increments_by_tick.get(tick, 0)
+        exits += exit_increments_by_tick.get(tick, 0)
+        cumulative_entries_by_tick.append(entries)
+        cumulative_exits_by_tick.append(exits)
+
+    causes: list[str] = []
+    for tick in range(max_tick + 1):
+        if tick == engine.current_tick:
+            cause = engine.receiving_decision_trace(
+                downstream_link_id,
+                tick=tick,
+            ).supply_view.receiving_cause
+        else:
+            lagged_downstream_exit_tick = tick - backward_wave_lag_ticks
+            lagged_downstream_exit_count = (
+                0
+                if lagged_downstream_exit_tick < 0
+                else cumulative_exits_by_tick[lagged_downstream_exit_tick]
+            )
+            current_upstream_entry_count = cumulative_entries_by_tick[tick]
+            raw_physical_vacancy = (
+                link.declared_storage_capacity_packets
+                + lagged_downstream_exit_count
+                - current_upstream_entry_count
+            )
+            integer_capacity, _carry_out = bounded_integer_receiving_capacity_carry(
+                link_id=downstream_link_id,
+                capacity_vehicles_per_tick=capacity_rate,
+                carry_in=0.0,
+            )
+            same_tick_accepted_count = entry_increments_by_tick.get(tick, 0)
+            available_receiving_capacity = max(
+                integer_capacity - same_tick_accepted_count,
+                0,
+            )
+            if not receiving_open:
+                cause = ReceivingCause.GOVERNANCE_CLOSED
+            elif raw_physical_vacancy <= 0:
+                cause = ReceivingCause.PHYSICAL_SHORTAGE
+            elif available_receiving_capacity <= 0:
+                cause = ReceivingCause.RECEIVING_CAPACITY_EXHAUSTED
+            else:
+                cause = ReceivingCause.OPEN
         cause_value = getattr(cause, "value", str(cause))
         if cause_value not in causes:
             causes.append(cause_value)

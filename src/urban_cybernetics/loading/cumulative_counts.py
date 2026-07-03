@@ -492,10 +492,10 @@ def cumulative_count_projection(
     event_tuple = _event_prefix(events, prefix_event_count)
     link_id_tuple = tuple(link_ids)
     projection_max_tick = _projection_max_tick(event_tuple, max_tick)
-    aggregate = tuple(
-        counts
-        for link_id in link_id_tuple
-        for counts in cumulative_count_series(event_tuple, link_id, projection_max_tick)
+    aggregate = _aggregate_cumulative_count_grid(
+        event_tuple,
+        link_ids=link_id_tuple,
+        max_tick=projection_max_tick,
     )
     ordinals = packet_boundary_ordinals(
         event_tuple,
@@ -728,6 +728,55 @@ def _route_cumulative_count_grid(
                     )
                 )
     return tuple(route_counts)
+
+
+def _aggregate_cumulative_count_grid(
+    events: tuple[Event, ...],
+    *,
+    link_ids: tuple[str, ...],
+    max_tick: int,
+) -> tuple[CumulativeBoundaryCounts, ...]:
+    """Return aggregate counts for all requested links without rescanning events."""
+
+    if max_tick < 0:
+        return ()
+
+    link_id_set = set(link_ids)
+    increments_by_tick: dict[tuple[int, str], tuple[int, int]] = {}
+    for event in events:
+        if event.physical_tick > max_tick or event.entity_id not in link_id_set:
+            continue
+        boundary_type = _boundary_type_for_event(event)
+        if boundary_type is None:
+            continue
+        key = (event.physical_tick, event.entity_id)
+        entries, exits = increments_by_tick.get(key, (0, 0))
+        if boundary_type == ENTRY_BOUNDARY:
+            entries += 1
+        else:
+            exits += 1
+        increments_by_tick[key] = (entries, exits)
+
+    aggregate_counts: list[CumulativeBoundaryCounts] = []
+    for link_id in link_ids:
+        entries = 0
+        exits = 0
+        for tick in range(max_tick + 1):
+            entry_increment, exit_increment = increments_by_tick.get(
+                (tick, link_id),
+                (0, 0),
+            )
+            entries += entry_increment
+            exits += exit_increment
+            aggregate_counts.append(
+                CumulativeBoundaryCounts(
+                    link_id=link_id,
+                    tick=tick,
+                    entries=entries,
+                    exits=exits,
+                )
+            )
+    return tuple(aggregate_counts)
 
 
 def _final_link_exit_route_ordinals(

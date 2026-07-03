@@ -1,0 +1,1071 @@
+{
+  "artifact_generated_at_utc": "2026-07-03T18:07:20.715347+00:00",
+  "artifact_note": "Post-validation-performance pass for the post-Option-C Sioux Falls scale ladder. Exact replay ran through 10,000 only; larger rungs use explicit replay policy or stopped before replay.",
+  "baseline_reference": {
+    "10000_validation_seconds": 45.398,
+    "25000_validation_seconds": 190.378,
+    "50000_stop_reason": "runtime_limit_exceeded:600.0s:validation_setup_spillback",
+    "source": "docs/validation/sioux_falls_post_option_c_scale_ladder_profile.json before validation-performance changes"
+  },
+  "optimization_summary": {
+    "projection_change": "aggregate cumulative counts are built from per-link per-tick increments rather than repeated full-event scans",
+    "semantic_boundary": "event log remains canonical truth; validation projections are deterministic read-only caches",
+    "spillback_change": "queue curves and downstream receiving causes are built from event-derived per-tick indexes rather than repeated trace scans"
+  },
+  "profiles": [
+    {
+      "completed_packet_count": 10000,
+      "event_count": 109856,
+      "failure_reason": null,
+      "instantiated_packet_count": 10000,
+      "max_rss_bytes": 118816768,
+      "phase_timings": [
+        {
+          "details": {},
+          "phase": "tntp_topology_loading",
+          "seconds": 0.004783917014719918,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "physical_profile_build",
+          "seconds": 0.00035779099562205374,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "physical_profile_application",
+          "seconds": 0.000572583987377584,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "declared_packets": 10000,
+            "od_pairs": 30
+          },
+          "phase": "od_pair_selection_and_demand_manifest_creation",
+          "seconds": 0.0005488749884534627,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "resolved_routes": 30
+          },
+          "phase": "route_resolution",
+          "seconds": 0.00037508399691432714,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "scheduled_requests": 10000
+          },
+          "phase": "scheduled_loading_expansion",
+          "seconds": 0.008818125003017485,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "junction_passed": false,
+            "physical_passed": true
+          },
+          "phase": "parity_readiness_checks",
+          "seconds": 0.0003303749836049974,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "engine_initialisation",
+          "seconds": 0.00011195801198482513,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 0,
+            "events": 2606,
+            "instantiated": 1303,
+            "pending": 8697,
+            "submitted": 10000,
+            "tick": 0
+          },
+          "phase": "initial_departure_submission",
+          "seconds": 0.029122749983798712,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "engine_stepping_primary",
+          "seconds": 1.3346075000008568,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_packet_conservation",
+          "seconds": 9.929199586622417e-05,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "events": 109856,
+            "links": 76,
+            "nodes": 24,
+            "packets": 10000
+          },
+          "phase": "validation_context_snapshot",
+          "seconds": 0.0006028750212863088,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "aggregate_counts": 5776,
+            "packet_ordinals": 72600,
+            "route_counts": 173280,
+            "route_travel_time_curves": 30
+          },
+          "phase": "shared_projection_build",
+          "seconds": 0.4042780839954503,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_count_consistency",
+          "seconds": 0.056078916997648776,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_fifo",
+          "seconds": 0.19728933300939389,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_spillback",
+          "seconds": 0.13592916700872593,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_commodity",
+          "seconds": 0.03460062498925254,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_node",
+          "seconds": 0.013100083015160635,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed_packets": 10000,
+            "events": 109856,
+            "ticks": 75
+          },
+          "phase": "deterministic_replay_engine_stepping",
+          "seconds": 1.3889827079838142,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_replay_compare",
+          "seconds": 0.009567792003508657,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "artifact_serialisation",
+          "seconds": 7.970901788212359e-05,
+          "status": "completed"
+        }
+      ],
+      "primary_engine_stepping_seconds": 1.3346075000008568,
+      "primary_events_per_second": 82313.33931506415,
+      "primary_packets_per_second": 7492.83965509978,
+      "replay_seconds": 1.3985504999873228,
+      "replay_status": "passed_exact_replay",
+      "requested_packet_count": 10000,
+      "setup_preloading_seconds": 0.045021458965493366,
+      "status": "passed",
+      "submitted_packet_count": 10000,
+      "ticks_run": 75,
+      "total_events_per_second": 30281.196264338167,
+      "total_packets_per_second": 2756.4444604152864,
+      "total_wall_clock_seconds": 3.627861958986614,
+      "unresolved_packet_count": 0,
+      "validation_seconds": 0.8419783760327846,
+      "validations": {
+        "commodity": true,
+        "count_consistency": true,
+        "deterministic_replay": true,
+        "fifo": true,
+        "node": true,
+        "packet_conservation": true,
+        "spillback": true
+      }
+    },
+    {
+      "completed_packet_count": 25000,
+      "event_count": 230086,
+      "failure_reason": null,
+      "instantiated_packet_count": 25000,
+      "max_rss_bytes": 240713728,
+      "phase_timings": [
+        {
+          "details": {},
+          "phase": "tntp_topology_loading",
+          "seconds": 0.004726374987512827,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "physical_profile_build",
+          "seconds": 0.0003505409986246377,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "physical_profile_application",
+          "seconds": 0.0005858329823240638,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "declared_packets": 25000,
+            "od_pairs": 76
+          },
+          "phase": "od_pair_selection_and_demand_manifest_creation",
+          "seconds": 0.0006541660113725811,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "resolved_routes": 76
+          },
+          "phase": "route_resolution",
+          "seconds": 0.0008474589849356562,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "scheduled_requests": 25000
+          },
+          "phase": "scheduled_loading_expansion",
+          "seconds": 0.02056570799322799,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "junction_passed": false,
+            "physical_passed": true
+          },
+          "phase": "parity_readiness_checks",
+          "seconds": 0.0003632080042734742,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "engine_initialisation",
+          "seconds": 0.00010720899445004761,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 0,
+            "events": 5942,
+            "instantiated": 2971,
+            "pending": 22029,
+            "submitted": 25000,
+            "tick": 0
+          },
+          "phase": "initial_departure_submission",
+          "seconds": 0.07392366699059494,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "engine_stepping_primary",
+          "seconds": 3.2971885000006296,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_packet_conservation",
+          "seconds": 0.0003407079784665257,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "events": 230086,
+            "links": 76,
+            "nodes": 24,
+            "packets": 25000
+          },
+          "phase": "validation_context_snapshot",
+          "seconds": 0.0023514589993283153,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "aggregate_counts": 10032,
+            "packet_ordinals": 150400,
+            "route_counts": 762432,
+            "route_travel_time_curves": 76
+          },
+          "phase": "shared_projection_build",
+          "seconds": 1.2525656670040917,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_count_consistency",
+          "seconds": 0.10257937500136904,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_fifo",
+          "seconds": 0.43738358397968113,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_spillback",
+          "seconds": 0.45779716700781137,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_commodity",
+          "seconds": 0.08421420800732449,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_node",
+          "seconds": 0.03123487500124611,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "artifact_serialisation",
+          "seconds": 7.058301707729697e-05,
+          "status": "completed"
+        }
+      ],
+      "primary_engine_stepping_seconds": 3.2971885000006296,
+      "primary_events_per_second": 69782.48286379625,
+      "primary_packets_per_second": 7582.217395212687,
+      "replay_seconds": null,
+      "replay_status": "skipped_by_policy_after_determinism_certification",
+      "requested_packet_count": 25000,
+      "setup_preloading_seconds": 0.10212416594731621,
+      "status": "passed",
+      "submitted_packet_count": 25000,
+      "ticks_run": 131,
+      "total_events_per_second": 39782.17372670619,
+      "total_packets_per_second": 4322.5330666257605,
+      "total_wall_clock_seconds": 5.783645749994321,
+      "unresolved_packet_count": 0,
+      "validation_seconds": 2.3684670429793186,
+      "validations": {
+        "commodity": true,
+        "count_consistency": true,
+        "deterministic_replay": null,
+        "fifo": true,
+        "node": true,
+        "packet_conservation": true,
+        "spillback": true
+      }
+    },
+    {
+      "completed_packet_count": 50000,
+      "event_count": 439984,
+      "failure_reason": null,
+      "instantiated_packet_count": 50000,
+      "max_rss_bytes": 480935936,
+      "phase_timings": [
+        {
+          "details": {},
+          "phase": "tntp_topology_loading",
+          "seconds": 0.004822125018108636,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "physical_profile_build",
+          "seconds": 0.0003430419892538339,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "physical_profile_application",
+          "seconds": 0.0005560420104302466,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "declared_packets": 50000,
+            "od_pairs": 143
+          },
+          "phase": "od_pair_selection_and_demand_manifest_creation",
+          "seconds": 0.0008446249994449317,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "resolved_routes": 143
+          },
+          "phase": "route_resolution",
+          "seconds": 0.0016105829854495823,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "scheduled_requests": 50000
+          },
+          "phase": "scheduled_loading_expansion",
+          "seconds": 0.04506579099688679,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "junction_passed": false,
+            "physical_passed": true
+          },
+          "phase": "parity_readiness_checks",
+          "seconds": 0.0003337500093039125,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "engine_initialisation",
+          "seconds": 0.00010641699191182852,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 0,
+            "events": 8560,
+            "instantiated": 4280,
+            "pending": 45720,
+            "submitted": 50000,
+            "tick": 0
+          },
+          "phase": "initial_departure_submission",
+          "seconds": 0.13986887500504963,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "engine_stepping_primary",
+          "seconds": 7.803684915998019,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_packet_conservation",
+          "seconds": 0.0005583330057561398,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "events": 439984,
+            "links": 76,
+            "nodes": 24,
+            "packets": 50000
+          },
+          "phase": "validation_context_snapshot",
+          "seconds": 0.004456582973944023,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "aggregate_counts": 13224,
+            "packet_ordinals": 291000,
+            "route_counts": 1891032,
+            "route_travel_time_curves": 143
+          },
+          "phase": "shared_projection_build",
+          "seconds": 2.9621191670012195,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_count_consistency",
+          "seconds": 0.22611541600781493,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_fifo",
+          "seconds": 0.9349408750131261,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_spillback",
+          "seconds": 1.7364139170094859,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_commodity",
+          "seconds": 0.17626425001071766,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_node",
+          "seconds": 0.06640129099832848,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "artifact_serialisation",
+          "seconds": 6.675001350231469e-05,
+          "status": "completed"
+        }
+      ],
+      "primary_engine_stepping_seconds": 7.803684915998019,
+      "primary_events_per_second": 56381.569058228706,
+      "primary_packets_per_second": 6407.229474052318,
+      "replay_seconds": null,
+      "replay_status": "skipped_by_policy_after_determinism_certification",
+      "requested_packet_count": 50000,
+      "setup_preloading_seconds": 0.1935512500058394,
+      "status": "passed",
+      "submitted_packet_count": 50000,
+      "ticks_run": 173,
+      "total_events_per_second": 31112.99609483139,
+      "total_packets_per_second": 3535.696308823888,
+      "total_wall_clock_seconds": 14.141486042004544,
+      "unresolved_packet_count": 0,
+      "validation_seconds": 6.107269832020393,
+      "validations": {
+        "commodity": true,
+        "count_consistency": true,
+        "deterministic_replay": null,
+        "fifo": true,
+        "node": true,
+        "packet_conservation": true,
+        "spillback": true
+      }
+    },
+    {
+      "completed_packet_count": 100000,
+      "event_count": 822574,
+      "failure_reason": null,
+      "instantiated_packet_count": 100000,
+      "max_rss_bytes": 870825984,
+      "phase_timings": [
+        {
+          "details": {},
+          "phase": "tntp_topology_loading",
+          "seconds": 0.004726334009319544,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "physical_profile_build",
+          "seconds": 0.0003468749928288162,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "physical_profile_application",
+          "seconds": 0.0005625839985441417,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "declared_packets": 100000,
+            "od_pairs": 206
+          },
+          "phase": "od_pair_selection_and_demand_manifest_creation",
+          "seconds": 0.0010959590144921094,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "resolved_routes": 206
+          },
+          "phase": "route_resolution",
+          "seconds": 0.002231791993835941,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "scheduled_requests": 100000
+          },
+          "phase": "scheduled_loading_expansion",
+          "seconds": 0.08643379199202172,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "junction_passed": false,
+            "physical_passed": true
+          },
+          "phase": "parity_readiness_checks",
+          "seconds": 0.0004122079990338534,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "engine_initialisation",
+          "seconds": 0.0001534579787403345,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 0,
+            "events": 11074,
+            "instantiated": 5537,
+            "pending": 94463,
+            "submitted": 100000,
+            "tick": 0
+          },
+          "phase": "initial_departure_submission",
+          "seconds": 0.2791166249953676,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "engine_stepping_primary",
+          "seconds": 16.88318483400508,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_packet_conservation",
+          "seconds": 0.0011746250092983246,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "events": 822574,
+            "links": 76,
+            "nodes": 24,
+            "packets": 100000
+          },
+          "phase": "validation_context_snapshot",
+          "seconds": 0.01029158299206756,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "aggregate_counts": 17328,
+            "packet_ordinals": 521000,
+            "route_counts": 3569568,
+            "route_travel_time_curves": 206
+          },
+          "phase": "shared_projection_build",
+          "seconds": 5.350102625001455,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_count_consistency",
+          "seconds": 0.4273844580166042,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_fifo",
+          "seconds": 1.7829080410010647,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_spillback",
+          "seconds": 4.4151773329940625,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_commodity",
+          "seconds": 0.35969487502006814,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_node",
+          "seconds": 0.12420537500292994,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "artifact_serialisation",
+          "seconds": 7.554198964498937e-05,
+          "status": "completed"
+        }
+      ],
+      "primary_engine_stepping_seconds": 16.88318483400508,
+      "primary_events_per_second": 48721.49467576886,
+      "primary_packets_per_second": 5923.053084071325,
+      "replay_seconds": null,
+      "replay_status": "skipped_by_policy_after_determinism_certification",
+      "requested_packet_count": 100000,
+      "setup_preloading_seconds": 0.37507962697418407,
+      "status": "passed",
+      "submitted_packet_count": 100000,
+      "ticks_run": 227,
+      "total_events_per_second": 27606.55090939168,
+      "total_packets_per_second": 3356.117614876191,
+      "total_wall_clock_seconds": 29.79633358400315,
+      "unresolved_packet_count": 0,
+      "validation_seconds": 12.47093891503755,
+      "validations": {
+        "commodity": true,
+        "count_consistency": true,
+        "deterministic_replay": null,
+        "fifo": true,
+        "node": true,
+        "packet_conservation": true,
+        "spillback": true
+      }
+    },
+    {
+      "completed_packet_count": 200000,
+      "event_count": 1562198,
+      "failure_reason": null,
+      "instantiated_packet_count": 200000,
+      "max_rss_bytes": 2332622848,
+      "phase_timings": [
+        {
+          "details": {},
+          "phase": "tntp_topology_loading",
+          "seconds": 0.004847125004744157,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "physical_profile_build",
+          "seconds": 0.00034249998861923814,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "physical_profile_application",
+          "seconds": 0.0005851250025443733,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "declared_packets": 200000,
+            "od_pairs": 321
+          },
+          "phase": "od_pair_selection_and_demand_manifest_creation",
+          "seconds": 0.0015948329819366336,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "resolved_routes": 321
+          },
+          "phase": "route_resolution",
+          "seconds": 0.0037391659861896187,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "scheduled_requests": 200000
+          },
+          "phase": "scheduled_loading_expansion",
+          "seconds": 0.17680258300970308,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "junction_passed": false,
+            "physical_passed": true
+          },
+          "phase": "parity_readiness_checks",
+          "seconds": 0.00032891600858420134,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "engine_initialisation",
+          "seconds": 0.0001067080011125654,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 0,
+            "events": 16448,
+            "instantiated": 8224,
+            "pending": 191776,
+            "submitted": 200000,
+            "tick": 0
+          },
+          "phase": "initial_departure_submission",
+          "seconds": 0.5557079590216745,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "engine_stepping_primary",
+          "seconds": 55.87460154198925,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_packet_conservation",
+          "seconds": 0.0024579169985372573,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "events": 1562198,
+            "links": 76,
+            "nodes": 24,
+            "packets": 200000
+          },
+          "phase": "validation_context_snapshot",
+          "seconds": 0.022647292003966868,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "aggregate_counts": 36252,
+            "packet_ordinals": 966000,
+            "route_counts": 11636892,
+            "route_travel_time_curves": 321
+          },
+          "phase": "shared_projection_build",
+          "seconds": 14.459131666983012,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_count_consistency",
+          "seconds": 1.2432300839864183,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_fifo",
+          "seconds": 3.482764624990523,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_spillback",
+          "seconds": 10.882181124994531,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_commodity",
+          "seconds": 0.7987343749846332,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "validation_setup_node",
+          "seconds": 0.2478659579937812,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "artifact_serialisation",
+          "seconds": 9.654200403019786e-05,
+          "status": "completed"
+        }
+      ],
+      "primary_engine_stepping_seconds": 55.87460154198925,
+      "primary_events_per_second": 27959.00027718359,
+      "primary_packets_per_second": 3579.4438703907686,
+      "replay_seconds": null,
+      "replay_status": "skipped_by_policy_after_determinism_certification",
+      "requested_packet_count": 200000,
+      "setup_preloading_seconds": 0.7440549150051083,
+      "status": "passed",
+      "submitted_packet_count": 200000,
+      "ticks_run": 476,
+      "total_events_per_second": 17760.771251323156,
+      "total_packets_per_second": 2273.818203751785,
+      "total_wall_clock_seconds": 87.95777941701817,
+      "unresolved_packet_count": 0,
+      "validation_seconds": 31.139013042935403,
+      "validations": {
+        "commodity": true,
+        "count_consistency": true,
+        "deterministic_replay": null,
+        "fifo": true,
+        "node": true,
+        "packet_conservation": true,
+        "spillback": true
+      }
+    },
+    {
+      "completed_packet_count": 76600,
+      "event_count": 981232,
+      "failure_reason": "runtime_limit_exceeded:600.0s:engine_stepping_primary",
+      "instantiated_packet_count": 266100,
+      "max_rss_bytes": 2332622848,
+      "phase_timings": [
+        {
+          "details": {},
+          "phase": "tntp_topology_loading",
+          "seconds": 0.004954957985319197,
+          "status": "completed"
+        },
+        {
+          "details": {},
+          "phase": "physical_profile_build",
+          "seconds": 0.00034787500044330955,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "physical_profile_application",
+          "seconds": 0.0005795830220449716,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "declared_packets": 360600,
+            "od_pairs": 528
+          },
+          "phase": "od_pair_selection_and_demand_manifest_creation",
+          "seconds": 0.002319542021723464,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "resolved_routes": 528
+          },
+          "phase": "route_resolution",
+          "seconds": 0.0059523750096559525,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "scheduled_requests": 360600
+          },
+          "phase": "scheduled_loading_expansion",
+          "seconds": 0.3030350000190083,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "junction_passed": false,
+            "physical_passed": true
+          },
+          "phase": "parity_readiness_checks",
+          "seconds": 0.00032366698724217713,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "links": 76,
+            "nodes": 24
+          },
+          "phase": "engine_initialisation",
+          "seconds": 0.0001163340057246387,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 0,
+            "events": 25708,
+            "instantiated": 12854,
+            "pending": 347746,
+            "submitted": 360600,
+            "tick": 0
+          },
+          "phase": "initial_departure_submission",
+          "seconds": 1.0386092079861555,
+          "status": "completed"
+        },
+        {
+          "details": {
+            "completed": 76600,
+            "events": 981232,
+            "instantiated": 266100,
+            "pending": 94500,
+            "submitted": 360600,
+            "tick": 1958
+          },
+          "phase": "engine_stepping_primary",
+          "seconds": 598.6674260420259,
+          "status": "timeout"
+        }
+      ],
+      "primary_engine_stepping_seconds": 598.6674260420259,
+      "primary_events_per_second": 1639.0268742149976,
+      "primary_packets_per_second": 127.95083992864971,
+      "replay_seconds": null,
+      "replay_status": "not_run",
+      "requested_packet_count": 360600,
+      "setup_preloading_seconds": 1.3562385420373175,
+      "status": "failed",
+      "submitted_packet_count": 360600,
+      "ticks_run": 1958,
+      "total_events_per_second": 1635.3213535207565,
+      "total_packets_per_second": 127.66156798768277,
+      "total_wall_clock_seconds": 600.0239634170139,
+      "unresolved_packet_count": 284000,
+      "validation_seconds": 0,
+      "validations": {
+        "commodity": null,
+        "count_consistency": null,
+        "deterministic_replay": null,
+        "fifo": null,
+        "node": null,
+        "packet_conservation": null,
+        "spillback": null
+      }
+    }
+  ],
+  "runner": {
+    "exact_replay_packet_limit": 10000,
+    "packet_counts": [
+      10000,
+      25000,
+      50000,
+      100000,
+      200000,
+      360600
+    ],
+    "script": "scripts/profile_sioux_falls_scale_ladder.py",
+    "stop_reason": "360600:runtime_limit_exceeded:600.0s:engine_stepping_primary",
+    "tick_limit": 20000,
+    "timeout_seconds_per_rung": 600.0
+  }
+}
