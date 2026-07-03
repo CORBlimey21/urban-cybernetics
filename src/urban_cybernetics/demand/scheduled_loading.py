@@ -43,6 +43,7 @@ class ScheduledDemandLoader:
         self.resolved_manifest = resolved_manifest
         self._requests = self._build_requests(resolved_manifest)
         self._submitted_loading_demand_ids: set[str] = set()
+        self._next_unsubmitted_request_index = 0
 
     @property
     def scheduled_requests(self) -> tuple[ScheduledLoadingRequest, ...]:
@@ -65,13 +66,13 @@ class ScheduledDemandLoader:
         """
 
         admitted_packets: list[Packet] = []
-        for request in self._requests:
+        while self._next_unsubmitted_request_index < len(self._requests):
+            request = self._requests[self._next_unsubmitted_request_index]
             if request.departure_tick > engine.current_tick:
                 break
-            if request.loading_demand_id in self._submitted_loading_demand_ids:
-                continue
             packet = engine.instantiate(request.to_loading_demand())
             self._submitted_loading_demand_ids.add(request.loading_demand_id)
+            self._next_unsubmitted_request_index += 1
             if packet is not None:
                 admitted_packets.append(packet)
         return tuple(admitted_packets)
