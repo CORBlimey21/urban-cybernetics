@@ -219,9 +219,9 @@ def analytical_strict_diverge_result() -> CanonicalScenarioResult:
         "strict_fifo_diverge_blocked_head",
         _assumptions("strict diverge", "head route branch initially closed"),
         (
-            _compare("L1 cumulative exits", _exits(engine, "L1"), (0, 0, 1, 2)),
+            _compare("L1 cumulative exits", _exits(engine, "L1"), (0, 0, 2, 2)),
             _compare("L2 cumulative entries", _entries(engine, "L2"), (0, 0, 1, 1)),
-            _compare("L3 cumulative entries", _entries(engine, "L3"), (0, 0, 0, 1)),
+            _compare("L3 cumulative entries", _entries(engine, "L3"), (0, 0, 1, 1)),
             _compare(
                 "boundary:L1->L2 queue length",
                 _queue_lengths(engine, "boundary:L1->L2"),

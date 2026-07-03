@@ -56,10 +56,8 @@ class FifoAndReceivingConstraintTest(unittest.TestCase):
             engine.step()
 
         blocked_tick = engine.current_tick
-        self.assertEqual(
-            engine.packet_ids_in_queue("L1", "L2"),
-            (packet_a.packet_id, packet_b.packet_id),
-        )
+        self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), (packet_a.packet_id,))
+        self.assertIn(packet_b.packet_id, engine.packet_ids_on_link("L1"))
         self.assertFalse(
             [
                 event
@@ -102,7 +100,7 @@ class FifoAndReceivingConstraintTest(unittest.TestCase):
             for event in engine.event_log
             if event.event_type == EventType.LINK_ENTRY and event.entity_id == "L2"
         ]
-        self.assertEqual(queue_exit_packet_ids, [packet_a.packet_id, packet_b.packet_id])
+        self.assertEqual(queue_exit_packet_ids, [packet_a.packet_id])
         self.assertEqual(transfer_exit_packet_ids, [packet_a.packet_id, packet_b.packet_id])
         self.assertEqual(transfer_entry_packet_ids, [packet_a.packet_id, packet_b.packet_id])
         self.assertTrue(
@@ -315,6 +313,41 @@ class FifoAndReceivingConstraintTest(unittest.TestCase):
         self.assertIn(packet.packet_id, engine.packet_ids_on_link("L1"))
         self.assertNotIn(packet.packet_id, engine.packet_ids_on_link("L2"))
         self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), (packet.packet_id,))
+
+    def test_queued_head_blocks_following_final_completion(self) -> None:
+        engine = LoadingEngine(
+            links={
+                "L2": Link(
+                    link_id="L2",
+                    free_flow_ticks=1,
+                    declared_sending_capacity_per_tick=2,
+                ),
+                "L3": Link(link_id="L3", free_flow_ticks=1),
+            }
+        )
+        engine.set_receiving_open("L3", False)
+        queued_head = engine.instantiate(
+            DemandDeclaration(demand_id="D-head", departure_tick=0, route_intent=("L2", "L3"))
+        )
+        final_tail = engine.instantiate(
+            DemandDeclaration(demand_id="D-tail", departure_tick=0, route_intent=("L2",))
+        )
+
+        engine.step()
+
+        self.assertEqual(
+            engine.packet_ids_in_queue("L2", "L3"),
+            (queued_head.packet_id,),
+        )
+        self.assertIn(final_tail.packet_id, engine.packet_ids_on_link("L2"))
+        self.assertFalse(
+            [
+                event
+                for event in engine.event_log
+                if event.packet_id == final_tail.packet_id
+                and event.event_type == EventType.COMPLETED
+            ]
+        )
 
     def test_receiving_state_belongs_to_engine(self) -> None:
         link = Link(link_id="L2", free_flow_ticks=1)

@@ -114,12 +114,6 @@ class LTMParityMovementAllocatorTest(unittest.TestCase):
         )
         self.assertEqual(
             self.link_event_packet_ids(engine, EventType.LINK_ENTRY, "L3", 2),
-            [],
-        )
-        engine.step()
-
-        self.assertEqual(
-            self.link_event_packet_ids(engine, EventType.LINK_ENTRY, "L3", 3),
             [packet_l3.packet_id],
         )
         self.assertEqual(
@@ -130,9 +124,12 @@ class LTMParityMovementAllocatorTest(unittest.TestCase):
             self.realised_path(engine, packet_l3.packet_id),
             ("L1", "L3"),
         )
+        self.assertEqual(
+            self.link_event_packet_ids(engine, EventType.LINK_EXIT, "L1", 2),
+            [packet_l2.packet_id, packet_l3.packet_id],
+        )
         self.assertTrue(engine.check_conservation())
 
-    @unittest.expectedFailure
     def test_strict_fifo_allows_active_head_ahead_of_queued_tail(self) -> None:
         node = Node(
             "N",
@@ -174,7 +171,54 @@ class LTMParityMovementAllocatorTest(unittest.TestCase):
             )
         )
 
-        self.assertEqual(decision.approved_transfers, (active_head,))
+        self.assertEqual(decision.approved_transfers, (active_head, queued_tail))
+
+    def test_strict_fifo_queued_head_blocks_following_packet(self) -> None:
+        node = Node(
+            "N",
+            incoming_link_ids=("L1",),
+            outgoing_link_ids=("L2", "L3"),
+        )
+        allocator = GeneralMovementAllocator(nodes=(node,))
+        queued_head = TransferRequest(
+            packet_id="P1",
+            upstream_link_id="L1",
+            downstream_link_id="L2",
+            boundary_id="boundary:L1->L2",
+            eligibility_tick=1,
+            eligibility_sequence_number=1,
+            queued=True,
+            node_id="N",
+        )
+        active_tail = TransferRequest(
+            packet_id="P2",
+            upstream_link_id="L1",
+            downstream_link_id="L3",
+            boundary_id="boundary:L1->L3",
+            eligibility_tick=1,
+            eligibility_sequence_number=2,
+            queued=False,
+            node_id="N",
+        )
+
+        decision = allocator.allocate(
+            allocation_inputs=(
+                JunctionAllocationInput(
+                    node_id="N",
+                    junction_spec=node.junction_spec,
+                    transfer_requests=(active_tail, queued_head),
+                    receiving_slots_by_downstream_link={"L2": 0, "L3": 1},
+                    packet_ids_by_upstream_link={"L1": ("P1", "P2")},
+                    queued_downstream_by_packet_id={"P1": "L2"},
+                ),
+            )
+        )
+
+        self.assertEqual(decision.approved_transfers, ())
+        self.assertIn(
+            (active_tail.packet_id, "upstream_fifo_blocked"),
+            decision.allocation_traces[0].rejected_transfer_reasons,
+        )
 
     def test_declared_priority_merge_achieves_long_horizon_share(self) -> None:
         engine = self.priority_merge_engine()

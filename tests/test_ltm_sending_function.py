@@ -149,14 +149,15 @@ class LTMSendingFunctionTest(unittest.TestCase):
 
         self.assertEqual(
             engine.packet_ids_in_queue("L1", "L2"),
-            (packet_a.packet_id, packet_b.packet_id),
+            (packet_a.packet_id,),
         )
         self.assertEqual(engine.link_storage("L1").storage, 2)
         self.assertEqual(engine.link_storage("L2").storage, 0)
         self.assertEqual(
             self.queue_entry_packet_ids(engine, "boundary:L1->L2"),
-            [packet_a.packet_id, packet_b.packet_id],
+            [packet_a.packet_id],
         )
+        self.assertIn(packet_b.packet_id, engine.packet_ids_on_link("L1"))
 
         engine.set_receiving_open("L2", True)
         engine.step()
@@ -180,7 +181,8 @@ class LTMSendingFunctionTest(unittest.TestCase):
         )
         self.assertEqual(engine.link_storage("L1").storage, 1)
         self.assertEqual(engine.link_storage("L2").storage, 1)
-        self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), (packet_b.packet_id,))
+        self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), ())
+        self.assertIn(packet_b.packet_id, engine.packet_ids_on_link("L1"))
 
     def test_public_sending_view_excludes_already_queued_packets(self) -> None:
         engine = LoadingEngine(

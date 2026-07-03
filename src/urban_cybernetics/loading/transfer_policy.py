@@ -604,11 +604,6 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
             for index, movement_id_value in enumerate(movement_order)
         }
         movement_by_id = junction_spec.movement_by_id
-        upstream_links_with_queued_requests = {
-            request.upstream_link_id
-            for request in allocation_input.transfer_requests
-            if request.queued
-        }
         for movement_id_value in movement_order:
             movement = movement_by_id[movement_id_value]
             if remaining_slots.get(movement.downstream_link_id, 0) <= 0:
@@ -629,11 +624,6 @@ class GeneralMovementAllocator(StrictFIFOJunctionPolicy):
                 candidate_movement=movement,
             )
             if request is None:
-                continue
-            if (
-                request.upstream_link_id in upstream_links_with_queued_requests
-                and not request.queued
-            ):
                 continue
             selectable.append(
                 (

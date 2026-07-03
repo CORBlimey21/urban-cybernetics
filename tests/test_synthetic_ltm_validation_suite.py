@@ -409,19 +409,6 @@ class SyntheticLTMValidationSuiteTest(unittest.TestCase):
             EventType.LINK_ENTRY,
             "L2",
         ).physical_tick
-        self.assertIn(packet_b.packet_id, engine.packet_ids_on_link("L1"))
-        self.assertFalse(
-            [
-                event
-                for event in self.events_for_packet(engine, packet_b.packet_id)
-                if event.event_type == EventType.LINK_ENTRY
-                and event.entity_id == "L3"
-                and event.physical_tick <= packet_a_l2_entry_tick
-            ]
-        )
-
-        engine.step()
-
         packet_b_l1_exit = self.event(
             engine,
             packet_b.packet_id,
@@ -435,7 +422,11 @@ class SyntheticLTMValidationSuiteTest(unittest.TestCase):
             "L3",
         )
         self.assertEqual(packet_b_l1_exit.physical_tick, packet_b_l3_entry.physical_tick)
-        self.assertGreater(packet_b_l1_exit.physical_tick, packet_a_l2_entry_tick)
+        self.assertEqual(packet_b_l1_exit.physical_tick, packet_a_l2_entry_tick)
+        self.assertEqual(
+            self.link_exit_packet_ids(engine, "L1", packet_a_l2_entry_tick),
+            [packet_a.packet_id, packet_b.packet_id],
+        )
 
         self.run_to_completion(engine)
 
