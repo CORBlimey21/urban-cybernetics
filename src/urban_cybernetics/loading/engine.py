@@ -903,11 +903,9 @@ class LoadingEngine:
 
         still_pending: list[DemandDeclaration] = []
         remaining_origin_slots_by_link_id: dict[str, int] = {}
-        self._pending_demand_ids.clear()
         for demand in self._pending_demands:
             if demand.departure_tick > self.current_tick:
                 still_pending.append(demand)
-                self._pending_demand_ids.add(demand.demand_id)
                 continue
 
             first_link_id = demand.route_intent[0]
@@ -920,13 +918,13 @@ class LoadingEngine:
                 )
             if remaining_origin_slots > 0:
                 self._instantiate_now(demand)
+                self._pending_demand_ids.discard(demand.demand_id)
                 remaining_origin_slots_by_link_id[first_link_id] = (
                     remaining_origin_slots - 1
                 )
             else:
                 remaining_origin_slots_by_link_id[first_link_id] = 0
                 still_pending.append(demand)
-                self._pending_demand_ids.add(demand.demand_id)
         self._pending_demands = still_pending
 
     def step(self) -> None:
@@ -1565,6 +1563,7 @@ class LoadingEngine:
                             if upstream_link_id in self._node_by_incoming_link_id
                             else None
                         ),
+                        movement_id=f"movement:{upstream_link_id}->{downstream_link_id}",
                     )
                 )
         return tuple(candidates)
@@ -1632,6 +1631,7 @@ class LoadingEngine:
                             if upstream_link_id in self._node_by_incoming_link_id
                             else None
                         ),
+                        movement_id=f"movement:{upstream_link_id}->{downstream_link_id}",
                     )
                 )
         return candidates
