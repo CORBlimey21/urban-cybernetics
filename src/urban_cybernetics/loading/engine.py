@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from bisect import bisect_right
 from collections import deque
 from collections.abc import Iterable, Mapping
 from dataclasses import replace
@@ -123,6 +124,9 @@ class LoadingEngine:
         self._packet_ids_by_link_id: dict[str, list[str]] = {
             link_id: [] for link_id in self.links
         }
+        self._packet_entry_ticks_by_link_id: dict[str, list[int]] = {
+            link_id: [] for link_id in self.links
+        }
         self._current_link_entry_metadata_by_packet_id: dict[str, tuple[str, int, int]] = {}
         self._completed_packet_ids: set[str] = set()
         self._cancelled_packet_ids: set[str] = set()
@@ -154,6 +158,10 @@ class LoadingEngine:
             link_id: self.links[link_id].declared_sending_capacity_per_tick
             for link_id in self.links
         }
+        self._parity_eligible_packet_ids_by_link_tick: dict[
+            tuple[str, int],
+            tuple[str, ...],
+        ] = {}
         self._parity_receiving_capacity_rate_by_link_id = (
             self._normalise_parity_receiving_capacity_rates(
                 parity_receiving_capacity_vehicles_per_tick_by_link
@@ -743,6 +751,7 @@ class LoadingEngine:
         """Update engine-owned acceleration views from one canonical event."""
 
         if event.event_type == EventType.LINK_ENTRY:
+            self._parity_eligible_packet_ids_by_link_tick.clear()
             self._increment_cumulative_boundary_count(
                 self._cumulative_link_entries_by_tick,
                 event.entity_id,
@@ -750,6 +759,9 @@ class LoadingEngine:
             )
             self._current_link_storage_by_link_id[event.entity_id] += 1
             self._packet_ids_by_link_id[event.entity_id].append(event.packet_id)
+            self._packet_entry_ticks_by_link_id[event.entity_id].append(
+                event.physical_tick
+            )
             self._current_link_ids[event.packet_id] = event.entity_id
             self._current_link_entry_ticks[event.packet_id] = event.physical_tick
             self._current_link_entry_metadata_by_packet_id[event.packet_id] = (
@@ -759,6 +771,7 @@ class LoadingEngine:
             )
             self._same_tick_link_entries_by_link_id[event.entity_id] += 1
         elif event.event_type == EventType.LINK_EXIT:
+            self._parity_eligible_packet_ids_by_link_tick.clear()
             self._increment_cumulative_boundary_count(
                 self._cumulative_link_exits_by_tick,
                 event.entity_id,
@@ -813,11 +826,14 @@ class LoadingEngine:
 
     def _remove_packet_from_current_link(self, packet_id: str, link_id: str) -> None:
         packet_ids = self._packet_ids_by_link_id[link_id]
-        if packet_id not in packet_ids:
+        try:
+            packet_index = packet_ids.index(packet_id)
+        except ValueError as exc:
             raise EventCacheConsistencyError(
                 f"packet_id {packet_id} exits link {link_id} without being present"
-            )
-        packet_ids.remove(packet_id)
+            ) from exc
+        packet_ids.pop(packet_index)
+        self._packet_entry_ticks_by_link_id[link_id].pop(packet_index)
 
     def instantiate(self, demand: DemandDeclaration) -> Packet | None:
         """Instantiate one packet if its departure tick and origin storage permit it."""
@@ -917,6 +933,7 @@ class LoadingEngine:
         """Advance the loading engine by exactly one deterministic tick."""
 
         self.current_tick += 1
+        self._parity_eligible_packet_ids_by_link_tick.clear()
         self._extend_cumulative_boundary_count_views_to_current_tick()
         self._reset_same_tick_receiving_acceptance_counts()
         self._prepare_parity_sending_capacity_for_tick()
@@ -1192,15 +1209,14 @@ class LoadingEngine:
             - already_consumed_count,
             0,
         )
-        excluded_packet_id_set = set(excluded_packet_ids)
-        eligible_packet_ids = tuple(
-            packet_id
-            for packet_id in self._packet_ids_by_link_id[link_id]
-            if packet_id not in excluded_packet_id_set
-            and self.current_tick
-            - self._current_link_entry_metadata_by_packet_id[packet_id][1]
-            >= link.free_flow_ticks
-        )
+        eligible_packet_ids = self._current_parity_eligible_packet_ids(link_id)
+        if excluded_packet_ids:
+            excluded_packet_id_set = set(excluded_packet_ids)
+            eligible_packet_ids = tuple(
+                packet_id
+                for packet_id in eligible_packet_ids
+                if packet_id not in excluded_packet_id_set
+            )
         return LinkSendingView(
             link_id=link_id,
             tick=self.current_tick,
@@ -1208,6 +1224,24 @@ class LoadingEngine:
             sending_capacity=capacity.integer_capacity,
             sendable_packet_ids=eligible_packet_ids[:available_sending_slots],
         )
+
+    def _current_parity_eligible_packet_ids(self, link_id: str) -> tuple[str, ...]:
+        cache_key = (link_id, self.current_tick)
+        eligible_packet_ids = self._parity_eligible_packet_ids_by_link_tick.get(
+            cache_key
+        )
+        if eligible_packet_ids is not None:
+            return eligible_packet_ids
+
+        link = self.links[link_id]
+        latest_eligible_entry_tick = self.current_tick - link.free_flow_ticks
+        eligible_count = bisect_right(
+            self._packet_entry_ticks_by_link_id[link_id],
+            latest_eligible_entry_tick,
+        )
+        eligible_packet_ids = tuple(self._packet_ids_by_link_id[link_id][:eligible_count])
+        self._parity_eligible_packet_ids_by_link_tick[cache_key] = eligible_packet_ids
+        return eligible_packet_ids
 
     def _current_parity_link_receiving_view(
         self,
