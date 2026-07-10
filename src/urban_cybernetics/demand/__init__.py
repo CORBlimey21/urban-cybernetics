@@ -15,6 +15,7 @@ from .resolution import (
     resolve_demand_routes,
 )
 from .scheduled_loading import ScheduledDemandLoader, ScheduledLoadingRequest
+from .anaheim import load_anaheim_demand_manifest
 from .sioux_falls import load_sioux_falls_demand_manifest
 
 __all__ = [
@@ -29,6 +30,7 @@ __all__ = [
     "ScheduledDemandLoader",
     "ScheduledLoadingRequest",
     "UniformWindowDepartureSchedule",
+    "load_anaheim_demand_manifest",
     "load_sioux_falls_demand_manifest",
     "resolve_demand_routes",
 ]

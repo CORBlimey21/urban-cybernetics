@@ -1,0 +1,262 @@
+{
+  "artifact_generated_at_utc": "2026-07-03T21:24:12.275327+00:00",
+  "benchmark_id": "anaheim_tntp_v1",
+  "bounded_packet_rungs": [
+    1000,
+    5000,
+    10000,
+    25000,
+    50000,
+    100000
+  ],
+  "evidence_label": "anaheim_uc_default_assumption_profile_scale_ladder",
+  "full_demand_requested_packet_count": 104716,
+  "full_demand_run_attempted": false,
+  "physical_profile_hash": "c6557c280dd9ff7100382c8376fbebf239b6389ad6a835ea325bc1c4d984dc5c",
+  "physical_profile_id": "AnaheimPhysicalProfile_UC_Default_v1",
+  "physical_profile_summary": {
+    "backward_wave_speed_mps": 5.0,
+    "link_count": 914,
+    "max_capacity_veh_per_hour_per_lane": 12600.0,
+    "max_jam_density_veh_per_km_per_lane": 777.8064797333572,
+    "max_storage_capacity_packets": 1355,
+    "mean_capacity_veh_per_hour_per_lane": 6030.196936542669,
+    "mean_jam_density_veh_per_km_per_lane": 429.7950265547424,
+    "mean_storage_capacity_packets": 356.33916849015316,
+    "min_capacity_veh_per_hour_per_lane": 1800.0,
+    "min_jam_density_veh_per_km_per_lane": 137.28227153424004,
+    "min_storage_capacity_packets": 46
+  },
+  "physical_profile_version": "v1",
+  "readiness_report": {
+    "assumption_profile_warnings": [
+      "engineering_assumption_profile_not_empirical_calibration",
+      "bounded_demand_slice_not_full_od_demand_validation",
+      "not_external_canonical_anaheim_validation",
+      "full_network_junction_metadata_not_reviewed:199_nodes"
+    ],
+    "benchmark_id": "anaheim_tntp_v1",
+    "demand_hash": "49208507fa74ac8f12e42aadd49f1f0d1e00fe04c3c7838f9183de62ee630a08",
+    "demand_load_status": {
+      "category": "demand_load",
+      "detail_count": 3,
+      "details": [
+        "demand_hash=49208507fa74ac8f12e42aadd49f1f0d1e00fe04c3c7838f9183de62ee630a08",
+        "od_pairs=1406",
+        "declared_packets=104716"
+      ],
+      "reason": "Anaheim TNTP trips loaded as an OD demand manifest.",
+      "status": "pass"
+    },
+    "full_demand_requested_packet_count": 104716,
+    "movement_junction_support_status": {
+      "category": "movement_junction_support",
+      "detail_count": 199,
+      "details": [
+        "N009",
+        "N010",
+        "N018",
+        "N019",
+        "N021",
+        "N022",
+        "N024",
+        "N025",
+        "N026",
+        "N027",
+        "N028",
+        "N029"
+      ],
+      "reason": "Anaheim contains complex junctions without reviewed conflict, lane-group, or signal metadata.",
+      "status": "fail"
+    },
+    "od_pair_count": 1406,
+    "parity_initialization_status": {
+      "category": "parity_initialization",
+      "detail_count": 0,
+      "details": [],
+      "reason": "Anaheim topology initialized under parity_ltm_v1.",
+      "status": "pass"
+    },
+    "physical_metadata_status": {
+      "category": "physical_metadata",
+      "detail_count": 0,
+      "details": [],
+      "reason": "Anaheim UC default profile physical metadata is parity-eligible.",
+      "status": "pass"
+    },
+    "physical_profile_hash": "c6557c280dd9ff7100382c8376fbebf239b6389ad6a835ea325bc1c4d984dc5c",
+    "requested_model_profile_id": "parity_ltm_v1",
+    "source_file_hashes": [
+      [
+        "/Users/cillian/Developer/urban-cybernetics/data/benchmarks/anaheim/Anaheim_net.tntp",
+        "99933b415e9500b13907829c37a43cfa9141714fad5af279081e28e5f9356f9a"
+      ],
+      [
+        "/Users/cillian/Developer/urban-cybernetics/data/benchmarks/anaheim/Anaheim_trips.tntp",
+        "906893854cd0db4479c0b5f07678ce5616fa8e42e2b997f918c378309c66a94e"
+      ],
+      [
+        "/Users/cillian/Developer/urban-cybernetics/data/benchmarks/anaheim/Anaheim_flow.tntp",
+        "eecd21c2a908b6a1c6729045ea260e96df1de026f05281d341fc281f2552cebe"
+      ]
+    ],
+    "topology_hash": "c958bf19209c0b7b86b8268ed9c7bdca69f2cc0ab5bda16cc569d13905514231",
+    "topology_link_count": 914,
+    "topology_load_status": {
+      "category": "topology_load",
+      "detail_count": 3,
+      "details": [
+        "topology_hash=c958bf19209c0b7b86b8268ed9c7bdca69f2cc0ab5bda16cc569d13905514231",
+        "nodes=416",
+        "links=914"
+      ],
+      "reason": "Anaheim TNTP topology loaded as canonical topology.",
+      "status": "pass"
+    },
+    "topology_node_count": 416
+  },
+  "requested_model_profile_id": "parity_ltm_v1",
+  "rung_reports": [
+    {
+      "canonical_events": 30572,
+      "commodity_validation_passed": true,
+      "completed_packet_count": 1000,
+      "count_consistency_passed": true,
+      "deterministic_replay_passed": true,
+      "event_count": 30572,
+      "events_per_packet": 30.572,
+      "events_per_sec_primary": 6345.691519910875,
+      "failure_reason": null,
+      "failures": [],
+      "fifo_validation_passed": true,
+      "instantiated_packet_count": 1000,
+      "internal_validation_status": "passed",
+      "node_validation_passed": true,
+      "packet_conservation_passed": true,
+      "packets_per_sec_primary": 207.5654690537379,
+      "primary_engine_runtime_seconds": 4.817757040989818,
+      "primary_stepping_wall_clock_seconds": 4.817757040989818,
+      "replay_runtime_seconds": 4.840431999997236,
+      "replay_status": "passed_exact_replay",
+      "requested_packet_count": 1000,
+      "run_completed": true,
+      "rung_label": "1000",
+      "runtime_seconds": 4.817757040989818,
+      "scale_status": "passed",
+      "setup_wall_clock_seconds": 0.0,
+      "spillback_validation_passed": true,
+      "stop_reason": "completed",
+      "submitted_packet_count": 1000,
+      "ticks_run": 531,
+      "total_runtime_seconds": 12.195668082975317,
+      "unresolved_packet_count": 0,
+      "validation_projection_runtime_seconds": 0.8971826669876464,
+      "validation_status": "passed",
+      "validation_wall_clock_seconds": 1.6390578339924105,
+      "validator_runtime_seconds": 0.7418751670047641,
+      "warnings": [
+        "engineering_assumption_profile_not_empirical_calibration",
+        "bounded_demand_slice_not_full_od_demand_validation",
+        "not_external_canonical_anaheim_validation",
+        "full_network_junction_metadata_not_reviewed:199_nodes"
+      ]
+    },
+    {
+      "canonical_events": 203420,
+      "commodity_validation_passed": true,
+      "completed_packet_count": 5000,
+      "count_consistency_passed": true,
+      "deterministic_replay_passed": false,
+      "event_count": 203420,
+      "events_per_packet": 40.684,
+      "events_per_sec_primary": 4521.157297024052,
+      "failure_reason": null,
+      "failures": [],
+      "fifo_validation_passed": true,
+      "instantiated_packet_count": 5000,
+      "internal_validation_status": "passed",
+      "node_validation_passed": true,
+      "packet_conservation_passed": true,
+      "packets_per_sec_primary": 111.12863280464192,
+      "primary_engine_runtime_seconds": 44.9929048329941,
+      "primary_stepping_wall_clock_seconds": 44.9929048329941,
+      "replay_runtime_seconds": null,
+      "replay_status": "skipped_by_policy_after_determinism_certification",
+      "requested_packet_count": 5000,
+      "run_completed": true,
+      "rung_label": "5000",
+      "runtime_seconds": 44.9929048329941,
+      "scale_status": "passed",
+      "setup_wall_clock_seconds": 0.0,
+      "spillback_validation_passed": true,
+      "stop_reason": "completed",
+      "submitted_packet_count": 5000,
+      "ticks_run": 3830,
+      "total_runtime_seconds": 123.78152737498749,
+      "unresolved_packet_count": 0,
+      "validation_projection_runtime_seconds": 65.95609808398876,
+      "validation_status": "passed",
+      "validation_wall_clock_seconds": 72.46026049999637,
+      "validator_runtime_seconds": 6.504162416007603,
+      "warnings": [
+        "engineering_assumption_profile_not_empirical_calibration",
+        "bounded_demand_slice_not_full_od_demand_validation",
+        "not_external_canonical_anaheim_validation",
+        "full_network_junction_metadata_not_reviewed:199_nodes"
+      ]
+    },
+    {
+      "canonical_events": 0,
+      "commodity_validation_passed": false,
+      "completed_packet_count": 0,
+      "count_consistency_passed": false,
+      "deterministic_replay_passed": false,
+      "event_count": 0,
+      "events_per_packet": null,
+      "events_per_sec_primary": null,
+      "failure_reason": "runtime_limit_exceeded:180.0s",
+      "failures": [
+        "runtime_limit_exceeded:180.0s"
+      ],
+      "fifo_validation_passed": false,
+      "instantiated_packet_count": 0,
+      "internal_validation_status": "failed",
+      "node_validation_passed": false,
+      "packet_conservation_passed": false,
+      "packets_per_sec_primary": null,
+      "primary_engine_runtime_seconds": 0.0,
+      "primary_stepping_wall_clock_seconds": 0.0,
+      "replay_runtime_seconds": null,
+      "replay_status": "timeout",
+      "requested_packet_count": 10000,
+      "run_completed": false,
+      "rung_label": "10000",
+      "runtime_seconds": 180.0,
+      "scale_status": "failed_runtime",
+      "setup_wall_clock_seconds": 0.0,
+      "spillback_validation_passed": false,
+      "stop_reason": "runtime_limit_exceeded:180.0s",
+      "submitted_packet_count": 0,
+      "ticks_run": 0,
+      "total_runtime_seconds": 180.0,
+      "unresolved_packet_count": 10000,
+      "validation_projection_runtime_seconds": 0.0,
+      "validation_status": "failed",
+      "validation_wall_clock_seconds": 0.0,
+      "validator_runtime_seconds": 0.0,
+      "warnings": []
+    }
+  ],
+  "runner": {
+    "determinism_certified_packet_count": 1000,
+    "exact_replay_packet_limit": 1000,
+    "include_full_demand_run": true,
+    "max_runtime_seconds_per_rung": 180.0,
+    "script": "scripts/run_anaheim_scale_ladder.py",
+    "tick_duration_seconds": 2.0,
+    "tick_limit": 20000
+  },
+  "stop_reason": "10000:runtime_limit_exceeded:180.0s",
+  "stopped_early": true,
+  "topology_hash": "c958bf19209c0b7b86b8268ed9c7bdca69f2cc0ab5bda16cc569d13905514231"
+}

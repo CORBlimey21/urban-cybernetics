@@ -11,8 +11,10 @@ from .sioux_falls import (
     SIOUX_FALLS_INTERPRETATION_ASSUMPTIONS,
     load_sioux_falls_topology,
 )
+from .anaheim import ANAHEIM_INTERPRETATION_ASSUMPTIONS, load_anaheim_topology
 
 __all__ = [
+    "ANAHEIM_INTERPRETATION_ASSUMPTIONS",
     "CanonicalNode",
     "CanonicalRoute",
     "CanonicalTopology",
@@ -20,5 +22,6 @@ __all__ = [
     "SIOUX_FALLS_INTERPRETATION_ASSUMPTIONS",
     "TopologySourceMetadata",
     "build_shortest_link_count_route",
+    "load_anaheim_topology",
     "load_sioux_falls_topology",
 ]
