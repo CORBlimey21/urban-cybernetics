@@ -21,6 +21,24 @@ from urban_cybernetics.loading import (
 )
 
 
+class UncachedParitySendingEngine(LoadingEngine):
+    """Reference engine that forces every parity base-view lookup to miss."""
+
+    def _current_parity_link_sending_view(
+        self,
+        link_id: str,
+        *,
+        excluded_packet_ids: tuple[str, ...],
+        already_consumed_count: int,
+    ):
+        self._parity_base_sending_view_by_link_id.clear()
+        return super()._current_parity_link_sending_view(
+            link_id,
+            excluded_packet_ids=excluded_packet_ids,
+            already_consumed_count=already_consumed_count,
+        )
+
+
 class LTMParitySendingTest(unittest.TestCase):
     def test_legacy_profile_remains_default(self) -> None:
         engine = LoadingEngine(links={"L1": Link("L1", free_flow_ticks=1)})
@@ -265,6 +283,55 @@ class LTMParitySendingTest(unittest.TestCase):
         self.assertEqual(engine.packet_ids_in_queue("L1", "L2"), (packet.packet_id,))
         self.assertNotIn(packet.packet_id, trace.eligible_packet_ids)
         self.assertNotIn(packet.packet_id, trace.sendable_packet_ids)
+
+    def test_cached_base_sending_views_match_forced_uncached_execution(self) -> None:
+        links = {
+            "L1": self.physical_link("L1", sending_capacity=99, storage=8),
+            "L2": self.physical_link("L2", receiving_capacity=1, storage=8),
+        }
+        engine_kwargs = {
+            "links": links,
+            "model_profile_id": ACADEMIC_LTM_PARITY_PROFILE_ID,
+            "parity_sending_capacity_vehicles_per_tick_by_link": {
+                "L1": 1.5,
+                "L2": 1.0,
+            },
+        }
+        cached = LoadingEngine(**engine_kwargs)
+        uncached = UncachedParitySendingEngine(**engine_kwargs)
+        for engine in (cached, uncached):
+            engine.set_receiving_open("L2", False)
+            for index, route in enumerate(
+                (("L1", "L2"), ("L1",), ("L1", "L2")),
+                start=1,
+            ):
+                engine.instantiate(
+                    DemandDeclaration(
+                        f"D{index}",
+                        departure_tick=0,
+                        route_intent=route,
+                    )
+                )
+            engine.step()
+            engine.set_receiving_open("L2", True)
+            for _ in range(5):
+                engine.step()
+
+        self.assertEqual(cached.event_log, uncached.event_log)
+        self.assertEqual(cached.packets, uncached.packets)
+        self.assertEqual(cached.completed_packet_ids, uncached.completed_packet_ids)
+        self.assertEqual(cached.pending_demands, uncached.pending_demands)
+        self.assertEqual(cached.conservation_summary(), uncached.conservation_summary())
+        self.assertEqual(
+            cached.cumulative_count_projection(),
+            uncached.cumulative_count_projection(),
+        )
+        self.assertEqual(
+            cached.node_transfer_traces(),
+            uncached.node_transfer_traces(),
+        )
+        self.assertTrue(cached.check_event_cache_consistency())
+        self.assertTrue(uncached.check_event_cache_consistency())
 
     def test_unsupported_loading_profile_is_rejected(self) -> None:
         with self.assertRaises(ValueError):

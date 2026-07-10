@@ -162,6 +162,7 @@ class LoadingEngine:
             tuple[str, int],
             tuple[str, ...],
         ] = {}
+        self._parity_base_sending_view_by_link_id: dict[str, LinkSendingView] = {}
         self._parity_receiving_capacity_rate_by_link_id = (
             self._normalise_parity_receiving_capacity_rates(
                 parity_receiving_capacity_vehicles_per_tick_by_link
@@ -932,6 +933,7 @@ class LoadingEngine:
 
         self.current_tick += 1
         self._parity_eligible_packet_ids_by_link_tick.clear()
+        self._parity_base_sending_view_by_link_id.clear()
         self._extend_cumulative_boundary_count_views_to_current_tick()
         self._reset_same_tick_receiving_acceptance_counts()
         self._prepare_parity_sending_capacity_for_tick()
@@ -1187,27 +1189,37 @@ class LoadingEngine:
     ) -> LinkSendingView:
         if already_consumed_count < 0:
             raise ValueError("already_consumed_count cannot be negative")
-        link = self.links[link_id]
-        capacity = bounded_integer_capacity_carry(
-            link_id=link_id,
-            capacity_vehicles_per_tick=(
-                self._parity_sending_capacity_rate_by_link_id[link_id]
-            ),
-            carry_in=self._parity_sending_capacity_carry_in_by_link_id[link_id],
-        )
-        lagged_entry_tick = self.current_tick - link.free_flow_ticks
-        lagged_entry_count = self._cumulative_link_entries(
-            link_id,
-            lagged_entry_tick,
-        )
-        current_exit_count = self._cumulative_link_exits(link_id, self.current_tick)
-        ltm_sending_demand = max(lagged_entry_count - current_exit_count, 0)
+        base_view = self._parity_base_sending_view_by_link_id.get(link_id)
+        if base_view is None:
+            link = self.links[link_id]
+            lagged_entry_tick = self.current_tick - link.free_flow_ticks
+            lagged_entry_count = self._cumulative_link_entries(
+                link_id,
+                lagged_entry_tick,
+            )
+            current_exit_count = self._cumulative_link_exits(link_id, self.current_tick)
+            ltm_sending_demand = max(lagged_entry_count - current_exit_count, 0)
+            integer_capacity = self._parity_sending_integer_capacity_by_link_id[link_id]
+            eligible_packet_ids = self._current_parity_eligible_packet_ids(link_id)
+            base_view = LinkSendingView(
+                link_id=link_id,
+                tick=self.current_tick,
+                eligible_packet_ids=eligible_packet_ids,
+                sending_capacity=integer_capacity,
+                sendable_packet_ids=eligible_packet_ids[
+                    : min(integer_capacity, ltm_sending_demand)
+                ],
+            )
+            self._parity_base_sending_view_by_link_id[link_id] = base_view
+
+        if not excluded_packet_ids and already_consumed_count == 0:
+            return base_view
+
         available_sending_slots = max(
-            min(capacity.integer_capacity, ltm_sending_demand)
-            - already_consumed_count,
+            len(base_view.sendable_packet_ids) - already_consumed_count,
             0,
         )
-        eligible_packet_ids = self._current_parity_eligible_packet_ids(link_id)
+        eligible_packet_ids = base_view.eligible_packet_ids
         if excluded_packet_ids:
             excluded_packet_id_set = set(excluded_packet_ids)
             eligible_packet_ids = tuple(
@@ -1219,7 +1231,7 @@ class LoadingEngine:
             link_id=link_id,
             tick=self.current_tick,
             eligible_packet_ids=eligible_packet_ids,
-            sending_capacity=capacity.integer_capacity,
+            sending_capacity=base_view.sending_capacity,
             sendable_packet_ids=eligible_packet_ids[:available_sending_slots],
         )
 
