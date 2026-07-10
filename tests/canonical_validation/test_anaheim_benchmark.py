@@ -18,9 +18,12 @@ from urban_cybernetics.canonical_validation.anaheim_readiness import (
 from urban_cybernetics.canonical_validation.sioux_falls_readiness import (
     REPLAY_PASSED_EXACT,
     SiouxFallsReplayPolicy,
+    _run_full_profile_engine,
 )
 from urban_cybernetics.config import ACADEMIC_LTM_PARITY_PROFILE_ID
 from urban_cybernetics.demand.anaheim import load_anaheim_demand_manifest
+from urban_cybernetics.demand.manifest import FixedDepartureSchedule
+from urban_cybernetics.demand.resolution import resolve_demand_routes
 from urban_cybernetics.topology.anaheim import FEET_TO_METRES, load_anaheim_topology
 from urban_cybernetics.validation import assess_physical_parameter_eligibility
 
@@ -162,3 +165,39 @@ def test_anaheim_scale_ladder_payload_is_json_ready() -> None:
     assert payload["rung_reports"][0]["requested_packet_count"] == 10
     assert payload["rung_reports"][0]["internal_validation_status"] == "passed"
     assert payload["rung_reports"][0]["setup_runtime_seconds"] > 0
+
+
+def test_small_anaheim_frontier_matches_exhaustive_events() -> None:
+    topology = load_anaheim_topology()
+    profile = build_anaheim_uc_default_physical_profile(topology=topology)
+    manifest = load_anaheim_demand_manifest(
+        topology=topology,
+        max_total_quantity_packets=50,
+        departure_schedule=FixedDepartureSchedule(departure_tick=0),
+    )
+    resolved = resolve_demand_routes(manifest, topology)
+    links = profile.as_loading_links(tick_duration_seconds=2.0)
+    nodes = topology.as_loading_nodes()
+    rates = profile.parity_capacity_rates_by_link(tick_duration_seconds=2.0)
+
+    frontier = _run_full_profile_engine(
+        links=links,
+        nodes=nodes,
+        resolved_manifest=resolved,
+        capacity_rates=rates,
+        tick_limit=2_000,
+        use_active_work_frontier=True,
+    )
+    exhaustive = _run_full_profile_engine(
+        links=links,
+        nodes=nodes,
+        resolved_manifest=resolved,
+        capacity_rates=rates,
+        tick_limit=2_000,
+        use_active_work_frontier=False,
+    )
+
+    assert frontier.event_log == exhaustive.event_log
+    assert dict(frontier.packets) == dict(exhaustive.packets)
+    assert frontier.conservation_summary() == exhaustive.conservation_summary()
+    assert frontier.cumulative_count_projection() == exhaustive.cumulative_count_projection()

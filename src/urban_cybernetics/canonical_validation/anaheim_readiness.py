@@ -232,6 +232,7 @@ def build_anaheim_assumption_profile_run_report(
     tick_limit: int = 20_000,
     tick_duration_seconds: float = 2.0,
     replay_policy: SiouxFallsReplayPolicy | None = None,
+    use_active_work_frontier: bool = True,
 ) -> SiouxFallsAssumptionProfileRunReport:
     """Run full Anaheim topology under the UC default physical profile."""
 
@@ -270,6 +271,7 @@ def build_anaheim_assumption_profile_run_report(
         resolved_manifest=resolved,
         capacity_rates=capacity_rates,
         tick_limit=tick_limit,
+        use_active_work_frontier=use_active_work_frontier,
     )
     primary_engine_runtime_seconds = perf_counter() - primary_started_at
 
@@ -450,6 +452,7 @@ def build_anaheim_assumption_profile_run_report(
         REPLAY_SKIPPED_AFTER_CERTIFICATION,
     )
     total_runtime_seconds = perf_counter() - total_started_at
+    frontier_metrics = engine.active_work_frontier_metrics
 
     return SiouxFallsAssumptionProfileRunReport(
         benchmark_id="anaheim_tntp_v1",
@@ -479,6 +482,10 @@ def build_anaheim_assumption_profile_run_report(
         replay_runtime_seconds=replay_runtime_seconds,
         total_runtime_seconds=total_runtime_seconds,
         setup_runtime_seconds=setup_runtime_seconds,
+        mean_upstream_work_links=float(frontier_metrics["mean_upstream_work_links"]),
+        mean_receiving_query_links=float(frontier_metrics["mean_receiving_query_links"]),
+        max_upstream_work_links=int(frontier_metrics["max_upstream_work_links"]),
+        max_receiving_query_links=int(frontier_metrics["max_receiving_query_links"]),
         run_completed=run_completed,
         packet_conservation_passed=conservation_passed,
         count_consistency_passed=count_report.is_consistent,
@@ -521,6 +528,7 @@ def build_anaheim_assumption_profile_scale_ladder_report(
     include_full_demand_run: bool = True,
     max_runtime_seconds_per_rung: float | None = None,
     replay_policy: SiouxFallsReplayPolicy | None = None,
+    use_active_work_frontier: bool = True,
 ) -> SiouxFallsAssumptionProfileScaleLadderReport:
     """Run a deterministic Anaheim assumption-profile scale ladder."""
 
@@ -555,6 +563,7 @@ def build_anaheim_assumption_profile_scale_ladder_report(
             max_runtime_seconds=max_runtime_seconds_per_rung,
             replay_policy=active_replay_policy,
             expected_requested_packet_count=packet_cap,
+            use_active_work_frontier=use_active_work_frontier,
         )
         rung_reports.append(rung_report)
         if rung_report.failure_reason is not None:
@@ -573,6 +582,7 @@ def build_anaheim_assumption_profile_scale_ladder_report(
             max_runtime_seconds=max_runtime_seconds_per_rung,
             replay_policy=active_replay_policy,
             expected_requested_packet_count=full_demand_requested_packet_count,
+            use_active_work_frontier=use_active_work_frontier,
         )
         rung_reports.append(full_rung_report)
         if full_rung_report.failure_reason is not None:
@@ -606,6 +616,7 @@ def _build_anaheim_scale_ladder_rung_report(
     max_runtime_seconds: float | None,
     replay_policy: SiouxFallsReplayPolicy,
     expected_requested_packet_count: int,
+    use_active_work_frontier: bool,
 ) -> SiouxFallsAssumptionProfileScaleRungReport:
     try:
         run_report = _time_limited_anaheim_assumption_profile_run_report(
@@ -615,6 +626,7 @@ def _build_anaheim_scale_ladder_rung_report(
             tick_duration_seconds=tick_duration_seconds,
             max_runtime_seconds=max_runtime_seconds,
             replay_policy=replay_policy,
+            use_active_work_frontier=use_active_work_frontier,
         )
     except MemoryError as exc:
         return _failed_rung(
@@ -666,6 +678,10 @@ def _build_anaheim_scale_ladder_rung_report(
         replay_runtime_seconds=run_report.replay_runtime_seconds,
         total_runtime_seconds=run_report.total_runtime_seconds,
         setup_runtime_seconds=run_report.setup_runtime_seconds,
+        mean_upstream_work_links=run_report.mean_upstream_work_links,
+        mean_receiving_query_links=run_report.mean_receiving_query_links,
+        max_upstream_work_links=run_report.max_upstream_work_links,
+        max_receiving_query_links=run_report.max_receiving_query_links,
         event_count=run_report.event_count,
         run_completed=run_report.run_completed,
         packet_conservation_passed=run_report.packet_conservation_passed,
@@ -693,6 +709,7 @@ def _time_limited_anaheim_assumption_profile_run_report(
     tick_duration_seconds: float,
     max_runtime_seconds: float | None,
     replay_policy: SiouxFallsReplayPolicy,
+    use_active_work_frontier: bool,
 ) -> SiouxFallsAssumptionProfileRunReport:
     if max_runtime_seconds is None:
         return build_anaheim_assumption_profile_run_report(
@@ -701,6 +718,7 @@ def _time_limited_anaheim_assumption_profile_run_report(
             tick_limit=tick_limit,
             tick_duration_seconds=tick_duration_seconds,
             replay_policy=replay_policy,
+            use_active_work_frontier=use_active_work_frontier,
         )
 
     def _handle_timeout(_signum: int, _frame: object) -> None:
@@ -718,6 +736,7 @@ def _time_limited_anaheim_assumption_profile_run_report(
             tick_limit=tick_limit,
             tick_duration_seconds=tick_duration_seconds,
             replay_policy=replay_policy,
+            use_active_work_frontier=use_active_work_frontier,
         )
     finally:
         signal.setitimer(signal.ITIMER_REAL, 0.0)

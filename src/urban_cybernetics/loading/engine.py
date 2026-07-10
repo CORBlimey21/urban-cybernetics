@@ -97,6 +97,7 @@ class LoadingEngine:
         | None = None,
         parity_receiving_capacity_vehicles_per_tick_by_link: Mapping[str, float]
         | None = None,
+        use_active_work_frontier: bool = True,
     ) -> None:
         if model_profile_id not in SUPPORTED_LOADING_PROFILE_IDS:
             raise ValueError(f"unsupported loading profile: {model_profile_id}")
@@ -104,6 +105,15 @@ class LoadingEngine:
         self._event_log: list[Event] = []
         self._packets: dict[str, Packet] = {}
         self.links = dict(links)
+        self._use_active_work_frontier = use_active_work_frontier
+        # Execution-only index derived from materialised packet position. The
+        # event log remains canonical; tests can retain exhaustive discovery.
+        self._occupied_link_ids: set[str] = set()
+        self._frontier_tick_count = 0
+        self._frontier_upstream_link_total = 0
+        self._frontier_receiving_link_total = 0
+        self._frontier_upstream_link_max = 0
+        self._frontier_receiving_link_max = 0
         node_tuple = nodes or ()
         self.nodes = {node.node_id: node for node in node_tuple}
         self.model_profile_id = model_profile_id
@@ -211,6 +221,26 @@ class LoadingEngine:
         """Current completed packet IDs from engine-owned materialised events."""
 
         return frozenset(self._completed_packet_ids)
+
+    @property
+    def active_work_frontier_metrics(self) -> Mapping[str, float | int]:
+        """Return execution-index density without making it physical truth."""
+
+        ticks = self._frontier_tick_count
+        return MappingProxyType(
+            {
+                "ticks": ticks,
+                "mean_upstream_work_links": (
+                    self._frontier_upstream_link_total / ticks if ticks else 0.0
+                ),
+                "mean_receiving_query_links": (
+                    self._frontier_receiving_link_total / ticks if ticks else 0.0
+                ),
+                "max_upstream_work_links": self._frontier_upstream_link_max,
+                "max_receiving_query_links": self._frontier_receiving_link_max,
+                "total_links": len(self.links),
+            }
+        )
 
     def node_transfer_traces(self) -> tuple[NodeTransferTrace, ...]:
         """Return read-only traces from the most recent movement allocation."""
@@ -760,6 +790,7 @@ class LoadingEngine:
             )
             self._current_link_storage_by_link_id[event.entity_id] += 1
             self._packet_ids_by_link_id[event.entity_id].append(event.packet_id)
+            self._occupied_link_ids.add(event.entity_id)
             self._packet_entry_ticks_by_link_id[event.entity_id].append(
                 event.physical_tick
             )
@@ -784,6 +815,8 @@ class LoadingEngine:
                     f"materialised storage is negative for {event.entity_id}"
                 )
             self._remove_packet_from_current_link(event.packet_id, event.entity_id)
+            if not self._packet_ids_by_link_id[event.entity_id]:
+                self._occupied_link_ids.discard(event.entity_id)
             self._current_link_ids.pop(event.packet_id, None)
             self._current_link_entry_ticks.pop(event.packet_id, None)
             self._current_link_entry_metadata_by_packet_id.pop(event.packet_id, None)
@@ -947,14 +980,23 @@ class LoadingEngine:
             for link_id, packet_ids in final_completion_packet_ids_by_link.items()
         }
 
-        receiving_slots = self._receiving_slots_by_link(
-            final_completion_counts_by_link=completed_counts_by_link,
-        )
         candidates = self._transfer_candidates(
             completed_counts_by_link,
-            receiving_slots,
             final_completion_packet_ids_by_link=final_completion_packet_ids_by_link,
         )
+        receiving_link_ids = {
+            candidate.downstream_link_id for candidate in candidates
+        }
+        receiving_slots = self._receiving_slots_by_link(
+            final_completion_counts_by_link=completed_counts_by_link,
+            link_ids=(receiving_link_ids if self._use_active_work_frontier else None),
+        )
+        if not self._use_active_work_frontier:
+            receiving_slots = {
+                link_id: receiving_slots[link_id]
+                for link_id in sorted(receiving_link_ids)
+            }
+        self._record_frontier_density(receiving_link_ids)
         approved_candidates = self._allocate_transfer_requests(
             transfer_requests=candidates,
             receiving_slots=receiving_slots,
@@ -1103,10 +1145,12 @@ class LoadingEngine:
         self,
         *,
         final_completion_counts_by_link: Mapping[str, int] | None = None,
+        link_ids: Iterable[str] | None = None,
     ) -> dict[str, int]:
         final_completion_counts_by_link = final_completion_counts_by_link or {}
         receiving_slots: dict[str, int] = {}
-        for link_id in self.links:
+        selected_link_ids = self.links if link_ids is None else sorted(set(link_ids))
+        for link_id in selected_link_ids:
             receiving_view = self._current_link_receiving_view(link_id)
             slots = receiving_view.available_receiving_slots
             final_completion_count = final_completion_counts_by_link.get(link_id, 0)
@@ -1469,13 +1513,32 @@ class LoadingEngine:
             return
         self._queue_packet(packet_id, upstream_link_id, downstream_link_id)
 
+    def _upstream_work_link_ids(self) -> tuple[str, ...]:
+        """Return deterministic links that can send, queue, or complete work."""
+
+        source = self._occupied_link_ids if self._use_active_work_frontier else self.links
+        return tuple(sorted(source))
+
+    def _record_frontier_density(self, receiving_link_ids: set[str]) -> None:
+        upstream_count = len(self._occupied_link_ids)
+        receiving_count = len(receiving_link_ids)
+        self._frontier_tick_count += 1
+        self._frontier_upstream_link_total += upstream_count
+        self._frontier_receiving_link_total += receiving_count
+        self._frontier_upstream_link_max = max(
+            self._frontier_upstream_link_max, upstream_count
+        )
+        self._frontier_receiving_link_max = max(
+            self._frontier_receiving_link_max, receiving_count
+        )
+
     def _final_completion_packet_ids_by_link(
         self,
         *,
         passable_transfer_packet_ids: frozenset[str] = frozenset(),
     ) -> dict[str, tuple[str, ...]]:
         completion_packet_ids_by_link: dict[str, tuple[str, ...]] = {}
-        for link_id in sorted(self.links):
+        for link_id in self._upstream_work_link_ids():
             sending_view = self._current_link_sending_view(link_id)
             packet_ids: list[str] = []
             for packet_id in sending_view.sendable_packet_ids:
@@ -1506,14 +1569,12 @@ class LoadingEngine:
     def _transfer_candidates(
         self,
         consumed_sending_slots_by_link: dict[str, int],
-        receiving_slots_by_link: dict[str, int],
         *,
         final_completion_packet_ids_by_link: Mapping[str, tuple[str, ...]] | None = None,
     ) -> tuple[TransferRequest, ...]:
-        del receiving_slots_by_link
         candidates: list[TransferRequest] = []
         final_completion_packet_ids_by_link = final_completion_packet_ids_by_link or {}
-        for upstream_link_id in sorted(self.links):
+        for upstream_link_id in self._upstream_work_link_ids():
             emitted_count_by_boundary: dict[str, int] = {}
             sending_view = self._current_link_sending_view(
                 upstream_link_id,
@@ -1590,7 +1651,7 @@ class LoadingEngine:
         queued_packet_ids = set(self._queued_downstream_by_packet_id)
         final_completion_packet_ids_by_link = final_completion_packet_ids_by_link or {}
         candidates: list[TransferRequest] = []
-        for upstream_link_id in sorted(self.links):
+        for upstream_link_id in self._upstream_work_link_ids():
             link = self.links[upstream_link_id]
             excluded_packet_ids = tuple(
                 sorted(
@@ -2212,6 +2273,16 @@ class LoadingEngine:
                 packet_ids_by_link_id[event.entity_id].append(event.packet_id)
             elif event.event_type == EventType.LINK_EXIT:
                 packet_ids_by_link_id[event.entity_id].remove(event.packet_id)
+
+        event_occupied_link_ids = {
+            link_id for link_id, packet_ids in packet_ids_by_link_id.items() if packet_ids
+        }
+        if self._occupied_link_ids != event_occupied_link_ids:
+            raise EventCacheConsistencyError(
+                "occupied-link frontier disagrees with canonical events: "
+                f"cache={sorted(self._occupied_link_ids)}, "
+                f"events={sorted(event_occupied_link_ids)}"
+            )
 
         for link_id in self.links:
             event_storage = len(packet_ids_by_link_id[link_id])

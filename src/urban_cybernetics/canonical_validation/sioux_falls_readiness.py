@@ -308,6 +308,10 @@ class SiouxFallsAssumptionProfileRunReport:
     failures: tuple[str, ...] = ()
     kernel_bug_found: bool = False
     setup_runtime_seconds: float = 0.0
+    mean_upstream_work_links: float = 0.0
+    mean_receiving_query_links: float = 0.0
+    max_upstream_work_links: int = 0
+    max_receiving_query_links: int = 0
 
     @property
     def failed_validation_categories(self) -> tuple[str, ...]:
@@ -361,6 +365,10 @@ class SiouxFallsAssumptionProfileScaleRungReport:
     warnings: tuple[str, ...] = ()
     failures: tuple[str, ...] = ()
     setup_runtime_seconds: float = 0.0
+    mean_upstream_work_links: float = 0.0
+    mean_receiving_query_links: float = 0.0
+    max_upstream_work_links: int = 0
+    max_receiving_query_links: int = 0
 
 
 @dataclass(frozen=True, slots=True)
@@ -846,6 +854,7 @@ def build_sioux_falls_assumption_profile_run_report(
         REPLAY_SKIPPED_AFTER_CERTIFICATION,
     )
     total_runtime_seconds = perf_counter() - total_started_at
+    frontier_metrics = engine.active_work_frontier_metrics
 
     return SiouxFallsAssumptionProfileRunReport(
         benchmark_id="sioux_falls_tntp_v1",
@@ -875,6 +884,10 @@ def build_sioux_falls_assumption_profile_run_report(
         replay_runtime_seconds=replay_runtime_seconds,
         total_runtime_seconds=total_runtime_seconds,
         setup_runtime_seconds=setup_runtime_seconds,
+        mean_upstream_work_links=float(frontier_metrics["mean_upstream_work_links"]),
+        mean_receiving_query_links=float(frontier_metrics["mean_receiving_query_links"]),
+        max_upstream_work_links=int(frontier_metrics["max_upstream_work_links"]),
+        max_receiving_query_links=int(frontier_metrics["max_receiving_query_links"]),
         run_completed=run_completed,
         packet_conservation_passed=conservation_passed,
         count_consistency_passed=count_report.is_consistent,
@@ -1200,6 +1213,7 @@ def _run_full_profile_engine(
     resolved_manifest: ResolvedDemandManifest,
     capacity_rates: dict[str, float],
     tick_limit: int,
+    use_active_work_frontier: bool = True,
 ) -> LoadingEngine:
     engine = LoadingEngine(
         links=links,
@@ -1207,6 +1221,7 @@ def _run_full_profile_engine(
         model_profile_id=ACADEMIC_LTM_PARITY_PROFILE_ID,
         parity_sending_capacity_vehicles_per_tick_by_link=capacity_rates,
         parity_receiving_capacity_vehicles_per_tick_by_link=capacity_rates,
+        use_active_work_frontier=use_active_work_frontier,
     )
     loader = ScheduledDemandLoader(resolved_manifest)
     loader.submit_due_departures(engine)
@@ -1344,6 +1359,10 @@ def _build_scale_ladder_rung_report(
         replay_runtime_seconds=run_report.replay_runtime_seconds,
         total_runtime_seconds=run_report.total_runtime_seconds,
         setup_runtime_seconds=run_report.setup_runtime_seconds,
+        mean_upstream_work_links=run_report.mean_upstream_work_links,
+        mean_receiving_query_links=run_report.mean_receiving_query_links,
+        max_upstream_work_links=run_report.max_upstream_work_links,
+        max_receiving_query_links=run_report.max_receiving_query_links,
         event_count=run_report.event_count,
         run_completed=run_report.run_completed,
         packet_conservation_passed=run_report.packet_conservation_passed,

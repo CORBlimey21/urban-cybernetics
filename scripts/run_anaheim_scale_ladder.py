@@ -83,6 +83,11 @@ def main() -> None:
         help="Do not append the canonical full-demand rung after bounded rungs.",
     )
     parser.add_argument(
+        "--exhaustive-link-scans",
+        action="store_true",
+        help="Use the reference all-link work-discovery path.",
+    )
+    parser.add_argument(
         "--determinism-certified-packet-count",
         type=int,
         default=10_000,
@@ -115,6 +120,7 @@ def main() -> None:
         tick_limit=args.tick_limit,
         tick_duration_seconds=args.tick_duration_seconds,
         include_full_demand_run=not args.skip_full_demand,
+        use_active_work_frontier=not args.exhaustive_link_scans,
         max_runtime_seconds_per_rung=runtime_guard,
         replay_policy=SiouxFallsReplayPolicy(
             exact_replay_packet_limit=args.exact_replay_packet_limit,
@@ -135,6 +141,7 @@ def main() -> None:
         ),
         "exact_replay_packet_limit": args.exact_replay_packet_limit,
         "include_full_demand_run": not args.skip_full_demand,
+        "use_active_work_frontier": not args.exhaustive_link_scans,
     }
     payload["readiness_report"] = readiness.status_payload()
     payload["physical_profile_summary"] = asdict(profile.summary())
