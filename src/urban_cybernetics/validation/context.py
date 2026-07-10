@@ -43,6 +43,14 @@ class ValidationContext:
         repr=False,
         compare=False,
     )
+    _packet_order_by_link_boundary: dict[
+        tuple[str, EventType], tuple[str, ...]
+    ] | None = field(
+        default=None,
+        init=False,
+        repr=False,
+        compare=False,
+    )
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "event_log", tuple(self.event_log))
@@ -132,8 +140,25 @@ class ValidationContext:
     ) -> tuple[str, ...]:
         """Return packet order for one link boundary event type."""
 
-        return tuple(
-            event.packet_id
-            for event in self.event_log
-            if event.event_type == event_type and event.entity_id == link_id
-        )
+        if self._packet_order_by_link_boundary is None:
+            packet_ids_by_boundary: dict[tuple[str, EventType], list[str]] = {}
+            for event in self.event_log:
+                if event.event_type not in {
+                    EventType.LINK_ENTRY,
+                    EventType.LINK_EXIT,
+                }:
+                    continue
+                packet_ids_by_boundary.setdefault(
+                    (event.entity_id, event.event_type),
+                    [],
+                ).append(event.packet_id)
+            object.__setattr__(
+                self,
+                "_packet_order_by_link_boundary",
+                {
+                    boundary: tuple(packet_ids)
+                    for boundary, packet_ids in packet_ids_by_boundary.items()
+                },
+            )
+        assert self._packet_order_by_link_boundary is not None
+        return self._packet_order_by_link_boundary.get((link_id, event_type), ())

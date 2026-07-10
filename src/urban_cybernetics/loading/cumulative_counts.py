@@ -684,7 +684,6 @@ def _route_cumulative_count_grid(
         return ()
 
     route_link_ids_by_key = _route_link_ids_by_key(packets)
-    route_keys = tuple(sorted(route_link_ids_by_key))
     increments_by_tick: dict[tuple[int, str, str], tuple[int, int]] = {}
     for event in events:
         if event.physical_tick > max_tick:
@@ -706,10 +705,14 @@ def _route_cumulative_count_grid(
 
     route_counts: list[RouteCumulativeBoundaryCounts] = []
     for link_id in link_ids:
-        for route_key in route_keys:
+        relevant_routes = (
+            (route_key, route_link_ids)
+            for route_key, route_link_ids in sorted(route_link_ids_by_key.items())
+            if link_id in route_link_ids
+        )
+        for route_key, route_link_ids in relevant_routes:
             entries = 0
             exits = 0
-            route_link_ids = route_link_ids_by_key[route_key]
             for tick in range(max_tick + 1):
                 entry_increment, exit_increment = increments_by_tick.get(
                     (tick, link_id, route_key),

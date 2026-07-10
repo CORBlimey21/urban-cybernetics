@@ -171,6 +171,12 @@ class LTMParityCountProjectionTest(unittest.TestCase):
         ]
         self.assertEqual(sum(counts.entries for counts in l1_route_counts), 2)
         self.assertEqual(sum(counts.exits for counts in l1_route_counts), 2)
+        self.assertFalse(
+            any(
+                counts.link_id == "L2" and counts.route_link_ids == ("L1", "L3")
+                for counts in projection.route_counts
+            )
+        )
         route_key_l2 = route_key_for_packet(engine.packets[packet_l2.packet_id])
         route_key_l3 = route_key_for_packet(engine.packets[packet_l3.packet_id])
         self.assertEqual(
