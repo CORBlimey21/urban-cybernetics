@@ -189,6 +189,7 @@ def test_assumption_profile_run_reports_requested_and_unresolved_packets() -> No
     assert report.instantiated_packet_count == 6
     assert report.completed_packet_count == 6
     assert report.unresolved_packet_count == 0
+    assert report.setup_runtime_seconds > 0
 
 
 def test_assumption_profile_scale_ladder_stops_after_first_failure() -> None:
@@ -221,6 +222,20 @@ def test_assumption_profile_scale_ladder_payload_is_json_ready() -> None:
     assert payload["rung_reports"][0]["validation_status"] == "passed"
     assert payload["rung_reports"][0]["replay_status"] == REPLAY_PASSED_EXACT
     assert not payload["full_demand_run_attempted"]
+    assert payload["rung_reports"][0]["setup_runtime_seconds"] > 0
+
+
+def test_full_demand_timeout_preserves_requested_packet_count() -> None:
+    report = build_sioux_falls_assumption_profile_scale_ladder_report(
+        bounded_packet_rungs=(),
+        include_full_demand_run=True,
+        max_runtime_seconds_per_rung=1e-9,
+    )
+
+    rung = report.rung_reports[0]
+    assert rung.rung_label == "full_demand"
+    assert rung.requested_packet_count == report.full_demand_requested_packet_count
+    assert rung.unresolved_packet_count == report.full_demand_requested_packet_count
 
 
 def test_assumption_profile_determinism_comparison_matches_small_case() -> None:

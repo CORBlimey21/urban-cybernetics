@@ -235,6 +235,8 @@ def build_anaheim_assumption_profile_run_report(
 ) -> SiouxFallsAssumptionProfileRunReport:
     """Run full Anaheim topology under the UC default physical profile."""
 
+    total_started_at = perf_counter()
+    setup_started_at = total_started_at
     topology = load_anaheim_topology()
     profile = physical_profile or build_anaheim_uc_default_physical_profile(
         topology=topology
@@ -260,7 +262,7 @@ def build_anaheim_assumption_profile_run_report(
     )
     junction_gate = _junction_metadata_gate(nodes)
 
-    total_started_at = perf_counter()
+    setup_runtime_seconds = perf_counter() - setup_started_at
     primary_started_at = perf_counter()
     engine = _run_full_profile_engine(
         links=links,
@@ -476,6 +478,7 @@ def build_anaheim_assumption_profile_run_report(
         validator_runtime_seconds=validator_runtime_seconds,
         replay_runtime_seconds=replay_runtime_seconds,
         total_runtime_seconds=total_runtime_seconds,
+        setup_runtime_seconds=setup_runtime_seconds,
         run_completed=run_completed,
         packet_conservation_passed=conservation_passed,
         count_consistency_passed=count_report.is_consistent,
@@ -551,6 +554,7 @@ def build_anaheim_assumption_profile_scale_ladder_report(
             tick_duration_seconds=tick_duration_seconds,
             max_runtime_seconds=max_runtime_seconds_per_rung,
             replay_policy=active_replay_policy,
+            expected_requested_packet_count=packet_cap,
         )
         rung_reports.append(rung_report)
         if rung_report.failure_reason is not None:
@@ -568,6 +572,7 @@ def build_anaheim_assumption_profile_scale_ladder_report(
             tick_duration_seconds=tick_duration_seconds,
             max_runtime_seconds=max_runtime_seconds_per_rung,
             replay_policy=active_replay_policy,
+            expected_requested_packet_count=full_demand_requested_packet_count,
         )
         rung_reports.append(full_rung_report)
         if full_rung_report.failure_reason is not None:
@@ -600,6 +605,7 @@ def _build_anaheim_scale_ladder_rung_report(
     tick_duration_seconds: float,
     max_runtime_seconds: float | None,
     replay_policy: SiouxFallsReplayPolicy,
+    expected_requested_packet_count: int,
 ) -> SiouxFallsAssumptionProfileScaleRungReport:
     try:
         run_report = _time_limited_anaheim_assumption_profile_run_report(
@@ -613,7 +619,7 @@ def _build_anaheim_scale_ladder_rung_report(
     except MemoryError as exc:
         return _failed_rung(
             rung_label=rung_label,
-            requested_packet_count=max_total_quantity_packets or 0,
+            requested_packet_count=expected_requested_packet_count,
             scale_status=SCALE_FAILED_MEMORY,
             replay_status=REPLAY_NOT_RUN,
             failure_reason=f"memory_error:{exc}",
@@ -621,7 +627,7 @@ def _build_anaheim_scale_ladder_rung_report(
     except ScaleLadderRuntimeLimitExceeded as exc:
         return _failed_rung(
             rung_label=rung_label,
-            requested_packet_count=max_total_quantity_packets or 0,
+            requested_packet_count=expected_requested_packet_count,
             scale_status=SCALE_FAILED_RUNTIME,
             replay_status=REPLAY_TIMEOUT,
             failure_reason=str(exc),
@@ -659,6 +665,7 @@ def _build_anaheim_scale_ladder_rung_report(
         validator_runtime_seconds=run_report.validator_runtime_seconds,
         replay_runtime_seconds=run_report.replay_runtime_seconds,
         total_runtime_seconds=run_report.total_runtime_seconds,
+        setup_runtime_seconds=run_report.setup_runtime_seconds,
         event_count=run_report.event_count,
         run_completed=run_report.run_completed,
         packet_conservation_passed=run_report.packet_conservation_passed,

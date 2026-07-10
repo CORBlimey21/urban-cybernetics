@@ -164,7 +164,9 @@ def _enrich_rung(rung: dict[str, Any]) -> dict[str, Any]:
     event_count = int(enriched["event_count"])
     completed = int(enriched["completed_packet_count"])
     enriched["canonical_events"] = event_count
-    enriched["setup_wall_clock_seconds"] = 0.0
+    enriched["setup_wall_clock_seconds"] = float(
+        enriched.get("setup_runtime_seconds", 0.0)
+    )
     enriched["primary_stepping_wall_clock_seconds"] = primary_seconds
     enriched["validation_wall_clock_seconds"] = (
         float(enriched["validation_projection_runtime_seconds"])

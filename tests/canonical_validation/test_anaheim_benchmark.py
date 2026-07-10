@@ -127,6 +127,7 @@ def test_small_anaheim_parity_smoke_run_passes_internal_validation() -> None:
     assert report.internal_validation_status == "passed"
     assert report.replay_status == REPLAY_PASSED_EXACT
     assert report.deterministic_replay_passed
+    assert report.setup_runtime_seconds > 0
     assert not report.failures
 
 
@@ -160,3 +161,4 @@ def test_anaheim_scale_ladder_payload_is_json_ready() -> None:
     assert payload["bounded_packet_rungs"] == (10,)
     assert payload["rung_reports"][0]["requested_packet_count"] == 10
     assert payload["rung_reports"][0]["internal_validation_status"] == "passed"
+    assert payload["rung_reports"][0]["setup_runtime_seconds"] > 0

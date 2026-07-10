@@ -56,6 +56,11 @@ def main() -> None:
     parser.add_argument("--output-markdown", type=Path, default=DEFAULT_MARKDOWN_OUTPUT)
     parser.add_argument("--packets", type=int, nargs="+", default=list(DEFAULT_BOUNDED_RUNGS))
     parser.add_argument(
+        "--skip-full-demand",
+        action="store_true",
+        help="Do not append the canonical full-demand rung after bounded rungs.",
+    )
+    parser.add_argument(
         "--determinism-certified-packet-count",
         type=int,
         default=None,
@@ -87,6 +92,7 @@ def main() -> None:
                 args.determinism_certified_packet_count
             ),
         ),
+        include_full_demand_run=not args.skip_full_demand,
     )
     payload: dict[str, Any] = report.status_payload()
     payload["artifact_generated_at_utc"] = datetime.now(UTC).isoformat()
@@ -98,6 +104,7 @@ def main() -> None:
             args.determinism_certified_packet_count
         ),
         "exact_replay_packet_limit": args.exact_replay_packet_limit,
+        "include_full_demand_run": not args.skip_full_demand,
     }
 
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
