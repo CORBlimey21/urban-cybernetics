@@ -64,3 +64,21 @@ Track shorthand:
 
 Real-world networks, calibration, dashboards, and authority/governance analytics
 are to come.
+
+V-track local evidence viewer
+
+The first browser-based simulation replay instrument lives in `web/` and reads
+persisted, versioned run evidence through a read-only FastAPI adapter. It does
+not own or mutate loading state.
+
+```bash
+.venv/bin/pip install -e '.[visualisation,dev]'
+cd web && npm install && npm run build && cd ..
+.venv/bin/uc-visualisation export-fixture
+.venv/bin/uc-visualisation serve
+```
+
+Open <http://127.0.0.1:8000>. For split development, run the API on port 8000
+and `npm run dev` from `web/`; Vite proxies `/api` locally. See
+`docs/visualisation/v_track_architecture_v1.md` for the ownership boundary and
+the other V1 documents in that directory for the contract and replay rules.
