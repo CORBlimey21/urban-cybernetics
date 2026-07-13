@@ -9,9 +9,11 @@ __pycache__/
 .coverage
 htmlcov/
 
+web/node_modules/
+web/dist/
+
 .venv/
 venv/
 
 outputs/
 *.graphml
-

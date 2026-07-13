@@ -1,0 +1,27 @@
+{
+  "semantic_status": [
+    "canonical_event_data",
+    "immutable_topology_metadata",
+    "engine_owned_materialised_state",
+    "event_derived_scientific_projection",
+    "validation_output",
+    "provenance_configuration_metadata",
+    "presentation_only_interpolation"
+  ],
+  "run_status": ["complete", "bounded", "timed_out", "partial"],
+  "packet_replay_status": [
+    "not_yet_observed",
+    "in_transit",
+    "queued",
+    "completed",
+    "cancelled"
+  ],
+  "field_availability": [
+    "available",
+    "unavailable_in_artifact",
+    "not_applicable",
+    "unknown",
+    "not_yet_observed",
+    "omitted_from_artifact"
+  ]
+}
