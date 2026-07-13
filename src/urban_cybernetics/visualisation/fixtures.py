@@ -26,7 +26,7 @@ SYNTHETIC_RUN_ID = "v1:synthetic-strict-fifo-diverge"
 def build_synthetic_fixture() -> VRunBundle:
     """Execute a sanctioned kernel run and detach its replay evidence."""
 
-    topology = _synthetic_topology()
+    topology = build_synthetic_topology()
     links = {
         link.link_id: Link(
             link_id=link.link_id,
@@ -114,7 +114,7 @@ def write_synthetic_fixture(path: Path) -> VRunBundle:
     return bundle
 
 
-def _synthetic_topology() -> CanonicalTopology:
+def build_synthetic_topology() -> CanonicalTopology:
     source_payload = b"uc-v1-strict-fifo-diverge-topology-v1"
     return CanonicalTopology(
         topology_id="topology:v1:strict-fifo-diverge",

@@ -60,13 +60,13 @@ def build_run_bundle(
     if validation_status not in {"not_run", "passed", "failed"}:
         raise ValueError("unsupported validation_status")
     events = tuple(context.event_log)
-    packets = _packet_records(
+    packets = packet_records(
         context.packets,
         topology,
         packet_metadata_by_demand_id or {},
     )
     configuration_hash = _json_hash(config_snapshot)
-    topology_contract = _topology_record(topology)
+    topology_contract = topology_record(topology)
     replay_states = build_replay_states(
         events=events,
         packets=packets,
@@ -83,7 +83,7 @@ def build_run_bundle(
     resolved_positions = (
         dict(node_positions)
         if node_positions is not None
-        else _deterministic_positions(topology)
+        else deterministic_positions(topology)
     )
     if set(resolved_positions) != {node.node_id for node in topology.nodes}:
         raise ValueError("presentation positions must cover each topology node exactly")
@@ -198,7 +198,7 @@ def load_run_bundle(path: Path) -> VRunBundle:
     return VRunBundle.model_validate_json(path.read_text(encoding="utf-8"))
 
 
-def _packet_records(
+def packet_records(
     packets: Mapping[str, Packet],
     topology: CanonicalTopology,
     metadata_by_demand_id: Mapping[str, PacketDiagnosticMetadata],
@@ -253,7 +253,7 @@ def _packet_records(
     return tuple(records)
 
 
-def _topology_record(topology: CanonicalTopology) -> VTopology:
+def topology_record(topology: CanonicalTopology) -> VTopology:
     movements: list[VMovement] = []
     nodes: list[VNode] = []
     for node in sorted(topology.nodes, key=lambda item: item.node_id):
@@ -357,7 +357,7 @@ def _cumulative_series(context: ValidationContext) -> tuple[VCumulativeLinkSerie
     return tuple(series)
 
 
-def _deterministic_positions(topology: CanonicalTopology) -> dict[str, tuple[float, float]]:
+def deterministic_positions(topology: CanonicalTopology) -> dict[str, tuple[float, float]]:
     import math
 
     ordered = sorted(node.node_id for node in topology.nodes)

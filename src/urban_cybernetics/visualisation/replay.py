@@ -124,6 +124,110 @@ def build_replay_states(
     return tuple(states)
 
 
+def resume_replay_from_checkpoint(
+    *,
+    checkpoint: VReplayState,
+    events: Iterable[Event],
+    packets: Sequence[VPacket],
+    link_ids: Iterable[str],
+    target_tick: int,
+) -> VReplayState:
+    """Reconstruct exactly from a sealed state plus subsequent canonical events."""
+
+    if target_tick < checkpoint.tick:
+        raise ValueError("target_tick precedes checkpoint")
+    event_tuple = tuple(events)
+    expected_sequence = (
+        0
+        if checkpoint.applied_through_sequence is None
+        else checkpoint.applied_through_sequence + 1
+    )
+    previous_tick = checkpoint.tick
+    for offset, event in enumerate(event_tuple):
+        if event.sequence_number != expected_sequence + offset:
+            raise ReplayIntegrityError("checkpoint continuation is not contiguous")
+        if event.physical_tick < previous_tick:
+            raise ReplayIntegrityError("checkpoint continuation tick moved backwards")
+        if event.physical_tick > target_tick:
+            raise ReplayIntegrityError("continuation event exceeds target_tick")
+        previous_tick = event.physical_tick
+
+    packet_ids = tuple(packet.packet_id for packet in packets)
+    checkpoint_packet_ids = tuple(packet.packet_id for packet in checkpoint.packets)
+    if not set(checkpoint_packet_ids).issubset(packet_ids):
+        raise ReplayIntegrityError("checkpoint references absent packet metadata")
+    ordered_link_ids = tuple(sorted(link_ids))
+    if ordered_link_ids != tuple(link.link_id for link in checkpoint.links):
+        raise ReplayIntegrityError("checkpoint topology links do not match")
+
+    status = {packet.packet_id: packet.status for packet in checkpoint.packets}
+    current_link = {
+        packet.packet_id: packet.current_link_id for packet in checkpoint.packets
+    }
+    queue_boundary = {
+        packet.packet_id: packet.queue_boundary_id for packet in checkpoint.packets
+    }
+    realised_path = {
+        packet.packet_id: list(packet.realised_path) for packet in checkpoint.packets
+    }
+    last_sequence = {
+        packet.packet_id: packet.last_event_sequence for packet in checkpoint.packets
+    }
+    for packet_id in set(packet_ids) - set(checkpoint_packet_ids):
+        status[packet_id] = PacketReplayStatus.NOT_YET_OBSERVED
+        current_link[packet_id] = None
+        queue_boundary[packet_id] = None
+        realised_path[packet_id] = []
+        last_sequence[packet_id] = None
+    packet_ids_by_link = {
+        link.link_id: list(link.packet_ids) for link in checkpoint.links
+    }
+    queues = {
+        queue.boundary_id: deque(queue.packet_ids) for queue in checkpoint.queues
+    }
+    cumulative_entries = Counter(
+        {link.link_id: link.cumulative_entries for link in checkpoint.links}
+    )
+    cumulative_exits = Counter(
+        {link.link_id: link.cumulative_exits for link in checkpoint.links}
+    )
+    known_link_ids = set(ordered_link_ids)
+    known_packet_ids = set(packet_ids)
+    applied_sequence = checkpoint.applied_through_sequence
+    for event in event_tuple:
+        if event.packet_id not in known_packet_ids:
+            raise ReplayIntegrityError(f"event references unknown packet {event.packet_id}")
+        _apply_event(
+            event,
+            known_link_ids=known_link_ids,
+            status=status,
+            current_link=current_link,
+            queue_boundary=queue_boundary,
+            realised_path=realised_path,
+            packet_ids_by_link=packet_ids_by_link,
+            queues=queues,
+            cumulative_entries=cumulative_entries,
+            cumulative_exits=cumulative_exits,
+        )
+        last_sequence[event.packet_id] = event.sequence_number
+        applied_sequence = event.sequence_number
+    return _snapshot(
+        tick=target_tick,
+        applied_through_sequence=applied_sequence,
+        packet_ids=packet_ids,
+        ordered_link_ids=ordered_link_ids,
+        status=status,
+        current_link=current_link,
+        queue_boundary=queue_boundary,
+        realised_path=realised_path,
+        last_sequence=last_sequence,
+        packet_ids_by_link=packet_ids_by_link,
+        queues=queues,
+        cumulative_entries=cumulative_entries,
+        cumulative_exits=cumulative_exits,
+    )
+
+
 def _validate_event_order(events: tuple[Event, ...]) -> None:
     previous_tick = -1
     for expected_sequence, event in enumerate(events):
