@@ -1,0 +1,1702 @@
+{
+  "schema_version": "uc.visualisation.run.v1",
+  "run": {
+    "run_id": "v1:synthetic-strict-fifo-diverge",
+    "scenario_name": "Strict-FIFO diverge inspection fixture",
+    "status": "complete",
+    "status_reason": "All instantiated packets reached canonical COMPLETED events.",
+    "topology_id": "topology:v1:strict-fifo-diverge",
+    "topology_hash": "bbca46f1d355c56e855fa6c863daed39574a36349b5bd9044cb37b3128075b3c",
+    "configuration_id": "v1.synthetic.strict_fifo_diverge.config.v1",
+    "configuration_hash": "e3cc9d34b87bf399fa8c80a4c16256fc202bd2b959f55ef0f14fbd9dd7c191d1",
+    "model_profile_id": "legacy_packet_ltm_style",
+    "tick_duration_seconds": 1.0,
+    "simulation_time_basis": "integer_physical_tick",
+    "start_tick": 0,
+    "end_tick": 7,
+    "event_count": 26,
+    "packet_count": 3,
+    "created_at": null
+  },
+  "provenance": {
+    "descriptor": {
+      "semantic_status": "provenance_configuration_metadata",
+      "source": "run metadata, immutable configuration, and topology source metadata",
+      "units": null,
+      "time_basis": null,
+      "counting_basis": null,
+      "boundary_direction": null,
+      "aggregation_window_ticks": null
+    },
+    "code_version": null,
+    "input_artifact_ids": [
+      "topology:v1:strict-fifo-diverge"
+    ],
+    "source_name": "UC V1 deterministic synthetic fixture",
+    "source_format": "declared_in_python",
+    "source_file_sha256": "fbdbcbad52beab00b900bb4ccb68a8caf8f2c28e24f98b4ca8689ef015ffd241",
+    "interpretation_assumptions": [
+      "Diagram coordinates are presentation-only and non-geographic.",
+      "One packet is one conserved loading unit.",
+      "Static physical metadata is illustrative fixture metadata, not empirical calibration."
+    ],
+    "config_snapshot": {
+      "model_kernel_profile_id": "legacy_packet_ltm_style",
+      "tick_duration_seconds": 1.0,
+      "fixture": "strict FIFO diverge with a temporarily closed receiving link",
+      "receiving_gate_schedule": {
+        "L1": {
+          "closed_ticks": [
+            0,
+            1,
+            2
+          ],
+          "opened_before_tick": 3
+        }
+      },
+      "declared_packet_capacity_basis": "one unit packet per tick"
+    }
+  },
+  "topology": {
+    "descriptor": {
+      "semantic_status": "immutable_topology_metadata",
+      "source": "canonical topology artifact",
+      "units": "SI static link metadata where declared",
+      "time_basis": null,
+      "counting_basis": null,
+      "boundary_direction": null,
+      "aggregation_window_ticks": null
+    },
+    "topology_id": "topology:v1:strict-fifo-diverge",
+    "topology_hash": "bbca46f1d355c56e855fa6c863daed39574a36349b5bd9044cb37b3128075b3c",
+    "nodes": [
+      {
+        "node_id": "N0",
+        "source_node_id": "synthetic:origin",
+        "incoming_link_ids": [],
+        "outgoing_link_ids": [
+          "L0"
+        ],
+        "movement_ids": [],
+        "fifo_policy": "strict"
+      },
+      {
+        "node_id": "N1",
+        "source_node_id": "synthetic:diverge",
+        "incoming_link_ids": [
+          "L0"
+        ],
+        "outgoing_link_ids": [
+          "L1",
+          "L2"
+        ],
+        "movement_ids": [
+          "movement:L0->L1",
+          "movement:L0->L2"
+        ],
+        "fifo_policy": "strict"
+      },
+      {
+        "node_id": "N2",
+        "source_node_id": "synthetic:north",
+        "incoming_link_ids": [
+          "L1"
+        ],
+        "outgoing_link_ids": [
+          "L3"
+        ],
+        "movement_ids": [
+          "movement:L1->L3"
+        ],
+        "fifo_policy": "strict"
+      },
+      {
+        "node_id": "N3",
+        "source_node_id": "synthetic:south",
+        "incoming_link_ids": [
+          "L2"
+        ],
+        "outgoing_link_ids": [
+          "L4"
+        ],
+        "movement_ids": [
+          "movement:L2->L4"
+        ],
+        "fifo_policy": "strict"
+      },
+      {
+        "node_id": "N4",
+        "source_node_id": "synthetic:destination",
+        "incoming_link_ids": [
+          "L3",
+          "L4"
+        ],
+        "outgoing_link_ids": [],
+        "movement_ids": [],
+        "fifo_policy": "strict"
+      }
+    ],
+    "links": [
+      {
+        "link_id": "L0",
+        "tail_node_id": "N0",
+        "head_node_id": "N1",
+        "source_link_id": "synthetic:L0",
+        "length_m": 10.0,
+        "lane_count": 1,
+        "free_flow_speed_mps": 10.0,
+        "capacity_veh_per_hour_per_lane": 1200.0,
+        "jam_density_veh_per_km_per_lane": 100.0,
+        "backward_wave_speed_mps": 5.0,
+        "field_availability": {
+          "length_m": "available",
+          "lane_count": "available",
+          "free_flow_speed_mps": "available",
+          "capacity_veh_per_hour_per_lane": "available",
+          "jam_density_veh_per_km_per_lane": "available",
+          "backward_wave_speed_mps": "available"
+        }
+      },
+      {
+        "link_id": "L1",
+        "tail_node_id": "N1",
+        "head_node_id": "N2",
+        "source_link_id": "synthetic:L1",
+        "length_m": 10.0,
+        "lane_count": 1,
+        "free_flow_speed_mps": 10.0,
+        "capacity_veh_per_hour_per_lane": 1200.0,
+        "jam_density_veh_per_km_per_lane": 100.0,
+        "backward_wave_speed_mps": 5.0,
+        "field_availability": {
+          "length_m": "available",
+          "lane_count": "available",
+          "free_flow_speed_mps": "available",
+          "capacity_veh_per_hour_per_lane": "available",
+          "jam_density_veh_per_km_per_lane": "available",
+          "backward_wave_speed_mps": "available"
+        }
+      },
+      {
+        "link_id": "L2",
+        "tail_node_id": "N1",
+        "head_node_id": "N3",
+        "source_link_id": "synthetic:L2",
+        "length_m": 10.0,
+        "lane_count": 1,
+        "free_flow_speed_mps": 10.0,
+        "capacity_veh_per_hour_per_lane": 1200.0,
+        "jam_density_veh_per_km_per_lane": 100.0,
+        "backward_wave_speed_mps": 5.0,
+        "field_availability": {
+          "length_m": "available",
+          "lane_count": "available",
+          "free_flow_speed_mps": "available",
+          "capacity_veh_per_hour_per_lane": "available",
+          "jam_density_veh_per_km_per_lane": "available",
+          "backward_wave_speed_mps": "available"
+        }
+      },
+      {
+        "link_id": "L3",
+        "tail_node_id": "N2",
+        "head_node_id": "N4",
+        "source_link_id": "synthetic:L3",
+        "length_m": 10.0,
+        "lane_count": 1,
+        "free_flow_speed_mps": 10.0,
+        "capacity_veh_per_hour_per_lane": 1200.0,
+        "jam_density_veh_per_km_per_lane": 100.0,
+        "backward_wave_speed_mps": 5.0,
+        "field_availability": {
+          "length_m": "available",
+          "lane_count": "available",
+          "free_flow_speed_mps": "available",
+          "capacity_veh_per_hour_per_lane": "available",
+          "jam_density_veh_per_km_per_lane": "available",
+          "backward_wave_speed_mps": "available"
+        }
+      },
+      {
+        "link_id": "L4",
+        "tail_node_id": "N3",
+        "head_node_id": "N4",
+        "source_link_id": "synthetic:L4",
+        "length_m": 10.0,
+        "lane_count": 1,
+        "free_flow_speed_mps": 10.0,
+        "capacity_veh_per_hour_per_lane": 1200.0,
+        "jam_density_veh_per_km_per_lane": 100.0,
+        "backward_wave_speed_mps": 5.0,
+        "field_availability": {
+          "length_m": "available",
+          "lane_count": "available",
+          "free_flow_speed_mps": "available",
+          "capacity_veh_per_hour_per_lane": "available",
+          "jam_density_veh_per_km_per_lane": "available",
+          "backward_wave_speed_mps": "available"
+        }
+      }
+    ],
+    "movements": [
+      {
+        "movement_id": "movement:L0->L1",
+        "node_id": "N1",
+        "upstream_link_id": "L0",
+        "downstream_link_id": "L1",
+        "priority_weight": 1,
+        "lane_group_ids": [],
+        "conflict_resource_ids": [],
+        "signal_group_id": null
+      },
+      {
+        "movement_id": "movement:L0->L2",
+        "node_id": "N1",
+        "upstream_link_id": "L0",
+        "downstream_link_id": "L2",
+        "priority_weight": 1,
+        "lane_group_ids": [],
+        "conflict_resource_ids": [],
+        "signal_group_id": null
+      },
+      {
+        "movement_id": "movement:L1->L3",
+        "node_id": "N2",
+        "upstream_link_id": "L1",
+        "downstream_link_id": "L3",
+        "priority_weight": 1,
+        "lane_group_ids": [],
+        "conflict_resource_ids": [],
+        "signal_group_id": null
+      },
+      {
+        "movement_id": "movement:L2->L4",
+        "node_id": "N3",
+        "upstream_link_id": "L2",
+        "downstream_link_id": "L4",
+        "priority_weight": 1,
+        "lane_group_ids": [],
+        "conflict_resource_ids": [],
+        "signal_group_id": null
+      }
+    ]
+  },
+  "packets_descriptor": {
+    "semantic_status": "provenance_configuration_metadata",
+    "source": "immutable packet metadata snapshot and declared route intent",
+    "units": "unit packets",
+    "time_basis": null,
+    "counting_basis": "one conserved packet identity per record",
+    "boundary_direction": null,
+    "aggregation_window_ticks": null
+  },
+  "packets": [
+    {
+      "packet_id": "P1",
+      "demand_id": "D-north",
+      "origin_node_id": "N0",
+      "destination_node_id": "N4",
+      "route_id": null,
+      "route_intent": [
+        "L0",
+        "L1",
+        "L3"
+      ],
+      "cohort_id": null,
+      "authority_id": null,
+      "packet_unit_weight": 1,
+      "field_availability": {
+        "origin_node_id": "available",
+        "destination_node_id": "available",
+        "route_id": "unavailable_in_artifact",
+        "cohort_id": "unavailable_in_artifact",
+        "authority_id": "unavailable_in_artifact"
+      }
+    },
+    {
+      "packet_id": "P2",
+      "demand_id": "D-south",
+      "origin_node_id": "N0",
+      "destination_node_id": "N4",
+      "route_id": null,
+      "route_intent": [
+        "L0",
+        "L2",
+        "L4"
+      ],
+      "cohort_id": null,
+      "authority_id": null,
+      "packet_unit_weight": 1,
+      "field_availability": {
+        "origin_node_id": "available",
+        "destination_node_id": "available",
+        "route_id": "unavailable_in_artifact",
+        "cohort_id": "unavailable_in_artifact",
+        "authority_id": "unavailable_in_artifact"
+      }
+    },
+    {
+      "packet_id": "P3",
+      "demand_id": "D-follow",
+      "origin_node_id": "N0",
+      "destination_node_id": "N4",
+      "route_id": null,
+      "route_intent": [
+        "L0",
+        "L1",
+        "L3"
+      ],
+      "cohort_id": null,
+      "authority_id": null,
+      "packet_unit_weight": 1,
+      "field_availability": {
+        "origin_node_id": "available",
+        "destination_node_id": "available",
+        "route_id": "unavailable_in_artifact",
+        "cohort_id": "unavailable_in_artifact",
+        "authority_id": "unavailable_in_artifact"
+      }
+    }
+  ],
+  "event_stream": {
+    "descriptor": {
+      "semantic_status": "canonical_event_data",
+      "source": "append-only loading-engine event history",
+      "units": "unit packet lifecycle events",
+      "time_basis": "integer physical tick",
+      "counting_basis": "canonical sequence number",
+      "boundary_direction": null,
+      "aggregation_window_ticks": null
+    },
+    "events": [
+      {
+        "sequence_number": 0,
+        "packet_id": "P1",
+        "event_type": "instantiated",
+        "entity_id": "L0",
+        "physical_tick": 0
+      },
+      {
+        "sequence_number": 1,
+        "packet_id": "P1",
+        "event_type": "link_entry",
+        "entity_id": "L0",
+        "physical_tick": 0
+      },
+      {
+        "sequence_number": 2,
+        "packet_id": "P2",
+        "event_type": "instantiated",
+        "entity_id": "L0",
+        "physical_tick": 0
+      },
+      {
+        "sequence_number": 3,
+        "packet_id": "P2",
+        "event_type": "link_entry",
+        "entity_id": "L0",
+        "physical_tick": 0
+      },
+      {
+        "sequence_number": 4,
+        "packet_id": "P3",
+        "event_type": "instantiated",
+        "entity_id": "L0",
+        "physical_tick": 1
+      },
+      {
+        "sequence_number": 5,
+        "packet_id": "P3",
+        "event_type": "link_entry",
+        "entity_id": "L0",
+        "physical_tick": 1
+      },
+      {
+        "sequence_number": 6,
+        "packet_id": "P1",
+        "event_type": "queue_entry",
+        "entity_id": "boundary:L0->L1",
+        "physical_tick": 1
+      },
+      {
+        "sequence_number": 7,
+        "packet_id": "P1",
+        "event_type": "queue_exit",
+        "entity_id": "boundary:L0->L1",
+        "physical_tick": 3
+      },
+      {
+        "sequence_number": 8,
+        "packet_id": "P1",
+        "event_type": "link_exit",
+        "entity_id": "L0",
+        "physical_tick": 3
+      },
+      {
+        "sequence_number": 9,
+        "packet_id": "P1",
+        "event_type": "link_entry",
+        "entity_id": "L1",
+        "physical_tick": 3
+      },
+      {
+        "sequence_number": 10,
+        "packet_id": "P2",
+        "event_type": "link_exit",
+        "entity_id": "L0",
+        "physical_tick": 4
+      },
+      {
+        "sequence_number": 11,
+        "packet_id": "P2",
+        "event_type": "link_entry",
+        "entity_id": "L2",
+        "physical_tick": 4
+      },
+      {
+        "sequence_number": 12,
+        "packet_id": "P1",
+        "event_type": "link_exit",
+        "entity_id": "L1",
+        "physical_tick": 4
+      },
+      {
+        "sequence_number": 13,
+        "packet_id": "P1",
+        "event_type": "link_entry",
+        "entity_id": "L3",
+        "physical_tick": 4
+      },
+      {
+        "sequence_number": 14,
+        "packet_id": "P3",
+        "event_type": "link_exit",
+        "entity_id": "L0",
+        "physical_tick": 5
+      },
+      {
+        "sequence_number": 15,
+        "packet_id": "P3",
+        "event_type": "link_entry",
+        "entity_id": "L1",
+        "physical_tick": 5
+      },
+      {
+        "sequence_number": 16,
+        "packet_id": "P2",
+        "event_type": "link_exit",
+        "entity_id": "L2",
+        "physical_tick": 5
+      },
+      {
+        "sequence_number": 17,
+        "packet_id": "P2",
+        "event_type": "link_entry",
+        "entity_id": "L4",
+        "physical_tick": 5
+      },
+      {
+        "sequence_number": 18,
+        "packet_id": "P1",
+        "event_type": "link_exit",
+        "entity_id": "L3",
+        "physical_tick": 5
+      },
+      {
+        "sequence_number": 19,
+        "packet_id": "P1",
+        "event_type": "completed",
+        "entity_id": "L3",
+        "physical_tick": 5
+      },
+      {
+        "sequence_number": 20,
+        "packet_id": "P3",
+        "event_type": "link_exit",
+        "entity_id": "L1",
+        "physical_tick": 6
+      },
+      {
+        "sequence_number": 21,
+        "packet_id": "P3",
+        "event_type": "link_entry",
+        "entity_id": "L3",
+        "physical_tick": 6
+      },
+      {
+        "sequence_number": 22,
+        "packet_id": "P2",
+        "event_type": "link_exit",
+        "entity_id": "L4",
+        "physical_tick": 6
+      },
+      {
+        "sequence_number": 23,
+        "packet_id": "P2",
+        "event_type": "completed",
+        "entity_id": "L4",
+        "physical_tick": 6
+      },
+      {
+        "sequence_number": 24,
+        "packet_id": "P3",
+        "event_type": "link_exit",
+        "entity_id": "L3",
+        "physical_tick": 7
+      },
+      {
+        "sequence_number": 25,
+        "packet_id": "P3",
+        "event_type": "completed",
+        "entity_id": "L3",
+        "physical_tick": 7
+      }
+    ]
+  },
+  "replay_states": [
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "deterministic Python fold over canonical event sequence",
+        "units": "packets",
+        "time_basis": "inclusive integer physical tick; state after all same-tick events",
+        "counting_basis": "unit packet identity",
+        "boundary_direction": null,
+        "aggregation_window_ticks": null
+      },
+      "tick": 0,
+      "applied_through_sequence": 3,
+      "packets": [
+        {
+          "packet_id": "P1",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 1
+        },
+        {
+          "packet_id": "P2",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 3
+        },
+        {
+          "packet_id": "P3",
+          "status": "not_yet_observed",
+          "current_link_id": null,
+          "queue_boundary_id": null,
+          "realised_path": [],
+          "last_event_sequence": null
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L0",
+          "packet_ids": [
+            "P1",
+            "P2"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 2,
+          "cumulative_entries": 2,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L1",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L2",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L3",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L4",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        }
+      ],
+      "queues": [],
+      "counts": {
+        "not_yet_observed": 1,
+        "in_transit": 2,
+        "queued": 0,
+        "completed": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "deterministic Python fold over canonical event sequence",
+        "units": "packets",
+        "time_basis": "inclusive integer physical tick; state after all same-tick events",
+        "counting_basis": "unit packet identity",
+        "boundary_direction": null,
+        "aggregation_window_ticks": null
+      },
+      "tick": 1,
+      "applied_through_sequence": 6,
+      "packets": [
+        {
+          "packet_id": "P1",
+          "status": "queued",
+          "current_link_id": "L0",
+          "queue_boundary_id": "boundary:L0->L1",
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 6
+        },
+        {
+          "packet_id": "P2",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 3
+        },
+        {
+          "packet_id": "P3",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 5
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L0",
+          "packet_ids": [
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "queued_packet_ids": [
+            "P1"
+          ],
+          "occupancy_packets": 3,
+          "cumulative_entries": 3,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L1",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L2",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L3",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L4",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        }
+      ],
+      "queues": [
+        {
+          "boundary_id": "boundary:L0->L1",
+          "packet_ids": [
+            "P1"
+          ]
+        }
+      ],
+      "counts": {
+        "not_yet_observed": 0,
+        "in_transit": 2,
+        "queued": 1,
+        "completed": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "deterministic Python fold over canonical event sequence",
+        "units": "packets",
+        "time_basis": "inclusive integer physical tick; state after all same-tick events",
+        "counting_basis": "unit packet identity",
+        "boundary_direction": null,
+        "aggregation_window_ticks": null
+      },
+      "tick": 2,
+      "applied_through_sequence": 6,
+      "packets": [
+        {
+          "packet_id": "P1",
+          "status": "queued",
+          "current_link_id": "L0",
+          "queue_boundary_id": "boundary:L0->L1",
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 6
+        },
+        {
+          "packet_id": "P2",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 3
+        },
+        {
+          "packet_id": "P3",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 5
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L0",
+          "packet_ids": [
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "queued_packet_ids": [
+            "P1"
+          ],
+          "occupancy_packets": 3,
+          "cumulative_entries": 3,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L1",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L2",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L3",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L4",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        }
+      ],
+      "queues": [
+        {
+          "boundary_id": "boundary:L0->L1",
+          "packet_ids": [
+            "P1"
+          ]
+        }
+      ],
+      "counts": {
+        "not_yet_observed": 0,
+        "in_transit": 2,
+        "queued": 1,
+        "completed": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "deterministic Python fold over canonical event sequence",
+        "units": "packets",
+        "time_basis": "inclusive integer physical tick; state after all same-tick events",
+        "counting_basis": "unit packet identity",
+        "boundary_direction": null,
+        "aggregation_window_ticks": null
+      },
+      "tick": 3,
+      "applied_through_sequence": 9,
+      "packets": [
+        {
+          "packet_id": "P1",
+          "status": "in_transit",
+          "current_link_id": "L1",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L1"
+          ],
+          "last_event_sequence": 9
+        },
+        {
+          "packet_id": "P2",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 3
+        },
+        {
+          "packet_id": "P3",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 5
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L0",
+          "packet_ids": [
+            "P2",
+            "P3"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 2,
+          "cumulative_entries": 3,
+          "cumulative_exits": 1
+        },
+        {
+          "link_id": "L1",
+          "packet_ids": [
+            "P1"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 1,
+          "cumulative_entries": 1,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L2",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L3",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L4",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        }
+      ],
+      "queues": [],
+      "counts": {
+        "not_yet_observed": 0,
+        "in_transit": 3,
+        "queued": 0,
+        "completed": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "deterministic Python fold over canonical event sequence",
+        "units": "packets",
+        "time_basis": "inclusive integer physical tick; state after all same-tick events",
+        "counting_basis": "unit packet identity",
+        "boundary_direction": null,
+        "aggregation_window_ticks": null
+      },
+      "tick": 4,
+      "applied_through_sequence": 13,
+      "packets": [
+        {
+          "packet_id": "P1",
+          "status": "in_transit",
+          "current_link_id": "L3",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L1",
+            "L3"
+          ],
+          "last_event_sequence": 13
+        },
+        {
+          "packet_id": "P2",
+          "status": "in_transit",
+          "current_link_id": "L2",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L2"
+          ],
+          "last_event_sequence": 11
+        },
+        {
+          "packet_id": "P3",
+          "status": "in_transit",
+          "current_link_id": "L0",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0"
+          ],
+          "last_event_sequence": 5
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L0",
+          "packet_ids": [
+            "P3"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 1,
+          "cumulative_entries": 3,
+          "cumulative_exits": 2
+        },
+        {
+          "link_id": "L1",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 1,
+          "cumulative_exits": 1
+        },
+        {
+          "link_id": "L2",
+          "packet_ids": [
+            "P2"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 1,
+          "cumulative_entries": 1,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L3",
+          "packet_ids": [
+            "P1"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 1,
+          "cumulative_entries": 1,
+          "cumulative_exits": 0
+        },
+        {
+          "link_id": "L4",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 0,
+          "cumulative_exits": 0
+        }
+      ],
+      "queues": [],
+      "counts": {
+        "not_yet_observed": 0,
+        "in_transit": 3,
+        "queued": 0,
+        "completed": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "deterministic Python fold over canonical event sequence",
+        "units": "packets",
+        "time_basis": "inclusive integer physical tick; state after all same-tick events",
+        "counting_basis": "unit packet identity",
+        "boundary_direction": null,
+        "aggregation_window_ticks": null
+      },
+      "tick": 5,
+      "applied_through_sequence": 19,
+      "packets": [
+        {
+          "packet_id": "P1",
+          "status": "completed",
+          "current_link_id": null,
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L1",
+            "L3"
+          ],
+          "last_event_sequence": 19
+        },
+        {
+          "packet_id": "P2",
+          "status": "in_transit",
+          "current_link_id": "L4",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L2",
+            "L4"
+          ],
+          "last_event_sequence": 17
+        },
+        {
+          "packet_id": "P3",
+          "status": "in_transit",
+          "current_link_id": "L1",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L1"
+          ],
+          "last_event_sequence": 15
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L0",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 3,
+          "cumulative_exits": 3
+        },
+        {
+          "link_id": "L1",
+          "packet_ids": [
+            "P3"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 1,
+          "cumulative_entries": 2,
+          "cumulative_exits": 1
+        },
+        {
+          "link_id": "L2",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 1,
+          "cumulative_exits": 1
+        },
+        {
+          "link_id": "L3",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 1,
+          "cumulative_exits": 1
+        },
+        {
+          "link_id": "L4",
+          "packet_ids": [
+            "P2"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 1,
+          "cumulative_entries": 1,
+          "cumulative_exits": 0
+        }
+      ],
+      "queues": [],
+      "counts": {
+        "not_yet_observed": 0,
+        "in_transit": 2,
+        "queued": 0,
+        "completed": 1,
+        "cancelled": 0
+      }
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "deterministic Python fold over canonical event sequence",
+        "units": "packets",
+        "time_basis": "inclusive integer physical tick; state after all same-tick events",
+        "counting_basis": "unit packet identity",
+        "boundary_direction": null,
+        "aggregation_window_ticks": null
+      },
+      "tick": 6,
+      "applied_through_sequence": 23,
+      "packets": [
+        {
+          "packet_id": "P1",
+          "status": "completed",
+          "current_link_id": null,
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L1",
+            "L3"
+          ],
+          "last_event_sequence": 19
+        },
+        {
+          "packet_id": "P2",
+          "status": "completed",
+          "current_link_id": null,
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L2",
+            "L4"
+          ],
+          "last_event_sequence": 23
+        },
+        {
+          "packet_id": "P3",
+          "status": "in_transit",
+          "current_link_id": "L3",
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L1",
+            "L3"
+          ],
+          "last_event_sequence": 21
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L0",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 3,
+          "cumulative_exits": 3
+        },
+        {
+          "link_id": "L1",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 2,
+          "cumulative_exits": 2
+        },
+        {
+          "link_id": "L2",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 1,
+          "cumulative_exits": 1
+        },
+        {
+          "link_id": "L3",
+          "packet_ids": [
+            "P3"
+          ],
+          "queued_packet_ids": [],
+          "occupancy_packets": 1,
+          "cumulative_entries": 2,
+          "cumulative_exits": 1
+        },
+        {
+          "link_id": "L4",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 1,
+          "cumulative_exits": 1
+        }
+      ],
+      "queues": [],
+      "counts": {
+        "not_yet_observed": 0,
+        "in_transit": 1,
+        "queued": 0,
+        "completed": 2,
+        "cancelled": 0
+      }
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "deterministic Python fold over canonical event sequence",
+        "units": "packets",
+        "time_basis": "inclusive integer physical tick; state after all same-tick events",
+        "counting_basis": "unit packet identity",
+        "boundary_direction": null,
+        "aggregation_window_ticks": null
+      },
+      "tick": 7,
+      "applied_through_sequence": 25,
+      "packets": [
+        {
+          "packet_id": "P1",
+          "status": "completed",
+          "current_link_id": null,
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L1",
+            "L3"
+          ],
+          "last_event_sequence": 19
+        },
+        {
+          "packet_id": "P2",
+          "status": "completed",
+          "current_link_id": null,
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L2",
+            "L4"
+          ],
+          "last_event_sequence": 23
+        },
+        {
+          "packet_id": "P3",
+          "status": "completed",
+          "current_link_id": null,
+          "queue_boundary_id": null,
+          "realised_path": [
+            "L0",
+            "L1",
+            "L3"
+          ],
+          "last_event_sequence": 25
+        }
+      ],
+      "links": [
+        {
+          "link_id": "L0",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 3,
+          "cumulative_exits": 3
+        },
+        {
+          "link_id": "L1",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 2,
+          "cumulative_exits": 2
+        },
+        {
+          "link_id": "L2",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 1,
+          "cumulative_exits": 1
+        },
+        {
+          "link_id": "L3",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 2,
+          "cumulative_exits": 2
+        },
+        {
+          "link_id": "L4",
+          "packet_ids": [],
+          "queued_packet_ids": [],
+          "occupancy_packets": 0,
+          "cumulative_entries": 1,
+          "cumulative_exits": 1
+        }
+      ],
+      "queues": [],
+      "counts": {
+        "not_yet_observed": 0,
+        "in_transit": 0,
+        "queued": 0,
+        "completed": 3,
+        "cancelled": 0
+      }
+    }
+  ],
+  "cumulative_link_series": [
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "Python cumulative_count_projection over canonical boundary events",
+        "units": "unit packets",
+        "time_basis": "inclusive_physical_tick",
+        "counting_basis": "cumulative canonical LINK_ENTRY and LINK_EXIT events",
+        "boundary_direction": "entries at upstream link boundary; exits at downstream link boundary",
+        "aggregation_window_ticks": 1
+      },
+      "link_id": "L0",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cumulative_entries": [
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "cumulative_exits": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        3,
+        3,
+        3
+      ],
+      "storage_packets": [
+        2,
+        3,
+        3,
+        2,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "Python cumulative_count_projection over canonical boundary events",
+        "units": "unit packets",
+        "time_basis": "inclusive_physical_tick",
+        "counting_basis": "cumulative canonical LINK_ENTRY and LINK_EXIT events",
+        "boundary_direction": "entries at upstream link boundary; exits at downstream link boundary",
+        "aggregation_window_ticks": 1
+      },
+      "link_id": "L1",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cumulative_entries": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        2
+      ],
+      "cumulative_exits": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "storage_packets": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "Python cumulative_count_projection over canonical boundary events",
+        "units": "unit packets",
+        "time_basis": "inclusive_physical_tick",
+        "counting_basis": "cumulative canonical LINK_ENTRY and LINK_EXIT events",
+        "boundary_direction": "entries at upstream link boundary; exits at downstream link boundary",
+        "aggregation_window_ticks": 1
+      },
+      "link_id": "L2",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cumulative_entries": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      "cumulative_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ],
+      "storage_packets": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "Python cumulative_count_projection over canonical boundary events",
+        "units": "unit packets",
+        "time_basis": "inclusive_physical_tick",
+        "counting_basis": "cumulative canonical LINK_ENTRY and LINK_EXIT events",
+        "boundary_direction": "entries at upstream link boundary; exits at downstream link boundary",
+        "aggregation_window_ticks": 1
+      },
+      "link_id": "L3",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cumulative_entries": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "cumulative_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2
+      ],
+      "storage_packets": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "descriptor": {
+        "semantic_status": "event_derived_scientific_projection",
+        "source": "Python cumulative_count_projection over canonical boundary events",
+        "units": "unit packets",
+        "time_basis": "inclusive_physical_tick",
+        "counting_basis": "cumulative canonical LINK_ENTRY and LINK_EXIT events",
+        "boundary_direction": "entries at upstream link boundary; exits at downstream link boundary",
+        "aggregation_window_ticks": 1
+      },
+      "link_id": "L4",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cumulative_entries": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ],
+      "cumulative_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "storage_packets": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "validation": {
+    "descriptor": {
+      "semantic_status": "validation_output",
+      "source": "Python validation layer",
+      "units": null,
+      "time_basis": null,
+      "counting_basis": null,
+      "boundary_direction": null,
+      "aggregation_window_ticks": null
+    },
+    "overall_status": "passed",
+    "checks": {
+      "canonical_count_consistency": "passed"
+    },
+    "notes": [
+      "Engine event/materialised-state cache consistency passed.",
+      "Packet conservation passed.",
+      "Python cumulative-count consistency passed.",
+      "This legacy-compatible fixture demonstrates viewer integrity, not parity calibration."
+    ]
+  },
+  "presentation": {
+    "descriptor": {
+      "semantic_status": "presentation_only_interpolation",
+      "source": "viewer layout adapter",
+      "units": "normalised canvas coordinates",
+      "time_basis": null,
+      "counting_basis": null,
+      "boundary_direction": null,
+      "aggregation_window_ticks": null
+    },
+    "layout_kind": "synthetic_declared",
+    "layout_note": "Declared diagram coordinates; not geographic or physical geometry.",
+    "node_positions": {
+      "N0": [
+        0.08,
+        0.5
+      ],
+      "N1": [
+        0.31,
+        0.5
+      ],
+      "N2": [
+        0.57,
+        0.23
+      ],
+      "N3": [
+        0.57,
+        0.77
+      ],
+      "N4": [
+        0.9,
+        0.5
+      ]
+    },
+    "interpolation_note": "Animated markers are presentation-only interpolation. They are never stored as packet positions or used in scientific calculations."
+  }
+}

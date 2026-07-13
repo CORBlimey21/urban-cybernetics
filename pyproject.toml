@@ -23,8 +23,17 @@ geo = [
     "shapely>=2.0",
 ]
 dev = [
+    "httpx>=0.27",
     "pytest>=8.0",
 ]
+visualisation = [
+    "fastapi>=0.115",
+    "pydantic>=2.9",
+    "uvicorn[standard]>=0.30",
+]
+
+[project.scripts]
+uc-visualisation = "urban_cybernetics.visualisation.cli:main"
 
 [build-system]
 requires = ["setuptools>=61"]
