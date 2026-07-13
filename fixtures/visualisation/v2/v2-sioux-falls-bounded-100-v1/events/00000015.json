@@ -1,0 +1,110 @@
+{
+  "chunk_index": 15,
+  "content_sha256": "363e39554195e79ab06eb26f1051818b1b4b34c4a8374cd71d269f4c9f7125e1",
+  "end_sequence": 759,
+  "end_tick": 18,
+  "events": [
+    {
+      "entity_id": "L0020",
+      "event_type": "link_exit",
+      "packet_id": "P13",
+      "physical_tick": 18,
+      "sequence_number": 746
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "completed",
+      "packet_id": "P13",
+      "physical_tick": 18,
+      "sequence_number": 747
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "link_exit",
+      "packet_id": "P14",
+      "physical_tick": 18,
+      "sequence_number": 748
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "completed",
+      "packet_id": "P14",
+      "physical_tick": 18,
+      "sequence_number": 749
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "link_exit",
+      "packet_id": "P15",
+      "physical_tick": 18,
+      "sequence_number": 750
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "completed",
+      "packet_id": "P15",
+      "physical_tick": 18,
+      "sequence_number": 751
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "link_exit",
+      "packet_id": "P16",
+      "physical_tick": 18,
+      "sequence_number": 752
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "completed",
+      "packet_id": "P16",
+      "physical_tick": 18,
+      "sequence_number": 753
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "link_exit",
+      "packet_id": "P17",
+      "physical_tick": 18,
+      "sequence_number": 754
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "completed",
+      "packet_id": "P17",
+      "physical_tick": 18,
+      "sequence_number": 755
+    },
+    {
+      "entity_id": "L0039",
+      "event_type": "link_exit",
+      "packet_id": "P80",
+      "physical_tick": 18,
+      "sequence_number": 756
+    },
+    {
+      "entity_id": "L0075",
+      "event_type": "link_entry",
+      "packet_id": "P80",
+      "physical_tick": 18,
+      "sequence_number": 757
+    },
+    {
+      "entity_id": "L0039",
+      "event_type": "link_exit",
+      "packet_id": "P88",
+      "physical_tick": 18,
+      "sequence_number": 758
+    },
+    {
+      "entity_id": "L0039",
+      "event_type": "completed",
+      "packet_id": "P88",
+      "physical_tick": 18,
+      "sequence_number": 759
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.event-chunk.v1",
+  "start_sequence": 746,
+  "start_tick": 18
+}

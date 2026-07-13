@@ -1,0 +1,558 @@
+{
+  "chunk_index": 10,
+  "content_sha256": "de6e7c96ef1135be9d69020e16d73cf4bbb2d8d9c0e75233c24c5fbb58722113",
+  "end_sequence": 599,
+  "end_tick": 13,
+  "events": [
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P13",
+      "physical_tick": 13,
+      "sequence_number": 522
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P13",
+      "physical_tick": 13,
+      "sequence_number": 523
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P14",
+      "physical_tick": 13,
+      "sequence_number": 524
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P14",
+      "physical_tick": 13,
+      "sequence_number": 525
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P15",
+      "physical_tick": 13,
+      "sequence_number": 526
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P15",
+      "physical_tick": 13,
+      "sequence_number": 527
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P16",
+      "physical_tick": 13,
+      "sequence_number": 528
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P16",
+      "physical_tick": 13,
+      "sequence_number": 529
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P17",
+      "physical_tick": 13,
+      "sequence_number": 530
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P17",
+      "physical_tick": 13,
+      "sequence_number": 531
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P18",
+      "physical_tick": 13,
+      "sequence_number": 532
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P18",
+      "physical_tick": 13,
+      "sequence_number": 533
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P19",
+      "physical_tick": 13,
+      "sequence_number": 534
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P19",
+      "physical_tick": 13,
+      "sequence_number": 535
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P20",
+      "physical_tick": 13,
+      "sequence_number": 536
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P20",
+      "physical_tick": 13,
+      "sequence_number": 537
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P21",
+      "physical_tick": 13,
+      "sequence_number": 538
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P21",
+      "physical_tick": 13,
+      "sequence_number": 539
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P22",
+      "physical_tick": 13,
+      "sequence_number": 540
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P22",
+      "physical_tick": 13,
+      "sequence_number": 541
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P23",
+      "physical_tick": 13,
+      "sequence_number": 542
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P23",
+      "physical_tick": 13,
+      "sequence_number": 543
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P24",
+      "physical_tick": 13,
+      "sequence_number": 544
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P24",
+      "physical_tick": 13,
+      "sequence_number": 545
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P25",
+      "physical_tick": 13,
+      "sequence_number": 546
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P25",
+      "physical_tick": 13,
+      "sequence_number": 547
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P26",
+      "physical_tick": 13,
+      "sequence_number": 548
+    },
+    {
+      "entity_id": "L0015",
+      "event_type": "link_entry",
+      "packet_id": "P26",
+      "physical_tick": 13,
+      "sequence_number": 549
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P27",
+      "physical_tick": 13,
+      "sequence_number": 550
+    },
+    {
+      "entity_id": "L0015",
+      "event_type": "link_entry",
+      "packet_id": "P27",
+      "physical_tick": 13,
+      "sequence_number": 551
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P28",
+      "physical_tick": 13,
+      "sequence_number": 552
+    },
+    {
+      "entity_id": "L0015",
+      "event_type": "link_entry",
+      "packet_id": "P28",
+      "physical_tick": 13,
+      "sequence_number": 553
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P29",
+      "physical_tick": 13,
+      "sequence_number": 554
+    },
+    {
+      "entity_id": "L0015",
+      "event_type": "link_entry",
+      "packet_id": "P29",
+      "physical_tick": 13,
+      "sequence_number": 555
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P30",
+      "physical_tick": 13,
+      "sequence_number": 556
+    },
+    {
+      "entity_id": "L0015",
+      "event_type": "link_entry",
+      "packet_id": "P30",
+      "physical_tick": 13,
+      "sequence_number": 557
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P64",
+      "physical_tick": 13,
+      "sequence_number": 558
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P64",
+      "physical_tick": 13,
+      "sequence_number": 559
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P65",
+      "physical_tick": 13,
+      "sequence_number": 560
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P65",
+      "physical_tick": 13,
+      "sequence_number": 561
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P66",
+      "physical_tick": 13,
+      "sequence_number": 562
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P66",
+      "physical_tick": 13,
+      "sequence_number": 563
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P67",
+      "physical_tick": 13,
+      "sequence_number": 564
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P67",
+      "physical_tick": 13,
+      "sequence_number": 565
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P68",
+      "physical_tick": 13,
+      "sequence_number": 566
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P68",
+      "physical_tick": 13,
+      "sequence_number": 567
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P69",
+      "physical_tick": 13,
+      "sequence_number": 568
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P69",
+      "physical_tick": 13,
+      "sequence_number": 569
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P70",
+      "physical_tick": 13,
+      "sequence_number": 570
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P70",
+      "physical_tick": 13,
+      "sequence_number": 571
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P71",
+      "physical_tick": 13,
+      "sequence_number": 572
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P71",
+      "physical_tick": 13,
+      "sequence_number": 573
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P72",
+      "physical_tick": 13,
+      "sequence_number": 574
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P72",
+      "physical_tick": 13,
+      "sequence_number": 575
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P73",
+      "physical_tick": 13,
+      "sequence_number": 576
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P73",
+      "physical_tick": 13,
+      "sequence_number": 577
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P74",
+      "physical_tick": 13,
+      "sequence_number": 578
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P74",
+      "physical_tick": 13,
+      "sequence_number": 579
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P75",
+      "physical_tick": 13,
+      "sequence_number": 580
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P75",
+      "physical_tick": 13,
+      "sequence_number": 581
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P76",
+      "physical_tick": 13,
+      "sequence_number": 582
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P76",
+      "physical_tick": 13,
+      "sequence_number": 583
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P77",
+      "physical_tick": 13,
+      "sequence_number": 584
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P77",
+      "physical_tick": 13,
+      "sequence_number": 585
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P78",
+      "physical_tick": 13,
+      "sequence_number": 586
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P78",
+      "physical_tick": 13,
+      "sequence_number": 587
+    },
+    {
+      "entity_id": "L0004",
+      "event_type": "link_exit",
+      "packet_id": "P79",
+      "physical_tick": 13,
+      "sequence_number": 588
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_entry",
+      "packet_id": "P79",
+      "physical_tick": 13,
+      "sequence_number": 589
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "link_exit",
+      "packet_id": "P51",
+      "physical_tick": 13,
+      "sequence_number": 590
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "completed",
+      "packet_id": "P51",
+      "physical_tick": 13,
+      "sequence_number": 591
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "link_exit",
+      "packet_id": "P52",
+      "physical_tick": 13,
+      "sequence_number": 592
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "completed",
+      "packet_id": "P52",
+      "physical_tick": 13,
+      "sequence_number": 593
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "link_exit",
+      "packet_id": "P53",
+      "physical_tick": 13,
+      "sequence_number": 594
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "completed",
+      "packet_id": "P53",
+      "physical_tick": 13,
+      "sequence_number": 595
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "link_exit",
+      "packet_id": "P54",
+      "physical_tick": 13,
+      "sequence_number": 596
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "completed",
+      "packet_id": "P54",
+      "physical_tick": 13,
+      "sequence_number": 597
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "link_exit",
+      "packet_id": "P55",
+      "physical_tick": 13,
+      "sequence_number": 598
+    },
+    {
+      "entity_id": "L0037",
+      "event_type": "completed",
+      "packet_id": "P55",
+      "physical_tick": 13,
+      "sequence_number": 599
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.event-chunk.v1",
+  "start_sequence": 522,
+  "start_tick": 13
+}

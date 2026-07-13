@@ -1,0 +1,42 @@
+{
+  "code_commit": "d137f5ab62e69d7a25a388fac38f4bb050567aef",
+  "created_at": "2026-07-13T19:35:39.517857Z",
+  "request": {
+    "completion_policy_id": "all_instantiated_packets_terminal_v1",
+    "demand_source_id": "sioux_falls_canonical_od_v1",
+    "note": "Complete V2 acceptance artifact over the non-geographic TNTP topology diagram.",
+    "packet_selection_policy_id": "canonical_prefix_v1",
+    "persistence_policy_id": "retain_all_evidence_v1",
+    "physical_profile_id": "SiouxFallsPhysicalProfile_UC_Default_v1",
+    "replay_policy_id": "exact_if_complete_v1",
+    "requested_packet_count": 100,
+    "requested_tick_duration_seconds": null,
+    "run_label": "Bounded Sioux Falls · 100 packets",
+    "runtime_limit_seconds": 60.0,
+    "schema_version": "uc.visualisation.control.v2",
+    "seed": 0,
+    "stop_policy_id": "bounded_tick_or_wall_time_v1",
+    "tick_limit": 600,
+    "tick_policy_id": "sioux_profile_default_v1",
+    "topology_id": "sioux_falls_tntp_v1",
+    "validation_policy_id": "core_integrity_v1"
+  },
+  "resolution_records": [
+    {
+      "field": "tick_duration_seconds",
+      "requested": null,
+      "resolved": 60.0,
+      "rule": "exact declared policy default; no rounding"
+    }
+  ],
+  "resolved_demand_hash": "a13ccc4be150c23818916184febfc492802a5078a76dbb66d102079bbbbb523f",
+  "resolved_profile_hash": "5c29ec863dface7d4a8bcbe3798c93665d4edc5f67fbf222a23d3761ad6449de",
+  "resolved_tick_duration_seconds": 60.0,
+  "resolved_topology_hash": "0531866e3d3594f0e67bd10877acc8d1e38266a6d059dbb4d04b096b3f362b5b",
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.control.v2",
+  "seed_registry": {
+    "demand_selection": 0,
+    "engine": 0
+  }
+}

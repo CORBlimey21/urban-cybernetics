@@ -1,0 +1,82 @@
+{
+  "chunk_index": 23,
+  "content_sha256": "f98b19b6261baf01d83ebdb520687c119dd67254303301593c20c5057655f3bd",
+  "end_sequence": 909,
+  "end_tick": 28,
+  "events": [
+    {
+      "entity_id": "L0028",
+      "event_type": "link_exit",
+      "packet_id": "P59",
+      "physical_tick": 28,
+      "sequence_number": 900
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "completed",
+      "packet_id": "P59",
+      "physical_tick": 28,
+      "sequence_number": 901
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "link_exit",
+      "packet_id": "P60",
+      "physical_tick": 28,
+      "sequence_number": 902
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "completed",
+      "packet_id": "P60",
+      "physical_tick": 28,
+      "sequence_number": 903
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "link_exit",
+      "packet_id": "P61",
+      "physical_tick": 28,
+      "sequence_number": 904
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "completed",
+      "packet_id": "P61",
+      "physical_tick": 28,
+      "sequence_number": 905
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "link_exit",
+      "packet_id": "P62",
+      "physical_tick": 28,
+      "sequence_number": 906
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "completed",
+      "packet_id": "P62",
+      "physical_tick": 28,
+      "sequence_number": 907
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "link_exit",
+      "packet_id": "P63",
+      "physical_tick": 28,
+      "sequence_number": 908
+    },
+    {
+      "entity_id": "L0028",
+      "event_type": "completed",
+      "packet_id": "P63",
+      "physical_tick": 28,
+      "sequence_number": 909
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.event-chunk.v1",
+  "start_sequence": 900,
+  "start_tick": 28
+}

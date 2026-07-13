@@ -1,0 +1,19 @@
+{
+  "checks": {
+    "canonical_count_consistency": "passed"
+  },
+  "descriptor": {
+    "aggregation_window_ticks": null,
+    "boundary_direction": null,
+    "counting_basis": null,
+    "semantic_status": "validation_output",
+    "source": "Python validation layer",
+    "time_basis": null,
+    "units": null
+  },
+  "notes": [
+    "Core Python conservation, event-cache, and cumulative-count checks executed.",
+    "deterministic_replay=passed_exact_replay"
+  ],
+  "overall_status": "passed"
+}

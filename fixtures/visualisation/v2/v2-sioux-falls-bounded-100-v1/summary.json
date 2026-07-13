@@ -1,0 +1,32 @@
+{
+  "assumption_warnings": [
+    "Physical profile is assumption-based and not empirically calibrated.",
+    "TNTP diagram coordinates must not be interpreted as geography."
+  ],
+  "configuration_hash": "0348e053c15e274e6449e9268f2339e2eb312e64ef6d2d212163c78c1ae5494c",
+  "contract_version": "uc.visualisation.evidence.v2",
+  "counts": {
+    "cancelled": 0,
+    "completed": 100,
+    "instantiated": 100,
+    "requested": 100,
+    "unresolved": 0
+  },
+  "created_at": "2026-07-13T19:35:39.517857Z",
+  "demand_hash": "a13ccc4be150c23818916184febfc492802a5078a76dbb66d102079bbbbb523f",
+  "demand_source_id": "sioux_falls_canonical_od_v1",
+  "description": "Complete V2 acceptance artifact over the non-geographic TNTP topology diagram.",
+  "event_count": 926,
+  "final_tick": 32,
+  "physical_profile_id": "SiouxFallsPhysicalProfile_UC_Default_v1",
+  "profile_hash": "5c29ec863dface7d4a8bcbe3798c93665d4edc5f67fbf222a23d3761ad6449de",
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "seed": 0,
+  "status": "complete",
+  "stop_reason": "All requested packets reached canonical terminal events.",
+  "title": "Bounded Sioux Falls · 100 packets",
+  "topology_hash": "0531866e3d3594f0e67bd10877acc8d1e38266a6d059dbb4d04b096b3f362b5b",
+  "topology_id": "sioux_falls_tntp_v1",
+  "updated_at": "2026-07-13T19:35:39.714042Z",
+  "validation_status": "passed"
+}

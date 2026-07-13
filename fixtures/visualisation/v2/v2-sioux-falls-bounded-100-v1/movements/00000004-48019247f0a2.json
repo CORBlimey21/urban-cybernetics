@@ -1,0 +1,336 @@
+{
+  "allocator_id": "uc_movement_allocator_stage2_v1",
+  "junction_id": "N003",
+  "movement_spec_hash": "4488d9911dc23c32e6f48372ddfa09524462eba7771df505522131a1cf69bf61",
+  "movements": [
+    {
+      "approved_packet_ids": [],
+      "conflict_resource_constraints": {},
+      "downstream_link_id": "L0006",
+      "governance_state": "open",
+      "lane_group_constraints": {},
+      "movement_capacity_packets": null,
+      "movement_id": "movement:L0002->L0006",
+      "receiving_supply_packets": 285,
+      "rejected_packet_reasons": [
+        [
+          "P3",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P4",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P5",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P6",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P7",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P31",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P32",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P33",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P34",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P35",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P36",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P37",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P38",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P39",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P40",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P41",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P42",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P43",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P44",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P45",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P46",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P47",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P48",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P56",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P57",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P58",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P59",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P60",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P61",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P62",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P63",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P81",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P82",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P83",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P84",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P85",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P86",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P87",
+          "upstream_fifo_blocked"
+        ]
+      ],
+      "request_packet_ids": [
+        "P3",
+        "P4",
+        "P5",
+        "P6",
+        "P7",
+        "P31",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38",
+        "P39",
+        "P40",
+        "P41",
+        "P42",
+        "P43",
+        "P44",
+        "P45",
+        "P46",
+        "P47",
+        "P48",
+        "P56",
+        "P57",
+        "P58",
+        "P59",
+        "P60",
+        "P61",
+        "P62",
+        "P63",
+        "P81",
+        "P82",
+        "P83",
+        "P84",
+        "P85",
+        "P86",
+        "P87"
+      ],
+      "resulting_canonical_event_sequences": [],
+      "signal_state": "not_declared",
+      "upstream_fifo_packet_ids": [
+        "P3",
+        "P4",
+        "P5",
+        "P6",
+        "P7",
+        "P31",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38",
+        "P39",
+        "P40",
+        "P41",
+        "P42",
+        "P43",
+        "P44",
+        "P45",
+        "P46",
+        "P47",
+        "P48",
+        "P56",
+        "P57",
+        "P58",
+        "P59",
+        "P60",
+        "P61",
+        "P62",
+        "P63",
+        "P81",
+        "P82",
+        "P83",
+        "P84",
+        "P85",
+        "P86",
+        "P87"
+      ],
+      "upstream_link_id": "L0002"
+    },
+    {
+      "approved_packet_ids": [],
+      "conflict_resource_constraints": {},
+      "downstream_link_id": "L0007",
+      "governance_state": "open",
+      "lane_group_constraints": {},
+      "movement_capacity_packets": null,
+      "movement_id": "movement:L0002->L0007",
+      "receiving_supply_packets": 390,
+      "rejected_packet_reasons": [
+        [
+          "P49",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P50",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P51",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P52",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P53",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P54",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P55",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P80",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P88",
+          "upstream_fifo_blocked"
+        ]
+      ],
+      "request_packet_ids": [
+        "P49",
+        "P50",
+        "P51",
+        "P52",
+        "P53",
+        "P54",
+        "P55",
+        "P80",
+        "P88"
+      ],
+      "resulting_canonical_event_sequences": [],
+      "signal_state": "not_declared",
+      "upstream_fifo_packet_ids": [
+        "P49",
+        "P50",
+        "P51",
+        "P52",
+        "P53",
+        "P54",
+        "P55",
+        "P80",
+        "P88"
+      ],
+      "upstream_link_id": "L0002"
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.movement-trace.v1",
+  "semantic_sources": {
+    "approvals": "engine_owned_materialised_trace",
+    "movement_spec": "immutable_topology_metadata",
+    "requests": "engine_owned_materialised_trace",
+    "resulting_events": "canonical_event_data"
+  },
+  "tick": 4
+}

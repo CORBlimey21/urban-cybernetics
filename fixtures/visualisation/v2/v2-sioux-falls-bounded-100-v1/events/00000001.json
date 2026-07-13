@@ -1,0 +1,26 @@
+{
+  "chunk_index": 1,
+  "content_sha256": "ef8c2e0e64a7feec07fd60053f15d611cbd53ce57b1c56c1eddb0a732c3ae99f",
+  "end_sequence": 201,
+  "end_tick": 4,
+  "events": [
+    {
+      "entity_id": "L0002",
+      "event_type": "link_exit",
+      "packet_id": "P2",
+      "physical_tick": 4,
+      "sequence_number": 200
+    },
+    {
+      "entity_id": "L0002",
+      "event_type": "completed",
+      "packet_id": "P2",
+      "physical_tick": 4,
+      "sequence_number": 201
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.event-chunk.v1",
+  "start_sequence": 200,
+  "start_tick": 4
+}

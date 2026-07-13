@@ -1,0 +1,68 @@
+{
+  "chunk_index": 19,
+  "content_sha256": "61836dceb4de978f4f247530576664da3f39e144eef4af948c5cd323e6365f4d",
+  "end_sequence": 875,
+  "end_tick": 24,
+  "events": [
+    {
+      "entity_id": "L0049",
+      "event_type": "link_exit",
+      "packet_id": "P69",
+      "physical_tick": 24,
+      "sequence_number": 868
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "completed",
+      "packet_id": "P69",
+      "physical_tick": 24,
+      "sequence_number": 869
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "link_exit",
+      "packet_id": "P70",
+      "physical_tick": 24,
+      "sequence_number": 870
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "completed",
+      "packet_id": "P70",
+      "physical_tick": 24,
+      "sequence_number": 871
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "link_exit",
+      "packet_id": "P71",
+      "physical_tick": 24,
+      "sequence_number": 872
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "completed",
+      "packet_id": "P71",
+      "physical_tick": 24,
+      "sequence_number": 873
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "link_exit",
+      "packet_id": "P72",
+      "physical_tick": 24,
+      "sequence_number": 874
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "completed",
+      "packet_id": "P72",
+      "physical_tick": 24,
+      "sequence_number": 875
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.event-chunk.v1",
+  "start_sequence": 868,
+  "start_tick": 24
+}

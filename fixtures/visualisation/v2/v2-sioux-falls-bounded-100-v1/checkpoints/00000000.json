@@ -1,0 +1,1788 @@
+{
+  "checkpoint_index": 0,
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.checkpoint.v1",
+  "source_event_sha256": "ca2e3fff3e8e50476c18d07ec2a2f8834dc3ea0bb202da4407712be91cc09e53",
+  "state": {
+    "applied_through_sequence": 305,
+    "counts": {
+      "cancelled": 0,
+      "completed": 5,
+      "in_transit": 95,
+      "not_yet_observed": 0,
+      "queued": 0
+    },
+    "descriptor": {
+      "aggregation_window_ticks": null,
+      "boundary_direction": null,
+      "counting_basis": "unit packet identity",
+      "semantic_status": "event_derived_scientific_projection",
+      "source": "deterministic Python fold over canonical event sequence",
+      "time_basis": "inclusive integer physical tick; state after all same-tick events",
+      "units": "packets"
+    },
+    "links": [
+      {
+        "cumulative_entries": 40,
+        "cumulative_exits": 0,
+        "link_id": "L0001",
+        "occupancy_packets": 40,
+        "packet_ids": [
+          "P1",
+          "P8",
+          "P9",
+          "P10",
+          "P11",
+          "P12",
+          "P13",
+          "P14",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P19",
+          "P20",
+          "P21",
+          "P22",
+          "P23",
+          "P24",
+          "P25",
+          "P26",
+          "P27",
+          "P28",
+          "P29",
+          "P30",
+          "P64",
+          "P65",
+          "P66",
+          "P67",
+          "P68",
+          "P69",
+          "P70",
+          "P71",
+          "P72",
+          "P73",
+          "P74",
+          "P75",
+          "P76",
+          "P77",
+          "P78",
+          "P79"
+        ],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 48,
+        "cumulative_exits": 48,
+        "link_id": "L0002",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 4,
+        "cumulative_exits": 0,
+        "link_id": "L0003",
+        "occupancy_packets": 4,
+        "packet_ids": [
+          "P89",
+          "P90",
+          "P91",
+          "P92"
+        ],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 8,
+        "cumulative_exits": 5,
+        "link_id": "L0004",
+        "occupancy_packets": 3,
+        "packet_ids": [
+          "P98",
+          "P99",
+          "P100"
+        ],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0005",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 38,
+        "cumulative_exits": 0,
+        "link_id": "L0006",
+        "occupancy_packets": 38,
+        "packet_ids": [
+          "P3",
+          "P4",
+          "P5",
+          "P6",
+          "P7",
+          "P31",
+          "P32",
+          "P33",
+          "P34",
+          "P35",
+          "P36",
+          "P37",
+          "P38",
+          "P39",
+          "P40",
+          "P41",
+          "P42",
+          "P43",
+          "P44",
+          "P45",
+          "P46",
+          "P47",
+          "P48",
+          "P56",
+          "P57",
+          "P58",
+          "P59",
+          "P60",
+          "P61",
+          "P62",
+          "P63",
+          "P81",
+          "P82",
+          "P83",
+          "P84",
+          "P85",
+          "P86",
+          "P87"
+        ],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 9,
+        "cumulative_exits": 0,
+        "link_id": "L0007",
+        "occupancy_packets": 9,
+        "packet_ids": [
+          "P49",
+          "P50",
+          "P51",
+          "P52",
+          "P53",
+          "P54",
+          "P55",
+          "P80",
+          "P88"
+        ],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0008",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0009",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0010",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0011",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0012",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0013",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0014",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 1,
+        "cumulative_exits": 0,
+        "link_id": "L0015",
+        "occupancy_packets": 1,
+        "packet_ids": [
+          "P93"
+        ],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0016",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0017",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0018",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0019",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0020",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0021",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0022",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0023",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0024",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0025",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0026",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0027",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0028",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0029",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0030",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0031",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0032",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0033",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0034",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0035",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0036",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0037",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0038",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0039",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0040",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0041",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0042",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0043",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0044",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0045",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0046",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0047",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0048",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0049",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0050",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0051",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0052",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0053",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0054",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0055",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0056",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0057",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0058",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0059",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0060",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0061",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0062",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0063",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0064",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0065",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0066",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0067",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0068",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0069",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0070",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0071",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0072",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0073",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0074",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0075",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      },
+      {
+        "cumulative_entries": 0,
+        "cumulative_exits": 0,
+        "link_id": "L0076",
+        "occupancy_packets": 0,
+        "packet_ids": [],
+        "queued_packet_ids": []
+      }
+    ],
+    "packets": [
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 1,
+        "packet_id": "P1",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 19,
+        "packet_id": "P10",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0004",
+        "last_event_sequence": 199,
+        "packet_id": "P100",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0004"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 21,
+        "packet_id": "P11",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 23,
+        "packet_id": "P12",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 25,
+        "packet_id": "P13",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 27,
+        "packet_id": "P14",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 29,
+        "packet_id": "P15",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 31,
+        "packet_id": "P16",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 33,
+        "packet_id": "P17",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 35,
+        "packet_id": "P18",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 37,
+        "packet_id": "P19",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": null,
+        "last_event_sequence": 201,
+        "packet_id": "P2",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002"
+        ],
+        "status": "completed"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 39,
+        "packet_id": "P20",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 41,
+        "packet_id": "P21",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 43,
+        "packet_id": "P22",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 45,
+        "packet_id": "P23",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 47,
+        "packet_id": "P24",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 49,
+        "packet_id": "P25",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 51,
+        "packet_id": "P26",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 53,
+        "packet_id": "P27",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 55,
+        "packet_id": "P28",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 57,
+        "packet_id": "P29",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 203,
+        "packet_id": "P3",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 59,
+        "packet_id": "P30",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 213,
+        "packet_id": "P31",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 215,
+        "packet_id": "P32",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 217,
+        "packet_id": "P33",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 219,
+        "packet_id": "P34",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 221,
+        "packet_id": "P35",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 223,
+        "packet_id": "P36",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 225,
+        "packet_id": "P37",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 227,
+        "packet_id": "P38",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 229,
+        "packet_id": "P39",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 205,
+        "packet_id": "P4",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 231,
+        "packet_id": "P40",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 233,
+        "packet_id": "P41",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 235,
+        "packet_id": "P42",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 237,
+        "packet_id": "P43",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 239,
+        "packet_id": "P44",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 241,
+        "packet_id": "P45",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 243,
+        "packet_id": "P46",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 245,
+        "packet_id": "P47",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 247,
+        "packet_id": "P48",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 249,
+        "packet_id": "P49",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 207,
+        "packet_id": "P5",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 251,
+        "packet_id": "P50",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 253,
+        "packet_id": "P51",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 255,
+        "packet_id": "P52",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 257,
+        "packet_id": "P53",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 259,
+        "packet_id": "P54",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 261,
+        "packet_id": "P55",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 263,
+        "packet_id": "P56",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 265,
+        "packet_id": "P57",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 267,
+        "packet_id": "P58",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 269,
+        "packet_id": "P59",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 209,
+        "packet_id": "P6",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 271,
+        "packet_id": "P60",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 273,
+        "packet_id": "P61",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 275,
+        "packet_id": "P62",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 277,
+        "packet_id": "P63",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 127,
+        "packet_id": "P64",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 129,
+        "packet_id": "P65",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 131,
+        "packet_id": "P66",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 133,
+        "packet_id": "P67",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 135,
+        "packet_id": "P68",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 137,
+        "packet_id": "P69",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 211,
+        "packet_id": "P7",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 139,
+        "packet_id": "P70",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 141,
+        "packet_id": "P71",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 143,
+        "packet_id": "P72",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 145,
+        "packet_id": "P73",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 147,
+        "packet_id": "P74",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 149,
+        "packet_id": "P75",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 151,
+        "packet_id": "P76",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 153,
+        "packet_id": "P77",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 155,
+        "packet_id": "P78",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 157,
+        "packet_id": "P79",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 15,
+        "packet_id": "P8",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 279,
+        "packet_id": "P80",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 281,
+        "packet_id": "P81",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 283,
+        "packet_id": "P82",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 285,
+        "packet_id": "P83",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 287,
+        "packet_id": "P84",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 289,
+        "packet_id": "P85",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 291,
+        "packet_id": "P86",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0006",
+        "last_event_sequence": 293,
+        "packet_id": "P87",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0006"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0007",
+        "last_event_sequence": 295,
+        "packet_id": "P88",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0002",
+          "L0007"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0003",
+        "last_event_sequence": 177,
+        "packet_id": "P89",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0003"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0001",
+        "last_event_sequence": 17,
+        "packet_id": "P9",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0001"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0003",
+        "last_event_sequence": 179,
+        "packet_id": "P90",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0003"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0003",
+        "last_event_sequence": 181,
+        "packet_id": "P91",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0003"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0003",
+        "last_event_sequence": 183,
+        "packet_id": "P92",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0003"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0015",
+        "last_event_sequence": 297,
+        "packet_id": "P93",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0004",
+          "L0015"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": null,
+        "last_event_sequence": 299,
+        "packet_id": "P94",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0004"
+        ],
+        "status": "completed"
+      },
+      {
+        "current_link_id": null,
+        "last_event_sequence": 301,
+        "packet_id": "P95",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0004"
+        ],
+        "status": "completed"
+      },
+      {
+        "current_link_id": null,
+        "last_event_sequence": 303,
+        "packet_id": "P96",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0004"
+        ],
+        "status": "completed"
+      },
+      {
+        "current_link_id": null,
+        "last_event_sequence": 305,
+        "packet_id": "P97",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0004"
+        ],
+        "status": "completed"
+      },
+      {
+        "current_link_id": "L0004",
+        "last_event_sequence": 195,
+        "packet_id": "P98",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0004"
+        ],
+        "status": "in_transit"
+      },
+      {
+        "current_link_id": "L0004",
+        "last_event_sequence": 197,
+        "packet_id": "P99",
+        "queue_boundary_id": null,
+        "realised_path": [
+          "L0004"
+        ],
+        "status": "in_transit"
+      }
+    ],
+    "queues": [],
+    "tick": 5
+  }
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "occurred_at": "2026-07-13T19:35:39.525503Z",
+    "previous_state": null,
+    "reason": "run accepted",
+    "sequence": 0,
+    "state": "created"
+  },
+  {
+    "occurred_at": "2026-07-13T19:35:39.528196Z",
+    "previous_state": "created",
+    "reason": "declared resource IDs resolved",
+    "sequence": 1,
+    "state": "resolving"
+  },
+  {
+    "occurred_at": "2026-07-13T19:35:39.528545Z",
+    "previous_state": "resolving",
+    "reason": "constructing sanctioned Python engine",
+    "sequence": 2,
+    "state": "setting_up"
+  },
+  {
+    "occurred_at": "2026-07-13T19:35:39.531428Z",
+    "previous_state": "setting_up",
+    "reason": "engine setup complete",
+    "sequence": 3,
+    "state": "running"
+  },
+  {
+    "occurred_at": "2026-07-13T19:35:39.653155Z",
+    "previous_state": "running",
+    "reason": "sealing final persisted evidence",
+    "sequence": 4,
+    "state": "finalising"
+  },
+  {
+    "occurred_at": "2026-07-13T19:35:39.666085Z",
+    "previous_state": "finalising",
+    "reason": "running declared Python integrity validation",
+    "sequence": 5,
+    "state": "validating"
+  },
+  {
+    "occurred_at": "2026-07-13T19:35:39.713791Z",
+    "previous_state": "validating",
+    "reason": "All requested packets reached canonical terminal events.",
+    "sequence": 6,
+    "state": "complete"
+  }
+]

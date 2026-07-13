@@ -1,0 +1,131 @@
+{
+  "allocator_id": "uc_movement_allocator_stage2_v1",
+  "junction_id": "N011",
+  "movement_spec_hash": "4488d9911dc23c32e6f48372ddfa09524462eba7771df505522131a1cf69bf61",
+  "movements": [
+    {
+      "approved_packet_ids": [
+        "P59",
+        "P60",
+        "P61",
+        "P62",
+        "P63",
+        "P81",
+        "P82",
+        "P83",
+        "P84"
+      ],
+      "conflict_resource_constraints": {},
+      "downstream_link_id": "L0032",
+      "governance_state": "open",
+      "lane_group_constraints": {},
+      "movement_capacity_packets": null,
+      "movement_id": "movement:L0010->L0032",
+      "receiving_supply_packets": 158,
+      "rejected_packet_reasons": [],
+      "request_packet_ids": [
+        "P59",
+        "P60",
+        "P61",
+        "P62",
+        "P63",
+        "P81",
+        "P82",
+        "P83",
+        "P84"
+      ],
+      "resulting_canonical_event_sequences": [
+        712,
+        713,
+        714,
+        715,
+        716,
+        717,
+        718,
+        719,
+        720,
+        721,
+        722,
+        723,
+        724,
+        725,
+        726,
+        727,
+        728,
+        729
+      ],
+      "signal_state": "not_declared",
+      "upstream_fifo_packet_ids": [
+        "P59",
+        "P60",
+        "P61",
+        "P62",
+        "P63",
+        "P81",
+        "P82",
+        "P83",
+        "P84"
+      ],
+      "upstream_link_id": "L0010"
+    },
+    {
+      "approved_packet_ids": [
+        "P56",
+        "P57",
+        "P58",
+        "P85",
+        "P86",
+        "P87"
+      ],
+      "conflict_resource_constraints": {},
+      "downstream_link_id": "L0034",
+      "governance_state": "open",
+      "lane_group_constraints": {},
+      "movement_capacity_packets": null,
+      "movement_id": "movement:L0010->L0034",
+      "receiving_supply_packets": 75,
+      "rejected_packet_reasons": [],
+      "request_packet_ids": [
+        "P56",
+        "P57",
+        "P58",
+        "P85",
+        "P86",
+        "P87"
+      ],
+      "resulting_canonical_event_sequences": [
+        706,
+        707,
+        708,
+        709,
+        710,
+        711,
+        730,
+        731,
+        732,
+        733,
+        734,
+        735
+      ],
+      "signal_state": "not_declared",
+      "upstream_fifo_packet_ids": [
+        "P56",
+        "P57",
+        "P58",
+        "P85",
+        "P86",
+        "P87"
+      ],
+      "upstream_link_id": "L0010"
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.movement-trace.v1",
+  "semantic_sources": {
+    "approvals": "engine_owned_materialised_trace",
+    "movement_spec": "immutable_topology_metadata",
+    "requests": "engine_owned_materialised_trace",
+    "resulting_events": "canonical_event_data"
+  },
+  "tick": 17
+}

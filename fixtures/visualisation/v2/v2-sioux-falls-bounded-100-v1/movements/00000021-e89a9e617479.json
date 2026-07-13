@@ -1,0 +1,53 @@
+{
+  "allocator_id": "uc_movement_allocator_stage2_v1",
+  "junction_id": "N018",
+  "movement_spec_hash": "4488d9911dc23c32e6f48372ddfa09524462eba7771df505522131a1cf69bf61",
+  "movements": [
+    {
+      "approved_packet_ids": [],
+      "conflict_resource_constraints": {},
+      "downstream_link_id": "L0056",
+      "governance_state": "open",
+      "lane_group_constraints": {},
+      "movement_capacity_packets": null,
+      "movement_id": "movement:L0018->L0056",
+      "receiving_supply_packets": 390,
+      "rejected_packet_reasons": [
+        [
+          "P77",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P78",
+          "upstream_fifo_blocked"
+        ],
+        [
+          "P79",
+          "upstream_fifo_blocked"
+        ]
+      ],
+      "request_packet_ids": [
+        "P77",
+        "P78",
+        "P79"
+      ],
+      "resulting_canonical_event_sequences": [],
+      "signal_state": "not_declared",
+      "upstream_fifo_packet_ids": [
+        "P77",
+        "P78",
+        "P79"
+      ],
+      "upstream_link_id": "L0018"
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.movement-trace.v1",
+  "semantic_sources": {
+    "approvals": "engine_owned_materialised_trace",
+    "movement_spec": "immutable_topology_metadata",
+    "requests": "engine_owned_materialised_trace",
+    "resulting_events": "canonical_event_data"
+  },
+  "tick": 21
+}

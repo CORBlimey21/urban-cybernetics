@@ -1,0 +1,4749 @@
+{
+  "descriptor": {
+    "aggregation_window_ticks": null,
+    "boundary_direction": null,
+    "counting_basis": null,
+    "semantic_status": "immutable_topology_metadata",
+    "source": "canonical topology artifact",
+    "time_basis": null,
+    "units": "SI static link metadata where declared"
+  },
+  "links": [
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 25900.20064,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N002",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0001",
+      "source_link_id": "1->2",
+      "tail_node_id": "N001"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 23403.47319,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N003",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0002",
+      "source_link_id": "1->3",
+      "tail_node_id": "N001"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 25900.20064,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N001",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0003",
+      "source_link_id": "2->1",
+      "tail_node_id": "N002"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4958.180928,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N006",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0004",
+      "source_link_id": "2->6",
+      "tail_node_id": "N002"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 23403.47319,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N001",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0005",
+      "source_link_id": "3->1",
+      "tail_node_id": "N003"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 17110.52372,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N004",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0006",
+      "source_link_id": "3->4",
+      "tail_node_id": "N003"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 23403.47319,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N012",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0007",
+      "source_link_id": "3->12",
+      "tail_node_id": "N003"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 17110.52372,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N003",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0008",
+      "source_link_id": "4->3",
+      "tail_node_id": "N004"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 17782.7941,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N005",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0009",
+      "source_link_id": "4->5",
+      "tail_node_id": "N004"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4908.82673,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N011",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0010",
+      "source_link_id": "4->11",
+      "tail_node_id": "N004"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 17782.7941,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N004",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0011",
+      "source_link_id": "5->4",
+      "tail_node_id": "N005"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4947.995469,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N006",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0012",
+      "source_link_id": "5->6",
+      "tail_node_id": "N005"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 10000.0,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N009",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0013",
+      "source_link_id": "5->9",
+      "tail_node_id": "N005"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4958.180928,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N002",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0014",
+      "source_link_id": "6->2",
+      "tail_node_id": "N006"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4947.995469,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N005",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0015",
+      "source_link_id": "6->5",
+      "tail_node_id": "N006"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4898.587646,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N008",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0016",
+      "source_link_id": "6->8",
+      "tail_node_id": "N006"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 7841.81131,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N008",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0017",
+      "source_link_id": "7->8",
+      "tail_node_id": "N007"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 23403.47319,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N018",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0018",
+      "source_link_id": "7->18",
+      "tail_node_id": "N007"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4898.587646,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N006",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0019",
+      "source_link_id": "8->6",
+      "tail_node_id": "N008"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 7841.81131,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N007",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0020",
+      "source_link_id": "8->7",
+      "tail_node_id": "N008"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5050.193156,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N009",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 16093.44,
+      "link_id": "L0021",
+      "source_link_id": "8->9",
+      "tail_node_id": "N008"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5045.822583,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N016",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0022",
+      "source_link_id": "8->16",
+      "tail_node_id": "N008"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 10000.0,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N005",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0023",
+      "source_link_id": "9->5",
+      "tail_node_id": "N009"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5050.193156,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N008",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 16093.44,
+      "link_id": "L0024",
+      "source_link_id": "9->8",
+      "tail_node_id": "N009"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 13915.78842,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N010",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0025",
+      "source_link_id": "9->10",
+      "tail_node_id": "N009"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 13915.78842,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N009",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0026",
+      "source_link_id": "10->9",
+      "tail_node_id": "N010"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 10000.0,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N011",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0027",
+      "source_link_id": "10->11",
+      "tail_node_id": "N010"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 13512.00155,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N015",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0028",
+      "source_link_id": "10->15",
+      "tail_node_id": "N010"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4854.917717,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N016",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0029",
+      "source_link_id": "10->16",
+      "tail_node_id": "N010"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4993.510694,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N017",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 12874.752,
+      "link_id": "L0030",
+      "source_link_id": "10->17",
+      "tail_node_id": "N010"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4908.82673,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N004",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0031",
+      "source_link_id": "11->4",
+      "tail_node_id": "N011"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 10000.0,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N010",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0032",
+      "source_link_id": "11->10",
+      "tail_node_id": "N011"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4908.82673,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N012",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0033",
+      "source_link_id": "11->12",
+      "tail_node_id": "N011"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4876.508287,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N014",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0034",
+      "source_link_id": "11->14",
+      "tail_node_id": "N011"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 23403.47319,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N003",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0035",
+      "source_link_id": "12->3",
+      "tail_node_id": "N012"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4908.82673,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N011",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0036",
+      "source_link_id": "12->11",
+      "tail_node_id": "N012"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 25900.20064,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N013",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0037",
+      "source_link_id": "12->13",
+      "tail_node_id": "N012"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 25900.20064,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N012",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0038",
+      "source_link_id": "13->12",
+      "tail_node_id": "N013"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5091.256152,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N024",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0039",
+      "source_link_id": "13->24",
+      "tail_node_id": "N013"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4876.508287,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N011",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0040",
+      "source_link_id": "14->11",
+      "tail_node_id": "N014"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5127.526119,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N015",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0041",
+      "source_link_id": "14->15",
+      "tail_node_id": "N014"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4924.790605,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N023",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0042",
+      "source_link_id": "14->23",
+      "tail_node_id": "N014"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 13512.00155,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N010",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0043",
+      "source_link_id": "15->10",
+      "tail_node_id": "N015"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5127.526119,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N014",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0044",
+      "source_link_id": "15->14",
+      "tail_node_id": "N015"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 14564.75315,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N019",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0045",
+      "source_link_id": "15->19",
+      "tail_node_id": "N015"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 9599.180565,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N022",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0046",
+      "source_link_id": "15->22",
+      "tail_node_id": "N015"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5045.822583,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N008",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0047",
+      "source_link_id": "16->8",
+      "tail_node_id": "N016"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4854.917717,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N010",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0048",
+      "source_link_id": "16->10",
+      "tail_node_id": "N016"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5229.910063,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N017",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0049",
+      "source_link_id": "16->17",
+      "tail_node_id": "N016"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 19679.89671,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N018",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0050",
+      "source_link_id": "16->18",
+      "tail_node_id": "N016"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4993.510694,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N010",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 12874.752,
+      "link_id": "L0051",
+      "source_link_id": "17->10",
+      "tail_node_id": "N017"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5229.910063,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N016",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0052",
+      "source_link_id": "17->16",
+      "tail_node_id": "N017"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4823.950831,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N019",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0053",
+      "source_link_id": "17->19",
+      "tail_node_id": "N017"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 23403.47319,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N007",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0054",
+      "source_link_id": "18->7",
+      "tail_node_id": "N018"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 19679.89671,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N016",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0055",
+      "source_link_id": "18->16",
+      "tail_node_id": "N018"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 23403.47319,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N020",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0056",
+      "source_link_id": "18->20",
+      "tail_node_id": "N018"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 14564.75315,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N015",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0057",
+      "source_link_id": "19->15",
+      "tail_node_id": "N019"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4823.950831,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N017",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0058",
+      "source_link_id": "19->17",
+      "tail_node_id": "N019"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5002.607563,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N020",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0059",
+      "source_link_id": "19->20",
+      "tail_node_id": "N019"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 23403.47319,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N018",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0060",
+      "source_link_id": "20->18",
+      "tail_node_id": "N020"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5002.607563,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N019",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0061",
+      "source_link_id": "20->19",
+      "tail_node_id": "N020"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5059.91234,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N021",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0062",
+      "source_link_id": "20->21",
+      "tail_node_id": "N020"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5075.697193,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N022",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0063",
+      "source_link_id": "20->22",
+      "tail_node_id": "N020"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5059.91234,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N020",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 9656.064,
+      "link_id": "L0064",
+      "source_link_id": "21->20",
+      "tail_node_id": "N021"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5229.910063,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N022",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0065",
+      "source_link_id": "21->22",
+      "tail_node_id": "N021"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4885.357564,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N024",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0066",
+      "source_link_id": "21->24",
+      "tail_node_id": "N021"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 9599.180565,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N015",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0067",
+      "source_link_id": "22->15",
+      "tail_node_id": "N022"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5075.697193,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N020",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 8046.72,
+      "link_id": "L0068",
+      "source_link_id": "22->20",
+      "tail_node_id": "N022"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5229.910063,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N021",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0069",
+      "source_link_id": "22->21",
+      "tail_node_id": "N022"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5000.0,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N023",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0070",
+      "source_link_id": "22->23",
+      "tail_node_id": "N022"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4924.790605,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N014",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0071",
+      "source_link_id": "23->14",
+      "tail_node_id": "N023"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5000.0,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N022",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0072",
+      "source_link_id": "23->22",
+      "tail_node_id": "N023"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5078.508436,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N024",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0073",
+      "source_link_id": "23->24",
+      "tail_node_id": "N023"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5091.256152,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N013",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 6437.376,
+      "link_id": "L0074",
+      "source_link_id": "24->13",
+      "tail_node_id": "N024"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 4885.357564,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N021",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 4828.032,
+      "link_id": "L0075",
+      "source_link_id": "24->21",
+      "tail_node_id": "N024"
+    },
+    {
+      "backward_wave_speed_mps": null,
+      "capacity_veh_per_hour_per_lane": 5078.508436,
+      "field_availability": {
+        "backward_wave_speed_mps": "unavailable_in_artifact",
+        "capacity_veh_per_hour_per_lane": "available",
+        "free_flow_speed_mps": "available",
+        "jam_density_veh_per_km_per_lane": "unavailable_in_artifact",
+        "lane_count": "available",
+        "length_m": "available"
+      },
+      "free_flow_speed_mps": 26.822400000000002,
+      "head_node_id": "N023",
+      "jam_density_veh_per_km_per_lane": null,
+      "lane_count": 1,
+      "length_m": 3218.688,
+      "link_id": "L0076",
+      "source_link_id": "24->23",
+      "tail_node_id": "N024"
+    }
+  ],
+  "movements": [
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0003",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0001->L0003",
+      "node_id": "N002",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0001"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0004",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0001->L0004",
+      "node_id": "N002",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0001"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0005",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0002->L0005",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0002"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0006",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0002->L0006",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0002"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0007",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0002->L0007",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0002"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0001",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0003->L0001",
+      "node_id": "N001",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0003"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0002",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0003->L0002",
+      "node_id": "N001",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0003"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0014",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0004->L0014",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0004"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0015",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0004->L0015",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0004"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0016",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0004->L0016",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0004"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0001",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0005->L0001",
+      "node_id": "N001",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0005"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0002",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0005->L0002",
+      "node_id": "N001",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0005"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0008",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0006->L0008",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0006"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0009",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0006->L0009",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0006"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0010",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0006->L0010",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0006"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0035",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0007->L0035",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0007"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0036",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0007->L0036",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0007"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0037",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0007->L0037",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0007"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0005",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0008->L0005",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0008"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0006",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0008->L0006",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0008"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0007",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0008->L0007",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0008"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0011",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0009->L0011",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0009"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0012",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0009->L0012",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0009"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0013",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0009->L0013",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0009"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0031",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0010->L0031",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0010"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0032",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0010->L0032",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0010"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0033",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0010->L0033",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0010"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0034",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0010->L0034",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0010"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0008",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0011->L0008",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0011"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0009",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0011->L0009",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0011"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0010",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0011->L0010",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0011"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0014",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0012->L0014",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0012"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0015",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0012->L0015",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0012"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0016",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0012->L0016",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0012"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0023",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0013->L0023",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0013"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0024",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0013->L0024",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0013"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0025",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0013->L0025",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0013"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0003",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0014->L0003",
+      "node_id": "N002",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0014"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0004",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0014->L0004",
+      "node_id": "N002",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0014"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0011",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0015->L0011",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0015"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0012",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0015->L0012",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0015"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0013",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0015->L0013",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0015"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0019",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0016->L0019",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0016"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0020",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0016->L0020",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0016"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0021",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0016->L0021",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0016"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0022",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0016->L0022",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0016"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0019",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0017->L0019",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0017"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0020",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0017->L0020",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0017"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0021",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0017->L0021",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0017"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0022",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0017->L0022",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0017"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0054",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0018->L0054",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0018"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0055",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0018->L0055",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0018"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0056",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0018->L0056",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0018"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0014",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0019->L0014",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0019"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0015",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0019->L0015",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0019"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0016",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0019->L0016",
+      "node_id": "N006",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0019"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0017",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0020->L0017",
+      "node_id": "N007",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0020"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0018",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0020->L0018",
+      "node_id": "N007",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0020"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0023",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0021->L0023",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0021"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0024",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0021->L0024",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0021"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0025",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0021->L0025",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0021"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0047",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0022->L0047",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0022"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0048",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0022->L0048",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0022"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0049",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0022->L0049",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0022"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0050",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0022->L0050",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0022"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0011",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0023->L0011",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0023"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0012",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0023->L0012",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0023"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0013",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0023->L0013",
+      "node_id": "N005",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0023"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0019",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0024->L0019",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0024"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0020",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0024->L0020",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0024"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0021",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0024->L0021",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0024"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0022",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0024->L0022",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0024"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0026",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0025->L0026",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0025"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0027",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0025->L0027",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0025"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0028",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0025->L0028",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0025"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0029",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0025->L0029",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0025"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0030",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0025->L0030",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0025"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0023",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0026->L0023",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0026"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0024",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0026->L0024",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0026"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0025",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0026->L0025",
+      "node_id": "N009",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0026"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0031",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0027->L0031",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0027"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0032",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0027->L0032",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0027"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0033",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0027->L0033",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0027"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0034",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0027->L0034",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0027"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0043",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0028->L0043",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0028"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0044",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0028->L0044",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0028"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0045",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0028->L0045",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0028"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0046",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0028->L0046",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0028"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0047",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0029->L0047",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0029"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0048",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0029->L0048",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0029"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0049",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0029->L0049",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0029"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0050",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0029->L0050",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0029"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0051",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0030->L0051",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0030"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0052",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0030->L0052",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0030"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0053",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0030->L0053",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0030"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0008",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0031->L0008",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0031"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0009",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0031->L0009",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0031"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0010",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0031->L0010",
+      "node_id": "N004",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0031"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0026",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0032->L0026",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0032"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0027",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0032->L0027",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0032"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0028",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0032->L0028",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0032"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0029",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0032->L0029",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0032"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0030",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0032->L0030",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0032"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0035",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0033->L0035",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0033"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0036",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0033->L0036",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0033"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0037",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0033->L0037",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0033"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0040",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0034->L0040",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0034"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0041",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0034->L0041",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0034"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0042",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0034->L0042",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0034"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0005",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0035->L0005",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0035"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0006",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0035->L0006",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0035"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0007",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0035->L0007",
+      "node_id": "N003",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0035"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0031",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0036->L0031",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0036"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0032",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0036->L0032",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0036"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0033",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0036->L0033",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0036"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0034",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0036->L0034",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0036"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0038",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0037->L0038",
+      "node_id": "N013",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0037"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0039",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0037->L0039",
+      "node_id": "N013",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0037"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0035",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0038->L0035",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0038"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0036",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0038->L0036",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0038"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0037",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0038->L0037",
+      "node_id": "N012",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0038"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0074",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0039->L0074",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0039"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0075",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0039->L0075",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0039"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0076",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0039->L0076",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0039"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0031",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0040->L0031",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0040"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0032",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0040->L0032",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0040"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0033",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0040->L0033",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0040"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0034",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0040->L0034",
+      "node_id": "N011",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0040"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0043",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0041->L0043",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0041"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0044",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0041->L0044",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0041"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0045",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0041->L0045",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0041"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0046",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0041->L0046",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0041"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0071",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0042->L0071",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0042"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0072",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0042->L0072",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0042"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0073",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0042->L0073",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0042"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0026",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0043->L0026",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0043"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0027",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0043->L0027",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0043"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0028",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0043->L0028",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0043"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0029",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0043->L0029",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0043"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0030",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0043->L0030",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0043"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0040",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0044->L0040",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0044"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0041",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0044->L0041",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0044"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0042",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0044->L0042",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0044"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0057",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0045->L0057",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0045"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0058",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0045->L0058",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0045"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0059",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0045->L0059",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0045"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0067",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0046->L0067",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0046"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0068",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0046->L0068",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0046"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0069",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0046->L0069",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0046"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0070",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0046->L0070",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0046"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0019",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0047->L0019",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0047"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0020",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0047->L0020",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0047"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0021",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0047->L0021",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0047"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0022",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0047->L0022",
+      "node_id": "N008",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0047"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0026",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0048->L0026",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0048"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0027",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0048->L0027",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0048"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0028",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0048->L0028",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0048"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0029",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0048->L0029",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0048"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0030",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0048->L0030",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0048"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0051",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0049->L0051",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0049"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0052",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0049->L0052",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0049"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0053",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0049->L0053",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0049"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0054",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0050->L0054",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0050"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0055",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0050->L0055",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0050"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0056",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0050->L0056",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0050"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0026",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0051->L0026",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0051"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0027",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0051->L0027",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0051"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0028",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0051->L0028",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0051"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0029",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0051->L0029",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0051"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0030",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0051->L0030",
+      "node_id": "N010",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0051"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0047",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0052->L0047",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0052"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0048",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0052->L0048",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0052"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0049",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0052->L0049",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0052"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0050",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0052->L0050",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0052"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0057",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0053->L0057",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0053"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0058",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0053->L0058",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0053"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0059",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0053->L0059",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0053"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0017",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0054->L0017",
+      "node_id": "N007",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0054"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0018",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0054->L0018",
+      "node_id": "N007",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0054"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0047",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0055->L0047",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0055"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0048",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0055->L0048",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0055"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0049",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0055->L0049",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0055"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0050",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0055->L0050",
+      "node_id": "N016",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0055"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0060",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0056->L0060",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0056"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0061",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0056->L0061",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0056"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0062",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0056->L0062",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0056"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0063",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0056->L0063",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0056"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0043",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0057->L0043",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0057"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0044",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0057->L0044",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0057"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0045",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0057->L0045",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0057"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0046",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0057->L0046",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0057"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0051",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0058->L0051",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0058"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0052",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0058->L0052",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0058"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0053",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0058->L0053",
+      "node_id": "N017",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0058"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0060",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0059->L0060",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0059"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0061",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0059->L0061",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0059"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0062",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0059->L0062",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0059"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0063",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0059->L0063",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0059"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0054",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0060->L0054",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0060"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0055",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0060->L0055",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0060"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0056",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0060->L0056",
+      "node_id": "N018",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0060"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0057",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0061->L0057",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0061"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0058",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0061->L0058",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0061"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0059",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0061->L0059",
+      "node_id": "N019",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0061"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0064",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0062->L0064",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0062"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0065",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0062->L0065",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0062"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0066",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0062->L0066",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0062"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0067",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0063->L0067",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0063"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0068",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0063->L0068",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0063"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0069",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0063->L0069",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0063"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0070",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0063->L0070",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0063"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0060",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0064->L0060",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0064"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0061",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0064->L0061",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0064"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0062",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0064->L0062",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0064"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0063",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0064->L0063",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0064"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0067",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0065->L0067",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0065"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0068",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0065->L0068",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0065"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0069",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0065->L0069",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0065"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0070",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0065->L0070",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0065"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0074",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0066->L0074",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0066"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0075",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0066->L0075",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0066"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0076",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0066->L0076",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0066"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0043",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0067->L0043",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0067"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0044",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0067->L0044",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0067"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0045",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0067->L0045",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0067"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0046",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0067->L0046",
+      "node_id": "N015",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0067"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0060",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0068->L0060",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0068"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0061",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0068->L0061",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0068"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0062",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0068->L0062",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0068"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0063",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0068->L0063",
+      "node_id": "N020",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0068"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0064",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0069->L0064",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0069"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0065",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0069->L0065",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0069"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0066",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0069->L0066",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0069"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0071",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0070->L0071",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0070"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0072",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0070->L0072",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0070"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0073",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0070->L0073",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0070"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0040",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0071->L0040",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0071"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0041",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0071->L0041",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0071"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0042",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0071->L0042",
+      "node_id": "N014",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0071"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0067",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0072->L0067",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0072"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0068",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0072->L0068",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0072"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0069",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0072->L0069",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0072"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0070",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0072->L0070",
+      "node_id": "N022",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0072"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0074",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0073->L0074",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0073"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0075",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0073->L0075",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0073"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0076",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0073->L0076",
+      "node_id": "N024",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0073"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0038",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0074->L0038",
+      "node_id": "N013",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0074"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0039",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0074->L0039",
+      "node_id": "N013",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0074"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0064",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0075->L0064",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0075"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0065",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0075->L0065",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0075"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0066",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0075->L0066",
+      "node_id": "N021",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0075"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0071",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0076->L0071",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0076"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0072",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0076->L0072",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0076"
+    },
+    {
+      "conflict_resource_ids": [],
+      "downstream_link_id": "L0073",
+      "lane_group_ids": [],
+      "movement_id": "movement:L0076->L0073",
+      "node_id": "N023",
+      "priority_weight": 1,
+      "signal_group_id": null,
+      "upstream_link_id": "L0076"
+    }
+  ],
+  "nodes": [
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0003",
+        "L0005"
+      ],
+      "movement_ids": [
+        "movement:L0003->L0001",
+        "movement:L0003->L0002",
+        "movement:L0005->L0001",
+        "movement:L0005->L0002"
+      ],
+      "node_id": "N001",
+      "outgoing_link_ids": [
+        "L0001",
+        "L0002"
+      ],
+      "source_node_id": "1"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0001",
+        "L0014"
+      ],
+      "movement_ids": [
+        "movement:L0001->L0003",
+        "movement:L0001->L0004",
+        "movement:L0014->L0003",
+        "movement:L0014->L0004"
+      ],
+      "node_id": "N002",
+      "outgoing_link_ids": [
+        "L0003",
+        "L0004"
+      ],
+      "source_node_id": "2"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0002",
+        "L0008",
+        "L0035"
+      ],
+      "movement_ids": [
+        "movement:L0002->L0005",
+        "movement:L0002->L0006",
+        "movement:L0002->L0007",
+        "movement:L0008->L0005",
+        "movement:L0008->L0006",
+        "movement:L0008->L0007",
+        "movement:L0035->L0005",
+        "movement:L0035->L0006",
+        "movement:L0035->L0007"
+      ],
+      "node_id": "N003",
+      "outgoing_link_ids": [
+        "L0005",
+        "L0006",
+        "L0007"
+      ],
+      "source_node_id": "3"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0006",
+        "L0011",
+        "L0031"
+      ],
+      "movement_ids": [
+        "movement:L0006->L0008",
+        "movement:L0006->L0009",
+        "movement:L0006->L0010",
+        "movement:L0011->L0008",
+        "movement:L0011->L0009",
+        "movement:L0011->L0010",
+        "movement:L0031->L0008",
+        "movement:L0031->L0009",
+        "movement:L0031->L0010"
+      ],
+      "node_id": "N004",
+      "outgoing_link_ids": [
+        "L0008",
+        "L0009",
+        "L0010"
+      ],
+      "source_node_id": "4"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0009",
+        "L0015",
+        "L0023"
+      ],
+      "movement_ids": [
+        "movement:L0009->L0011",
+        "movement:L0009->L0012",
+        "movement:L0009->L0013",
+        "movement:L0015->L0011",
+        "movement:L0015->L0012",
+        "movement:L0015->L0013",
+        "movement:L0023->L0011",
+        "movement:L0023->L0012",
+        "movement:L0023->L0013"
+      ],
+      "node_id": "N005",
+      "outgoing_link_ids": [
+        "L0011",
+        "L0012",
+        "L0013"
+      ],
+      "source_node_id": "5"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0004",
+        "L0012",
+        "L0019"
+      ],
+      "movement_ids": [
+        "movement:L0004->L0014",
+        "movement:L0004->L0015",
+        "movement:L0004->L0016",
+        "movement:L0012->L0014",
+        "movement:L0012->L0015",
+        "movement:L0012->L0016",
+        "movement:L0019->L0014",
+        "movement:L0019->L0015",
+        "movement:L0019->L0016"
+      ],
+      "node_id": "N006",
+      "outgoing_link_ids": [
+        "L0014",
+        "L0015",
+        "L0016"
+      ],
+      "source_node_id": "6"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0020",
+        "L0054"
+      ],
+      "movement_ids": [
+        "movement:L0020->L0017",
+        "movement:L0020->L0018",
+        "movement:L0054->L0017",
+        "movement:L0054->L0018"
+      ],
+      "node_id": "N007",
+      "outgoing_link_ids": [
+        "L0017",
+        "L0018"
+      ],
+      "source_node_id": "7"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0016",
+        "L0017",
+        "L0024",
+        "L0047"
+      ],
+      "movement_ids": [
+        "movement:L0016->L0019",
+        "movement:L0016->L0020",
+        "movement:L0016->L0021",
+        "movement:L0016->L0022",
+        "movement:L0017->L0019",
+        "movement:L0017->L0020",
+        "movement:L0017->L0021",
+        "movement:L0017->L0022",
+        "movement:L0024->L0019",
+        "movement:L0024->L0020",
+        "movement:L0024->L0021",
+        "movement:L0024->L0022",
+        "movement:L0047->L0019",
+        "movement:L0047->L0020",
+        "movement:L0047->L0021",
+        "movement:L0047->L0022"
+      ],
+      "node_id": "N008",
+      "outgoing_link_ids": [
+        "L0019",
+        "L0020",
+        "L0021",
+        "L0022"
+      ],
+      "source_node_id": "8"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0013",
+        "L0021",
+        "L0026"
+      ],
+      "movement_ids": [
+        "movement:L0013->L0023",
+        "movement:L0013->L0024",
+        "movement:L0013->L0025",
+        "movement:L0021->L0023",
+        "movement:L0021->L0024",
+        "movement:L0021->L0025",
+        "movement:L0026->L0023",
+        "movement:L0026->L0024",
+        "movement:L0026->L0025"
+      ],
+      "node_id": "N009",
+      "outgoing_link_ids": [
+        "L0023",
+        "L0024",
+        "L0025"
+      ],
+      "source_node_id": "9"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0025",
+        "L0032",
+        "L0043",
+        "L0048",
+        "L0051"
+      ],
+      "movement_ids": [
+        "movement:L0025->L0026",
+        "movement:L0025->L0027",
+        "movement:L0025->L0028",
+        "movement:L0025->L0029",
+        "movement:L0025->L0030",
+        "movement:L0032->L0026",
+        "movement:L0032->L0027",
+        "movement:L0032->L0028",
+        "movement:L0032->L0029",
+        "movement:L0032->L0030",
+        "movement:L0043->L0026",
+        "movement:L0043->L0027",
+        "movement:L0043->L0028",
+        "movement:L0043->L0029",
+        "movement:L0043->L0030",
+        "movement:L0048->L0026",
+        "movement:L0048->L0027",
+        "movement:L0048->L0028",
+        "movement:L0048->L0029",
+        "movement:L0048->L0030",
+        "movement:L0051->L0026",
+        "movement:L0051->L0027",
+        "movement:L0051->L0028",
+        "movement:L0051->L0029",
+        "movement:L0051->L0030"
+      ],
+      "node_id": "N010",
+      "outgoing_link_ids": [
+        "L0026",
+        "L0027",
+        "L0028",
+        "L0029",
+        "L0030"
+      ],
+      "source_node_id": "10"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0010",
+        "L0027",
+        "L0036",
+        "L0040"
+      ],
+      "movement_ids": [
+        "movement:L0010->L0031",
+        "movement:L0010->L0032",
+        "movement:L0010->L0033",
+        "movement:L0010->L0034",
+        "movement:L0027->L0031",
+        "movement:L0027->L0032",
+        "movement:L0027->L0033",
+        "movement:L0027->L0034",
+        "movement:L0036->L0031",
+        "movement:L0036->L0032",
+        "movement:L0036->L0033",
+        "movement:L0036->L0034",
+        "movement:L0040->L0031",
+        "movement:L0040->L0032",
+        "movement:L0040->L0033",
+        "movement:L0040->L0034"
+      ],
+      "node_id": "N011",
+      "outgoing_link_ids": [
+        "L0031",
+        "L0032",
+        "L0033",
+        "L0034"
+      ],
+      "source_node_id": "11"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0007",
+        "L0033",
+        "L0038"
+      ],
+      "movement_ids": [
+        "movement:L0007->L0035",
+        "movement:L0007->L0036",
+        "movement:L0007->L0037",
+        "movement:L0033->L0035",
+        "movement:L0033->L0036",
+        "movement:L0033->L0037",
+        "movement:L0038->L0035",
+        "movement:L0038->L0036",
+        "movement:L0038->L0037"
+      ],
+      "node_id": "N012",
+      "outgoing_link_ids": [
+        "L0035",
+        "L0036",
+        "L0037"
+      ],
+      "source_node_id": "12"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0037",
+        "L0074"
+      ],
+      "movement_ids": [
+        "movement:L0037->L0038",
+        "movement:L0037->L0039",
+        "movement:L0074->L0038",
+        "movement:L0074->L0039"
+      ],
+      "node_id": "N013",
+      "outgoing_link_ids": [
+        "L0038",
+        "L0039"
+      ],
+      "source_node_id": "13"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0034",
+        "L0044",
+        "L0071"
+      ],
+      "movement_ids": [
+        "movement:L0034->L0040",
+        "movement:L0034->L0041",
+        "movement:L0034->L0042",
+        "movement:L0044->L0040",
+        "movement:L0044->L0041",
+        "movement:L0044->L0042",
+        "movement:L0071->L0040",
+        "movement:L0071->L0041",
+        "movement:L0071->L0042"
+      ],
+      "node_id": "N014",
+      "outgoing_link_ids": [
+        "L0040",
+        "L0041",
+        "L0042"
+      ],
+      "source_node_id": "14"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0028",
+        "L0041",
+        "L0057",
+        "L0067"
+      ],
+      "movement_ids": [
+        "movement:L0028->L0043",
+        "movement:L0028->L0044",
+        "movement:L0028->L0045",
+        "movement:L0028->L0046",
+        "movement:L0041->L0043",
+        "movement:L0041->L0044",
+        "movement:L0041->L0045",
+        "movement:L0041->L0046",
+        "movement:L0057->L0043",
+        "movement:L0057->L0044",
+        "movement:L0057->L0045",
+        "movement:L0057->L0046",
+        "movement:L0067->L0043",
+        "movement:L0067->L0044",
+        "movement:L0067->L0045",
+        "movement:L0067->L0046"
+      ],
+      "node_id": "N015",
+      "outgoing_link_ids": [
+        "L0043",
+        "L0044",
+        "L0045",
+        "L0046"
+      ],
+      "source_node_id": "15"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0022",
+        "L0029",
+        "L0052",
+        "L0055"
+      ],
+      "movement_ids": [
+        "movement:L0022->L0047",
+        "movement:L0022->L0048",
+        "movement:L0022->L0049",
+        "movement:L0022->L0050",
+        "movement:L0029->L0047",
+        "movement:L0029->L0048",
+        "movement:L0029->L0049",
+        "movement:L0029->L0050",
+        "movement:L0052->L0047",
+        "movement:L0052->L0048",
+        "movement:L0052->L0049",
+        "movement:L0052->L0050",
+        "movement:L0055->L0047",
+        "movement:L0055->L0048",
+        "movement:L0055->L0049",
+        "movement:L0055->L0050"
+      ],
+      "node_id": "N016",
+      "outgoing_link_ids": [
+        "L0047",
+        "L0048",
+        "L0049",
+        "L0050"
+      ],
+      "source_node_id": "16"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0030",
+        "L0049",
+        "L0058"
+      ],
+      "movement_ids": [
+        "movement:L0030->L0051",
+        "movement:L0030->L0052",
+        "movement:L0030->L0053",
+        "movement:L0049->L0051",
+        "movement:L0049->L0052",
+        "movement:L0049->L0053",
+        "movement:L0058->L0051",
+        "movement:L0058->L0052",
+        "movement:L0058->L0053"
+      ],
+      "node_id": "N017",
+      "outgoing_link_ids": [
+        "L0051",
+        "L0052",
+        "L0053"
+      ],
+      "source_node_id": "17"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0018",
+        "L0050",
+        "L0060"
+      ],
+      "movement_ids": [
+        "movement:L0018->L0054",
+        "movement:L0018->L0055",
+        "movement:L0018->L0056",
+        "movement:L0050->L0054",
+        "movement:L0050->L0055",
+        "movement:L0050->L0056",
+        "movement:L0060->L0054",
+        "movement:L0060->L0055",
+        "movement:L0060->L0056"
+      ],
+      "node_id": "N018",
+      "outgoing_link_ids": [
+        "L0054",
+        "L0055",
+        "L0056"
+      ],
+      "source_node_id": "18"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0045",
+        "L0053",
+        "L0061"
+      ],
+      "movement_ids": [
+        "movement:L0045->L0057",
+        "movement:L0045->L0058",
+        "movement:L0045->L0059",
+        "movement:L0053->L0057",
+        "movement:L0053->L0058",
+        "movement:L0053->L0059",
+        "movement:L0061->L0057",
+        "movement:L0061->L0058",
+        "movement:L0061->L0059"
+      ],
+      "node_id": "N019",
+      "outgoing_link_ids": [
+        "L0057",
+        "L0058",
+        "L0059"
+      ],
+      "source_node_id": "19"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0056",
+        "L0059",
+        "L0064",
+        "L0068"
+      ],
+      "movement_ids": [
+        "movement:L0056->L0060",
+        "movement:L0056->L0061",
+        "movement:L0056->L0062",
+        "movement:L0056->L0063",
+        "movement:L0059->L0060",
+        "movement:L0059->L0061",
+        "movement:L0059->L0062",
+        "movement:L0059->L0063",
+        "movement:L0064->L0060",
+        "movement:L0064->L0061",
+        "movement:L0064->L0062",
+        "movement:L0064->L0063",
+        "movement:L0068->L0060",
+        "movement:L0068->L0061",
+        "movement:L0068->L0062",
+        "movement:L0068->L0063"
+      ],
+      "node_id": "N020",
+      "outgoing_link_ids": [
+        "L0060",
+        "L0061",
+        "L0062",
+        "L0063"
+      ],
+      "source_node_id": "20"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0062",
+        "L0069",
+        "L0075"
+      ],
+      "movement_ids": [
+        "movement:L0062->L0064",
+        "movement:L0062->L0065",
+        "movement:L0062->L0066",
+        "movement:L0069->L0064",
+        "movement:L0069->L0065",
+        "movement:L0069->L0066",
+        "movement:L0075->L0064",
+        "movement:L0075->L0065",
+        "movement:L0075->L0066"
+      ],
+      "node_id": "N021",
+      "outgoing_link_ids": [
+        "L0064",
+        "L0065",
+        "L0066"
+      ],
+      "source_node_id": "21"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0046",
+        "L0063",
+        "L0065",
+        "L0072"
+      ],
+      "movement_ids": [
+        "movement:L0046->L0067",
+        "movement:L0046->L0068",
+        "movement:L0046->L0069",
+        "movement:L0046->L0070",
+        "movement:L0063->L0067",
+        "movement:L0063->L0068",
+        "movement:L0063->L0069",
+        "movement:L0063->L0070",
+        "movement:L0065->L0067",
+        "movement:L0065->L0068",
+        "movement:L0065->L0069",
+        "movement:L0065->L0070",
+        "movement:L0072->L0067",
+        "movement:L0072->L0068",
+        "movement:L0072->L0069",
+        "movement:L0072->L0070"
+      ],
+      "node_id": "N022",
+      "outgoing_link_ids": [
+        "L0067",
+        "L0068",
+        "L0069",
+        "L0070"
+      ],
+      "source_node_id": "22"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0042",
+        "L0070",
+        "L0076"
+      ],
+      "movement_ids": [
+        "movement:L0042->L0071",
+        "movement:L0042->L0072",
+        "movement:L0042->L0073",
+        "movement:L0070->L0071",
+        "movement:L0070->L0072",
+        "movement:L0070->L0073",
+        "movement:L0076->L0071",
+        "movement:L0076->L0072",
+        "movement:L0076->L0073"
+      ],
+      "node_id": "N023",
+      "outgoing_link_ids": [
+        "L0071",
+        "L0072",
+        "L0073"
+      ],
+      "source_node_id": "23"
+    },
+    {
+      "fifo_policy": "strict",
+      "incoming_link_ids": [
+        "L0039",
+        "L0066",
+        "L0073"
+      ],
+      "movement_ids": [
+        "movement:L0039->L0074",
+        "movement:L0039->L0075",
+        "movement:L0039->L0076",
+        "movement:L0066->L0074",
+        "movement:L0066->L0075",
+        "movement:L0066->L0076",
+        "movement:L0073->L0074",
+        "movement:L0073->L0075",
+        "movement:L0073->L0076"
+      ],
+      "node_id": "N024",
+      "outgoing_link_ids": [
+        "L0074",
+        "L0075",
+        "L0076"
+      ],
+      "source_node_id": "24"
+    }
+  ],
+  "topology_hash": "0531866e3d3594f0e67bd10877acc8d1e38266a6d059dbb4d04b096b3f362b5b",
+  "topology_id": "sioux_falls_tntp_v1"
+}

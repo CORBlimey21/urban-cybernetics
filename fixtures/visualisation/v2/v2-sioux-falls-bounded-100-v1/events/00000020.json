@@ -1,0 +1,54 @@
+{
+  "chunk_index": 20,
+  "content_sha256": "b924deba81caedf220e6ca223e615b73c3f1f424c5b61d4ed8082dda9127a188",
+  "end_sequence": 881,
+  "end_tick": 25,
+  "events": [
+    {
+      "entity_id": "L0049",
+      "event_type": "link_exit",
+      "packet_id": "P74",
+      "physical_tick": 25,
+      "sequence_number": 876
+    },
+    {
+      "entity_id": "L0053",
+      "event_type": "link_entry",
+      "packet_id": "P74",
+      "physical_tick": 25,
+      "sequence_number": 877
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "link_exit",
+      "packet_id": "P75",
+      "physical_tick": 25,
+      "sequence_number": 878
+    },
+    {
+      "entity_id": "L0053",
+      "event_type": "link_entry",
+      "packet_id": "P75",
+      "physical_tick": 25,
+      "sequence_number": 879
+    },
+    {
+      "entity_id": "L0049",
+      "event_type": "link_exit",
+      "packet_id": "P76",
+      "physical_tick": 25,
+      "sequence_number": 880
+    },
+    {
+      "entity_id": "L0053",
+      "event_type": "link_entry",
+      "packet_id": "P76",
+      "physical_tick": 25,
+      "sequence_number": 881
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.event-chunk.v1",
+  "start_sequence": 876,
+  "start_tick": 25
+}

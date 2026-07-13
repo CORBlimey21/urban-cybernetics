@@ -1,0 +1,54 @@
+{
+  "chunk_index": 5,
+  "content_sha256": "11a7b1258a396b192723c18852d953d513f0b8a4f752b5a2f8b0c5376b2ec666",
+  "end_sequence": 405,
+  "end_tick": 8,
+  "events": [
+    {
+      "entity_id": "L0016",
+      "event_type": "link_exit",
+      "packet_id": "P98",
+      "physical_tick": 8,
+      "sequence_number": 400
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "link_entry",
+      "packet_id": "P98",
+      "physical_tick": 8,
+      "sequence_number": 401
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_exit",
+      "packet_id": "P99",
+      "physical_tick": 8,
+      "sequence_number": 402
+    },
+    {
+      "entity_id": "L0020",
+      "event_type": "link_entry",
+      "packet_id": "P99",
+      "physical_tick": 8,
+      "sequence_number": 403
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "link_exit",
+      "packet_id": "P100",
+      "physical_tick": 8,
+      "sequence_number": 404
+    },
+    {
+      "entity_id": "L0016",
+      "event_type": "completed",
+      "packet_id": "P100",
+      "physical_tick": 8,
+      "sequence_number": 405
+    }
+  ],
+  "run_id": "v2-sioux-falls-bounded-100-v1",
+  "schema_version": "uc.visualisation.event-chunk.v1",
+  "start_sequence": 400,
+  "start_tick": 8
+}

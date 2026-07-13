@@ -1,0 +1,2265 @@
+[
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->02:001:unit:000001",
+    "destination_node_id": "N002",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P1",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->06:005:unit:000001",
+    "destination_node_id": "N006",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P10",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->08:030:unit:000001",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P100",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->06:005:unit:000002",
+    "destination_node_id": "N006",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P11",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->06:005:unit:000003",
+    "destination_node_id": "N006",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P12",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->07:006:unit:000001",
+    "destination_node_id": "N007",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P13",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->07:006:unit:000002",
+    "destination_node_id": "N007",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P14",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->07:006:unit:000003",
+    "destination_node_id": "N007",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P15",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->07:006:unit:000004",
+    "destination_node_id": "N007",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P16",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->07:006:unit:000005",
+    "destination_node_id": "N007",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P17",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->08:007:unit:000001",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P18",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->08:007:unit:000002",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P19",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->03:002:unit:000001",
+    "destination_node_id": "N003",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P2",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->08:007:unit:000003",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P20",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->08:007:unit:000004",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P21",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->08:007:unit:000005",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P22",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->08:007:unit:000006",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P23",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->08:007:unit:000007",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P24",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->08:007:unit:000008",
+    "destination_node_id": "N008",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P25",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->09:008:unit:000001",
+    "destination_node_id": "N009",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P26",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0015",
+      "L0013"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->09:008:unit:000002",
+    "destination_node_id": "N009",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P27",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0015",
+      "L0013"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->09:008:unit:000003",
+    "destination_node_id": "N009",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P28",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0015",
+      "L0013"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->09:008:unit:000004",
+    "destination_node_id": "N009",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P29",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0015",
+      "L0013"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->04:003:unit:000001",
+    "destination_node_id": "N004",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P3",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->09:008:unit:000005",
+    "destination_node_id": "N009",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P30",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0015",
+      "L0013"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000001",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P31",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000002",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P32",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000003",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P33",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000004",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P34",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000005",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P35",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000006",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P36",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000007",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P37",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000008",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P38",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000009",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P39",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->04:003:unit:000002",
+    "destination_node_id": "N004",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P4",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000010",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P40",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000011",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P41",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000012",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P42",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->10:009:unit:000013",
+    "destination_node_id": "N010",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P43",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->11:010:unit:000001",
+    "destination_node_id": "N011",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P44",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->11:010:unit:000002",
+    "destination_node_id": "N011",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P45",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->11:010:unit:000003",
+    "destination_node_id": "N011",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P46",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->11:010:unit:000004",
+    "destination_node_id": "N011",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P47",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->11:010:unit:000005",
+    "destination_node_id": "N011",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P48",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->12:011:unit:000001",
+    "destination_node_id": "N012",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P49",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->04:003:unit:000003",
+    "destination_node_id": "N004",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P5",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->12:011:unit:000002",
+    "destination_node_id": "N012",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P50",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->13:012:unit:000001",
+    "destination_node_id": "N013",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P51",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007",
+      "L0037"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->13:012:unit:000002",
+    "destination_node_id": "N013",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P52",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007",
+      "L0037"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->13:012:unit:000003",
+    "destination_node_id": "N013",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P53",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007",
+      "L0037"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->13:012:unit:000004",
+    "destination_node_id": "N013",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P54",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007",
+      "L0037"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->13:012:unit:000005",
+    "destination_node_id": "N013",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P55",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007",
+      "L0037"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->14:013:unit:000001",
+    "destination_node_id": "N014",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P56",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0034"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->14:013:unit:000002",
+    "destination_node_id": "N014",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P57",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0034"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->14:013:unit:000003",
+    "destination_node_id": "N014",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P58",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0034"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->15:014:unit:000001",
+    "destination_node_id": "N015",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P59",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->04:003:unit:000004",
+    "destination_node_id": "N004",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P6",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->15:014:unit:000002",
+    "destination_node_id": "N015",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P60",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->15:014:unit:000003",
+    "destination_node_id": "N015",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P61",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->15:014:unit:000004",
+    "destination_node_id": "N015",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P62",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->15:014:unit:000005",
+    "destination_node_id": "N015",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P63",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->16:015:unit:000001",
+    "destination_node_id": "N016",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P64",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->16:015:unit:000002",
+    "destination_node_id": "N016",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P65",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->16:015:unit:000003",
+    "destination_node_id": "N016",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P66",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->16:015:unit:000004",
+    "destination_node_id": "N016",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P67",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->16:015:unit:000005",
+    "destination_node_id": "N016",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P68",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->17:016:unit:000001",
+    "destination_node_id": "N017",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P69",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022",
+      "L0049"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->04:003:unit:000005",
+    "destination_node_id": "N004",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P7",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->17:016:unit:000002",
+    "destination_node_id": "N017",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P70",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022",
+      "L0049"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->17:016:unit:000003",
+    "destination_node_id": "N017",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P71",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022",
+      "L0049"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->17:016:unit:000004",
+    "destination_node_id": "N017",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P72",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022",
+      "L0049"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->18:017:unit:000001",
+    "destination_node_id": "N018",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P73",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020",
+      "L0018"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->19:018:unit:000001",
+    "destination_node_id": "N019",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P74",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022",
+      "L0049",
+      "L0053"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->19:018:unit:000002",
+    "destination_node_id": "N019",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P75",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022",
+      "L0049",
+      "L0053"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->19:018:unit:000003",
+    "destination_node_id": "N019",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P76",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0022",
+      "L0049",
+      "L0053"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->20:019:unit:000001",
+    "destination_node_id": "N020",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P77",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020",
+      "L0018",
+      "L0056"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->20:019:unit:000002",
+    "destination_node_id": "N020",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P78",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020",
+      "L0018",
+      "L0056"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->20:019:unit:000003",
+    "destination_node_id": "N020",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P79",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0016",
+      "L0020",
+      "L0018",
+      "L0056"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->05:004:unit:000001",
+    "destination_node_id": "N005",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P8",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0015"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->21:020:unit:000001",
+    "destination_node_id": "N021",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P80",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007",
+      "L0037",
+      "L0039",
+      "L0075"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->22:021:unit:000001",
+    "destination_node_id": "N022",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P81",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028",
+      "L0046"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->22:021:unit:000002",
+    "destination_node_id": "N022",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P82",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028",
+      "L0046"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->22:021:unit:000003",
+    "destination_node_id": "N022",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P83",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028",
+      "L0046"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->22:021:unit:000004",
+    "destination_node_id": "N022",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P84",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0032",
+      "L0028",
+      "L0046"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->23:022:unit:000001",
+    "destination_node_id": "N023",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P85",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0034",
+      "L0042"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->23:022:unit:000002",
+    "destination_node_id": "N023",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P86",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0034",
+      "L0042"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->23:022:unit:000003",
+    "destination_node_id": "N023",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P87",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0006",
+      "L0010",
+      "L0034",
+      "L0042"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->24:023:unit:000001",
+    "destination_node_id": "N024",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P88",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0002",
+      "L0007",
+      "L0037",
+      "L0039"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->01:024:unit:000001",
+    "destination_node_id": "N001",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P89",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0003"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:01->05:004:unit:000002",
+    "destination_node_id": "N005",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N001",
+    "packet_id": "P9",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0001",
+      "L0004",
+      "L0015"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->03:025:unit:000001",
+    "destination_node_id": "N003",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P90",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0003",
+      "L0002"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->04:026:unit:000001",
+    "destination_node_id": "N004",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P91",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0003",
+      "L0002",
+      "L0006"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->04:026:unit:000002",
+    "destination_node_id": "N004",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P92",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0003",
+      "L0002",
+      "L0006"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->05:027:unit:000001",
+    "destination_node_id": "N005",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P93",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0004",
+      "L0015"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->06:028:unit:000001",
+    "destination_node_id": "N006",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P94",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0004"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->06:028:unit:000002",
+    "destination_node_id": "N006",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P95",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0004"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->06:028:unit:000003",
+    "destination_node_id": "N006",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P96",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0004"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->06:028:unit:000004",
+    "destination_node_id": "N006",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P97",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0004"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->07:029:unit:000001",
+    "destination_node_id": "N007",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P98",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0004",
+      "L0016",
+      "L0020"
+    ]
+  },
+  {
+    "authority_id": null,
+    "cohort_id": null,
+    "demand_id": "sioux-falls-od:02->07:029:unit:000002",
+    "destination_node_id": "N007",
+    "field_availability": {
+      "authority_id": "unavailable_in_artifact",
+      "cohort_id": "unavailable_in_artifact",
+      "destination_node_id": "available",
+      "origin_node_id": "available",
+      "route_id": "unavailable_in_artifact"
+    },
+    "origin_node_id": "N002",
+    "packet_id": "P99",
+    "packet_unit_weight": 1,
+    "route_id": null,
+    "route_intent": [
+      "L0004",
+      "L0016",
+      "L0020"
+    ]
+  }
+]
