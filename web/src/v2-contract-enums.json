@@ -1,0 +1,20 @@
+{
+  "run_lifecycle_state": [
+    "created",
+    "resolving",
+    "setting_up",
+    "running",
+    "pause_requested",
+    "paused",
+    "resume_requested",
+    "cancel_requested",
+    "finalising",
+    "validating",
+    "complete",
+    "cancelled",
+    "timed_out",
+    "failed"
+  ],
+  "run_command_action": ["pause", "resume", "cancel"],
+  "artifact_format": ["v1_bundle", "v2_chunked"]
+}

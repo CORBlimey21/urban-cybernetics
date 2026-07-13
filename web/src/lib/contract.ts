@@ -1,5 +1,6 @@
 import { z } from "zod";
 import contractEnums from "../contract-enums.json";
+import v2ContractEnums from "../v2-contract-enums.json";
 
 const literalUnion = <T extends readonly [string, ...string[]]>(values: T) =>
   z.enum(values);
@@ -211,11 +212,96 @@ export const cumulativeSeriesSchema = z.object({
   storage_packets: z.array(z.number().int()),
 });
 
+export const finalBundleSchema = manifestSchema.extend({
+  event_stream: z.object({ descriptor: descriptorSchema, events: z.array(eventSchema) }),
+  replay_states: z.array(replayStateSchema),
+  cumulative_link_series: z.array(cumulativeSeriesSchema),
+});
+
+export const lifecycleStateSchema = literalUnion(v2ContractEnums.run_lifecycle_state as [string, ...string[]]);
+
+export const artifactSchema = z.object({
+  artifact_format: literalUnion(v2ContractEnums.artifact_format as [string, ...string[]]),
+  run_id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  contract_version: z.string(),
+  topology_id: z.string(),
+  topology_hash: z.string(),
+  physical_profile_id: z.string(),
+  profile_hash: z.string(),
+  demand_source_id: z.string(),
+  demand_hash: z.string(),
+  seed: z.number().int(),
+  status: z.string(),
+  stop_reason: z.string().nullable(),
+  created_at: z.string().nullable(),
+  updated_at: z.string().nullable(),
+  validation_status: z.string(),
+  configuration_hash: z.string(),
+  event_count: z.number().int().nonnegative(),
+  final_tick: z.number().int().nonnegative(),
+  counts: z.record(z.string(), z.number().int().nonnegative()),
+  assumption_warnings: z.array(z.string()),
+});
+export const artifactListSchema = z.array(artifactSchema);
+
+export const catalogueResourceSchema = z.object({
+  resource_id: z.string(), kind: z.string(), name: z.string(), description: z.string(),
+  provenance: z.string(), classification: z.string(), warnings: z.array(z.string()),
+  compatible_topology_ids: z.array(z.string()), compatible_profile_ids: z.array(z.string()),
+  parameters: z.array(z.object({
+    parameter_id: z.string(), name: z.string(), description: z.string(), units: z.string().nullable(),
+    default: z.union([z.string(), z.number(), z.boolean()]).nullable(), minimum: z.number().nullable(), maximum: z.number().nullable(),
+  })),
+});
+export const resourceCatalogueSchema = z.object({
+  schema_version: z.literal("uc.visualisation.control.v2"), resources: z.array(catalogueResourceSchema),
+});
+
+export const runRequestSchema = z.object({
+  schema_version: z.literal("uc.visualisation.control.v2").default("uc.visualisation.control.v2"),
+  topology_id: z.string(), physical_profile_id: z.string(), demand_source_id: z.string(),
+  requested_packet_count: z.number().int().min(1).max(1000),
+  packet_selection_policy_id: z.string().default("canonical_prefix_v1"), seed: z.number().int().nonnegative(),
+  tick_policy_id: z.string(), requested_tick_duration_seconds: z.number().positive().nullable(),
+  runtime_limit_seconds: z.number().positive(), tick_limit: z.number().int().positive(),
+  completion_policy_id: z.string().default("all_instantiated_packets_terminal_v1"),
+  stop_policy_id: z.string().default("bounded_tick_or_wall_time_v1"),
+  validation_policy_id: z.string().default("core_integrity_v1"), replay_policy_id: z.string().default("exact_if_complete_v1"),
+  persistence_policy_id: z.string().default("retain_all_evidence_v1"), run_label: z.string().nullable(), note: z.string().nullable(),
+});
+
+export const liveMessageSchema = z.object({
+  schema_version: z.literal("uc.visualisation.control.v2"), message_id: z.number().int(), run_id: z.string(),
+  message_type: z.string(), occurred_at: z.string(), lifecycle_state: lifecycleStateSchema,
+  payload: z.record(z.string(), z.unknown()),
+});
+
+export const movementEvidenceSchema = z.object({
+  schema_version: z.literal("uc.visualisation.movement-trace.v1"), run_id: z.string(), tick: z.number().int(),
+  junction_id: z.string(), allocator_id: z.string(), movement_spec_hash: z.string().nullable(),
+  semantic_sources: z.record(z.string(), z.string()),
+  movements: z.array(z.object({
+    movement_id: z.string(), upstream_link_id: z.string(), downstream_link_id: z.string(),
+    request_packet_ids: z.array(z.string()), upstream_fifo_packet_ids: z.array(z.string()), approved_packet_ids: z.array(z.string()),
+    rejected_packet_reasons: z.array(z.tuple([z.string(), z.string()])), receiving_supply_packets: z.number().int().nullable(),
+    movement_capacity_packets: z.number().int().nullable(), lane_group_constraints: z.record(z.string(), z.number().int()),
+    conflict_resource_constraints: z.record(z.string(), z.number().int()), signal_state: z.enum(["open", "closed", "not_declared"]),
+    governance_state: z.string().nullable(), resulting_canonical_event_sequences: z.array(z.number().int()),
+  })),
+});
+
 export type Manifest = z.infer<typeof manifestSchema>;
 export type CanonicalEvent = z.infer<typeof eventSchema>;
 export type ReplayState = z.infer<typeof replayStateSchema>;
 export type LinkRecord = z.infer<typeof linkSchema>;
 export type PacketRecord = z.infer<typeof packetSchema>;
 export type CumulativeSeries = z.infer<typeof cumulativeSeriesSchema>;
+export type ArtifactSummary = z.infer<typeof artifactSchema>;
+export type ResourceCatalogue = z.infer<typeof resourceCatalogueSchema>;
+export type RunRequest = z.infer<typeof runRequestSchema>;
+export type LiveMessage = z.infer<typeof liveMessageSchema>;
+export type MovementEvidence = z.infer<typeof movementEvidenceSchema>;
 
-export { contractEnums };
+export { contractEnums, v2ContractEnums };
