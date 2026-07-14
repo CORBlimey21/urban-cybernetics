@@ -86,6 +86,17 @@ progress, pause/resume/cancel Python execution, seek exact checkpoints, and
 inspect movement-allocation evidence. Runtime artifacts are retained under
 `outputs/visualisation/runs/`.
 
+The network panel exposes only artifact-declared visual layouts. Sioux Falls
+defaults to a non-geographic published-benchmark schematic; use the layout
+selector to compare it with deterministic generated or circular fallbacks.
+Layout choice, pan, zoom, and label layers are presentation state and never
+alter topology identity or replay evidence.
+
+Nodes, directed links, and packets can be inspected from the canvas and
+evidence panels. Packet follow highlights declared and realised paths while
+remaining presentation-only; unavailable movement or supply fields are shown
+as unavailable rather than inferred.
+
 See `docs/visualisation/v2_workbench_architecture.md` for the V2 ownership
 boundary and developer quick-start. V1 contracts remain documented and
 loadable without migration.

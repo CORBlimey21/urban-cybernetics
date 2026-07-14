@@ -1,5 +1,29 @@
 # V2 Simulation Workbench status
 
+## Network-layout milestone
+
+V2 now exposes versioned multi-layout presentation metadata. Sioux Falls uses
+the declared `sioux_falls_published_schematic_v1` arrangement by default, with
+deterministic generated and circular alternatives. The browser supports layout
+selection, non-geographic warnings, opposing-edge separation, label layers,
+pan/zoom, fit, and reset without changing replay or scientific state. See
+`v2_network_layouts.md` for the integrity boundary and provenance.
+
+## Inspection and packet-following milestone
+
+The network and inspector now support read-only node, directed-link, and packet
+inspection. Node panels combine immutable connectivity and movement
+specifications with Python-exported allocation traces at the selected tick;
+link panels expose replay membership, queues, cumulative counts, lifecycle
+events, physical metadata, and explicit unavailable fields. Packet panels
+provide OD and route intent, realised path, canonical lifecycle, search, and
+navigation to related links and nodes.
+
+Follow packet is presentation state: it highlights declared and realised paths
+and updates as exact replay advances, but it does not create packet positions,
+change the camera, or affect physical state. Interpolated canvas markers remain
+anonymous and are intentionally not treated as selectable packet evidence.
+
 ## Delivered vertical slice
 
 - V1 artifacts remain loadable and appear in the combined artifact library.
