@@ -7,7 +7,7 @@ import type { ValidationCase, ValidationResult } from "../lib/contract";
 
 echarts.use([LineChart, GridComponent, LegendComponent, MarkLineComponent, TooltipComponent, CanvasRenderer]);
 
-export function ValidationComparisonChart({ validationCase, result, tick }: { validationCase: ValidationCase; result: ValidationResult; tick: number }) {
+export function ValidationComparisonChart({ validationCase, result, tick, storageKey }: { validationCase: ValidationCase; result: ValidationResult; tick: number; storageKey?: string }) {
   const [seriesId, setSeriesId] = useState(validationCase.expected_series[0]?.series_id ?? "");
   const elementRef = useRef<HTMLDivElement>(null);
   const expected = useMemo(() => validationCase.expected_series.find((item) => item.series_id === seriesId), [validationCase, seriesId]);
@@ -15,19 +15,35 @@ export function ValidationComparisonChart({ validationCase, result, tick }: { va
   const difference = useMemo(() => result.difference_series.find((item) => item.series_id === seriesId), [result, seriesId]);
 
   useEffect(() => {
+    const remembered = storageKey ? window.localStorage.getItem(storageKey) : null;
+    const next = validationCase.expected_series.some((item) => item.series_id === remembered)
+      ? remembered!
+      : validationCase.expected_series[0]?.series_id ?? "";
+    setSeriesId(next);
+  }, [storageKey, validationCase]);
+
+  useEffect(() => {
+    if (storageKey && validationCase.expected_series.some((item) => item.series_id === seriesId)) window.localStorage.setItem(storageKey, seriesId);
+  }, [seriesId, storageKey, validationCase]);
+
+  useEffect(() => {
     if (!elementRef.current || !expected || !observed || !difference) return;
     const chart = echarts.init(elementRef.current, undefined, { renderer: "canvas" });
+    const differenceExtent = Math.max(1, ...difference.values.map((value) => Math.abs(value)));
     chart.setOption({
-      animationDuration: 260,
-      grid: { left: 48, right: 18, top: 42, bottom: 36 },
+      animationDuration: 260, animationDurationUpdate: 180,
+      grid: { left: 52, right: 54, top: 44, bottom: 40 },
       legend: { top: 8, textStyle: { color: "#8ea79f", fontSize: 9 } },
-      tooltip: { trigger: "axis", backgroundColor: "#12231f", borderColor: "#385f54", textStyle: { color: "#e6f0ed" } },
+      tooltip: { trigger: "axis", axisPointer: { type: "cross", lineStyle: { color: "#708d83" } }, backgroundColor: "#12231f", borderColor: "#385f54", textStyle: { color: "#e6f0ed", fontSize: 10 } },
       xAxis: { type: "category", data: expected.ticks, name: expected.time_basis.includes("ordinal") ? "packet ordinal" : "tick", boundaryGap: false, axisLabel: { color: "#78948b" }, axisLine: { lineStyle: { color: "#28443c" } } },
-      yAxis: { type: "value", name: expected.units, minInterval: expected.units === "packets" || expected.units === "ticks" ? 1 : undefined, axisLabel: { color: "#78948b" }, splitLine: { lineStyle: { color: "rgba(89,124,115,.14)" } } },
+      yAxis: [
+        { type: "value", name: expected.units, scale: true, minInterval: expected.units === "packets" || expected.units === "ticks" ? 1 : undefined, axisLabel: { color: "#78948b" }, splitLine: { lineStyle: { color: "rgba(89,124,115,.14)" } } },
+        { type: "value", name: "difference", min: -differenceExtent, max: differenceExtent, interval: differenceExtent, axisLabel: { color: "#c98989" }, splitLine: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(255,143,143,.35)" } } },
+      ],
       series: [
         { name: "expected · analytical", type: "line", step: "end", data: expected.values, symbol: "circle", symbolSize: 5, lineStyle: { width: 2, color: "#d8ff79", type: "dashed" }, itemStyle: { color: "#d8ff79" } },
-        { name: "observed · Python", type: "line", step: "end", data: observed.values, symbol: "none", lineStyle: { width: 3, color: "#5be4bd" }, itemStyle: { color: "#5be4bd" }, markLine: { silent: true, symbol: "none", label: { show: false }, lineStyle: { color: "#ffb55f", type: "dotted" }, data: [{ xAxis: tick }] } },
-        { name: "observed − expected", type: "line", step: "end", data: difference.values, symbol: "none", lineStyle: { width: 1.5, color: "#ff8f8f" }, itemStyle: { color: "#ff8f8f" } },
+        { name: "observed · Python", type: "line", step: "end", data: observed.values, symbol: "none", lineStyle: { width: 3, color: "#5be4bd" }, itemStyle: { color: "#5be4bd" }, markLine: { silent: true, symbol: "none", label: { show: true, formatter: `t${tick}`, color: "#ffcf91", fontSize: 9 }, lineStyle: { color: "#ffb55f", type: "dotted" }, data: [{ xAxis: tick }] } },
+        { name: "observed − expected", type: "line", yAxisIndex: 1, step: "end", data: difference.values, symbol: "diamond", symbolSize: 5, lineStyle: { width: 2, color: "#ff8f8f" }, areaStyle: { color: "rgba(255,143,143,.09)" }, itemStyle: { color: "#ff8f8f" } },
       ],
     });
     const observer = new ResizeObserver(() => chart.resize());

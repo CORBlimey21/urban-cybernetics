@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { Manifest, NetworkLayout, ReplayState, ValidationCase } from "../lib/contract";
+import type { Manifest, MovementEvidence, NetworkLayout, ReplayState } from "../lib/contract";
 import { directedEdgePath, distanceToEdgePath, pointOnQuadratic } from "../lib/networkGeometry";
 import { presentationMarkers } from "../lib/presentation";
 import { packetVisualEvidence } from "../lib/inspection";
+import type { ValidationReplayPresentation } from "../lib/validationPresentation";
 
 type Props = {
   manifest: Manifest;
@@ -15,7 +16,8 @@ type Props = {
   phase: number;
   onSelectLink: (linkId: string) => void;
   onSelectNode: (nodeId: string) => void;
-  validationOverlays?: ValidationCase["overlays"];
+  movementEvidence?: MovementEvidence[];
+  validationPresentation?: ValidationReplayPresentation;
 };
 
 type ViewTransform = Readonly<{ zoom: number; panX: number; panY: number }>;
@@ -39,8 +41,23 @@ const screenPoint = (
   };
 };
 
+const strokeQuadraticSegment = (
+  context: CanvasRenderingContext2D,
+  path: ReturnType<typeof directedEdgePath>,
+  from: number,
+  to: number,
+) => {
+  context.beginPath();
+  for (let index = 0; index <= 24; index += 1) {
+    const point = pointOnQuadratic(path, from + (to - from) * (index / 24));
+    if (index === 0) context.moveTo(point.x, point.y);
+    else context.lineTo(point.x, point.y);
+  }
+  context.stroke();
+};
+
 export function NetworkCanvas({
-  manifest, layout, state, selectedLinkId, selectedNodeId, selectedPacketId, followingPacket, phase, onSelectLink, onSelectNode, validationOverlays = [],
+  manifest, layout, state, selectedLinkId, selectedNodeId, selectedPacketId, followingPacket, phase, onSelectLink, onSelectNode, movementEvidence = [], validationPresentation,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sizeRef = useRef({ width: 800, height: 480 });
@@ -94,6 +111,14 @@ export function NetworkCanvas({
 
     const packetEvidence = packetVisualEvidence(manifest, state, selectedPacketId);
     const directionPairs = new Set(manifest.topology.links.map((link) => `${link.tail_node_id}->${link.head_node_id}`));
+    const currentMovementEvidence = movementEvidence.filter((trace) => trace.tick === state.tick);
+    const approvedLinks = new Set(validationPresentation?.approvedLinks ?? []);
+    const rejectedLinks = new Set(validationPresentation?.rejectedLinks ?? []);
+    for (const movement of currentMovementEvidence.flatMap((trace) => trace.movements)) {
+      if (movement.approved_packet_ids.length) approvedLinks.add(movement.downstream_link_id);
+      if (movement.rejected_packet_reasons.length) rejectedLinks.add(movement.upstream_link_id);
+    }
+    const blockedNodeIds = new Set<string>();
 
     for (const link of manifest.topology.links) {
       const tail = layout.node_coordinates[link.tail_node_id];
@@ -111,27 +136,58 @@ export function NetworkCanvas({
       const onRealisedPath = packetEvidence.realisedPath.has(link.link_id);
       const queued = linkState.queued_packet_ids.length > 0;
       const occupied = linkState.occupancy_packets > 0;
+      const laneWidth = 1.35 + Math.min(Math.max(link.lane_count ?? 1, 1), 5) * 0.42;
+      const approved = approvedLinks.has(link.link_id);
+      const rejected = rejectedLinks.has(link.link_id);
+      const visual = validationPresentation?.links.get(link.link_id);
+      if (visual?.blockedAtHead) blockedNodeIds.add(link.head_node_id);
       context.strokeStyle = selected ? "#d8ff79" : hover ? "#b8d4cb" : onRealisedPath ? "#9cffd9" : queued ? "#ffb55f" : occupied ? "#5be4bd" : onSelectedRoute ? "#597c73" : "#263d38";
-      context.lineWidth = selected ? 4.5 : hover ? 3.2 : onRealisedPath ? 3.6 : occupied || queued ? 3 : onSelectedRoute ? 2.4 : 1.6;
+      context.lineWidth = selected ? laneWidth + 3.2 : hover ? laneWidth + 2 : onRealisedPath ? laneWidth + 1.8 : occupied || queued ? laneWidth + 1.2 : onSelectedRoute ? laneWidth + .8 : laneWidth;
+      context.setLineDash(onSelectedRoute && !onRealisedPath ? [5, 5] : []);
       context.beginPath();
       context.moveTo(path.start.x, path.start.y);
       context.quadraticCurveTo(path.control.x, path.control.y, path.end.x, path.end.y);
       context.stroke();
+      context.setLineDash([]);
 
-      const activeValidationOverlays = validationOverlays.filter((overlay) => overlay.link_id === link.link_id && overlay.active_from_tick <= state.tick && state.tick <= overlay.active_through_tick);
-      if (activeValidationOverlays.length) {
-        const primary = activeValidationOverlays[0];
-        context.strokeStyle = primary.kind === "blocked_boundary" ? "#ff8585" : primary.kind === "reference_wave" ? "#b9a4ff" : "#f6c66d";
-        context.lineWidth = primary.kind === "queued_region" ? 7 : 3;
-        context.globalAlpha = primary.kind === "queued_region" ? 0.32 : 0.82;
-        context.setLineDash(primary.evidence_source === "analytical_reference" ? [7, 5] : [3, 4]);
+      if (visual && visual.queueFraction > 0) {
+        const queueBoundary = Math.max(0.04, 1 - visual.queueFraction * .94);
+        context.strokeStyle = "rgba(255, 181, 95, .72)";
+        context.lineWidth = laneWidth + 6;
+        context.lineCap = "round";
+        strokeQuadraticSegment(context, path, queueBoundary, .98);
+        context.lineCap = "butt";
+        const boundary = pointOnQuadratic(path, queueBoundary);
+        const beforeBoundary = pointOnQuadratic(path, Math.max(0, queueBoundary - .035));
+        const angle = Math.atan2(boundary.y - beforeBoundary.y, boundary.x - beforeBoundary.x) + Math.PI / 2;
+        context.strokeStyle = "#ffd49a";
+        context.lineWidth = 2;
+        context.beginPath();
+        context.moveTo(boundary.x - 7 * Math.cos(angle), boundary.y - 7 * Math.sin(angle));
+        context.lineTo(boundary.x + 7 * Math.cos(angle), boundary.y + 7 * Math.sin(angle));
+        context.stroke();
+      }
+
+      if (visual?.vacancyWavePosition !== null && visual?.vacancyWavePosition !== undefined) {
+        const tip = pointOnQuadratic(path, visual.vacancyWavePosition);
+        const before = pointOnQuadratic(path, Math.min(.98, visual.vacancyWavePosition + .07));
+        const angle = Math.atan2(tip.y - before.y, tip.x - before.x);
+        context.strokeStyle = "#b9a4ff";
+        context.fillStyle = "#b9a4ff";
+        context.lineWidth = 2;
+        context.setLineDash([5, 4]);
+        context.beginPath(); context.arc(tip.x, tip.y, 9, 0, Math.PI * 2); context.stroke();
+        context.setLineDash([]);
+        context.beginPath(); context.moveTo(tip.x, tip.y); context.lineTo(tip.x - 9 * Math.cos(angle - .5), tip.y - 9 * Math.sin(angle - .5)); context.lineTo(tip.x - 9 * Math.cos(angle + .5), tip.y - 9 * Math.sin(angle + .5)); context.closePath(); context.fill();
+      }
+
+      if (approved || rejected) {
+        context.strokeStyle = approved ? "#d8ff79" : "#ff8585";
+        context.lineWidth = laneWidth + 4;
+        context.globalAlpha = .7;
+        context.setLineDash(rejected ? [3, 4] : []);
         context.beginPath(); context.moveTo(path.start.x, path.start.y); context.quadraticCurveTo(path.control.x, path.control.y, path.end.x, path.end.y); context.stroke();
         context.setLineDash([]); context.globalAlpha = 1;
-        if (primary.direction === "backward") {
-          const tip = pointOnQuadratic(path, 0.28); const before = pointOnQuadratic(path, 0.36);
-          const angle = Math.atan2(tip.y - before.y, tip.x - before.x);
-          context.fillStyle = context.strokeStyle; context.beginPath(); context.moveTo(tip.x, tip.y); context.lineTo(tip.x - 8 * Math.cos(angle - .5), tip.y - 8 * Math.sin(angle - .5)); context.lineTo(tip.x - 8 * Math.cos(angle + .5), tip.y - 8 * Math.sin(angle + .5)); context.closePath(); context.fill();
-        }
       }
 
       const arrow = pointOnQuadratic(path, 0.76);
@@ -153,6 +209,10 @@ export function NetworkCanvas({
       }
       if (packetEvidence.currentLinkId === link.link_id) {
         context.strokeStyle = followingPacket ? "#d8ff79" : "#ffffff";
+        context.lineWidth = followingPacket ? laneWidth + 4 : laneWidth + 2;
+        context.globalAlpha = followingPacket ? .24 : .14;
+        context.beginPath(); context.moveTo(path.start.x, path.start.y); context.quadraticCurveTo(path.control.x, path.control.y, path.end.x, path.end.y); context.stroke();
+        context.globalAlpha = 1;
         context.lineWidth = followingPacket ? 2.2 : 1;
         context.setLineDash([4, 6]);
         context.beginPath(); context.moveTo(path.start.x, path.start.y); context.quadraticCurveTo(path.control.x, path.control.y, path.end.x, path.end.y); context.stroke();
@@ -163,7 +223,9 @@ export function NetworkCanvas({
         context.font = `${selected ? 650 : 560} ${selected ? 10 : 8}px Inter, system-ui, sans-serif`;
         context.textAlign = "center";
         context.fillStyle = selected ? "#efffd1" : "#78948b";
-        const text = layers.activity || selected ? `${link.link_id} · ${linkState.occupancy_packets}` : link.link_id;
+        const physical = selected && link.length_m !== null ? ` · ${link.length_m}m` : "";
+        const lanes = selected && link.lane_count !== null ? ` · ${link.lane_count}L` : "";
+        const text = layers.activity || selected ? `${link.link_id} · ${linkState.occupancy_packets}${physical}${lanes}` : link.link_id;
         context.fillText(text, label.x, label.y - (path.opposingOffset ? 7 : 5));
       }
     }
@@ -175,11 +237,12 @@ export function NetworkCanvas({
       const selected = node.node_id === selectedNodeId;
       const hover = hovered?.kind === "node" && hovered.id === node.node_id;
       const endpoint = node.node_id === packetEvidence.originNodeId || node.node_id === packetEvidence.destinationNodeId;
+      const blocked = blockedNodeIds.has(node.node_id);
       context.shadowColor = "rgba(91, 228, 189, .14)";
-      context.shadowBlur = 12;
+      context.shadowBlur = blocked ? 22 : 12;
       context.fillStyle = "#0f201c";
-      context.strokeStyle = selected ? "#d8ff79" : hover ? "#e5fff6" : endpoint ? "#9cffd9" : "#739c90";
-      context.lineWidth = selected ? 3 : hover ? 2.5 : endpoint ? 2.2 : 1.4;
+      context.strokeStyle = blocked ? "#ff8585" : selected ? "#d8ff79" : hover ? "#e5fff6" : endpoint ? "#9cffd9" : "#739c90";
+      context.lineWidth = blocked ? 3.4 : selected ? 3 : hover ? 2.5 : endpoint ? 2.2 : 1.4;
       context.beginPath(); context.arc(x, y, selected || hover ? 13 : 11, 0, Math.PI * 2); context.fill(); context.stroke();
       context.shadowBlur = 0;
       if (layers.nodeIds) {
@@ -191,8 +254,15 @@ export function NetworkCanvas({
         context.fillText(compactNodeId, x, y + 0.5);
         context.textBaseline = "alphabetic";
       }
+      if (selectedPacketId && endpoint) {
+        const endpointLabel = node.node_id === packetEvidence.originNodeId ? "O" : "D";
+        context.fillStyle = endpointLabel === "O" ? "#8bb7ff" : "#d8ff79";
+        context.font = "800 8px Inter, system-ui, sans-serif";
+        context.textAlign = "center";
+        context.fillText(endpointLabel, x, y - 17);
+      }
     }
-  }, [bounds, followingPacket, hovered, layers, layout, manifest, phase, resizeVersion, selectedLinkId, selectedNodeId, selectedPacketId, state, validationOverlays, view]);
+  }, [bounds, followingPacket, hovered, layers, layout, manifest, movementEvidence, phase, resizeVersion, selectedLinkId, selectedNodeId, selectedPacketId, state, validationPresentation, view]);
 
   const hitTest = (point: { x: number; y: number }, width: number, height: number) => {
     for (const node of manifest.topology.nodes) {
@@ -227,6 +297,8 @@ export function NetworkCanvas({
     setView(initialView);
     if (resetLayers) setLayers(initialLayers);
   };
+  const queueVisual = [...(validationPresentation?.links.values() ?? [])].find((item) => item.queuePackets > 0);
+  const waveVisual = [...(validationPresentation?.links.values() ?? [])].find((item) => item.vacancyWavePosition !== null);
 
   return (
     <div className="network-frame">
@@ -261,7 +333,11 @@ export function NetworkCanvas({
         <label><input type="checkbox" checked={layers.linkIds} onChange={(event) => setLayers((current) => ({ ...current, linkIds: event.target.checked }))} /> Links</label>
         <label><input type="checkbox" checked={layers.activity} onChange={(event) => setLayers((current) => ({ ...current, activity: event.target.checked }))} /> Activity</label>
       </div>
-      <div className="canvas-note"><span className="legend-dot interpolation" /> animated dots: presentation only</div>
+      <div className="canvas-note"><span className="legend-dot interpolation" /> animated dots and wave position: presentation only</div>
+      {(queueVisual || waveVisual) && <div className="canvas-evidence-note">
+        {queueVisual && <span><b>Queue region</b> · {queueVisual.queuePackets} packet{queueVisual.queuePackets === 1 ? "" : "s"} · {queueVisual.queueSource}; screen fill is normalized presentation</span>}
+        {waveVisual && <span><b>Vacancy timing</b> · {waveVisual.vacancyWaveSource}; moving cue is presentation-only</span>}
+      </div>}
       <div className="canvas-scale">{layout.is_geographic ? `Geographic · ${layout.crs}` : "Non-geographic · distances and angles are not physical"}</div>
     </div>
   );
