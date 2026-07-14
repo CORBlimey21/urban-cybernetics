@@ -11,6 +11,8 @@ from pydantic import ValidationError
 from urban_cybernetics.core import Event, EventType
 from urban_cybernetics.visualisation.contract import (
     FieldAvailability,
+    LayoutKind,
+    LayoutOrigin,
     PacketReplayStatus,
     RunStatus,
     SemanticStatus,
@@ -183,6 +185,8 @@ def test_frontend_and_backend_enums_are_compatible() -> None:
     assert frontend["field_availability"] == [
         item.value for item in FieldAvailability
     ]
+    assert frontend["layout_kind"] == [item.value for item in LayoutKind]
+    assert frontend["layout_origin"] == [item.value for item in LayoutOrigin]
 
 
 def _packet(packet_id: str) -> VPacket:

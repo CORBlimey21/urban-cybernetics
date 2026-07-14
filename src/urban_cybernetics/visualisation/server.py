@@ -17,7 +17,7 @@ from .orchestrator import RunNotActive, RunOrchestrator, TERMINAL_STATES
 from .persistence import ArtifactRepository, V2ArtifactNotFound
 from .replay import build_replay_states, resume_replay_from_checkpoint
 from .store import RunNotFoundError, RunStore
-from .export import deterministic_positions
+from .layouts import layouts_for_topology
 from .contract import VPacket, VTopology
 from urban_cybernetics.topology import CanonicalNode, CanonicalTopology, CanonicalTopologyLink, TopologySourceMetadata
 from .v2_contract import RunCommand, RunRequestV2
@@ -244,6 +244,8 @@ def create_app(
             raise HTTPException(status_code=409, detail="live evidence is not sealed yet") from exc
         topology = VTopology.model_validate(topology_payload)
         canonical = _canonical_topology_for_layout(topology)
+        default_layout_id, layouts = layouts_for_topology(canonical)
+        default_layout = next(layout for layout in layouts if layout.layout_id == default_layout_id)
         return {
             "schema_version": "uc.visualisation.run.v1",
             "run": {
@@ -269,7 +271,16 @@ def create_app(
             "packets_descriptor": _descriptor("provenance_configuration_metadata", "immutable packet metadata snapshot", units="unit packets", counting_basis="one conserved packet identity per record"),
             "packets": packets,
             "validation": {"descriptor": _descriptor("validation_output", "Python validation layer"), "overall_status": "not_run" if summary.validation_status == "pending" else summary.validation_status, "checks": {}, "notes": ["Validation remains pending until finalisation."]},
-            "presentation": {"descriptor": _descriptor("presentation_only_interpolation", "viewer layout adapter", units="normalised canvas coordinates"), "layout_kind": "synthetic_deterministic", "layout_note": "Deterministic topology layout; not geographic or physical geometry.", "node_positions": deterministic_positions(canonical), "interpolation_note": "Animated markers are presentation-only and never scientific state."},
+            "presentation": {
+                "descriptor": _descriptor("presentation_only_interpolation", "viewer layout adapter", units="layout-specific; see layout coordinate_units"),
+                "layout_schema_version": "uc.visualisation.layout.v1",
+                "default_layout_id": default_layout_id,
+                "layouts": [layout.model_dump(mode="json") for layout in layouts],
+                "layout_kind": "synthetic_declared" if default_layout.kind.value == "declared_schematic" else "synthetic_deterministic",
+                "layout_note": default_layout.label,
+                "node_positions": default_layout.node_coordinates,
+                "interpolation_note": "Animated markers are presentation-only and never scientific state.",
+            },
         }
 
     @app.post("/api/v2/runs/{run_id}/commands")
@@ -372,7 +383,11 @@ def create_app(
             raise HTTPException(status_code=404, detail="link not found")
         packets = tuple(VPacket.model_validate(item) for item in packets_payload)
         all_events = tuple(_core_event(event) for chunk in repository.event_chunks(run_id) for event in chunk.events)
-        states = build_replay_states(events=all_events, packets=packets, link_ids=link_ids, start_tick=0, end_tick=summary.final_tick)
+        evidence_end_tick = max(
+            summary.final_tick,
+            max((event.physical_tick for event in all_events), default=0),
+        )
+        states = build_replay_states(events=all_events, packets=packets, link_ids=link_ids, start_tick=0, end_tick=evidence_end_tick)
         link_states = [next(item for item in state.links if item.link_id == link_id) for state in states]
         return {"descriptor": _descriptor("event_derived_scientific_projection", "Python replay fold over canonical event chunks", units="unit packets", time_basis="inclusive integer physical tick", counting_basis="cumulative canonical LINK_ENTRY and LINK_EXIT events", boundary_direction="entries at upstream link boundary; exits at downstream link boundary", aggregation_window_ticks=1), "link_id": link_id, "ticks": [state.tick for state in states], "cumulative_entries": [item.cumulative_entries for item in link_states], "cumulative_exits": [item.cumulative_exits for item in link_states], "storage_packets": [item.occupancy_packets for item in link_states]}
 

@@ -1667,14 +1667,153 @@
     "descriptor": {
       "semantic_status": "presentation_only_interpolation",
       "source": "viewer layout adapter",
-      "units": "normalised canvas coordinates",
+      "units": "layout-specific; see layout coordinate_units",
       "time_basis": null,
       "counting_basis": null,
       "boundary_direction": null,
       "aggregation_window_ticks": null
     },
+    "layout_schema_version": "uc.visualisation.layout.v1",
+    "default_layout_id": "topology:v1:strict-fifo-diverge:declared_schematic_v1",
+    "layouts": [
+      {
+        "schema_version": "uc.visualisation.layout.v1",
+        "layout_id": "topology:v1:strict-fifo-diverge:declared_schematic_v1",
+        "label": "Declared fixture schematic",
+        "kind": "declared_schematic",
+        "version": "1",
+        "preferred": true,
+        "is_geographic": false,
+        "coordinate_basis": "normalised schematic canvas",
+        "coordinate_units": "normalised [0,1]",
+        "source": "UC declared fixture layout",
+        "provenance": "Declared alongside the visualisation fixture; detached from canonical topology identity.",
+        "origin": "declared",
+        "generated_by": null,
+        "deterministic_seed": null,
+        "crs": null,
+        "node_coordinates": {
+          "N0": [
+            0.08,
+            0.5
+          ],
+          "N1": [
+            0.31,
+            0.5
+          ],
+          "N2": [
+            0.57,
+            0.23
+          ],
+          "N3": [
+            0.57,
+            0.77
+          ],
+          "N4": [
+            0.9,
+            0.5
+          ]
+        },
+        "edge_routes": {},
+        "warnings": [
+          "Non-geographic layout."
+        ],
+        "distance_semantics": "Screen distances are presentation-only.",
+        "angle_semantics": "Screen angles are presentation-only."
+      },
+      {
+        "schema_version": "uc.visualisation.layout.v1",
+        "layout_id": "uc_deterministic_layered_schematic_v1",
+        "label": "Auto schematic",
+        "kind": "generated_schematic",
+        "version": "1",
+        "preferred": false,
+        "is_geographic": false,
+        "coordinate_basis": "normalised deterministic hop layers",
+        "coordinate_units": "normalised [0,1]",
+        "source": "UC deterministic topology layout generator",
+        "provenance": "Derived only from immutable node/link incidence for visual placement.",
+        "origin": "generated",
+        "generated_by": "urban_cybernetics.visualisation.layouts:hop_layers_v1",
+        "deterministic_seed": 0,
+        "crs": null,
+        "node_coordinates": {
+          "N0": [
+            0.08,
+            0.5
+          ],
+          "N1": [
+            0.36,
+            0.5
+          ],
+          "N2": [
+            0.64,
+            0.08
+          ],
+          "N3": [
+            0.64,
+            0.92
+          ],
+          "N4": [
+            0.92,
+            0.5
+          ]
+        },
+        "edge_routes": {},
+        "warnings": [
+          "Generated non-geographic layout."
+        ],
+        "distance_semantics": "Layer spacing represents visual hop grouping, not physical distance.",
+        "angle_semantics": "Screen angles are generated and non-physical."
+      },
+      {
+        "schema_version": "uc.visualisation.layout.v1",
+        "layout_id": "uc_circular_fallback_v1",
+        "label": "Circular fallback",
+        "kind": "circular_fallback",
+        "version": "1",
+        "preferred": false,
+        "is_geographic": false,
+        "coordinate_basis": "normalised deterministic circle",
+        "coordinate_units": "normalised [0,1]",
+        "source": "UC circular fallback",
+        "provenance": "Deterministic lexicographic node ordering; presentation fallback only.",
+        "origin": "generated",
+        "generated_by": "urban_cybernetics.visualisation.layouts:circular_v1",
+        "deterministic_seed": 0,
+        "crs": null,
+        "node_coordinates": {
+          "N0": [
+            0.5,
+            0.1
+          ],
+          "N1": [
+            0.880423,
+            0.376393
+          ],
+          "N2": [
+            0.735114,
+            0.823607
+          ],
+          "N3": [
+            0.264886,
+            0.823607
+          ],
+          "N4": [
+            0.119577,
+            0.376393
+          ]
+        },
+        "edge_routes": {},
+        "warnings": [
+          "Fallback non-geographic layout."
+        ],
+        "distance_semantics": "Screen distances are presentation-only.",
+        "angle_semantics": "Equal angular spacing is presentation-only."
+      }
+    ],
     "layout_kind": "synthetic_declared",
-    "layout_note": "Declared diagram coordinates; not geographic or physical geometry.",
+    "layout_note": "Declared fixture schematic",
     "node_positions": {
       "N0": [
         0.08,

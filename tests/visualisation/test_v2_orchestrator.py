@@ -138,6 +138,32 @@ def test_browser_disconnect_is_not_part_of_run_lifecycle(tmp_path: Path) -> None
     assert resumed[-1].message_type.value == "terminal_result"
 
 
+def test_live_cumulative_projection_uses_latest_sealed_event_tick_when_summary_lags(tmp_path: Path) -> None:
+    repository = ArtifactRepository(tmp_path)
+    orchestrator = RunOrchestrator(repository)
+    created = orchestrator.create_run(request(8))
+    final = orchestrator.wait(created.run_id, 10)
+    assert final.final_tick > 0
+    repository.write_summary(final.model_copy(update={"final_tick": 0}))
+    api = TestClient(create_app(
+        artifact_directory=V1_ARTIFACTS,
+        v2_artifact_directory=tmp_path,
+        web_distribution=ROOT / "web/nonexistent-test-dist",
+        orchestrator=orchestrator,
+    ))
+    topology = repository.read_document(created.run_id, "topology.json")
+    link_id = topology["links"][0]["link_id"]
+    response = api.get(f"/api/v2/runs/{created.run_id}/links/{link_id}/cumulative-counts")
+
+    assert response.status_code == 200
+    maximum_event_tick = max(
+        event.physical_tick
+        for chunk in repository.event_chunks(created.run_id)
+        for event in chunk.events
+    )
+    assert response.json()["ticks"][-1] == maximum_event_tick
+
+
 def test_tick_bound_retains_timed_out_unresolved_state(tmp_path: Path) -> None:
     repository = ArtifactRepository(tmp_path)
     orchestrator = RunOrchestrator(repository)

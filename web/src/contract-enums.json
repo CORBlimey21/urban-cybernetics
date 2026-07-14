@@ -23,5 +23,16 @@
     "unknown",
     "not_yet_observed",
     "omitted_from_artifact"
+  ],
+  "layout_kind": [
+    "declared_schematic",
+    "geographic",
+    "generated_schematic",
+    "circular_fallback"
+  ],
+  "layout_origin": [
+    "declared",
+    "imported",
+    "generated"
   ]
 }

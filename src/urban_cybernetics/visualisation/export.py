@@ -32,6 +32,7 @@ from .contract import (
     VValidationStatus,
 )
 from .replay import build_replay_states
+from .layouts import circular_positions, layouts_for_topology
 
 
 def build_run_bundle(
@@ -80,13 +81,13 @@ def build_run_bundle(
             "passed" if count_report.is_consistent else "failed"
         )
     }
-    resolved_positions = (
-        dict(node_positions)
-        if node_positions is not None
-        else deterministic_positions(topology)
+    default_layout_id, layouts = layouts_for_topology(
+        topology, declared_positions=node_positions
     )
-    if set(resolved_positions) != {node.node_id for node in topology.nodes}:
-        raise ValueError("presentation positions must cover each topology node exactly")
+    default_layout = next(
+        layout for layout in layouts if layout.layout_id == default_layout_id
+    )
+    resolved_positions = default_layout.node_coordinates
 
     return VRunBundle(
         run=VRunIdentity(
@@ -161,18 +162,17 @@ def build_run_bundle(
             descriptor=EvidenceDescriptor(
                 semantic_status=SemanticStatus.PRESENTATION_ONLY,
                 source="viewer layout adapter",
-                units="normalised canvas coordinates",
+                units="layout-specific; see layout coordinate_units",
             ),
+            layout_schema_version="uc.visualisation.layout.v1",
+            default_layout_id=default_layout_id,
+            layouts=layouts,
             layout_kind=(
                 "synthetic_declared"
-                if node_positions is not None
+                if default_layout.kind.value == "declared_schematic"
                 else "synthetic_deterministic"
             ),
-            layout_note=(
-                "Declared diagram coordinates; not geographic or physical geometry."
-                if node_positions is not None
-                else "Deterministic topology layout; not geographic or physical geometry."
-            ),
+            layout_note=default_layout.label,
             node_positions=resolved_positions,
             interpolation_note=(
                 "Animated markers are presentation-only interpolation. They are never "
@@ -358,17 +358,9 @@ def _cumulative_series(context: ValidationContext) -> tuple[VCumulativeLinkSerie
 
 
 def deterministic_positions(topology: CanonicalTopology) -> dict[str, tuple[float, float]]:
-    import math
+    """Compatibility alias for the original deterministic circular fallback."""
 
-    ordered = sorted(node.node_id for node in topology.nodes)
-    count = max(len(ordered), 1)
-    return {
-        node_id: (
-            round(0.5 + 0.38 * math.cos((2 * math.pi * index / count) - math.pi / 2), 6),
-            round(0.5 + 0.38 * math.sin((2 * math.pi * index / count) - math.pi / 2), 6),
-        )
-        for index, node_id in enumerate(ordered)
-    }
+    return circular_positions(topology)
 
 
 def _json_hash(value: Mapping[str, object]) -> str:

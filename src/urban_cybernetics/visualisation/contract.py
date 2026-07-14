@@ -5,10 +5,11 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 CONTRACT_VERSION = "uc.visualisation.run.v1"
+LAYOUT_CONTRACT_VERSION = "uc.visualisation.layout.v1"
 
 
 class ContractModel(BaseModel):
@@ -49,6 +50,19 @@ class FieldAvailability(StrEnum):
     UNKNOWN = "unknown"
     NOT_YET_OBSERVED = "not_yet_observed"
     OMITTED = "omitted_from_artifact"
+
+
+class LayoutKind(StrEnum):
+    DECLARED_SCHEMATIC = "declared_schematic"
+    GEOGRAPHIC = "geographic"
+    GENERATED_SCHEMATIC = "generated_schematic"
+    CIRCULAR_FALLBACK = "circular_fallback"
+
+
+class LayoutOrigin(StrEnum):
+    DECLARED = "declared"
+    IMPORTED = "imported"
+    GENERATED = "generated"
 
 
 class EvidenceDescriptor(ContractModel):
@@ -301,12 +315,84 @@ class VValidationStatus(ContractModel):
     notes: tuple[str, ...]
 
 
+class VNetworkLayout(ContractModel):
+    """Versioned presentation coordinates, explicitly detached from topology truth."""
+
+    schema_version: Literal["uc.visualisation.layout.v1"] = LAYOUT_CONTRACT_VERSION
+    layout_id: str
+    label: str
+    kind: LayoutKind
+    version: str
+    preferred: bool = False
+    is_geographic: bool
+    coordinate_basis: str
+    coordinate_units: str
+    source: str
+    provenance: str
+    origin: LayoutOrigin
+    generated_by: str | None = None
+    deterministic_seed: int | None = None
+    crs: str | None = None
+    node_coordinates: dict[str, tuple[float, float]]
+    edge_routes: dict[str, tuple[tuple[float, float], ...]] = Field(default_factory=dict)
+    warnings: tuple[str, ...] = ()
+    distance_semantics: str
+    angle_semantics: str
+
+    @field_validator("node_coordinates")
+    @classmethod
+    def validate_finite_node_coordinates(
+        cls, coordinates: dict[str, tuple[float, float]]
+    ) -> dict[str, tuple[float, float]]:
+        import math
+
+        if any(not all(math.isfinite(value) for value in point) for point in coordinates.values()):
+            raise ValueError("layout coordinates must be finite")
+        return coordinates
+
+    @model_validator(mode="after")
+    def validate_coordinate_semantics(self) -> "VNetworkLayout":
+        if not self.layout_id or not self.label or not self.version:
+            raise ValueError("layout identity, label, and version must be non-empty")
+        if self.is_geographic and self.kind != LayoutKind.GEOGRAPHIC:
+            raise ValueError("geographic coordinates require geographic layout kind")
+        if self.kind == LayoutKind.GEOGRAPHIC and not self.is_geographic:
+            raise ValueError("geographic layout kind must declare is_geographic")
+        if self.is_geographic and not self.crs:
+            raise ValueError("geographic layouts must declare a CRS")
+        if self.origin == LayoutOrigin.GENERATED and not self.generated_by:
+            raise ValueError("generated layouts must declare generator identity")
+        if self.kind == LayoutKind.GENERATED_SCHEMATIC and self.deterministic_seed is None:
+            raise ValueError("generated schematic layouts must declare a deterministic seed")
+        if not self.node_coordinates:
+            raise ValueError("layout must contain node coordinates")
+        return self
+
+
 class VPresentationMetadata(ContractModel):
     descriptor: EvidenceDescriptor
+    layout_schema_version: Literal["uc.visualisation.layout.v1"] | None = None
+    default_layout_id: str | None = None
+    layouts: tuple[VNetworkLayout, ...] = ()
+    # V1 compatibility fields. New artifacts also emit these as a default-layout view.
     layout_kind: Literal["synthetic_declared", "synthetic_deterministic"]
     layout_note: str
     node_positions: dict[str, tuple[float, float]]
     interpolation_note: str
+
+    @model_validator(mode="after")
+    def validate_layout_collection(self) -> "VPresentationMetadata":
+        if not self.layouts:
+            return self
+        ids = [layout.layout_id for layout in self.layouts]
+        if len(ids) != len(set(ids)):
+            raise ValueError("layout IDs must be unique")
+        if self.default_layout_id not in set(ids):
+            raise ValueError("default_layout_id must identify an available layout")
+        default = next(layout for layout in self.layouts if layout.layout_id == self.default_layout_id)
+        if self.node_positions != default.node_coordinates:
+            raise ValueError("legacy node_positions must mirror the default layout")
+        return self
 
 
 class VRunBundle(ContractModel):
@@ -342,6 +428,12 @@ class VRunBundle(ContractModel):
         expected_ticks = list(range(self.run.start_tick, self.run.end_tick + 1))
         if ticks != expected_ticks:
             raise ValueError("replay states must cover every run tick in order")
+        node_ids = {node.node_id for node in self.topology.nodes}
+        for layout in self.presentation.layouts:
+            if set(layout.node_coordinates) != node_ids:
+                raise ValueError("every layout must cover each topology node exactly")
+            if any(link_id not in link_ids for link_id in layout.edge_routes):
+                raise ValueError("layout edge routing may reference only topology links")
         if self.run.status == RunStatus.COMPLETE:
             final_counts = self.replay_states[-1].counts
             if (

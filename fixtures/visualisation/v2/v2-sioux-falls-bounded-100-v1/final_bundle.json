@@ -20323,6 +20323,7 @@
     "units": "unit packets"
   },
   "presentation": {
+    "default_layout_id": "sioux_falls_published_schematic_v1",
     "descriptor": {
       "aggregation_window_ticks": null,
       "boundary_direction": null,
@@ -20330,107 +20331,474 @@
       "semantic_status": "presentation_only_interpolation",
       "source": "viewer layout adapter",
       "time_basis": null,
-      "units": "normalised canvas coordinates"
+      "units": "layout-specific; see layout coordinate_units"
     },
     "interpolation_note": "Animated markers are presentation-only interpolation. They are never stored as packet positions or used in scientific calculations.",
-    "layout_kind": "synthetic_deterministic",
-    "layout_note": "Deterministic topology layout; not geographic or physical geometry.",
+    "layout_kind": "synthetic_declared",
+    "layout_note": "Published benchmark schematic",
+    "layout_schema_version": "uc.visualisation.layout.v1",
+    "layouts": [
+      {
+        "angle_semantics": "Screen angles are schematic and have no physical meaning.",
+        "coordinate_basis": "normalised schematic canvas",
+        "coordinate_units": "normalised [0,1]",
+        "crs": null,
+        "deterministic_seed": null,
+        "distance_semantics": "Screen distances have no physical meaning and do not encode link length.",
+        "edge_routes": {},
+        "generated_by": null,
+        "is_geographic": false,
+        "kind": "declared_schematic",
+        "label": "Published benchmark schematic",
+        "layout_id": "sioux_falls_published_schematic_v1",
+        "node_coordinates": {
+          "N001": [
+            0.05,
+            0.04
+          ],
+          "N002": [
+            0.72,
+            0.04
+          ],
+          "N003": [
+            0.05,
+            0.17
+          ],
+          "N004": [
+            0.25,
+            0.17
+          ],
+          "N005": [
+            0.48,
+            0.17
+          ],
+          "N006": [
+            0.72,
+            0.17
+          ],
+          "N007": [
+            0.95,
+            0.29
+          ],
+          "N008": [
+            0.72,
+            0.29
+          ],
+          "N009": [
+            0.48,
+            0.29
+          ],
+          "N010": [
+            0.48,
+            0.42
+          ],
+          "N011": [
+            0.25,
+            0.42
+          ],
+          "N012": [
+            0.05,
+            0.42
+          ],
+          "N013": [
+            0.05,
+            0.95
+          ],
+          "N014": [
+            0.25,
+            0.67
+          ],
+          "N015": [
+            0.48,
+            0.67
+          ],
+          "N016": [
+            0.72,
+            0.42
+          ],
+          "N017": [
+            0.72,
+            0.54
+          ],
+          "N018": [
+            0.95,
+            0.42
+          ],
+          "N019": [
+            0.72,
+            0.67
+          ],
+          "N020": [
+            0.72,
+            0.95
+          ],
+          "N021": [
+            0.48,
+            0.95
+          ],
+          "N022": [
+            0.48,
+            0.79
+          ],
+          "N023": [
+            0.25,
+            0.79
+          ],
+          "N024": [
+            0.25,
+            0.95
+          ]
+        },
+        "origin": "declared",
+        "preferred": true,
+        "provenance": "Visually reconstructed from the supplied diagram; UC TNTP topology remains connectivity truth.",
+        "schema_version": "uc.visualisation.layout.v1",
+        "source": "Supplied canonical Sioux Falls benchmark diagram used as a visual placement reference",
+        "version": "1",
+        "warnings": [
+          "Non-geographic layout.",
+          "Distances and angles are not physical."
+        ]
+      },
+      {
+        "angle_semantics": "Screen angles are generated and non-physical.",
+        "coordinate_basis": "normalised deterministic hop layers",
+        "coordinate_units": "normalised [0,1]",
+        "crs": null,
+        "deterministic_seed": 0,
+        "distance_semantics": "Layer spacing represents visual hop grouping, not physical distance.",
+        "edge_routes": {},
+        "generated_by": "urban_cybernetics.visualisation.layouts:hop_layers_v1",
+        "is_geographic": false,
+        "kind": "generated_schematic",
+        "label": "Auto schematic",
+        "layout_id": "uc_deterministic_layered_schematic_v1",
+        "node_coordinates": {
+          "N001": [
+            0.08,
+            0.5
+          ],
+          "N002": [
+            0.22,
+            0.08
+          ],
+          "N003": [
+            0.22,
+            0.92
+          ],
+          "N004": [
+            0.36,
+            0.08
+          ],
+          "N005": [
+            0.5,
+            0.08
+          ],
+          "N006": [
+            0.36,
+            0.5
+          ],
+          "N007": [
+            0.64,
+            0.08
+          ],
+          "N008": [
+            0.5,
+            0.36
+          ],
+          "N009": [
+            0.64,
+            0.248
+          ],
+          "N010": [
+            0.64,
+            0.416
+          ],
+          "N011": [
+            0.5,
+            0.64
+          ],
+          "N012": [
+            0.36,
+            0.92
+          ],
+          "N013": [
+            0.5,
+            0.92
+          ],
+          "N014": [
+            0.64,
+            0.584
+          ],
+          "N015": [
+            0.78,
+            0.08
+          ],
+          "N016": [
+            0.64,
+            0.752
+          ],
+          "N017": [
+            0.78,
+            0.29
+          ],
+          "N018": [
+            0.78,
+            0.5
+          ],
+          "N019": [
+            0.92,
+            0.08
+          ],
+          "N020": [
+            0.92,
+            0.5
+          ],
+          "N021": [
+            0.78,
+            0.71
+          ],
+          "N022": [
+            0.92,
+            0.92
+          ],
+          "N023": [
+            0.78,
+            0.92
+          ],
+          "N024": [
+            0.64,
+            0.92
+          ]
+        },
+        "origin": "generated",
+        "preferred": false,
+        "provenance": "Derived only from immutable node/link incidence for visual placement.",
+        "schema_version": "uc.visualisation.layout.v1",
+        "source": "UC deterministic topology layout generator",
+        "version": "1",
+        "warnings": [
+          "Generated non-geographic layout."
+        ]
+      },
+      {
+        "angle_semantics": "Equal angular spacing is presentation-only.",
+        "coordinate_basis": "normalised deterministic circle",
+        "coordinate_units": "normalised [0,1]",
+        "crs": null,
+        "deterministic_seed": 0,
+        "distance_semantics": "Screen distances are presentation-only.",
+        "edge_routes": {},
+        "generated_by": "urban_cybernetics.visualisation.layouts:circular_v1",
+        "is_geographic": false,
+        "kind": "circular_fallback",
+        "label": "Circular fallback",
+        "layout_id": "uc_circular_fallback_v1",
+        "node_coordinates": {
+          "N001": [
+            0.5,
+            0.1
+          ],
+          "N002": [
+            0.603528,
+            0.11363
+          ],
+          "N003": [
+            0.7,
+            0.15359
+          ],
+          "N004": [
+            0.782843,
+            0.217157
+          ],
+          "N005": [
+            0.84641,
+            0.3
+          ],
+          "N006": [
+            0.88637,
+            0.396472
+          ],
+          "N007": [
+            0.9,
+            0.5
+          ],
+          "N008": [
+            0.88637,
+            0.603528
+          ],
+          "N009": [
+            0.84641,
+            0.7
+          ],
+          "N010": [
+            0.782843,
+            0.782843
+          ],
+          "N011": [
+            0.7,
+            0.84641
+          ],
+          "N012": [
+            0.603528,
+            0.88637
+          ],
+          "N013": [
+            0.5,
+            0.9
+          ],
+          "N014": [
+            0.396472,
+            0.88637
+          ],
+          "N015": [
+            0.3,
+            0.84641
+          ],
+          "N016": [
+            0.217157,
+            0.782843
+          ],
+          "N017": [
+            0.15359,
+            0.7
+          ],
+          "N018": [
+            0.11363,
+            0.603528
+          ],
+          "N019": [
+            0.1,
+            0.5
+          ],
+          "N020": [
+            0.11363,
+            0.396472
+          ],
+          "N021": [
+            0.15359,
+            0.3
+          ],
+          "N022": [
+            0.217157,
+            0.217157
+          ],
+          "N023": [
+            0.3,
+            0.15359
+          ],
+          "N024": [
+            0.396472,
+            0.11363
+          ]
+        },
+        "origin": "generated",
+        "preferred": false,
+        "provenance": "Deterministic lexicographic node ordering; presentation fallback only.",
+        "schema_version": "uc.visualisation.layout.v1",
+        "source": "UC circular fallback",
+        "version": "1",
+        "warnings": [
+          "Fallback non-geographic layout."
+        ]
+      }
+    ],
     "node_positions": {
       "N001": [
-        0.5,
-        0.12
+        0.05,
+        0.04
       ],
       "N002": [
-        0.598351,
-        0.132948
+        0.72,
+        0.04
       ],
       "N003": [
-        0.69,
-        0.17091
+        0.05,
+        0.17
       ],
       "N004": [
-        0.768701,
-        0.231299
+        0.25,
+        0.17
       ],
       "N005": [
-        0.82909,
-        0.31
+        0.48,
+        0.17
       ],
       "N006": [
-        0.867052,
-        0.401649
+        0.72,
+        0.17
       ],
       "N007": [
-        0.88,
-        0.5
+        0.95,
+        0.29
       ],
       "N008": [
-        0.867052,
-        0.598351
+        0.72,
+        0.29
       ],
       "N009": [
-        0.82909,
-        0.69
+        0.48,
+        0.29
       ],
       "N010": [
-        0.768701,
-        0.768701
+        0.48,
+        0.42
       ],
       "N011": [
-        0.69,
-        0.82909
+        0.25,
+        0.42
       ],
       "N012": [
-        0.598351,
-        0.867052
+        0.05,
+        0.42
       ],
       "N013": [
-        0.5,
-        0.88
+        0.05,
+        0.95
       ],
       "N014": [
-        0.401649,
-        0.867052
+        0.25,
+        0.67
       ],
       "N015": [
-        0.31,
-        0.82909
+        0.48,
+        0.67
       ],
       "N016": [
-        0.231299,
-        0.768701
+        0.72,
+        0.42
       ],
       "N017": [
-        0.17091,
-        0.69
+        0.72,
+        0.54
       ],
       "N018": [
-        0.132948,
-        0.598351
+        0.95,
+        0.42
       ],
       "N019": [
-        0.12,
-        0.5
+        0.72,
+        0.67
       ],
       "N020": [
-        0.132948,
-        0.401649
+        0.72,
+        0.95
       ],
       "N021": [
-        0.17091,
-        0.31
+        0.48,
+        0.95
       ],
       "N022": [
-        0.231299,
-        0.231299
+        0.48,
+        0.79
       ],
       "N023": [
-        0.31,
-        0.17091
+        0.25,
+        0.79
       ],
       "N024": [
-        0.401649,
-        0.132948
+        0.25,
+        0.95
       ]
     }
   },
