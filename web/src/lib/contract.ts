@@ -17,6 +17,12 @@ export const packetReplayStatusSchema = literalUnion(
 export const fieldAvailabilitySchema = literalUnion(
   contractEnums.field_availability as [string, ...string[]],
 );
+export const layoutKindSchema = literalUnion(
+  contractEnums.layout_kind as [string, ...string[]],
+);
+export const layoutOriginSchema = literalUnion(
+  contractEnums.layout_origin as [string, ...string[]],
+);
 
 export const descriptorSchema = z.object({
   semantic_status: semanticStatusSchema,
@@ -150,6 +156,42 @@ export const replayStateSchema = z.object({
   }),
 });
 
+export const networkLayoutSchema = z.object({
+  schema_version: z.literal("uc.visualisation.layout.v1"),
+  layout_id: z.string().min(1),
+  label: z.string().min(1),
+  kind: layoutKindSchema,
+  version: z.string().min(1),
+  preferred: z.boolean(),
+  is_geographic: z.boolean(),
+  coordinate_basis: z.string(),
+  coordinate_units: z.string(),
+  source: z.string(),
+  provenance: z.string(),
+  origin: layoutOriginSchema,
+  generated_by: z.string().nullable(),
+  deterministic_seed: z.number().int().nullable(),
+  crs: z.string().nullable(),
+  node_coordinates: z.record(z.string(), z.tuple([z.number(), z.number()])),
+  edge_routes: z.record(z.string(), z.array(z.tuple([z.number(), z.number()]))),
+  warnings: z.array(z.string()),
+  distance_semantics: z.string(),
+  angle_semantics: z.string(),
+}).superRefine((layout, context) => {
+  if (layout.kind === "geographic" && (!layout.is_geographic || !layout.crs)) {
+    context.addIssue({ code: "custom", message: "Geographic layouts require is_geographic and CRS." });
+  }
+  if (layout.kind !== "geographic" && layout.is_geographic) {
+    context.addIssue({ code: "custom", message: "Only geographic layouts may declare geographic coordinates." });
+  }
+  if (layout.origin === "generated" && !layout.generated_by) {
+    context.addIssue({ code: "custom", message: "Generated layouts require generator identity." });
+  }
+  if (layout.kind === "generated_schematic" && layout.deterministic_seed === null) {
+    context.addIssue({ code: "custom", message: "Generated layouts require a deterministic seed." });
+  }
+});
+
 export const manifestSchema = z.object({
   schema_version: z.literal("uc.visualisation.run.v1"),
   run: runSchema,
@@ -181,6 +223,9 @@ export const manifestSchema = z.object({
   }),
   presentation: z.object({
     descriptor: descriptorSchema,
+    layout_schema_version: z.literal("uc.visualisation.layout.v1").nullable().optional(),
+    default_layout_id: z.string().nullable().optional(),
+    layouts: z.array(networkLayoutSchema).optional().default([]),
     layout_kind: z.enum(["synthetic_declared", "synthetic_deterministic"]),
     layout_note: z.string(),
     node_positions: z.record(z.string(), z.tuple([z.number(), z.number()])),
@@ -303,5 +348,6 @@ export type ResourceCatalogue = z.infer<typeof resourceCatalogueSchema>;
 export type RunRequest = z.infer<typeof runRequestSchema>;
 export type LiveMessage = z.infer<typeof liveMessageSchema>;
 export type MovementEvidence = z.infer<typeof movementEvidenceSchema>;
+export type NetworkLayout = z.infer<typeof networkLayoutSchema>;
 
 export { contractEnums, v2ContractEnums };
