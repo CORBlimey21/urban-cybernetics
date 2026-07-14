@@ -1,0 +1,232 @@
+{
+  "case_id": "M8-LINK-01",
+  "case_version": "1",
+  "code_commit": "fixture-baseline",
+  "completed_at": "2026-07-14T00:00:00+00:00",
+  "configuration_hash": "9dbcf6866bfaf9f9bd5c6138dc841b08ef468b022f2c6ba9765f7a37530aa329",
+  "created_at": "2026-07-14T00:00:00+00:00",
+  "difference_series": [
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected cumulative entries",
+      "quantity": "entries",
+      "series_id": "entries",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected cumulative exits",
+      "quantity": "exits",
+      "series_id": "exits",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected point queue",
+      "quantity": "point_queue",
+      "series_id": "point_queue",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "difference_summary": "All declared differences are zero.",
+  "expected_evidence_hash": "3b71839d585d404d6f4698b85d0df27d9495ab27858ad38910b843f7978c8a83",
+  "headline_metric": "maximum declared error 0",
+  "lifecycle": [
+    "created",
+    "setting_up",
+    "executing",
+    "comparing",
+    "persisting",
+    "complete"
+  ],
+  "linked_fix_commit": null,
+  "linked_issue": null,
+  "metric_results": [
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "entries_max_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "exits_max_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "queue_max_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared exact_sequence; tolerance justified by exact discrete oracle.",
+      "metric_id": "exit_tick_sequence",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "exact",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "queue_event_count",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "events",
+      "value": 0.0
+    }
+  ],
+  "observed_result_summary": "Observed Python projections match all declared expectations.",
+  "observed_scalars": [
+    {
+      "evidence_source": "event_derived",
+      "label": "Observed packet exit ticks",
+      "scalar_id": "exit_ticks",
+      "units": "ticks",
+      "value": "2,2,2"
+    },
+    {
+      "evidence_source": "canonical",
+      "label": "Observed canonical queue events",
+      "scalar_id": "queue_events",
+      "units": "events",
+      "value": 0.0
+    }
+  ],
+  "observed_series": [
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "event_derived",
+      "label": "Observed cumulative entries",
+      "quantity": "entries",
+      "series_id": "entries",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "event_derived",
+      "label": "Observed cumulative exits",
+      "quantity": "exits",
+      "series_id": "exits",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed point queue",
+      "quantity": "point_queue",
+      "series_id": "point_queue",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "packet_wait_explanations": [],
+  "provenance": [
+    "Observed series folded in Python from canonical events.",
+    "Expected evidence loaded from immutable authored case definition."
+  ],
+  "replay_run_id": "validation:m8-link-01-baseline-v1",
+  "result_id": "m8-link-01-baseline-v1",
+  "schema_version": "uc.validation.result.v1",
+  "status": "passed",
+  "stop_reason": null
+}

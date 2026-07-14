@@ -20,6 +20,8 @@ def main() -> None:
     )
     export_sioux = subparsers.add_parser("export-sioux-fixture", help="execute and persist the bounded V2 Sioux Falls fixture")
     export_sioux.add_argument("--output-root", type=Path, default=Path("fixtures/visualisation/v2"))
+    export_validation = subparsers.add_parser("export-validation-fixtures", help="regenerate deterministic M8 validation results")
+    export_validation.add_argument("--output-root", type=Path, default=Path("fixtures/visualisation/validation"))
     args = parser.parse_args()
     if args.command == "export-fixture":
         from .fixtures import write_synthetic_fixture
@@ -32,6 +34,12 @@ def main() -> None:
 
         path = write_bounded_sioux_falls_fixture(args.output_root)
         print(f"wrote bounded V2 fixture to {path}")
+        return
+    if args.command == "export-validation-fixtures":
+        from .validation_fixtures import write_validation_fixtures
+
+        paths = write_validation_fixtures(args.output_root)
+        print(f"wrote {len(paths)} M8 validation fixture files under {args.output_root}")
         return
 
     import uvicorn

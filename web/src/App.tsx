@@ -8,6 +8,7 @@ import { NetworkCanvas } from "./components/NetworkCanvas";
 import { NewRunDrawer } from "./components/NewRunDrawer";
 import { RunLibrary } from "./components/RunLibrary";
 import { ScientificChart } from "./components/ScientificChart";
+import { ValidationWorkbench } from "./components/ValidationWorkbench";
 import {
   commandRun, followRun, launchRun, loadArtifact, loadArtifactCumulativeSeries,
   loadArtifactLibrary, loadCatalogue, loadExactReplayState, loadLiveManifest,
@@ -23,6 +24,7 @@ import { stateAtTick } from "./lib/replay";
 type LoadedRun = { artifact: ArtifactSummary; manifest: Manifest; events: CanonicalEvent[]; states: ReplayState[] };
 
 export default function App() {
+  const [workbenchMode, setWorkbenchMode] = useState<"simulation" | "validation">("simulation");
   const [artifacts, setArtifacts] = useState<ArtifactSummary[]>([]);
   const [catalogue, setCatalogue] = useState<ResourceCatalogue | null>(null);
   const [loaded, setLoaded] = useState<LoadedRun | null>(null);
@@ -173,6 +175,8 @@ export default function App() {
     if (loaded) void seek(loaded.manifest.run.end_tick);
   };
 
+  if (workbenchMode === "validation") return <div className="app-shell workbench-shell"><header className="topbar"><div className="brand"><span className="brand-mark">UC·M8</span><div><strong>Urban Cybernetics</strong><small>Validation workbench</small></div></div><div className="workbench-mode" role="tablist"><button role="tab" aria-selected={false} onClick={() => setWorkbenchMode("simulation")}>Simulation</button><button role="tab" aria-selected={true}>Validation</button></div><div className="run-badges"><span className="status-pill">scientific evidence</span></div></header><ValidationWorkbench /></div>;
+
   if (error && !loaded) return <main className="center-message"><span className="brand-mark">UC·V2</span><h1>Workbench unavailable</h1><p>{error}</p><small>Start the local API and refresh this page.</small></main>;
   if (!loaded || !series || !selectedLinkId) return <main className="center-message"><span className="brand-mark pulse">UC·V2</span><h1>Loading simulation workbench</h1><p>Discovering and validating persisted evidence…</p></main>;
 
@@ -207,7 +211,7 @@ export default function App() {
   return <div className="app-shell workbench-shell">
     <header className="topbar">
       <div className="brand"><span className="brand-mark">UC·V2</span><div><strong>Urban Cybernetics</strong><small>Simulation workbench</small></div></div>
-      <div className="run-title"><span className="eyebrow">Loaded evidence</span><h1>{run.scenario_name}</h1></div>
+      <div className="run-title"><span className="eyebrow">Loaded evidence</span><h1>{run.scenario_name}</h1></div><div className="workbench-mode" role="tablist"><button role="tab" aria-selected={true}>Simulation</button><button role="tab" aria-selected={false} onClick={() => setWorkbenchMode("validation")}>Validation</button></div>
       <div className="run-badges"><span className={`status-pill run-${artifact.status}`}>{artifact.status}</span><span className={`status-pill validation-${artifact.validation_status}`}>validation {artifact.validation_status}</span></div>
     </header>
 

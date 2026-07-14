@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { Manifest, NetworkLayout, ReplayState } from "../lib/contract";
+import type { Manifest, NetworkLayout, ReplayState, ValidationCase } from "../lib/contract";
 import { directedEdgePath, distanceToEdgePath, pointOnQuadratic } from "../lib/networkGeometry";
 import { presentationMarkers } from "../lib/presentation";
 import { packetVisualEvidence } from "../lib/inspection";
@@ -15,6 +15,7 @@ type Props = {
   phase: number;
   onSelectLink: (linkId: string) => void;
   onSelectNode: (nodeId: string) => void;
+  validationOverlays?: ValidationCase["overlays"];
 };
 
 type ViewTransform = Readonly<{ zoom: number; panX: number; panY: number }>;
@@ -39,7 +40,7 @@ const screenPoint = (
 };
 
 export function NetworkCanvas({
-  manifest, layout, state, selectedLinkId, selectedNodeId, selectedPacketId, followingPacket, phase, onSelectLink, onSelectNode,
+  manifest, layout, state, selectedLinkId, selectedNodeId, selectedPacketId, followingPacket, phase, onSelectLink, onSelectNode, validationOverlays = [],
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sizeRef = useRef({ width: 800, height: 480 });
@@ -117,6 +118,22 @@ export function NetworkCanvas({
       context.quadraticCurveTo(path.control.x, path.control.y, path.end.x, path.end.y);
       context.stroke();
 
+      const activeValidationOverlays = validationOverlays.filter((overlay) => overlay.link_id === link.link_id && overlay.active_from_tick <= state.tick && state.tick <= overlay.active_through_tick);
+      if (activeValidationOverlays.length) {
+        const primary = activeValidationOverlays[0];
+        context.strokeStyle = primary.kind === "blocked_boundary" ? "#ff8585" : primary.kind === "reference_wave" ? "#b9a4ff" : "#f6c66d";
+        context.lineWidth = primary.kind === "queued_region" ? 7 : 3;
+        context.globalAlpha = primary.kind === "queued_region" ? 0.32 : 0.82;
+        context.setLineDash(primary.evidence_source === "analytical_reference" ? [7, 5] : [3, 4]);
+        context.beginPath(); context.moveTo(path.start.x, path.start.y); context.quadraticCurveTo(path.control.x, path.control.y, path.end.x, path.end.y); context.stroke();
+        context.setLineDash([]); context.globalAlpha = 1;
+        if (primary.direction === "backward") {
+          const tip = pointOnQuadratic(path, 0.28); const before = pointOnQuadratic(path, 0.36);
+          const angle = Math.atan2(tip.y - before.y, tip.x - before.x);
+          context.fillStyle = context.strokeStyle; context.beginPath(); context.moveTo(tip.x, tip.y); context.lineTo(tip.x - 8 * Math.cos(angle - .5), tip.y - 8 * Math.sin(angle - .5)); context.lineTo(tip.x - 8 * Math.cos(angle + .5), tip.y - 8 * Math.sin(angle + .5)); context.closePath(); context.fill();
+        }
+      }
+
       const arrow = pointOnQuadratic(path, 0.76);
       const beforeArrow = pointOnQuadratic(path, 0.70);
       const angle = Math.atan2(arrow.y - beforeArrow.y, arrow.x - beforeArrow.x);
@@ -175,7 +192,7 @@ export function NetworkCanvas({
         context.textBaseline = "alphabetic";
       }
     }
-  }, [bounds, followingPacket, hovered, layers, layout, manifest, phase, resizeVersion, selectedLinkId, selectedNodeId, selectedPacketId, state, view]);
+  }, [bounds, followingPacket, hovered, layers, layout, manifest, phase, resizeVersion, selectedLinkId, selectedNodeId, selectedPacketId, state, validationOverlays, view]);
 
   const hitTest = (point: { x: number; y: number }, width: number, height: number) => {
     for (const node of manifest.topology.nodes) {

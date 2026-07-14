@@ -1,0 +1,283 @@
+{
+  "case_id": "M8-LINK-02",
+  "citations": [
+    {
+      "citation_text": "Urban Cybernetics M8 Analytical Link Cases v1; fixture-owned triangular-FD analytical tables.",
+      "equation": null,
+      "figure": null,
+      "source_id": "m8-analytical-link-fixtures-v1",
+      "source_section": "Equations and Convention",
+      "table": null,
+      "url": null
+    }
+  ],
+  "claim_ids": [
+    "M8-VAL-LINK-CAPACITY",
+    "M8-VAL-LINK-DELAY"
+  ],
+  "comparison_status": "exact",
+  "default_final_tick": 6,
+  "demand_reference": "five unit packets admitted at tick 0",
+  "evidence_class": "analytical",
+  "expected_physical_sequence": [
+    "Five packets enter L1 at tick 0.",
+    "After the two-tick free-flow lag, sending capacity permits one exit per tick.",
+    "The point queue falls from four packets to zero by tick 6."
+  ],
+  "expected_result_summary": "Exit counts rise by one per tick from tick 2; delays are 0,1,2,3,4 ticks.",
+  "expected_scalars": [
+    {
+      "evidence_source": "analytical_reference",
+      "label": "Expected packet exit ticks",
+      "scalar_id": "exit_ticks",
+      "units": "ticks",
+      "value": "2,3,4,5,6"
+    },
+    {
+      "evidence_source": "analytical_reference",
+      "label": "Expected mean delay",
+      "scalar_id": "mean_delay",
+      "units": "ticks",
+      "value": 2.0
+    }
+  ],
+  "expected_series": [
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected cumulative entries",
+      "quantity": "entries",
+      "series_id": "entries",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected cumulative exits",
+      "quantity": "exits",
+      "series_id": "exits",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected point queue",
+      "quantity": "point_queue",
+      "series_id": "point_queue",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        4.0,
+        3.0,
+        2.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected delay by packet ordinal",
+      "quantity": "packet_delay",
+      "series_id": "packet_delay",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "ticks",
+      "values": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0
+      ]
+    }
+  ],
+  "group_id": "m8-analytical-links",
+  "initial_state_reference": "empty link before explicit origin pulse",
+  "input_completeness": "complete",
+  "known_model_differences": [],
+  "limits_on_interpretation": [
+    "The point queue is derived from cumulative curves, not a second physical state.",
+    "Internal analytical agreement only."
+  ],
+  "metrics": [
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "entries",
+      "label": "Entry curve maximum error",
+      "metric_id": "entries_max_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "exits",
+      "label": "Exit curve maximum error",
+      "metric_id": "exits_max_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "point_queue",
+      "label": "Queue curve maximum error",
+      "metric_id": "queue_max_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "packet_delay",
+      "label": "Delay ordinal maximum error",
+      "metric_id": "delay_max_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "ticks"
+    },
+    {
+      "comparison": "exact_sequence",
+      "expected_id": "exit_ticks",
+      "label": "Exit tick sequence",
+      "metric_id": "exit_tick_sequence",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "exact"
+    },
+    {
+      "comparison": "absolute_error",
+      "expected_id": "mean_delay",
+      "label": "Mean delay error",
+      "metric_id": "mean_delay_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "ticks"
+    }
+  ],
+  "overlays": [
+    {
+      "active_from_tick": 2,
+      "active_through_tick": 5,
+      "boundary_id": null,
+      "direction": "none",
+      "evidence_source": "analytical_reference",
+      "kind": "queued_region",
+      "label": "Analytical point-queue interval",
+      "link_id": "L1",
+      "note": "Queue magnitude is charted; canvas shading is a link-level abstraction.",
+      "overlay_id": "bottleneck-queue"
+    },
+    {
+      "active_from_tick": 2,
+      "active_through_tick": 6,
+      "boundary_id": null,
+      "direction": "forward",
+      "evidence_source": "validation_output",
+      "kind": "released_storage",
+      "label": "One-packet-per-tick discharge",
+      "link_id": "L1",
+      "note": "Release cadence compared by Python.",
+      "overlay_id": "capacity-release"
+    }
+  ],
+  "profile_reference": "parity_ltm_v1",
+  "provenance": [
+    "Expected tables are literal fixture data independent of UC projections."
+  ],
+  "reference_assets": [
+    {
+      "asset_id": "m8-reference-placeholder-v1",
+      "citation_text": "Urban Cybernetics M8 Analytical Link Cases v1; fixture-owned triangular-FD analytical tables.",
+      "comparison_suitability": "suitable",
+      "digitised_series_id": null,
+      "figure_table_equation": "case table and declared equations",
+      "label": "Authored analytical table (no copyrighted figure)",
+      "local_asset_path": null,
+      "missing_input_notes": [],
+      "rights_provenance_note": "Repository-authored numerical reference; no external image embedded.",
+      "source_id": "m8-analytical-link-fixtures-v1",
+      "transformation_metadata": []
+    }
+  ],
+  "reproducibility_notes": [
+    "No random inputs."
+  ],
+  "route_sequences": [
+    [
+      "L1"
+    ]
+  ],
+  "safe_claim": "The kernel matches the exact single-link capacity and delay tables for this pulse.",
+  "schema_version": "uc.validation.case.v1",
+  "short_explanation": "A five-packet pulse discharges at one packet per tick and forms a deterministic point queue.",
+  "tick_duration_seconds": 10.0,
+  "title": "Capacity-constrained bottleneck queue",
+  "topology_reference": "m8-single-link-200m-v1",
+  "version": "1",
+  "why_it_matters": "Checks capacity discharge, queue formation, dissipation, and packet delay ordinals together."
+}

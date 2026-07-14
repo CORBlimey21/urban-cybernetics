@@ -18,6 +18,9 @@ import {
   artifactSchema,
   replayStateSchema,
   eventSchema,
+  validationLibrarySchema,
+  validationResultSchema,
+  validationRunStatusSchema,
   type ArtifactSummary,
   type LiveMessage,
   type RunRequest,
@@ -146,3 +149,12 @@ export const followRun = (runId: string, onMessage: (message: LiveMessage) => vo
   stream.onerror = onError;
   return () => stream.close();
 };
+
+export const loadValidationLibrary = async () => validationLibrarySchema.parse(await getJson("/api/v3/validation/cases"));
+export const loadValidationHistory = async (caseId: string) => validationResultSchema.array().parse(await getJson(`/api/v3/validation/cases/${encodeURIComponent(caseId)}/history`));
+export const startValidationCase = async (caseId: string) => validationRunStatusSchema.parse(await postJson(`/api/v3/validation/cases/${encodeURIComponent(caseId)}/runs`, {}));
+export const startValidationGroup = async (groupId: string) => validationRunStatusSchema.array().parse(await postJson(`/api/v3/validation/groups/${encodeURIComponent(groupId)}/runs`, {}));
+export const loadValidationRunStatus = async (resultId: string) => validationRunStatusSchema.parse(await getJson(`/api/v3/validation/runs/${encodeURIComponent(resultId)}/status`));
+export const cancelValidationRun = async (resultId: string) => validationRunStatusSchema.parse(await postJson(`/api/v3/validation/runs/${encodeURIComponent(resultId)}/commands`, { schema_version: "uc.validation.control.v1", command_id: `cancel-${crypto.randomUUID()}`, action: "cancel" }));
+export const loadValidationResult = async (resultId: string) => validationResultSchema.parse(await getJson(`/api/v3/validation/results/${encodeURIComponent(resultId)}`));
+export const loadValidationBundle = async (resultId: string) => finalBundleSchema.parse(await getJson(`/api/v3/validation/results/${encodeURIComponent(resultId)}/bundle`));

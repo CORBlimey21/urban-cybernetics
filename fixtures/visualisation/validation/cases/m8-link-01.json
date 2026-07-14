@@ -1,0 +1,231 @@
+{
+  "case_id": "M8-LINK-01",
+  "citations": [
+    {
+      "citation_text": "Urban Cybernetics M8 Analytical Link Cases v1; fixture-owned triangular-FD analytical tables.",
+      "equation": null,
+      "figure": null,
+      "source_id": "m8-analytical-link-fixtures-v1",
+      "source_section": "Equations and Convention",
+      "table": null,
+      "url": null
+    }
+  ],
+  "claim_ids": [
+    "M8-VAL-LINK-FREE-FLOW"
+  ],
+  "comparison_status": "exact",
+  "default_final_tick": 3,
+  "demand_reference": "three unit packets admitted at tick 0",
+  "evidence_class": "analytical",
+  "expected_physical_sequence": [
+    "Three packets enter L1 at tick 0.",
+    "The pulse propagates for the two-tick free-flow lag.",
+    "All packets exit together at tick 2 without queueing."
+  ],
+  "expected_result_summary": "Cumulative exits jump from 0 to 3 at tick 2; point queue remains zero.",
+  "expected_scalars": [
+    {
+      "evidence_source": "analytical_reference",
+      "label": "Expected packet exit ticks",
+      "scalar_id": "exit_ticks",
+      "units": "ticks",
+      "value": "2,2,2"
+    },
+    {
+      "evidence_source": "analytical_reference",
+      "label": "Expected canonical queue events",
+      "scalar_id": "queue_events",
+      "units": "events",
+      "value": 0.0
+    }
+  ],
+  "expected_series": [
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected cumulative entries",
+      "quantity": "entries",
+      "series_id": "entries",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected cumulative exits",
+      "quantity": "exits",
+      "series_id": "exits",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        3.0,
+        3.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected point queue",
+      "quantity": "point_queue",
+      "series_id": "point_queue",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "group_id": "m8-analytical-links",
+  "initial_state_reference": "empty link before explicit origin pulse",
+  "input_completeness": "complete",
+  "known_model_differences": [],
+  "limits_on_interpretation": [
+    "Internal analytical agreement, not external cross-implementation validation.",
+    "Unit packets and a declared discrete timestep are used."
+  ],
+  "metrics": [
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "entries",
+      "label": "Entry curve maximum error",
+      "metric_id": "entries_max_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "exits",
+      "label": "Exit curve maximum error",
+      "metric_id": "exits_max_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "point_queue",
+      "label": "Queue curve maximum error",
+      "metric_id": "queue_max_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "exact_sequence",
+      "expected_id": "exit_ticks",
+      "label": "Exit tick sequence",
+      "metric_id": "exit_tick_sequence",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "exact"
+    },
+    {
+      "comparison": "absolute_error",
+      "expected_id": "queue_events",
+      "label": "Queue event count",
+      "metric_id": "queue_event_count",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "events"
+    }
+  ],
+  "overlays": [
+    {
+      "active_from_tick": 0,
+      "active_through_tick": 2,
+      "boundary_id": null,
+      "direction": "forward",
+      "evidence_source": "analytical_reference",
+      "kind": "relevant_link",
+      "label": "Free-flow propagation",
+      "link_id": "L1",
+      "note": "Whole-link timing abstraction; not a continuous packet position.",
+      "overlay_id": "free-flow-link"
+    },
+    {
+      "active_from_tick": 2,
+      "active_through_tick": 2,
+      "boundary_id": null,
+      "direction": "none",
+      "evidence_source": "analytical_reference",
+      "kind": "event_marker",
+      "label": "Expected simultaneous exit",
+      "link_id": "L1",
+      "note": "Expected free-flow release tick.",
+      "overlay_id": "expected-release"
+    }
+  ],
+  "profile_reference": "parity_ltm_v1",
+  "provenance": [
+    "Expected tables are literal fixture data independent of UC projections."
+  ],
+  "reference_assets": [
+    {
+      "asset_id": "m8-reference-placeholder-v1",
+      "citation_text": "Urban Cybernetics M8 Analytical Link Cases v1; fixture-owned triangular-FD analytical tables.",
+      "comparison_suitability": "suitable",
+      "digitised_series_id": null,
+      "figure_table_equation": "case table and declared equations",
+      "label": "Authored analytical table (no copyrighted figure)",
+      "local_asset_path": null,
+      "missing_input_notes": [],
+      "rights_provenance_note": "Repository-authored numerical reference; no external image embedded.",
+      "source_id": "m8-analytical-link-fixtures-v1",
+      "transformation_metadata": []
+    }
+  ],
+  "reproducibility_notes": [
+    "No random inputs.",
+    "Origin admission budget is distinct from downstream sending capacity."
+  ],
+  "route_sequences": [
+    [
+      "L1"
+    ]
+  ],
+  "safe_claim": "The discrete unit-packet kernel matches this exact free-flow translation table.",
+  "schema_version": "uc.validation.case.v1",
+  "short_explanation": "A three-packet pulse traverses one uncongested link by exactly the free-flow lag.",
+  "tick_duration_seconds": 10.0,
+  "title": "Free-flow pulse translation",
+  "topology_reference": "m8-single-link-200m-v1",
+  "version": "1",
+  "why_it_matters": "Establishes the basic free-flow translation convention before congestion is introduced."
+}

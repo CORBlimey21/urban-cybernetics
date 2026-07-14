@@ -22,6 +22,9 @@ from .contract import VPacket, VTopology
 from urban_cybernetics.topology import CanonicalNode, CanonicalTopology, CanonicalTopologyLink, TopologySourceMetadata
 from .v2_contract import RunCommand, RunRequestV2
 from urban_cybernetics.core import Event, EventType
+from .validation_cases import CASES_BY_ID
+from .validation_contract import ValidationRunCommand
+from .validation_store import ValidationArtifactNotFound, ValidationOrchestrator, ValidationRepository
 
 
 def create_app(
@@ -30,6 +33,7 @@ def create_app(
     v2_artifact_directory: Path | None = None,
     web_distribution: Path | None = None,
     orchestrator: RunOrchestrator | None = None,
+    validation_orchestrator: ValidationOrchestrator | None = None,
 ) -> FastAPI:
     """Create the local app; V2 writes are limited to typed run commands."""
 
@@ -47,6 +51,11 @@ def create_app(
         read_only_roots=(project_root / "fixtures" / "visualisation" / "v2",),
     )
     orchestrator = orchestrator or RunOrchestrator(repository, execution_yield_seconds=0.01)
+    validation_repository = validation_orchestrator.repository if validation_orchestrator is not None else ValidationRepository(
+        project_root / "outputs" / "visualisation" / "validation",
+        read_only_roots=(project_root / "fixtures" / "visualisation" / "validation",),
+    )
+    validation_orchestrator = validation_orchestrator or ValidationOrchestrator(validation_repository)
     app = FastAPI(
         title="Urban Cybernetics V",
         version="1.0.0",
@@ -211,6 +220,65 @@ def create_app(
         if profile_id is not None:
             records = [record for record in records if record["physical_profile_id"] == profile_id]
         return records
+
+    @app.get("/api/v3/validation/cases")
+    def validation_cases() -> list[dict[str, object]]:
+        return [record.model_dump(mode="json") for record in validation_orchestrator.library()]
+
+    @app.get("/api/v3/validation/cases/{case_id}")
+    def validation_case(case_id: str) -> dict[str, object]:
+        try:
+            return CASES_BY_ID[case_id].model_dump(mode="json")
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="validation case not found") from exc
+
+    @app.get("/api/v3/validation/cases/{case_id}/history")
+    def validation_history(case_id: str) -> list[dict[str, object]]:
+        if case_id not in CASES_BY_ID:
+            raise HTTPException(status_code=404, detail="validation case not found")
+        return [result.model_dump(mode="json") for result in validation_repository.list_results(case_id)]
+
+    @app.post("/api/v3/validation/cases/{case_id}/runs", status_code=202)
+    def run_validation_case(case_id: str) -> dict[str, object]:
+        try:
+            return validation_orchestrator.start(case_id).model_dump(mode="json")
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="validation case not found") from exc
+
+    @app.post("/api/v3/validation/groups/{group_id}/runs", status_code=202)
+    def run_validation_group(group_id: str) -> list[dict[str, object]]:
+        try:
+            return [status.model_dump(mode="json") for status in validation_orchestrator.start_group(group_id)]
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="validation group not found") from exc
+
+    @app.get("/api/v3/validation/runs/{result_id}/status")
+    def validation_run_status(result_id: str) -> dict[str, object]:
+        try:
+            return validation_orchestrator.status(result_id).model_dump(mode="json")
+        except ValidationArtifactNotFound as exc:
+            raise HTTPException(status_code=404, detail="validation run not found") from exc
+
+    @app.post("/api/v3/validation/runs/{result_id}/commands")
+    def validation_run_command(result_id: str, command: ValidationRunCommand) -> dict[str, object]:
+        try:
+            return validation_orchestrator.cancel(result_id).model_dump(mode="json")
+        except ValidationArtifactNotFound as exc:
+            raise HTTPException(status_code=409, detail="validation run is not active") from exc
+
+    @app.get("/api/v3/validation/results/{result_id}")
+    def validation_result(result_id: str) -> dict[str, object]:
+        try:
+            return validation_repository.result(result_id).model_dump(mode="json")
+        except ValidationArtifactNotFound as exc:
+            raise HTTPException(status_code=404, detail="validation result not found") from exc
+
+    @app.get("/api/v3/validation/results/{result_id}/bundle")
+    def validation_result_bundle(result_id: str) -> dict[str, object]:
+        try:
+            return validation_repository.bundle(result_id).model_dump(mode="json")
+        except ValidationArtifactNotFound as exc:
+            raise HTTPException(status_code=404, detail="validation replay bundle not found") from exc
 
     @app.post("/api/v2/runs", status_code=202)
     def create_v2_run(request: RunRequestV2) -> dict[str, object]:

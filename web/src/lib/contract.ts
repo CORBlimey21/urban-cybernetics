@@ -337,6 +337,34 @@ export const movementEvidenceSchema = z.object({
   })),
 });
 
+export const evidenceSourceSchema = z.enum(["canonical", "event_derived", "engine_exported", "analytical_reference", "validation_output", "presentation_only"]);
+export const validationSeriesSchema = z.object({
+  series_id: z.string(), label: z.string(), quantity: z.string(), units: z.string(), time_basis: z.string(),
+  ticks: z.array(z.number().int()), values: z.array(z.number()), evidence_source: evidenceSourceSchema,
+  aggregation_window_ticks: z.number().int().nullable(), counting_basis: z.string().nullable(), boundary_direction: z.string().nullable(),
+}).refine((value) => value.ticks.length === value.values.length, "validation series lengths differ");
+export const scalarEvidenceSchema = z.object({ scalar_id: z.string(), label: z.string(), value: z.union([z.number(), z.string(), z.boolean()]), units: z.string().nullable(), evidence_source: evidenceSourceSchema });
+export const validationOverlaySchema = z.object({ overlay_id: z.string(), kind: z.enum(["relevant_link", "queued_region", "blocked_boundary", "reference_wave", "event_marker", "released_storage"]), label: z.string(), link_id: z.string().nullable(), boundary_id: z.string().nullable(), active_from_tick: z.number().int(), active_through_tick: z.number().int(), direction: z.enum(["forward", "backward", "none"]), evidence_source: evidenceSourceSchema, note: z.string() });
+export const validationCaseSchema = z.object({
+  schema_version: z.literal("uc.validation.case.v1"), case_id: z.string(), version: z.string(), group_id: z.string(), title: z.string(), short_explanation: z.string(), claim_ids: z.array(z.string()),
+  evidence_class: z.enum(["analytical", "published_numerical_reproduction", "structural_requirement", "cross_implementation", "benchmark"]),
+  citations: z.array(z.object({ source_id: z.string(), citation_text: z.string(), source_section: z.string().nullable(), figure: z.string().nullable(), equation: z.string().nullable(), table: z.string().nullable(), url: z.string().nullable() })),
+  reference_assets: z.array(z.object({ asset_id: z.string(), source_id: z.string(), label: z.string(), citation_text: z.string(), figure_table_equation: z.string().nullable(), local_asset_path: z.string().nullable(), digitised_series_id: z.string().nullable(), rights_provenance_note: z.string(), transformation_metadata: z.array(z.string()), comparison_suitability: z.enum(["suitable", "context_only", "blocked", "not_assessed"]), missing_input_notes: z.array(z.string()) })),
+  input_completeness: z.enum(["complete", "partial", "missing"]), comparison_status: z.enum(["exact", "converted", "bounded", "statistical", "structural", "blocked", "not_comparable"]),
+  topology_reference: z.string(), profile_reference: z.string(), demand_reference: z.string(), route_sequences: z.array(z.array(z.string())), tick_duration_seconds: z.number().positive(), initial_state_reference: z.string(),
+  expected_physical_sequence: z.array(z.string()), expected_result_summary: z.string(), why_it_matters: z.string(), limits_on_interpretation: z.array(z.string()),
+  expected_series: z.array(validationSeriesSchema), expected_scalars: z.array(scalarEvidenceSchema), metrics: z.array(z.object({ metric_id: z.string(), label: z.string(), comparison: z.enum(["max_absolute_error", "absolute_error", "exact_sequence", "exact_boolean"]), expected_id: z.string(), tolerance: z.number(), units: z.string(), tolerance_justification: z.string() })),
+  overlays: z.array(validationOverlaySchema), known_model_differences: z.array(z.string()), safe_claim: z.string(), provenance: z.array(z.string()), reproducibility_notes: z.array(z.string()), default_final_tick: z.number().int().nonnegative(),
+});
+export const validationResultSchema = z.object({
+  schema_version: z.literal("uc.validation.result.v1"), result_id: z.string(), case_id: z.string(), case_version: z.string(), status: z.enum(["not_run", "running", "passed", "failed", "blocked", "cancelled"]), lifecycle: z.array(z.string()), created_at: z.string(), completed_at: z.string().nullable(), code_commit: z.string().nullable(), configuration_hash: z.string(), expected_evidence_hash: z.string(), replay_run_id: z.string().nullable(),
+  observed_series: z.array(validationSeriesSchema), observed_scalars: z.array(scalarEvidenceSchema), difference_series: z.array(validationSeriesSchema), metric_results: z.array(z.object({ metric_id: z.string(), value: z.number(), tolerance: z.number(), units: z.string(), passed: z.boolean(), explanation: z.string() })), headline_metric: z.string(), observed_result_summary: z.string(), difference_summary: z.string(),
+  packet_wait_explanations: z.array(z.object({ packet_id: z.string(), active_from_tick: z.number().int(), active_through_tick: z.number().int(), current_link_id: z.string().nullable(), fifo_position: z.number().int().nullable(), head_packet_id: z.string().nullable(), intended_movement: z.string().nullable(), blocking_reason: z.string().nullable(), receiving_supply_packets: z.number().int().nullable(), signal_or_governance_constraint: z.string().nullable(), expected_next_release_tick: z.number().int().nullable(), evidence_sources: z.array(evidenceSourceSchema), unavailable_fields: z.array(z.string()) })),
+  stop_reason: z.string().nullable(), linked_issue: z.string().nullable(), linked_fix_commit: z.string().nullable(), provenance: z.array(z.string()),
+});
+export const validationRunStatusSchema = z.object({ result_id: z.string(), case_id: z.string(), lifecycle: z.string(), physical_tick: z.number().int(), final_tick: z.number().int(), detail: z.string(), terminal: z.boolean() });
+export const validationLibrarySchema = z.array(z.object({ case: validationCaseSchema, latest_result: validationResultSchema.nullable(), history_count: z.number().int().nonnegative() }));
+
 export type Manifest = z.infer<typeof manifestSchema>;
 export type CanonicalEvent = z.infer<typeof eventSchema>;
 export type ReplayState = z.infer<typeof replayStateSchema>;
@@ -349,5 +377,9 @@ export type RunRequest = z.infer<typeof runRequestSchema>;
 export type LiveMessage = z.infer<typeof liveMessageSchema>;
 export type MovementEvidence = z.infer<typeof movementEvidenceSchema>;
 export type NetworkLayout = z.infer<typeof networkLayoutSchema>;
+export type ValidationCase = z.infer<typeof validationCaseSchema>;
+export type ValidationResult = z.infer<typeof validationResultSchema>;
+export type ValidationRunStatus = z.infer<typeof validationRunStatusSchema>;
+export type ValidationLibraryRecord = z.infer<typeof validationLibrarySchema>[number];
 
 export { contractEnums, v2ContractEnums };

@@ -1,0 +1,9 @@
+{
+  "case_id": "M8-LINK-03",
+  "detail": "Observed Python projections match all declared expectations.",
+  "final_tick": 3,
+  "lifecycle": "complete",
+  "physical_tick": 3,
+  "result_id": "m8-link-03-baseline-v1",
+  "terminal": true
+}
