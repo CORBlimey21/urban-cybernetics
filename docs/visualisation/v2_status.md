@@ -24,6 +24,14 @@ and updates as exact replay advances, but it does not create packet positions,
 change the camera, or affect physical state. Interpolated canvas markers remain
 anonymous and are intentionally not treated as selectable packet evidence.
 
+## M8 validation-workbench milestone
+
+The application now includes a Validation mode with a declared three-case M8
+analytical library, sanctioned background execution, append-only result
+history, expected/observed/difference charts, exact replay, authored physical
+explanations, validation overlays, packet waiting evidence, and reference-asset
+placeholders. See `m8_validation_workbench_v1.md` for contracts and boundaries.
+
 ## Delivered vertical slice
 
 - V1 artifacts remain loadable and appear in the combined artifact library.

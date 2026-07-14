@@ -97,6 +97,12 @@ evidence panels. Packet follow highlights declared and realised paths while
 remaining presentation-only; unavailable movement or supply fields are shown
 as unavailable rather than inferred.
 
+Select **Validation** in the workbench header to browse and run the three M8
+analytical link cases. Expected evidence, Python observations, differences,
+exact replay, authored explanations, and append-only history are available
+without terminal or file-manager work. Baselines can be regenerated with
+`.venv/bin/uc-visualisation export-validation-fixtures`.
+
 See `docs/visualisation/v2_workbench_architecture.md` for the V2 ownership
 boundary and developer quick-start. V1 contracts remain documented and
 loadable without migration.
