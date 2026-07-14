@@ -5,6 +5,7 @@ import { presentationMarkers } from "../lib/presentation";
 import { eventSchema, manifestSchema, replayStateSchema } from "../lib/contract";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { defaultLayout } from "../lib/layout";
 
 const fixture = JSON.parse(
   readFileSync(resolve(process.cwd(), "../fixtures/visualisation/v1/synthetic_strict_fifo_diverge_v1.json"), "utf8"),
@@ -30,7 +31,7 @@ describe("viewer replay", () => {
   it("keeps presentation interpolation outside scientific state", () => {
     const scientificState = stateAtTick(states, 1);
     const before = JSON.stringify(scientificState);
-    const markers = presentationMarkers(manifest.topology.links[0], manifest, scientificState, 0.42);
+    const markers = presentationMarkers(manifest.topology.links[0], defaultLayout(manifest), scientificState, 0.42);
 
     expect(markers.length).toBeGreaterThan(0);
     expect(markers[0]).not.toHaveProperty("packet_id");

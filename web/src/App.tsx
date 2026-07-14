@@ -17,6 +17,7 @@ import type {
   ArtifactSummary, CanonicalEvent, CumulativeSeries, LiveMessage, Manifest,
   MovementEvidence, ReplayState, ResourceCatalogue, RunRequest,
 } from "./lib/contract";
+import { availableLayouts, compatibleLayout, defaultLayout } from "./lib/layout";
 import { stateAtTick } from "./lib/replay";
 
 type LoadedRun = { artifact: ArtifactSummary; manifest: Manifest; events: CanonicalEvent[]; states: ReplayState[] };
@@ -31,7 +32,10 @@ export default function App() {
   const [speed, setSpeed] = useState(1);
   const [phase, setPhase] = useState(0);
   const [selectedLinkId, setSelectedLinkId] = useState("");
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [selectedPacketId, setSelectedPacketId] = useState<string | null>(null);
+  const [followingPacket, setFollowingPacket] = useState(false);
+  const [selectedLayoutId, setSelectedLayoutId] = useState<string | null>(null);
   const [movementEvidence, setMovementEvidence] = useState<MovementEvidence[]>([]);
   const [newRunOpen, setNewRunOpen] = useState(false);
   const [liveRun, setLiveRun] = useState<ArtifactSummary | null>(null);
@@ -42,6 +46,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const playbackRef = useRef({ last: 0, accumulator: 0 });
   const followingRef = useRef(true);
+  const layoutPreferenceRef = useRef<string | null>(null);
   followingRef.current = viewerFollowing;
 
   const refreshLibrary = useCallback(async () => {
@@ -55,11 +60,15 @@ export default function App() {
       throw new Error("This artifact is still running; use its live workbench state.");
     }
     const payload = await loadArtifact(artifact);
+    const nextLayout = compatibleLayout(payload.manifest, layoutPreferenceRef.current);
     setLoaded({ artifact, manifest: payload.manifest, events: payload.events, states: payload.states });
     setSeries(payload.initialSeries);
     setTick(payload.manifest.run.start_tick);
     setSelectedLinkId(payload.manifest.topology.links[0]?.link_id ?? "");
+    setSelectedNodeId(null);
     setSelectedPacketId(null);
+    setFollowingPacket(false);
+    setSelectedLayoutId(nextLayout.layout_id);
     setLiveState(null);
   }, []);
 
@@ -173,6 +182,27 @@ export default function App() {
   const run = manifest.run;
   const simulationSeconds = tick * run.tick_duration_seconds;
   const pinnedRuns = pinned.map((id) => artifacts.find((item) => item.run_id === id)).filter((item): item is ArtifactSummary => Boolean(item));
+  const layouts = availableLayouts(manifest);
+  const selectedLayout = layouts.find((layout) => layout.layout_id === selectedLayoutId) ?? defaultLayout(manifest);
+
+  const changeLayout = (layoutId: string) => {
+    layoutPreferenceRef.current = layoutId;
+    setSelectedLayoutId(layoutId);
+  };
+
+  const selectLink = (linkId: string) => {
+    setSelectedLinkId(linkId); setSelectedNodeId(null); setSelectedPacketId(null); setFollowingPacket(false);
+  };
+  const selectNode = (nodeId: string) => {
+    setSelectedNodeId(nodeId); setSelectedPacketId(null); setFollowingPacket(false);
+  };
+  const selectPacket = (packetId: string | null) => {
+    setSelectedPacketId(packetId); setSelectedNodeId(null); if (!packetId) setFollowingPacket(false);
+  };
+  const navigateEvent = (event: CanonicalEvent) => {
+    if (manifest.topology.links.some((link) => link.link_id === event.entity_id)) setSelectedLinkId(event.entity_id);
+    selectPacket(event.packet_id); setFollowingPacket(false); void seek(event.physical_tick);
+  };
 
   return <div className="app-shell workbench-shell">
     <header className="topbar">
@@ -194,8 +224,8 @@ export default function App() {
           <label className="speed-control"><span>Viewer speed</span><select value={speed} onChange={(event) => setSpeed(Number(event.target.value))}><option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={4}>4×</option></select></label>
         </section>
 
-        <main className="workspace"><section className="network-panel panel"><div className="network-heading"><div><span className="eyebrow">Evidence plane · directed topology</span><h2>{isLiveLoaded ? "Sealed live scientific state" : "Persisted physical evidence replay"}</h2></div><div className="legend"><span><i className="legend-dot active" /> occupied</span><span><i className="legend-dot queued" /> queue</span><span><i className="legend-line" /> topology</span></div></div><NetworkCanvas manifest={manifest} state={state} selectedLinkId={selectedLinkId} selectedPacketId={selectedPacketId} phase={phase} onSelectLink={(linkId) => { setSelectedLinkId(linkId); setSelectedPacketId(null); }} /><div className="network-metrics"><div><span>in transit</span><strong>{state.counts.in_transit}</strong></div><div><span>queued</span><strong className="amber">{state.counts.queued}</strong></div><div><span>completed</span><strong className="lime">{state.counts.completed}</strong></div><div><span>unresolved</span><strong>{state.counts.in_transit + state.counts.queued + state.counts.not_yet_observed}</strong></div><div><span>cancelled</span><strong>{state.counts.cancelled}</strong></div></div></section><Inspector manifest={manifest} state={state} events={events} selectedLinkId={selectedLinkId} selectedPacketId={selectedPacketId} series={series} onSelectPacket={setSelectedPacketId} /></main>
-        <section className="evidence-deck"><div className="chart-panel panel"><div className="panel-heading compact"><div><span className="eyebrow">Scientific projection · {selectedLinkId}</span><h2>Cumulative boundary counts</h2></div><span className="source-chip">Python-derived</span></div><ScientificChart series={series} tick={tick} /><div className="chart-source">Units: {series.descriptor.units} · Basis: {series.descriptor.time_basis}</div></div><div className="events-panel panel"><EventStream events={events} tick={tick} onSelectPacket={setSelectedPacketId} /></div></section>
+        <main className="workspace"><section className="network-panel panel"><div className="network-heading"><div><span className="eyebrow">Evidence plane · directed topology</span><h2>{isLiveLoaded ? "Sealed live scientific state" : "Persisted physical evidence replay"}</h2></div><div className="network-heading-actions"><div className="layout-control"><span>Layout</span><select aria-label="Network layout" value={selectedLayout.layout_id} onChange={(event) => changeLayout(event.target.value)}>{layouts.map((layout) => <option key={layout.layout_id} value={layout.layout_id}>{layout.label}</option>)}</select><button onClick={() => changeLayout(defaultLayout(manifest).layout_id)}>Restore default</button></div><div className="legend"><span><i className="legend-dot active" /> occupied</span><span><i className="legend-dot queued" /> queue</span><span><i className="legend-line" /> topology</span></div></div></div><div className="layout-status" data-layout-id={selectedLayout.layout_id}><strong>Layout: {selectedLayout.label}</strong><span>{selectedLayout.is_geographic ? `Geographic · ${selectedLayout.crs}` : "Non-geographic"}</span><span>{selectedLayout.distance_semantics}</span></div><NetworkCanvas manifest={manifest} layout={selectedLayout} state={state} selectedLinkId={selectedNodeId || selectedPacketId ? "" : selectedLinkId} selectedNodeId={selectedNodeId} selectedPacketId={selectedPacketId} followingPacket={followingPacket} phase={phase} onSelectLink={selectLink} onSelectNode={selectNode} /><div className="network-metrics"><div><span>in transit</span><strong>{state.counts.in_transit}</strong></div><div><span>queued</span><strong className="amber">{state.counts.queued}</strong></div><div><span>completed</span><strong className="lime">{state.counts.completed}</strong></div><div><span>unresolved</span><strong>{state.counts.in_transit + state.counts.queued + state.counts.not_yet_observed}</strong></div><div><span>cancelled</span><strong>{state.counts.cancelled}</strong></div></div></section><Inspector manifest={manifest} state={state} events={events} movementEvidence={movementEvidence} selectedLinkId={selectedLinkId} selectedNodeId={selectedNodeId} selectedPacketId={selectedPacketId} followingPacket={followingPacket} series={series} onSelectPacket={selectPacket} onSelectLink={selectLink} onSelectNode={selectNode} onToggleFollow={() => setFollowingPacket((current) => !current)} onNavigateEvent={navigateEvent} /></main>
+        <section className="evidence-deck"><div className="chart-panel panel"><div className="panel-heading compact"><div><span className="eyebrow">Scientific projection · {selectedLinkId}</span><h2>Cumulative boundary counts</h2></div><span className="source-chip">Python-derived</span></div><ScientificChart series={series} tick={tick} /><div className="chart-source">Units: {series.descriptor.units} · Basis: {series.descriptor.time_basis}</div></div><div className="events-panel panel"><EventStream events={events} tick={tick} onSelectEvent={navigateEvent} /></div></section>
         <MovementPanel evidence={movementEvidence} tick={tick} />
         <footer className="provenance-bar"><span><b>RUN</b> {run.run_id}</span><span><b>TOPOLOGY</b> {run.topology_hash.slice(0, 12)}…</span><span><b>PROFILE</b> {run.model_profile_id}</span><span><b>CONTRACT</b> {artifact.contract_version}</span><span className="truth-label">canonical and Python-derived evidence</span></footer>
       </div>
