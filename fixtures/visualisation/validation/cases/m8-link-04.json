@@ -1,5 +1,5 @@
 {
-  "case_id": "M8-LINK-01",
+  "case_id": "M8-LINK-04",
   "citations": [
     {
       "citation_text": "Urban Cybernetics M8 Analytical Link Cases v1; fixture-owned triangular-FD analytical tables.",
@@ -12,32 +12,25 @@
     }
   ],
   "claim_ids": [
-    "M8-VAL-LINK-FREE-FLOW"
+    "M8-VAL-LINK-SUSTAINED-FREE-FLOW"
   ],
   "comparison_status": "exact",
-  "default_final_tick": 3,
-  "demand_reference": "three unit packets admitted at tick 0",
+  "default_final_tick": 6,
+  "demand_reference": "one unit packet at each tick 0 through 4",
   "evidence_class": "analytical",
   "expected_physical_sequence": [
-    "Three packets enter L1 at tick 0.",
-    "The pulse propagates for the two-tick free-flow lag.",
-    "All packets exit together at tick 2 without queueing."
+    "One packet enters at every tick from 0 through 4.",
+    "Each packet becomes sendable two ticks after entry.",
+    "One packet exits at every tick from 2 through 6 and no queue forms."
   ],
-  "expected_result_summary": "Cumulative exits jump from 0 to 3 at tick 2; point queue remains zero.",
+  "expected_result_summary": "Entries rise 1,2,3,4,5 and exits reproduce that cadence after two ticks; point queue is always zero.",
   "expected_scalars": [
     {
       "evidence_source": "analytical_reference",
       "label": "Expected packet exit ticks",
       "scalar_id": "exit_ticks",
       "units": "ticks",
-      "value": "2,2,2"
-    },
-    {
-      "evidence_source": "analytical_reference",
-      "label": "Expected canonical queue events",
-      "scalar_id": "queue_events",
-      "units": "events",
-      "value": 0.0
+      "value": "2,3,4,5,6"
     }
   ],
   "expected_series": [
@@ -53,15 +46,21 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5,
+        6
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
+        1.0,
+        2.0,
         3.0,
-        3.0,
-        3.0,
-        3.0
+        4.0,
+        5.0,
+        5.0,
+        5.0
       ]
     },
     {
@@ -76,15 +75,21 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5,
+        6
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
         0.0,
         0.0,
+        1.0,
+        2.0,
         3.0,
-        3.0
+        4.0,
+        5.0
       ]
     },
     {
@@ -99,11 +104,17 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5,
+        6
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
+        0.0,
+        0.0,
+        0.0,
         0.0,
         0.0,
         0.0,
@@ -112,12 +123,12 @@
     }
   ],
   "group_id": "m8-analytical-links",
-  "initial_state_reference": "empty link before explicit origin pulse",
+  "initial_state_reference": "empty link before authored demand",
   "input_completeness": "complete",
   "known_model_differences": [],
   "limits_on_interpretation": [
-    "Internal analytical agreement, not external cross-implementation validation.",
-    "Unit packets and a declared discrete timestep are used."
+    "Internal analytical agreement only.",
+    "Unit-packet discrete-time case; no empirical claim."
   ],
   "metrics": [
     {
@@ -155,41 +166,20 @@
       "tolerance": 0.0,
       "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
       "units": "exact"
-    },
-    {
-      "comparison": "absolute_error",
-      "expected_id": "queue_events",
-      "label": "Queue event count",
-      "metric_id": "queue_event_count",
-      "tolerance": 0.0,
-      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
-      "units": "events"
     }
   ],
   "overlays": [
     {
       "active_from_tick": 0,
-      "active_through_tick": 2,
+      "active_through_tick": 6,
       "boundary_id": null,
       "direction": "forward",
       "evidence_source": "analytical_reference",
       "kind": "relevant_link",
-      "label": "Free-flow propagation",
+      "label": "Sustained free-flow interval",
       "link_id": "L1",
-      "note": "Whole-link timing abstraction; not a continuous packet position.",
-      "overlay_id": "free-flow-link"
-    },
-    {
-      "active_from_tick": 2,
-      "active_through_tick": 2,
-      "boundary_id": null,
-      "direction": "none",
-      "evidence_source": "analytical_reference",
-      "kind": "event_marker",
-      "label": "Expected simultaneous exit",
-      "link_id": "L1",
-      "note": "Expected free-flow release tick.",
-      "overlay_id": "expected-release"
+      "note": "Whole-link cadence cue; not continuous packet position.",
+      "overlay_id": "sustained-free-flow"
     }
   ],
   "profile_reference": "parity_ltm_v1",
@@ -212,22 +202,21 @@
     }
   ],
   "reproducibility_notes": [
-    "Assumption: unit packets on one triangular-FD lane.",
-    "Assumption: inclusive integer ticks and ceiling-rounded travel lag.",
-    "No random inputs.",
-    "Origin admission budget is distinct from downstream sending capacity."
+    "Assumption: unit packets, one per tick from 0 through 4.",
+    "Assumption: two-packet sending capacity and two-tick free-flow lag.",
+    "No random inputs; expected values are authored before execution."
   ],
   "route_sequences": [
     [
       "L1"
     ]
   ],
-  "safe_claim": "The discrete unit-packet kernel matches this exact free-flow translation table.",
+  "safe_claim": "The kernel matches this exact sustained sub-capacity translation table.",
   "schema_version": "uc.validation.case.v1",
-  "short_explanation": "A three-packet pulse traverses one uncongested link by exactly the free-flow lag.",
+  "short_explanation": "One packet per tick remains below a two-packet sending capacity and translates without queueing.",
   "tick_duration_seconds": 10.0,
-  "title": "Free-flow pulse translation",
-  "topology_reference": "m8-single-link-200m-v1",
+  "title": "Sustained uncongested flow",
+  "topology_reference": "m8-single-link-200m-v2",
   "version": "1",
-  "why_it_matters": "Establishes the basic free-flow translation convention before congestion is introduced."
+  "why_it_matters": "Separates sustained free-flow behaviour from the finite pulse already covered by M8-LINK-01."
 }

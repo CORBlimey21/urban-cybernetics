@@ -85,7 +85,13 @@ def test_api_discovers_cases_loads_history_and_runs_sanctioned_case(tmp_path: Pa
     ))
     library = api.get("/api/v3/validation/cases")
     assert library.status_code == 200
-    assert [item["case"]["case_id"] for item in library.json()] == ["M8-LINK-01", "M8-LINK-02", "M8-LINK-03"]
+    assert [item["case"]["case_id"] for item in library.json()] == [
+        "M8-LINK-01", "M8-LINK-02", "M8-LINK-03", "M8-LINK-04",
+        "M8-LINK-05", "M8-LINK-06", "M8-LINK-07",
+        "M8-NODE-01-DEMAND", "M8-NODE-01-SUPPLY", "M8-NODE-01-EQUAL",
+        "M8-NODE-01-ZERO-DEMAND", "M8-NODE-01-ZERO-SUPPLY",
+        "M8-NODE-01-REOPEN", "M8-NODE-01-FRACTIONAL",
+    ]
     assert all(item["latest_result"]["status"] == "passed" for item in library.json())
     history_before = api.get("/api/v3/validation/cases/M8-LINK-01/history").json()
     started = api.post("/api/v3/validation/cases/M8-LINK-01/runs")

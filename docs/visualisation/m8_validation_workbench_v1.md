@@ -14,14 +14,26 @@ own execution, folds observations from canonical events in Python, compares
 them with the authored oracle, and exports an ordinary V replay bundle. The
 browser never executes loading mechanics or derives expectations.
 
-## Initial case library
+The frozen v1 fields retain their original meanings. Scientific claims use
+`short_explanation` and `safe_claim`; physical mechanism and diagnostic purpose
+use `why_it_matters`; assumptions use `initial_state_reference` and
+`reproducibility_notes`. No case-schema extension is required for the expanded
+analytical library.
+
+## Analytical case library
 
 - `M8-LINK-01`: exact free-flow pulse translation.
 - `M8-LINK-02`: exact capacity-constrained discharge, point queue, and delay.
 - `M8-LINK-03`: exact backward-vacancy lag and boundary-queue release.
+- `M8-LINK-04`: sustained uncongested cadence.
+- `M8-LINK-05`: queue growth, saturated discharge, and clearance.
+- `M8-LINK-06`: repeated backward-vacancy releases.
+- `M8-LINK-07`: fractional sending-capacity carry.
+- `M8-NODE-01-*`: demand-limited, supply-limited, equal, zero-demand,
+  zero-supply, reopening, and fractional one-to-one transfers.
 
 Expected tables remain literal fixture data. They are duplicated deliberately
-between the original external-validation tests and the workbench case contract;
+between independent external-validation tests and the workbench case contract;
 neither is generated from UC projections. Baseline results under
 `fixtures/visualisation/validation/` are deterministic reloadable evidence.
 
@@ -98,7 +110,7 @@ copyrighted figures.
 
 ## Known limitations
 
-- The three cases share one analytical execution adapter; future published
+- The analytical cases share one declared execution adapter; future published
   cases must declare their own suitable mechanism rather than pretending all M8
   evidence is homogeneous.
 - Run-all is limited to the current analytical group.
@@ -106,5 +118,7 @@ copyrighted figures.
   this scale.
 - The point queue and vacancy supply are Python validation projections, not new
   engine state.
-- The next recommended scientific case is the independently sourced one-to-one
-  node case, followed by the de Souza lane-drop reproduction.
+- Paired timestep-invariance and standalone static triangular-FD Workbench
+  cases remain optional analytical follow-ups.
+- The next milestone is the de Souza lane-drop reproduction; it is not part of
+  this analytical slice.

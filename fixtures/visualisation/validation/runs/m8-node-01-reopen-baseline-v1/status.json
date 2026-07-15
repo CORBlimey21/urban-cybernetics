@@ -1,0 +1,9 @@
+{
+  "case_id": "M8-NODE-01-REOPEN",
+  "detail": "Observed Python projections match all declared expectations.",
+  "final_tick": 3,
+  "lifecycle": "complete",
+  "physical_tick": 3,
+  "result_id": "m8-node-01-reopen-baseline-v1",
+  "terminal": true
+}

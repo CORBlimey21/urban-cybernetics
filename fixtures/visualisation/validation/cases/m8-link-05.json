@@ -1,5 +1,5 @@
 {
-  "case_id": "M8-LINK-01",
+  "case_id": "M8-LINK-05",
   "citations": [
     {
       "citation_text": "Urban Cybernetics M8 Analytical Link Cases v1; fixture-owned triangular-FD analytical tables.",
@@ -12,32 +12,33 @@
     }
   ],
   "claim_ids": [
-    "M8-VAL-LINK-FREE-FLOW"
+    "M8-VAL-LINK-QUEUE-GROWTH",
+    "M8-VAL-LINK-QUEUE-CLEARANCE"
   ],
   "comparison_status": "exact",
-  "default_final_tick": 3,
-  "demand_reference": "three unit packets admitted at tick 0",
+  "default_final_tick": 7,
+  "demand_reference": "two unit packets at each tick 0 through 2",
   "evidence_class": "analytical",
   "expected_physical_sequence": [
-    "Three packets enter L1 at tick 0.",
-    "The pulse propagates for the two-tick free-flow lag.",
-    "All packets exit together at tick 2 without queueing."
+    "Six packets enter over ticks 0 through 2.",
+    "One packet exits per tick from tick 2.",
+    "The point queue grows to three packets, then clears to zero at tick 7."
   ],
-  "expected_result_summary": "Cumulative exits jump from 0 to 3 at tick 2; point queue remains zero.",
+  "expected_result_summary": "The queue series is 0,0,1,2,3,2,1,0 while discharge stays saturated until all six packets exit.",
   "expected_scalars": [
     {
       "evidence_source": "analytical_reference",
       "label": "Expected packet exit ticks",
       "scalar_id": "exit_ticks",
       "units": "ticks",
-      "value": "2,2,2"
+      "value": "2,3,4,5,6,7"
     },
     {
       "evidence_source": "analytical_reference",
-      "label": "Expected canonical queue events",
-      "scalar_id": "queue_events",
-      "units": "events",
-      "value": 0.0
+      "label": "Expected peak queue",
+      "scalar_id": "peak_queue",
+      "units": "packets",
+      "value": 3.0
     }
   ],
   "expected_series": [
@@ -53,15 +54,23 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5,
+        6,
+        7
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
-        3.0,
-        3.0,
-        3.0,
-        3.0
+        2.0,
+        4.0,
+        6.0,
+        6.0,
+        6.0,
+        6.0,
+        6.0,
+        6.0
       ]
     },
     {
@@ -76,15 +85,23 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5,
+        6,
+        7
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
         0.0,
         0.0,
+        1.0,
+        2.0,
         3.0,
-        3.0
+        4.0,
+        5.0,
+        6.0
       ]
     },
     {
@@ -99,25 +116,33 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5,
+        6,
+        7
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
         0.0,
         0.0,
-        0.0,
+        1.0,
+        2.0,
+        3.0,
+        2.0,
+        1.0,
         0.0
       ]
     }
   ],
   "group_id": "m8-analytical-links",
-  "initial_state_reference": "empty link before explicit origin pulse",
+  "initial_state_reference": "empty link before authored demand",
   "input_completeness": "complete",
   "known_model_differences": [],
   "limits_on_interpretation": [
-    "Internal analytical agreement, not external cross-implementation validation.",
-    "Unit packets and a declared discrete timestep are used."
+    "Internal analytical agreement only.",
+    "Unit-packet discrete-time case; no empirical claim."
   ],
   "metrics": [
     {
@@ -158,38 +183,26 @@
     },
     {
       "comparison": "absolute_error",
-      "expected_id": "queue_events",
-      "label": "Queue event count",
-      "metric_id": "queue_event_count",
+      "expected_id": "peak_queue",
+      "label": "Peak queue error",
+      "metric_id": "peak_queue_error",
       "tolerance": 0.0,
       "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
-      "units": "events"
+      "units": "packets"
     }
   ],
   "overlays": [
     {
-      "active_from_tick": 0,
-      "active_through_tick": 2,
-      "boundary_id": null,
-      "direction": "forward",
-      "evidence_source": "analytical_reference",
-      "kind": "relevant_link",
-      "label": "Free-flow propagation",
-      "link_id": "L1",
-      "note": "Whole-link timing abstraction; not a continuous packet position.",
-      "overlay_id": "free-flow-link"
-    },
-    {
       "active_from_tick": 2,
-      "active_through_tick": 2,
+      "active_through_tick": 6,
       "boundary_id": null,
       "direction": "none",
-      "evidence_source": "analytical_reference",
-      "kind": "event_marker",
-      "label": "Expected simultaneous exit",
+      "evidence_source": "validation_output",
+      "kind": "queued_region",
+      "label": "Queue growth and clearance",
       "link_id": "L1",
-      "note": "Expected free-flow release tick.",
-      "overlay_id": "expected-release"
+      "note": "Magnitude comes from the Python comparison series.",
+      "overlay_id": "growing-queue"
     }
   ],
   "profile_reference": "parity_ltm_v1",
@@ -212,22 +225,21 @@
     }
   ],
   "reproducibility_notes": [
-    "Assumption: unit packets on one triangular-FD lane.",
-    "Assumption: inclusive integer ticks and ceiling-rounded travel lag.",
-    "No random inputs.",
-    "Origin admission budget is distinct from downstream sending capacity."
+    "Assumption: two unit packets enter at ticks 0, 1, and 2.",
+    "Assumption: one-packet sending capacity and two-tick free-flow lag.",
+    "No random inputs; expected values are authored before execution."
   ],
   "route_sequences": [
     [
       "L1"
     ]
   ],
-  "safe_claim": "The discrete unit-packet kernel matches this exact free-flow translation table.",
+  "safe_claim": "The kernel matches this exact queue-growth, saturated-discharge, and clearance table.",
   "schema_version": "uc.validation.case.v1",
-  "short_explanation": "A three-packet pulse traverses one uncongested link by exactly the free-flow lag.",
+  "short_explanation": "Two packets per tick arrive for three ticks while the link can discharge only one packet per tick.",
   "tick_duration_seconds": 10.0,
-  "title": "Free-flow pulse translation",
-  "topology_reference": "m8-single-link-200m-v1",
+  "title": "Queue growth and clearance",
+  "topology_reference": "m8-single-link-200m-v3",
   "version": "1",
-  "why_it_matters": "Establishes the basic free-flow translation convention before congestion is introduced."
+  "why_it_matters": "Adds queue growth under sustained excess inflow; M8-LINK-02 only starts from a finite pulse."
 }

@@ -1,0 +1,9 @@
+{
+  "case_id": "M8-NODE-01-FRACTIONAL",
+  "detail": "Observed Python projections match all declared expectations.",
+  "final_tick": 4,
+  "lifecycle": "complete",
+  "physical_tick": 4,
+  "result_id": "m8-node-01-fractional-baseline-v1",
+  "terminal": true
+}

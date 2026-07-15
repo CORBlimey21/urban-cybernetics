@@ -1,5 +1,5 @@
 {
-  "case_id": "M8-LINK-03",
+  "case_id": "M8-LINK-06",
   "citations": [
     {
       "citation_text": "Urban Cybernetics M8 Analytical Link Cases v1; fixture-owned triangular-FD analytical tables.",
@@ -12,27 +12,25 @@
     }
   ],
   "claim_ids": [
-    "M8-VAL-LINK-SPILLBACK",
-    "M8-VAL-BACKWARD-WAVE"
+    "M8-VAL-LINK-MULTIPLE-VACANCIES"
   ],
   "comparison_status": "exact",
-  "default_final_tick": 3,
-  "demand_reference": "three-packet L2 preload plus one L1-to-L2 packet",
+  "default_final_tick": 5,
+  "demand_reference": "three-packet L2 preload plus three L1-to-L2 candidates",
   "evidence_class": "analytical",
   "expected_physical_sequence": [
-    "A downstream L2 exit creates vacancy at tick 1.",
-    "Vacancy propagates upstream for the two-tick backward-wave lag.",
-    "It is unavailable at ticks 1 and 2.",
-    "At tick 3 the vacancy is usable and the queued L1 packet enters L2."
+    "Three L2 packets exit at ticks 1, 2, and 3.",
+    "Their vacancies reach the upstream boundary at ticks 3, 4, and 5.",
+    "Exactly one queued candidate enters L2 at each release tick."
   ],
-  "expected_result_summary": "The boundary queue clears and the candidate enters L2 exactly at tick 3.",
+  "expected_result_summary": "L2 entries rise at ticks 3,4,5 and the boundary queue falls from three packets to zero one packet at a time.",
   "expected_scalars": [
     {
       "evidence_source": "analytical_reference",
-      "label": "Expected candidate L2 entry",
-      "scalar_id": "candidate_release_tick",
-      "units": "tick",
-      "value": 3.0
+      "label": "Expected candidate L2 entry ticks",
+      "scalar_id": "candidate_release_ticks",
+      "units": "ticks",
+      "value": "3,4,5"
     }
   ],
   "expected_series": [
@@ -48,7 +46,9 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
@@ -56,7 +56,9 @@
         3.0,
         3.0,
         3.0,
-        4.0
+        4.0,
+        5.0,
+        6.0
       ]
     },
     {
@@ -71,7 +73,9 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
@@ -79,7 +83,9 @@
         0.0,
         1.0,
         2.0,
-        3.0
+        3.0,
+        4.0,
+        5.0
       ]
     },
     {
@@ -87,19 +93,23 @@
       "boundary_direction": null,
       "counting_basis": "unit packet evidence",
       "evidence_source": "analytical_reference",
-      "label": "Expected cumulative boundary queue entries",
+      "label": "Expected cumulative canonical boundary queue entries",
       "quantity": "queue_entries",
       "series_id": "queue_entries",
       "ticks": [
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
         0.0,
+        1.0,
+        1.0,
         1.0,
         1.0,
         1.0
@@ -110,14 +120,16 @@
       "boundary_direction": null,
       "counting_basis": "unit packet evidence",
       "evidence_source": "analytical_reference",
-      "label": "Expected cumulative boundary queue exits",
+      "label": "Expected cumulative canonical boundary queue exits",
       "quantity": "queue_exits",
       "series_id": "queue_exits",
       "ticks": [
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
@@ -125,6 +137,8 @@
         0.0,
         0.0,
         0.0,
+        1.0,
+        1.0,
         1.0
       ]
     },
@@ -133,34 +147,63 @@
       "boundary_direction": null,
       "counting_basis": "unit packet evidence",
       "evidence_source": "analytical_reference",
-      "label": "Expected pre-accept receiving vacancy",
-      "quantity": "pre_accept_vacancy",
-      "series_id": "pre_accept_vacancy",
+      "label": "Expected canonical boundary queue",
+      "quantity": "boundary_queue",
+      "series_id": "boundary_queue",
       "ticks": [
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
         0.0,
+        1.0,
+        1.0,
         0.0,
         0.0,
-        1.0
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected blocked transfer candidates",
+      "quantity": "blocked_candidates",
+      "series_id": "blocked_candidates",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        3.0,
+        3.0,
+        2.0,
+        1.0,
+        0.0
       ]
     }
   ],
   "group_id": "m8-analytical-links",
-  "initial_state_reference": "L2 full with three unit packets; L1 holds one transfer candidate",
+  "initial_state_reference": "L2 full with three unit packets; L1 holds three transfer candidates",
   "input_completeness": "complete",
-  "known_model_differences": [
-    "Queue events describe failed inter-link transfer, unlike the single-link point-queue projection."
-  ],
+  "known_model_differences": [],
   "limits_on_interpretation": [
-    "The wave overlay represents declared timing, not a continuous shock position.",
-    "No general node allocator is exercised by this two-link boundary fixture."
+    "Internal analytical agreement only.",
+    "Unit-packet discrete-time case; no empirical claim."
   ],
   "metrics": [
     {
@@ -201,59 +244,44 @@
     },
     {
       "comparison": "max_absolute_error",
-      "expected_id": "pre_accept_vacancy",
-      "label": "Pre-accept vacancy maximum error",
-      "metric_id": "vacancy_error",
+      "expected_id": "boundary_queue",
+      "label": "Boundary queue maximum error",
+      "metric_id": "boundary_queue_error",
       "tolerance": 0.0,
       "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
       "units": "packets"
     },
     {
-      "comparison": "absolute_error",
-      "expected_id": "candidate_release_tick",
-      "label": "Candidate release tick error",
-      "metric_id": "release_tick_error",
+      "comparison": "max_absolute_error",
+      "expected_id": "blocked_candidates",
+      "label": "Blocked-candidate maximum error",
+      "metric_id": "blocked_candidate_error",
       "tolerance": 0.0,
       "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
-      "units": "ticks"
+      "units": "packets"
+    },
+    {
+      "comparison": "exact_sequence",
+      "expected_id": "candidate_release_ticks",
+      "label": "Release tick sequence",
+      "metric_id": "release_tick_sequence",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "exact"
     }
   ],
   "overlays": [
     {
       "active_from_tick": 1,
-      "active_through_tick": 2,
-      "boundary_id": "boundary:L1->L2",
-      "direction": "none",
-      "evidence_source": "canonical",
-      "kind": "blocked_boundary",
-      "label": "Receiving boundary blocked",
-      "link_id": "L1",
-      "note": "Canonical queue membership plus zero declared receiving vacancy.",
-      "overlay_id": "blocked-boundary"
-    },
-    {
-      "active_from_tick": 1,
-      "active_through_tick": 3,
+      "active_through_tick": 5,
       "boundary_id": null,
       "direction": "backward",
       "evidence_source": "analytical_reference",
       "kind": "reference_wave",
-      "label": "Backward vacancy-wave lag",
+      "label": "Repeated backward vacancy releases",
       "link_id": "L2",
-      "note": "Timing overlay across the whole link; not a continuous physical wave position.",
-      "overlay_id": "vacancy-wave"
-    },
-    {
-      "active_from_tick": 3,
-      "active_through_tick": 3,
-      "boundary_id": null,
-      "direction": "backward",
-      "evidence_source": "validation_output",
-      "kind": "released_storage",
-      "label": "Vacancy usable upstream",
-      "link_id": "L2",
-      "note": "Observed transfer compared with expected release tick.",
-      "overlay_id": "released-boundary"
+      "note": "Authored lag timing; no continuous shock position is claimed.",
+      "overlay_id": "repeated-vacancy-wave"
     }
   ],
   "profile_reference": "parity_ltm_v1",
@@ -276,9 +304,9 @@
     }
   ],
   "reproducibility_notes": [
-    "Assumption: unit packets and the authored full-downstream initial state.",
-    "Assumption: backward-wave lag uses ceiling-rounded integer ticks.",
-    "No random inputs."
+    "Assumption: L2 stores exactly three unit packets and begins full.",
+    "Assumption: each exit releases one vacancy after a two-tick backward lag.",
+    "No random inputs; expected values are authored before execution."
   ],
   "route_sequences": [
     [
@@ -289,12 +317,12 @@
       "L2"
     ]
   ],
-  "safe_claim": "The kernel matches this exact two-link backward-vacancy timing table.",
+  "safe_claim": "The kernel matches the exact repeated-vacancy release sequence for this full downstream link.",
   "schema_version": "uc.validation.case.v1",
-  "short_explanation": "A downstream exit releases vacancy that becomes usable upstream only after the backward-wave lag.",
+  "short_explanation": "Three downstream exits release three vacancies that reach the upstream boundary on successive lagged ticks.",
   "tick_duration_seconds": 4.0,
-  "title": "Backward vacancy propagation",
-  "topology_reference": "m8-two-link-vacancy-v1",
+  "title": "Repeated backward vacancy releases",
+  "topology_reference": "m8-two-link-vacancy-v2",
   "version": "1",
-  "why_it_matters": "Checks that released storage is not made available upstream too early."
+  "why_it_matters": "Extends the single-vacancy evidence in M8-LINK-03 to repeated releases without adding a new wave model."
 }

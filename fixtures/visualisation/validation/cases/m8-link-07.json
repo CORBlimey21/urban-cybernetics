@@ -1,5 +1,5 @@
 {
-  "case_id": "M8-LINK-01",
+  "case_id": "M8-LINK-07",
   "citations": [
     {
       "citation_text": "Urban Cybernetics M8 Analytical Link Cases v1; fixture-owned triangular-FD analytical tables.",
@@ -12,32 +12,32 @@
     }
   ],
   "claim_ids": [
-    "M8-VAL-LINK-FREE-FLOW"
+    "M8-VAL-LINK-FRACTIONAL-SENDING"
   ],
   "comparison_status": "exact",
-  "default_final_tick": 3,
-  "demand_reference": "three unit packets admitted at tick 0",
+  "default_final_tick": 5,
+  "demand_reference": "six unit packets admitted at tick 0",
   "evidence_class": "analytical",
   "expected_physical_sequence": [
-    "Three packets enter L1 at tick 0.",
-    "The pulse propagates for the two-tick free-flow lag.",
-    "All packets exit together at tick 2 without queueing."
+    "The sending carry alternates 0.5 and 0.0.",
+    "Integer budgets alternate one and two packets from tick 1.",
+    "Once packets are eligible, releases follow budgets 2,1,2,1 and total six."
   ],
-  "expected_result_summary": "Cumulative exits jump from 0 to 3 at tick 2; point queue remains zero.",
+  "expected_result_summary": "Cumulative exits are 0,0,2,3,5,6; capacity carry remains bounded in [0,1).",
   "expected_scalars": [
     {
       "evidence_source": "analytical_reference",
       "label": "Expected packet exit ticks",
       "scalar_id": "exit_ticks",
       "units": "ticks",
-      "value": "2,2,2"
+      "value": "2,2,3,4,4,5"
     },
     {
       "evidence_source": "analytical_reference",
-      "label": "Expected canonical queue events",
-      "scalar_id": "queue_events",
-      "units": "events",
-      "value": 0.0
+      "label": "Expected total exits",
+      "scalar_id": "total_exits",
+      "units": "packets",
+      "value": 6.0
     }
   ],
   "expected_series": [
@@ -53,15 +53,19 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
-        3.0,
-        3.0,
-        3.0,
-        3.0
+        6.0,
+        6.0,
+        6.0,
+        6.0,
+        6.0,
+        6.0
       ]
     },
     {
@@ -76,15 +80,19 @@
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
         0.0,
         0.0,
+        2.0,
         3.0,
-        3.0
+        5.0,
+        6.0
       ]
     },
     {
@@ -92,32 +100,63 @@
       "boundary_direction": null,
       "counting_basis": "unit packet evidence",
       "evidence_source": "analytical_reference",
-      "label": "Expected point queue",
-      "quantity": "point_queue",
-      "series_id": "point_queue",
+      "label": "Expected integer sending budget",
+      "quantity": "sending_budget",
+      "series_id": "sending_budget",
       "ticks": [
         0,
         1,
         2,
-        3
+        3,
+        4,
+        5
       ],
       "time_basis": "inclusive integer physical tick",
       "units": "packets",
       "values": [
         0.0,
+        1.0,
+        2.0,
+        1.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected sending carry",
+      "quantity": "sending_carry",
+      "series_id": "sending_carry",
+      "ticks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
         0.0,
+        0.5,
         0.0,
-        0.0
+        0.5,
+        0.0,
+        0.5
       ]
     }
   ],
   "group_id": "m8-analytical-links",
-  "initial_state_reference": "empty link before explicit origin pulse",
+  "initial_state_reference": "empty link before authored demand",
   "input_completeness": "complete",
   "known_model_differences": [],
   "limits_on_interpretation": [
-    "Internal analytical agreement, not external cross-implementation validation.",
-    "Unit packets and a declared discrete timestep are used."
+    "Internal analytical agreement only.",
+    "Unit-packet discrete-time case; no empirical claim."
   ],
   "metrics": [
     {
@@ -140,9 +179,18 @@
     },
     {
       "comparison": "max_absolute_error",
-      "expected_id": "point_queue",
-      "label": "Queue curve maximum error",
-      "metric_id": "queue_max_error",
+      "expected_id": "sending_budget",
+      "label": "Sending budget maximum error",
+      "metric_id": "sending_budget_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "sending_carry",
+      "label": "Sending carry maximum error",
+      "metric_id": "sending_carry_error",
       "tolerance": 0.0,
       "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
       "units": "packets"
@@ -158,38 +206,26 @@
     },
     {
       "comparison": "absolute_error",
-      "expected_id": "queue_events",
-      "label": "Queue event count",
-      "metric_id": "queue_event_count",
+      "expected_id": "total_exits",
+      "label": "Total exit error",
+      "metric_id": "total_exit_error",
       "tolerance": 0.0,
       "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
-      "units": "events"
+      "units": "packets"
     }
   ],
   "overlays": [
     {
-      "active_from_tick": 0,
-      "active_through_tick": 2,
+      "active_from_tick": 2,
+      "active_through_tick": 5,
       "boundary_id": null,
       "direction": "forward",
-      "evidence_source": "analytical_reference",
-      "kind": "relevant_link",
-      "label": "Free-flow propagation",
+      "evidence_source": "engine_exported",
+      "kind": "released_storage",
+      "label": "Fractional-capacity packet release",
       "link_id": "L1",
-      "note": "Whole-link timing abstraction; not a continuous packet position.",
-      "overlay_id": "free-flow-link"
-    },
-    {
-      "active_from_tick": 2,
-      "active_through_tick": 2,
-      "boundary_id": null,
-      "direction": "none",
-      "evidence_source": "analytical_reference",
-      "kind": "event_marker",
-      "label": "Expected simultaneous exit",
-      "link_id": "L1",
-      "note": "Expected free-flow release tick.",
-      "overlay_id": "expected-release"
+      "note": "Integer budget and carry are exported by Python for comparison.",
+      "overlay_id": "fractional-release"
     }
   ],
   "profile_reference": "parity_ltm_v1",
@@ -212,22 +248,21 @@
     }
   ],
   "reproducibility_notes": [
-    "Assumption: unit packets on one triangular-FD lane.",
-    "Assumption: inclusive integer ticks and ceiling-rounded travel lag.",
-    "No random inputs.",
-    "Origin admission budget is distinct from downstream sending capacity."
+    "Assumption: six unit packets enter at tick 0.",
+    "Assumption: 1.5-packet rate, zero initial carry, and two-tick free-flow lag.",
+    "No random inputs; expected values are authored before execution."
   ],
   "route_sequences": [
     [
       "L1"
     ]
   ],
-  "safe_claim": "The discrete unit-packet kernel matches this exact free-flow translation table.",
+  "safe_claim": "The kernel matches this exact bounded-carry sequence and six-packet long-horizon total.",
   "schema_version": "uc.validation.case.v1",
-  "short_explanation": "A three-packet pulse traverses one uncongested link by exactly the free-flow lag.",
-  "tick_duration_seconds": 10.0,
-  "title": "Free-flow pulse translation",
-  "topology_reference": "m8-single-link-200m-v1",
+  "short_explanation": "A 1.5-packet-per-tick sending rate is realised by bounded integer carry over a multi-tick discharge.",
+  "tick_duration_seconds": 1.0,
+  "title": "Fractional sending capacity",
+  "topology_reference": "m8-single-link-fractional-v1",
   "version": "1",
-  "why_it_matters": "Establishes the basic free-flow translation convention before congestion is introduced."
+  "why_it_matters": "Validates non-integer physical capacity before a published case uses fractional per-tick rates."
 }

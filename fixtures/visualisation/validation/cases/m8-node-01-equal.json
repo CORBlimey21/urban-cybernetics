@@ -1,0 +1,308 @@
+{
+  "case_id": "M8-NODE-01-EQUAL",
+  "citations": [
+    {
+      "citation_text": "Urban Cybernetics M8 NODE-01 independently authored arithmetic tables.",
+      "equation": null,
+      "figure": null,
+      "source_id": "m8-analytical-node-01-v1",
+      "source_section": "NODE-01 equal demand and supply",
+      "table": null,
+      "url": null
+    }
+  ],
+  "claim_ids": [
+    "M8-VAL-NODE-ONE-TO-ONE",
+    "M8-NODE-01-EQUAL"
+  ],
+  "comparison_status": "exact",
+  "default_final_tick": 2,
+  "demand_reference": "2 unit packets on L1 at tick 0",
+  "evidence_class": "analytical",
+  "expected_physical_sequence": [
+    "Packets become eligible at the L1 downstream boundary after one tick.",
+    "The authored oracle computes approvals as min(eligible demand, downstream supply).",
+    "Unapproved packets remain in the boundary queue without reordering.",
+    "The same arithmetic is repeated independently at each tick."
+  ],
+  "expected_result_summary": "Per-tick approvals are (0, 2, 0); cumulative transfers are (0, 2, 2).",
+  "expected_scalars": [
+    {
+      "evidence_source": "analytical_reference",
+      "label": "Expected L2 entry ticks",
+      "scalar_id": "transfer_ticks",
+      "units": "ticks",
+      "value": "1,1"
+    },
+    {
+      "evidence_source": "analytical_reference",
+      "label": "Expected total transfers",
+      "scalar_id": "total_transfers",
+      "units": "packets",
+      "value": 2.0
+    }
+  ],
+  "expected_series": [
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected eligible movement candidates",
+      "quantity": "movement_candidates",
+      "series_id": "movement_candidates",
+      "ticks": [
+        0,
+        1,
+        2
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        2.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected movement approvals",
+      "quantity": "movement_approvals",
+      "series_id": "movement_approvals",
+      "ticks": [
+        0,
+        1,
+        2
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        2.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected movement rejections",
+      "quantity": "movement_rejections",
+      "series_id": "movement_rejections",
+      "ticks": [
+        0,
+        1,
+        2
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected downstream receiving supply",
+      "quantity": "receiving_supply",
+      "series_id": "receiving_supply",
+      "ticks": [
+        0,
+        1,
+        2
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        2.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected cumulative L2 entries",
+      "quantity": "cumulative_transfers",
+      "series_id": "cumulative_transfers",
+      "ticks": [
+        0,
+        1,
+        2
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        2.0,
+        2.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "analytical_reference",
+      "label": "Expected boundary queue",
+      "quantity": "boundary_queue",
+      "series_id": "boundary_queue",
+      "ticks": [
+        0,
+        1,
+        2
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "group_id": "m8-analytical-node-01",
+  "initial_state_reference": "empty links and declared downstream supply",
+  "input_completeness": "complete",
+  "known_model_differences": [],
+  "limits_on_interpretation": [
+    "Only one upstream and one downstream movement is covered.",
+    "Internal analytical agreement, not published reproduction."
+  ],
+  "metrics": [
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "movement_candidates",
+      "label": "Candidate-count maximum error",
+      "metric_id": "candidate_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "movement_approvals",
+      "label": "Approval-count maximum error",
+      "metric_id": "approval_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "movement_rejections",
+      "label": "Rejection-count maximum error",
+      "metric_id": "rejection_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "receiving_supply",
+      "label": "Receiving-supply maximum error",
+      "metric_id": "receiving_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "cumulative_transfers",
+      "label": "Cumulative-transfer maximum error",
+      "metric_id": "transfer_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "max_absolute_error",
+      "expected_id": "boundary_queue",
+      "label": "Boundary-queue maximum error",
+      "metric_id": "boundary_queue_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    },
+    {
+      "comparison": "exact_sequence",
+      "expected_id": "transfer_ticks",
+      "label": "Transfer tick sequence",
+      "metric_id": "transfer_tick_sequence",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "exact"
+    },
+    {
+      "comparison": "absolute_error",
+      "expected_id": "total_transfers",
+      "label": "Total transfer error",
+      "metric_id": "total_transfer_error",
+      "tolerance": 0.0,
+      "tolerance_justification": "Exact discrete analytical oracle; zero packet/tick tolerance.",
+      "units": "packets"
+    }
+  ],
+  "overlays": [
+    {
+      "active_from_tick": 1,
+      "active_through_tick": 2,
+      "boundary_id": "boundary:L1->L2",
+      "direction": "forward",
+      "evidence_source": "engine_exported",
+      "kind": "event_marker",
+      "label": "One-to-one movement boundary",
+      "link_id": "L1",
+      "note": "Movement approvals and rejections come from engine-exported allocation traces and are compared in Python.",
+      "overlay_id": "m8-node-01-equal-movement"
+    }
+  ],
+  "profile_reference": "parity_ltm_v1",
+  "provenance": [
+    "Expected tables are literal fixture data independent of allocator code; observed approvals come from read-only traces."
+  ],
+  "reference_assets": [
+    {
+      "asset_id": "m8-node-01-equal-table",
+      "citation_text": "Repository-authored min(demand, supply) table.",
+      "comparison_suitability": "suitable",
+      "digitised_series_id": null,
+      "figure_table_equation": "F=min(D,S)",
+      "label": "Authored NODE-01 arithmetic table",
+      "local_asset_path": null,
+      "missing_input_notes": [],
+      "rights_provenance_note": "Repository-authored numerical reference; no external image embedded.",
+      "source_id": "m8-analytical-node-01-v1",
+      "transformation_metadata": []
+    }
+  ],
+  "reproducibility_notes": [
+    "Assumption: unit packets and one admissible L1-to-L2 movement.",
+    "Assumption: no merge, diverge, signal, lane-group, or conflict-resource competition.",
+    "Expected approvals use only min(eligible demand, receiving supply); no allocator helper constructs them.",
+    "No random inputs."
+  ],
+  "route_sequences": [
+    [
+      "L1",
+      "L2"
+    ]
+  ],
+  "safe_claim": "The one-to-one allocator matches the exact authored arithmetic for node-01 equal demand and supply.",
+  "schema_version": "uc.validation.case.v1",
+  "short_explanation": "One upstream movement is resolved by independently authored min(demand, supply) arithmetic.",
+  "tick_duration_seconds": 1.0,
+  "title": "NODE-01 equal demand and supply",
+  "topology_reference": "m8-node-one-to-one-v1",
+  "version": "1",
+  "why_it_matters": "Establishes the elementary node constraint used by the later lane-drop reproduction before any merge or diverge complexity."
+}

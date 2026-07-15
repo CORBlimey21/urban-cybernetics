@@ -265,6 +265,8 @@
     }
   ],
   "reproducibility_notes": [
+    "Assumption: unit packets on one triangular-FD lane.",
+    "Assumption: FIFO order and exact integer sending capacity.",
     "No random inputs."
   ],
   "route_sequences": [

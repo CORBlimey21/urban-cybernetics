@@ -1,0 +1,414 @@
+{
+  "case_id": "M8-NODE-01-SUPPLY",
+  "case_version": "1",
+  "code_commit": "fixture-baseline",
+  "completed_at": "2026-07-14T00:00:00+00:00",
+  "configuration_hash": "df3563e7937cfbd98aa2059c35a778ce12c2e6aa8f73baa7fcb3a9b78f4f7855",
+  "created_at": "2026-07-14T00:00:00+00:00",
+  "difference_series": [
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected eligible movement candidates",
+      "quantity": "movement_candidates",
+      "series_id": "movement_candidates",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected movement approvals",
+      "quantity": "movement_approvals",
+      "series_id": "movement_approvals",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected movement rejections",
+      "quantity": "movement_rejections",
+      "series_id": "movement_rejections",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected downstream receiving supply",
+      "quantity": "receiving_supply",
+      "series_id": "receiving_supply",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected cumulative L2 entries",
+      "quantity": "cumulative_transfers",
+      "series_id": "cumulative_transfers",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "validation_output",
+      "label": "Observed − expected · Expected boundary queue",
+      "quantity": "boundary_queue",
+      "series_id": "boundary_queue",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "difference_summary": "All declared differences are zero.",
+  "expected_evidence_hash": "fb6a1b6fab11ce6455e51dc773fbf9bc024dd8a7e157004e19b927340adfe2af",
+  "headline_metric": "maximum declared error 0",
+  "lifecycle": [
+    "created",
+    "setting_up",
+    "executing",
+    "comparing",
+    "persisting",
+    "complete"
+  ],
+  "linked_fix_commit": null,
+  "linked_issue": null,
+  "metric_results": [
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "candidate_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "approval_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "rejection_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "receiving_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "transfer_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared max_absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "boundary_queue_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared exact_sequence; tolerance justified by exact discrete oracle.",
+      "metric_id": "transfer_tick_sequence",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "exact",
+      "value": 0.0
+    },
+    {
+      "explanation": "Declared absolute_error; tolerance justified by exact discrete oracle.",
+      "metric_id": "total_transfer_error",
+      "passed": true,
+      "tolerance": 0.0,
+      "units": "packets",
+      "value": 0.0
+    }
+  ],
+  "observed_result_summary": "Observed Python projections match all declared expectations.",
+  "observed_scalars": [
+    {
+      "evidence_source": "event_derived",
+      "label": "Observed L2 entry ticks",
+      "scalar_id": "transfer_ticks",
+      "units": "ticks",
+      "value": "1,2,3"
+    },
+    {
+      "evidence_source": "event_derived",
+      "label": "Observed total transfers",
+      "scalar_id": "total_transfers",
+      "units": "packets",
+      "value": 3.0
+    }
+  ],
+  "observed_series": [
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "engine_exported",
+      "label": "Observed eligible movement candidates",
+      "quantity": "movement_candidates",
+      "series_id": "movement_candidates",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        3.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "engine_exported",
+      "label": "Observed movement approvals",
+      "quantity": "movement_approvals",
+      "series_id": "movement_approvals",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "engine_exported",
+      "label": "Observed movement rejections",
+      "quantity": "movement_rejections",
+      "series_id": "movement_rejections",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        2.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "engine_exported",
+      "label": "Observed downstream receiving supply",
+      "quantity": "receiving_supply",
+      "series_id": "receiving_supply",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "event_derived",
+      "label": "Observed cumulative L2 entries",
+      "quantity": "cumulative_transfers",
+      "series_id": "cumulative_transfers",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        1.0,
+        2.0,
+        3.0
+      ]
+    },
+    {
+      "aggregation_window_ticks": 1,
+      "boundary_direction": null,
+      "counting_basis": "unit packet evidence",
+      "evidence_source": "canonical",
+      "label": "Observed boundary queue",
+      "quantity": "boundary_queue",
+      "series_id": "boundary_queue",
+      "ticks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "time_basis": "inclusive integer physical tick",
+      "units": "packets",
+      "values": [
+        0.0,
+        2.0,
+        1.0,
+        0.0
+      ]
+    }
+  ],
+  "packet_wait_explanations": [
+    {
+      "active_from_tick": 1,
+      "active_through_tick": 3,
+      "blocking_reason": "downstream_receiving_supply_exhausted",
+      "current_link_id": "L1",
+      "evidence_sources": [
+        "canonical",
+        "engine_exported",
+        "analytical_reference"
+      ],
+      "expected_next_release_tick": null,
+      "fifo_position": 0,
+      "head_packet_id": "P2",
+      "intended_movement": "boundary:L1->L2",
+      "packet_id": "P2",
+      "receiving_supply_packets": 1,
+      "signal_or_governance_constraint": null,
+      "unavailable_fields": []
+    }
+  ],
+  "provenance": [
+    "Observed series folded in Python from canonical events.",
+    "Expected evidence loaded from immutable authored case definition."
+  ],
+  "replay_run_id": "validation:m8-node-01-supply-baseline-v1",
+  "result_id": "m8-node-01-supply-baseline-v1",
+  "schema_version": "uc.validation.result.v1",
+  "status": "passed",
+  "stop_reason": null
+}

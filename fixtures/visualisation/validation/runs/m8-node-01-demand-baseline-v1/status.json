@@ -1,0 +1,9 @@
+{
+  "case_id": "M8-NODE-01-DEMAND",
+  "detail": "Observed Python projections match all declared expectations.",
+  "final_tick": 2,
+  "lifecycle": "complete",
+  "physical_tick": 2,
+  "result_id": "m8-node-01-demand-baseline-v1",
+  "terminal": true
+}
