@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   compareLabSeries, createLabStarter, evaluateLabExpression, evaluateLabTable, freezeLabOracle,
   loadLabOracles, loadLabWorksheets, promoteLabWorksheet, saveLabWorksheet,
@@ -33,6 +33,7 @@ export function LabBench({ validationCase, result, onExport }: { validationCase:
   const [minimized, setMinimized] = useState(() => readPreference(`${prefix}.minimized`, false));
   const [floating, setFloating] = useState(() => readPreference(`${prefix}.floating`, false));
   const [panelSize, setPanelSize] = useState(() => readPreference(`${prefix}.size`, { width: 760, height: 720 }));
+  const [panelPosition, setPanelPosition] = useState(() => readPreference(`${prefix}.position`, { x: Math.max(16, window.innerWidth - 840), y: 128 }));
   const [mode, setMode] = useState<Mode>(() => readPreference(`${prefix}.mode`, "notebook"));
   const [worksheet, setWorksheet] = useState<LabWorksheet | null>(null);
   const [worksheets, setWorksheets] = useState<LabWorksheet[]>([]);
@@ -53,6 +54,7 @@ export function LabBench({ validationCase, result, onExport }: { validationCase:
   const [error, setError] = useState<string | null>(null);
   const autosaveReady = useRef(false);
   const panelRef = useRef<HTMLElement>(null);
+  const pointerAction = useRef<null | { kind: "drag" | "resize"; startX: number; startY: number; x: number; y: number; width: number; height: number }>(null);
   const autosaveSignature = useMemo(() => worksheet ? JSON.stringify({
     title: worksheet.title, notebook: worksheet.notebook, table: worksheet.table,
     variables: worksheet.variables, assumptions: worksheet.assumptions, limitations: worksheet.limitations,
@@ -70,6 +72,7 @@ export function LabBench({ validationCase, result, onExport }: { validationCase:
   useEffect(() => { window.localStorage.setItem(`${prefix}.open`, JSON.stringify(open)); }, [open]);
   useEffect(() => { window.localStorage.setItem(`${prefix}.minimized`, JSON.stringify(minimized)); }, [minimized]);
   useEffect(() => { window.localStorage.setItem(`${prefix}.floating`, JSON.stringify(floating)); }, [floating]);
+  useEffect(() => { window.localStorage.setItem(`${prefix}.position`, JSON.stringify(panelPosition)); }, [panelPosition]);
   useEffect(() => { window.localStorage.setItem(`${prefix}.mode`, JSON.stringify(mode)); }, [mode]);
   useEffect(() => {
     const element = panelRef.current; if (!element || minimized) return;
@@ -132,10 +135,34 @@ export function LabBench({ validationCase, result, onExport }: { validationCase:
     const mapping = { expected_column_id: expected.column_id, observed_series_id: observed.series_id, time_alignment: tickOffset ? "offset" : "same_tick", tick_offset: tickOffset, expected_units: expected.units, observed_units: observed.units, metric: "exact", tolerance };
     setComparison(await compareLabSeries({ mapping, expected_ticks: ticks, expected_values: expected.values, observed_ticks: observed.ticks, observed_values: observed.values, expected_state: comparisonState }));
   };
+  const beginPointerAction = (kind: "drag" | "resize", event: ReactPointerEvent) => {
+    if (event.button !== 0 || !panelRef.current) return;
+    const rect = panelRef.current.getBoundingClientRect();
+    setFloating(true);
+    setPanelPosition({ x: Math.round(rect.left), y: Math.round(rect.top) });
+    pointerAction.current = { kind, startX: event.clientX, startY: event.clientY, x: rect.left, y: rect.top, width: rect.width, height: rect.height };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  };
+  const movePointerAction = (event: ReactPointerEvent) => {
+    const action = pointerAction.current;
+    if (!action) return;
+    const dx = event.clientX - action.startX; const dy = event.clientY - action.startY;
+    if (action.kind === "drag") {
+      setPanelPosition({ x: Math.max(0, Math.min(window.innerWidth - 180, Math.round(action.x + dx))), y: Math.max(0, Math.min(window.innerHeight - 54, Math.round(action.y + dy))) });
+    } else {
+      setPanelSize({ width: Math.max(520, Math.min(window.innerWidth - action.x, Math.round(action.width + dx))), height: Math.max(260, Math.min(window.innerHeight - action.y, Math.round(action.height + dy))) });
+    }
+  };
+  const endPointerAction = (event: ReactPointerEvent) => {
+    if (!pointerAction.current) return;
+    pointerAction.current = null;
+    event.currentTarget.releasePointerCapture(event.pointerId);
+  };
 
   if (!open) return <button className="lab-launch" onClick={() => setOpen(true)}><span>LAB</span> Open Lab Bench</button>;
-  return <aside ref={panelRef} style={minimized ? undefined : { width: Math.min(panelSize.width, window.innerWidth - 30), height: Math.min(panelSize.height, window.innerHeight - 108) }} className={`lab-bench panel ${floating ? "floating" : "docked"} ${minimized ? "minimized" : ""}`}>
-    <header className="lab-header"><div><span className="eyebrow">Scientific derivation workspace · V1</span><strong>Lab Bench</strong><small>{worksheet?.state.replaceAll("_", " ") ?? "no worksheet"} · {worksheet?.case_id ?? "general scratch"}</small></div><div><button onClick={() => setFloating((value) => !value)}>{floating ? "Dock" : "Float"}</button><button onClick={() => setMinimized((value) => !value)}>{minimized ? "Restore" : "Minimise"}</button><button aria-label="Close Lab Bench" onClick={() => setOpen(false)}>×</button></div></header>
+  return <aside ref={panelRef} style={minimized ? undefined : floating ? { left: panelPosition.x, top: panelPosition.y, width: Math.min(panelSize.width, window.innerWidth - panelPosition.x), height: Math.min(panelSize.height, window.innerHeight - panelPosition.y) } : { width: Math.min(panelSize.width, window.innerWidth - 30), height: Math.min(panelSize.height, window.innerHeight - 108) }} className={`lab-bench panel ${floating ? "floating" : "docked"} ${minimized ? "minimized" : ""}`}>
+    <header className="lab-header" tabIndex={0} aria-keyshortcuts="Tab" onKeyDown={(event) => { if (event.key === "Tab" && event.target === event.currentTarget) { event.preventDefault(); setMinimized((value) => !value); } }} onPointerDown={(event) => { if (!(event.target as HTMLElement).closest("button")) beginPointerAction("drag", event); }} onPointerMove={movePointerAction} onPointerUp={endPointerAction}><div><span className="eyebrow">Scientific derivation workspace · V1</span><strong>Lab Bench</strong><small>{worksheet?.state.replaceAll("_", " ") ?? "no worksheet"} · {worksheet?.case_id ?? "general scratch"} · Tab toggles minimise</small></div><div><button onClick={() => setFloating((value) => !value)}>{floating ? "Dock" : "Float"}</button><button onClick={() => setMinimized((value) => !value)}>{minimized ? "Restore" : "Minimise"}</button><button aria-label="Close Lab Bench" onClick={() => setOpen(false)}>×</button></div></header>
     {!minimized && <>
       <div className="lab-toolbar">
         <select aria-label="Lab Bench worksheet" value={worksheet?.worksheet_id ?? ""} onChange={(event) => { const selected = worksheets.find((item) => item.worksheet_id === event.target.value) ?? null; setWorksheet(selected); setComparisonState(selected?.state ?? "scratch"); }}><option value="">No worksheet</option>{worksheets.map((item) => <option key={item.worksheet_id} value={item.worksheet_id}>{item.title} · r{item.revision}</option>)}</select>
@@ -162,5 +189,6 @@ export function LabBench({ validationCase, result, onExport }: { validationCase:
       </div>
       <footer className="lab-status"><span>{status}</span><strong>Scratch and candidate material never affects pass/fail. Only explicit frozen oracles are formally eligible.</strong></footer>
     </>}
+    {!minimized && <div className="lab-resize-handle" aria-hidden="true" onPointerDown={(event) => beginPointerAction("resize", event)} onPointerMove={movePointerAction} onPointerUp={endPointerAction} />}
   </aside>;
 }
