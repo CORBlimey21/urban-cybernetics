@@ -1,7 +1,7 @@
 # M8 Analytical Link Cases v1
 
-Status: first independent-oracle fixtures for M8 external scientific
-validation. These cases are implemented and executable, but they are not by
+Status: independent-oracle link fixtures for M8 scientific validation. These
+cases are implemented and executable, but they are not by
 themselves an external cross-implementation validation.
 
 Executable fixtures:
@@ -109,10 +109,50 @@ checks public receiving supply while blocked, independently calculated
 pre-accept vacancy, canonical boundary queue events, resumed movement timing,
 and conservation inequalities.
 
+## M8-LINK-04 — Sustained Uncongested Flow
+
+One packet enters at each tick from 0 through 4. Capacity is two packets per
+tick and the free-flow lag is two ticks. Expected cumulative entries are
+`(1,2,3,4,5,5,5)`, exits are `(0,0,1,2,3,4,5)`, and the point queue is zero
+at every tick. This independently checks sustained cadence rather than
+inferring it from M8-LINK-01's single pulse.
+
+## M8-LINK-05 — Queue Growth and Clearance
+
+Two packets enter at each of ticks 0, 1, and 2 while sending capacity is one
+packet per tick. Expected entries are `(2,4,6,6,6,6,6,6)`, exits are
+`(0,0,1,2,3,4,5,6)`, and the point queue is `(0,0,1,2,3,2,1,0)`. This checks
+queue growth, saturated discharge, and complete clearance after inflow stops.
+
+## M8-LINK-06 — Repeated Backward Vacancy Releases
+
+L2 begins full with three packets and L1 holds three transfer candidates. L2
+exits at ticks 1, 2, and 3; with a two-tick backward lag, candidates enter L2
+at ticks 3, 4, and 5. The canonical queue contains the FIFO head; a separate
+Python series counts all blocked candidates as `(0,3,3,2,1,0)`. This preserves
+the queue ontology while exposing all three physical transfer opportunities.
+
+## M8-LINK-07 — Fractional Sending Capacity
+
+Six packets face a `1.5 packet/tick` sending rate with zero initial carry. The
+integer budgets at ticks 1 through 5 are `(1,2,1,2,1)` and carry is
+`(0.5,0,0.5,0,0.5)`. With a two-tick free-flow lag, expected cumulative exits
+are `(0,0,2,3,5,6)`. The oracle is authored bounded-carry arithmetic, not the
+UC sending helper.
+
+## Preparation for Published Reproduction
+
+- M8-LINK-01 and M8-LINK-04 prepare free-flow branches of the de Souza
+  lane-drop case.
+- M8-LINK-02 and M8-LINK-05 prepare saturated discharge and queue evolution.
+- M8-LINK-03 and M8-LINK-06 prepare storage restriction, spillback, and
+  backward vacancy timing.
+- M8-LINK-07 prepares non-integer per-tick capacity conversion.
+
 ## Claim Boundary
 
 Passing these fixtures supports the narrow claim that the current discrete
-unit-packet kernel matches these three independently specified analytical
+unit-packet kernel matches these seven independently specified analytical
 tables under the declared UC timestep convention. It does not establish
 academic LTM parity, empirical realism, calibration, node-model validity,
 network-scale numerical agreement, or production readiness.

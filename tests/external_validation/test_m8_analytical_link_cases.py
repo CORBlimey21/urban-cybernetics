@@ -367,3 +367,111 @@ def test_m8_backward_wave_vacancy_propagation() -> None:
     assert pre_accept_vacancy[3] == 1
     assert queue_entries[-1] - queue_exits[-1] == 0
     assert all(entries >= exits for entries, exits in zip(l2_entries, l2_exits))
+
+
+def test_m8_sustained_uncongested_flow() -> None:
+    """M8-LINK-04: sustained sub-capacity inflow keeps its cadence."""
+
+    expected_entries = (1, 2, 3, 4, 5, 5, 5)
+    expected_exits = (0, 0, 1, 2, 3, 4, 5)
+    expected_queue = (0, 0, 0, 0, 0, 0, 0)
+    expected_exit_ticks = (2, 3, 4, 5, 6)
+    fixture = LinkFixture("L1", 200.0, 10.0, 5.0, 60.0, 720.0, 10.0, 2)
+    engine = _engine(fixture)
+    for tick in range(5):
+        engine.instantiate(DemandDeclaration(f"D{tick}", tick, ("L1",)))
+
+    _run_to_tick(engine, 6)
+    entries = _event_count_series(engine.event_log, event_type=EventType.LINK_ENTRY, entity_id="L1", final_tick=6)
+    exits = _event_count_series(engine.event_log, event_type=EventType.LINK_EXIT, entity_id="L1", final_tick=6)
+    exit_ticks = tuple(event.physical_tick for event in engine.event_log if event.event_type == EventType.LINK_EXIT and event.entity_id == "L1")
+
+    assert fixture.integer_capacity_per_tick == 2
+    assert fixture.free_flow_lag_ticks == 2
+    _assert_exact_series(entries, expected_entries)
+    _assert_exact_series(exits, expected_exits)
+    _assert_exact_series(_point_queue(entries, exits, 2), expected_queue)
+    assert exit_ticks == expected_exit_ticks
+
+
+def test_m8_queue_growth_and_clearance_under_excess_demand() -> None:
+    """M8-LINK-05: continued excess inflow grows then clears a queue."""
+
+    expected_entries = (2, 4, 6, 6, 6, 6, 6, 6)
+    expected_exits = (0, 0, 1, 2, 3, 4, 5, 6)
+    expected_queue = (0, 0, 1, 2, 3, 2, 1, 0)
+    fixture = LinkFixture("L1", 200.0, 10.0, 5.0, 30.0, 360.0, 10.0, 2)
+    engine = _engine(fixture)
+    for tick in range(3):
+        for index in range(2):
+            engine.instantiate(DemandDeclaration(f"D{tick}-{index}", tick, ("L1",)))
+
+    _run_to_tick(engine, 7)
+    entries = _event_count_series(engine.event_log, event_type=EventType.LINK_ENTRY, entity_id="L1", final_tick=7)
+    exits = _event_count_series(engine.event_log, event_type=EventType.LINK_EXIT, entity_id="L1", final_tick=7)
+    queue = _point_queue(entries, exits, fixture.free_flow_lag_ticks)
+
+    _assert_exact_series(entries, expected_entries)
+    _assert_exact_series(exits, expected_exits)
+    _assert_exact_series(queue, expected_queue)
+    assert max(queue) == 3
+    assert queue[-1] == 0
+
+
+def test_m8_multiple_backward_vacancy_releases() -> None:
+    """M8-LINK-06: three exits release three lagged vacancies."""
+
+    expected_l2_entries = (3, 3, 3, 4, 5, 6)
+    expected_release_ticks = (3, 4, 5)
+    expected_blocked_candidates = (0, 3, 3, 2, 1, 0)
+    engine = _engine(VACANCY_UPSTREAM, VACANCY_DOWNSTREAM)
+    for index in range(3):
+        _submit(engine, f"D-blocker-{index}", ("L2",))
+    candidates = tuple(_submit(engine, f"D-upstream-{index}", ("L1", "L2")) for index in range(3))
+
+    _run_to_tick(engine, 5)
+    l2_entries = _event_count_series(engine.event_log, event_type=EventType.LINK_ENTRY, entity_id="L2", final_tick=5)
+    release_by_packet = _event_tick_by_packet(engine.event_log, EventType.LINK_ENTRY, "L2")
+    l1_entries = _event_count_series(engine.event_log, event_type=EventType.LINK_ENTRY, entity_id="L1", final_tick=5)
+    l1_exits = _event_count_series(engine.event_log, event_type=EventType.LINK_EXIT, entity_id="L1", final_tick=5)
+    blocked = tuple(0 if tick == 0 else l1_entries[tick] - l1_exits[tick] for tick in range(6))
+
+    _assert_exact_series(l2_entries, expected_l2_entries)
+    assert tuple(release_by_packet[packet_id] for packet_id in candidates) == expected_release_ticks
+    _assert_exact_series(blocked, expected_blocked_candidates)
+
+
+def test_m8_fractional_sending_capacity_long_horizon() -> None:
+    """M8-LINK-07: bounded carry realises a 1.5 packet/tick rate."""
+
+    expected_budgets = (1, 2, 1, 2, 1)
+    expected_carries = (0.5, 0.0, 0.5, 0.0, 0.5)
+    expected_exits = (0, 0, 2, 3, 5, 6)
+    link = Link(
+        link_id="L1", length_m=20.0, lane_count=1,
+        free_flow_speed_mps=10.0, backward_wave_speed_mps=5.0,
+        jam_density_veh_per_km_per_lane=450.0,
+        capacity_veh_per_hour_per_lane=5400.0, tick_duration_seconds=1.0,
+        declared_sending_capacity_per_tick=1,
+        declared_receiving_capacity_per_tick=6,
+    )
+    engine = LoadingEngine(
+        links={"L1": link}, model_profile_id=ACADEMIC_LTM_PARITY_PROFILE_ID,
+        parity_sending_capacity_vehicles_per_tick_by_link={"L1": 1.5},
+    )
+    for index in range(6):
+        _submit(engine, f"D{index}", ("L1",))
+    budgets = []
+    carries = []
+    for _ in range(5):
+        engine.step()
+        trace = engine.parity_link_sending_trace("L1")
+        budgets.append(trace.integer_capacity)
+        carries.append(trace.capacity_carry_out)
+
+    exits = _event_count_series(engine.event_log, event_type=EventType.LINK_EXIT, entity_id="L1", final_tick=5)
+    assert tuple(budgets) == expected_budgets
+    assert tuple(carries) == expected_carries
+    _assert_exact_series(exits, expected_exits)
+    assert sum(budgets) == 7
+    assert exits[-1] == 6
