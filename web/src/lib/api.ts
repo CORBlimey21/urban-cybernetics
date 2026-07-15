@@ -21,9 +21,11 @@ import {
   validationLibrarySchema,
   validationResultSchema,
   validationRunStatusSchema,
+  labComparisonResultSchema, labEvaluationResultSchema, labOracleSchema, labTableResultSchema, labVariableSchema, labWorksheetSchema,
   type ArtifactSummary,
   type LiveMessage,
   type RunRequest,
+  type LabWorksheet,
 } from "./contract";
 
 const getJson = async (path: string): Promise<unknown> => {
@@ -158,3 +160,14 @@ export const loadValidationRunStatus = async (resultId: string) => validationRun
 export const cancelValidationRun = async (resultId: string) => validationRunStatusSchema.parse(await postJson(`/api/v3/validation/runs/${encodeURIComponent(resultId)}/commands`, { schema_version: "uc.validation.control.v1", command_id: `cancel-${crypto.randomUUID()}`, action: "cancel" }));
 export const loadValidationResult = async (resultId: string) => validationResultSchema.parse(await getJson(`/api/v3/validation/results/${encodeURIComponent(resultId)}`));
 export const loadValidationBundle = async (resultId: string) => finalBundleSchema.parse(await getJson(`/api/v3/validation/results/${encodeURIComponent(resultId)}/bundle`));
+
+export const loadLabVariables = async (caseId: string) => labVariableSchema.array().parse(await getJson(`/api/v4/lab-bench/cases/${encodeURIComponent(caseId)}/variables`));
+export const createLabStarter = async (caseId: string) => labWorksheetSchema.parse(await postJson(`/api/v4/lab-bench/cases/${encodeURIComponent(caseId)}/starter`, {}));
+export const loadLabWorksheets = async (caseId?: string) => labWorksheetSchema.array().parse(await getJson(`/api/v4/lab-bench/worksheets${caseId ? `?case_id=${encodeURIComponent(caseId)}` : ""}`));
+export const saveLabWorksheet = async (worksheet: LabWorksheet, history = false) => labWorksheetSchema.parse(await postJson(`/api/v4/lab-bench/worksheets?history=${history}`, worksheet));
+export const promoteLabWorksheet = async (worksheetId: string) => labWorksheetSchema.parse(await postJson(`/api/v4/lab-bench/worksheets/${encodeURIComponent(worksheetId)}/promote`, {}));
+export const evaluateLabExpression = async (expression: string, variables: LabWorksheet["variables"], targetUnits?: string) => labEvaluationResultSchema.parse(await postJson("/api/v4/lab-bench/evaluate", { expression, variables, target_units: targetUnits ?? null }));
+export const evaluateLabTable = async (worksheet: LabWorksheet) => labTableResultSchema.parse(await postJson("/api/v4/lab-bench/tables/evaluate", { table: worksheet.table, variables: worksheet.variables }));
+export const compareLabSeries = async (payload: unknown) => labComparisonResultSchema.parse(await postJson("/api/v4/lab-bench/compare", payload));
+export const freezeLabOracle = async (worksheetId: string, approvalAction: string, notes: string[], limitations: string[]) => labOracleSchema.parse(await postJson("/api/v4/lab-bench/oracles/freeze", { worksheet_id: worksheetId, approval_action: approvalAction, author_source: "user_hand_derivation", notes, limitations }));
+export const loadLabOracles = async (caseId?: string) => labOracleSchema.array().parse(await getJson(`/api/v4/lab-bench/oracles${caseId ? `?case_id=${encodeURIComponent(caseId)}` : ""}`));

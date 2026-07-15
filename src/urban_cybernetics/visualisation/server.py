@@ -25,6 +25,9 @@ from urban_cybernetics.core import Event, EventType
 from .validation_cases import CASES_BY_ID
 from .validation_contract import ValidationRunCommand
 from .validation_store import ValidationArtifactNotFound, ValidationOrchestrator, ValidationRepository
+from .lab_bench import LabArtifactNotFound, LabBenchRepository, compare_series, declared_case_variables, starter_worksheet
+from .lab_bench_contract import ComparisonRequest, EvaluationRequest, FreezeRequest, LabWorksheet, TableEvaluationRequest
+from .lab_bench_evaluator import LabExpressionError, evaluate_expression, evaluate_table
 
 
 def create_app(
@@ -34,6 +37,7 @@ def create_app(
     web_distribution: Path | None = None,
     orchestrator: RunOrchestrator | None = None,
     validation_orchestrator: ValidationOrchestrator | None = None,
+    lab_bench_repository: LabBenchRepository | None = None,
 ) -> FastAPI:
     """Create the local app; V2 writes are limited to typed run commands."""
 
@@ -56,6 +60,9 @@ def create_app(
         read_only_roots=(project_root / "fixtures" / "visualisation" / "validation",),
     )
     validation_orchestrator = validation_orchestrator or ValidationOrchestrator(validation_repository)
+    lab_bench_repository = lab_bench_repository or LabBenchRepository(
+        project_root / "outputs" / "visualisation" / "lab_bench"
+    )
     app = FastAPI(
         title="Urban Cybernetics V",
         version="1.0.0",
@@ -279,6 +286,76 @@ def create_app(
             return validation_repository.bundle(result_id).model_dump(mode="json")
         except ValidationArtifactNotFound as exc:
             raise HTTPException(status_code=404, detail="validation replay bundle not found") from exc
+
+    @app.get("/api/v4/lab-bench/cases/{case_id}/variables")
+    def lab_case_variables(case_id: str) -> list[dict[str, object]]:
+        try:
+            return [item.model_dump(mode="json") for item in declared_case_variables(case_id)]
+        except LabArtifactNotFound as exc:
+            raise HTTPException(status_code=404, detail="validation case not found") from exc
+
+    @app.post("/api/v4/lab-bench/cases/{case_id}/starter")
+    def lab_starter(case_id: str) -> dict[str, object]:
+        try:
+            worksheet = starter_worksheet(case_id)
+            evaluated = evaluate_table(TableEvaluationRequest(table=worksheet.table, variables=worksheet.variables))
+            return lab_bench_repository.save(worksheet.model_copy(update={"table": evaluated.table})).model_dump(mode="json")
+        except (LabArtifactNotFound, LabExpressionError) as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.get("/api/v4/lab-bench/worksheets")
+    def lab_worksheets(case_id: str | None = None) -> list[dict[str, object]]:
+        return [item.model_dump(mode="json") for item in lab_bench_repository.list(case_id)]
+
+    @app.post("/api/v4/lab-bench/worksheets")
+    def save_lab_worksheet(worksheet: LabWorksheet, history: bool = False) -> dict[str, object]:
+        try:
+            return lab_bench_repository.save(worksheet, record_history=history).model_dump(mode="json")
+        except (ValueError, FileExistsError) as exc:
+            raise HTTPException(status_code=409, detail=str(exc)) from exc
+
+    @app.post("/api/v4/lab-bench/worksheets/{worksheet_id}/promote")
+    def promote_lab_worksheet(worksheet_id: str) -> dict[str, object]:
+        try:
+            return lab_bench_repository.promote(worksheet_id).model_dump(mode="json")
+        except LabArtifactNotFound as exc:
+            raise HTTPException(status_code=404, detail="worksheet not found") from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=409, detail=str(exc)) from exc
+
+    @app.post("/api/v4/lab-bench/evaluate")
+    def lab_evaluate(request: EvaluationRequest) -> dict[str, object]:
+        try:
+            return evaluate_expression(request).model_dump(mode="json")
+        except LabExpressionError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v4/lab-bench/tables/evaluate")
+    def lab_evaluate_table(request: TableEvaluationRequest) -> dict[str, object]:
+        try:
+            return evaluate_table(request).model_dump(mode="json")
+        except LabExpressionError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v4/lab-bench/compare")
+    def lab_compare(request: ComparisonRequest) -> dict[str, object]:
+        try:
+            return compare_series(request).model_dump(mode="json")
+        except LabExpressionError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @app.post("/api/v4/lab-bench/oracles/freeze")
+    def freeze_lab_oracle(request: FreezeRequest) -> dict[str, object]:
+        try:
+            return lab_bench_repository.freeze(request).model_dump(mode="json")
+        except LabArtifactNotFound as exc:
+            raise HTTPException(status_code=404, detail="worksheet not found") from exc
+        except (ValueError, FileExistsError) as exc:
+            raise HTTPException(status_code=409, detail=str(exc)) from exc
+
+    @app.get("/api/v4/lab-bench/oracles")
+    def lab_oracles(case_id: str | None = None) -> list[dict[str, object]]:
+        return [item.model_dump(mode="json") for item in lab_bench_repository.list_oracles(case_id)]
 
     @app.post("/api/v2/runs", status_code=202)
     def create_v2_run(request: RunRequestV2) -> dict[str, object]:

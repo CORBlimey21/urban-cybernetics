@@ -365,6 +365,40 @@ export const validationResultSchema = z.object({
 export const validationRunStatusSchema = z.object({ result_id: z.string(), case_id: z.string(), lifecycle: z.string(), physical_tick: z.number().int(), final_tick: z.number().int(), detail: z.string(), terminal: z.boolean() });
 export const validationLibrarySchema = z.array(z.object({ case: validationCaseSchema, latest_result: validationResultSchema.nullable(), history_count: z.number().int().nonnegative() }));
 
+export const labVariableSchema = z.object({
+  variable_id: z.string(), label: z.string(), value: z.union([z.number(), z.string(), z.array(z.number()), z.array(z.string())]),
+  units: z.string(), source: z.string(), evidence_classification: z.string(), configuration_identity: z.string(), linked: z.boolean(),
+});
+export const labColumnSchema = z.object({
+  column_id: z.string(), label: z.string(), units: z.string(),
+  kind: z.enum(["manual", "formula_derived", "imported", "case_linked", "uc_observed"]),
+  provenance: z.enum(["user_hand_derivation", "independently_encoded_arithmetic", "published_source", "external_implementation", "model_suggestion", "uc_derived_ineligible_as_oracle", "imported", "presentation_only"]),
+  values: z.array(z.number()), formula: z.string().nullable(), source_reference: z.string().nullable(),
+});
+export const tickTableSchema = z.object({
+  tick_start: z.number().int(), tick_end: z.number().int(), evaluation_order: z.literal("ascending_tick_then_declared_column"),
+  out_of_range_values: z.record(z.string(), z.number()), columns: z.array(labColumnSchema),
+});
+export const labMappingSchema = z.object({
+  expected_column_id: z.string(), observed_series_id: z.string(), time_alignment: z.enum(["same_tick", "offset"]), tick_offset: z.number().int(),
+  expected_units: z.string(), observed_units: z.string(), metric: z.enum(["exact", "pointwise_difference", "absolute_error"]), tolerance: z.number().nonnegative(),
+});
+export const labWorksheetSchema = z.object({
+  schema_version: z.literal("uc.lab_bench.worksheet.v1"), worksheet_id: z.string(), revision: z.number().int().nonnegative(), title: z.string(),
+  state: z.enum(["scratch", "candidate_reference"]), case_id: z.string().nullable(), case_version: z.string().nullable(), case_configuration_hash: z.string().nullable(), detached: z.boolean(),
+  author_source: z.enum(["user_hand_derivation", "independently_encoded_arithmetic", "published_source", "external_implementation", "model_suggestion", "uc_derived_ineligible_as_oracle", "imported", "presentation_only"]),
+  created_at: z.string(), updated_at: z.string(), notebook: z.object({ markdown: z.string(), origin: z.enum(["user_authored", "imported", "deterministic_tool_output", "model_suggestion"]), linked_references: z.array(z.string()) }),
+  variables: z.array(labVariableSchema), table: tickTableSchema, mappings: z.array(labMappingSchema), assumptions: z.array(z.string()), limitations: z.array(z.string()),
+});
+export const labEvaluationResultSchema = z.object({ expression: z.string(), substituted_expression: z.string(), value: z.union([z.number(), z.boolean()]), units: z.string(), steps: z.array(z.string()) });
+export const labTableResultSchema = z.object({ table: tickTableSchema, dependency_order: z.array(z.string()), diagnostics: z.array(z.string()) });
+export const labComparisonResultSchema = z.object({
+  formal: z.boolean(), label: z.string(), exact: z.boolean(), differences: z.array(z.number()), compared_ticks: z.array(z.number().int()), maximum_absolute_error: z.number(), mean_absolute_error: z.number(), first_mismatch_tick: z.number().int().nullable(), tick_offset: z.number().int(), cumulative_bound_violations: z.number().int(), mismatched_rows: z.number().int(), tolerance: z.number(),
+});
+export const labOracleSchema = z.object({
+  schema_version: z.literal("uc.lab_bench.oracle.v1"), oracle_id: z.string(), version: z.number().int().positive(), state: z.literal("frozen_oracle"), associated_case_id: z.string(), associated_case_version: z.string(), author_source: z.string(), created_at: z.string(), formula_table_provenance: z.array(z.string()), units: z.array(z.string()), tick_convention: z.string(), input_references: z.array(z.string()), detached_literal_values: z.record(z.string(), z.union([z.number(), z.string()])), artifact_hash: z.string(), approval_action: z.string(), notes: z.array(z.string()), limitations: z.array(z.string()), source_worksheet_revision: z.number().int(), dependency_hash: z.string(), worksheet: labWorksheetSchema,
+});
+
 export type Manifest = z.infer<typeof manifestSchema>;
 export type CanonicalEvent = z.infer<typeof eventSchema>;
 export type ReplayState = z.infer<typeof replayStateSchema>;
@@ -381,5 +415,11 @@ export type ValidationCase = z.infer<typeof validationCaseSchema>;
 export type ValidationResult = z.infer<typeof validationResultSchema>;
 export type ValidationRunStatus = z.infer<typeof validationRunStatusSchema>;
 export type ValidationLibraryRecord = z.infer<typeof validationLibrarySchema>[number];
+export type LabVariable = z.infer<typeof labVariableSchema>;
+export type LabColumn = z.infer<typeof labColumnSchema>;
+export type LabWorksheet = z.infer<typeof labWorksheetSchema>;
+export type LabEvaluationResult = z.infer<typeof labEvaluationResultSchema>;
+export type LabComparisonResult = z.infer<typeof labComparisonResultSchema>;
+export type LabOracle = z.infer<typeof labOracleSchema>;
 
 export { contractEnums, v2ContractEnums };

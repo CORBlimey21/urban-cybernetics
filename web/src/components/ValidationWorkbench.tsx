@@ -7,6 +7,7 @@ import { validationReplayPresentation, valueAtTick } from "../lib/validationPres
 import { Inspector } from "./Inspector";
 import { NetworkCanvas } from "./NetworkCanvas";
 import { ValidationComparisonChart } from "./ValidationComparisonChart";
+import { LabBench } from "./LabBench";
 
 type Bundle = Manifest & { event_stream: { events: CanonicalEvent[] }; replay_states: ReplayState[]; cumulative_link_series: CumulativeSeries[] };
 
@@ -26,6 +27,7 @@ export function ValidationWorkbench() {
   const [followingPacket, setFollowingPacket] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [labSeries, setLabSeries] = useState<{ label: string; ticks: number[]; values: number[]; units: string; provenance: string } | null>(null);
 
   const refresh = useCallback(async () => {
     const records = await loadValidationLibrary();
@@ -104,6 +106,7 @@ export function ValidationWorkbench() {
   const observedQueue = valueAtTick(result?.observed_series.find((item) => item.quantity === "point_queue"), tick);
 
   return <div className="validation-shell">
+    {record && <LabBench validationCase={record.case} result={result} onExport={setLabSeries} />}
     <aside className="validation-library panel">
       <div className="library-heading"><div><span className="eyebrow">Validation plane</span><h2>Validation Library</h2></div><button className="icon-action" onClick={() => void refresh()}>↻</button></div>
       <div className="validation-coverage"><strong>{library.filter((item) => item.latest_result?.status === "passed").length}/{library.length}</strong><span>evidence obligations with passing latest results</span></div>
@@ -120,7 +123,7 @@ export function ValidationWorkbench() {
           <section className="panel validation-overview"><span className="eyebrow">Answer-first case overview</span><h2>Claim being tested</h2><p>{record.case.why_it_matters}</p><div className="claim-chips">{record.case.claim_ids.map((id) => <span key={id}>{id}</span>)}</div><h3>Expected physical sequence</h3><ol>{record.case.expected_physical_sequence.map((step) => <li key={step}>{step}</li>)}</ol><div className="answer-pair"><div><span>Expected</span><p>{record.case.expected_result_summary}</p></div><div><span>Observed</span><p>{result?.observed_result_summary ?? "No result loaded."}</p></div><div><span>Difference</span><p>{result?.difference_summary ?? "Not yet comparable."}</p></div></div><h3>Limits on interpretation</h3><ul>{record.case.limits_on_interpretation.map((limit) => <li key={limit}>{limit}</li>)}</ul></section>
           <section className="panel validation-metrics"><span className="eyebrow">Declared metrics and tolerances</span>{record.case.metrics.map((metric) => { const observed = metricsById.get(metric.metric_id); return <div key={metric.metric_id} className="metric-row"><div><strong>{metric.label}</strong><small>{metric.tolerance_justification}</small></div><span className={observed?.passed ? "metric-pass" : observed ? "metric-fail" : ""}>{observed ? `${observed.value} / tol ${observed.tolerance} ${observed.units}` : "not run"}</span></div>; })}<div className="safe-claim"><span>Safe claim if passed</span><p>{record.case.safe_claim}</p></div></section>
         </div>
-        {result && <section className="panel validation-chart-panel"><div className="panel-heading compact"><div><span className="eyebrow">Expected versus observed</span><h2>Scientific comparison series</h2></div><span className="source-chip">Python comparison</span></div><ValidationComparisonChart validationCase={record.case} result={result} tick={tick} storageKey={`uc.validation.chart.${record.case.case_id}`} /></section>}
+        {result && <section className="panel validation-chart-panel"><div className="panel-heading compact"><div><span className="eyebrow">Expected versus observed</span><h2>Scientific comparison series</h2></div><span className="source-chip">Python comparison</span></div><ValidationComparisonChart validationCase={record.case} result={result} tick={tick} storageKey={`uc.validation.chart.${record.case.case_id}`} labSeries={labSeries} /></section>}
         {bundle && state && series && presentation && <>
           <section className="validation-replay-bar panel"><button aria-label={playing ? "Pause validation replay" : "Play validation replay"} onClick={() => setPlaying((current) => !current)}>{playing ? "Ⅱ" : "▶"}</button><button aria-label="Reset validation replay" onClick={() => { setPlaying(false); setTick(bundle.run.start_tick); }}>↺</button><button aria-label="Previous validation tick" onClick={() => { setPlaying(false); setTick((value) => Math.max(bundle.run.start_tick, value - 1)); }}>‹</button><input aria-label="Validation replay tick" type="range" min={bundle.run.start_tick} max={bundle.run.end_tick} value={tick} onChange={(event) => { setPlaying(false); setTick(Number(event.target.value)); }} /><button aria-label="Next validation tick" onClick={() => { setPlaying(false); setTick((value) => Math.min(bundle.run.end_tick, value + 1)); }}>›</button><div className="replay-tick"><span>physical tick</span><strong>{String(tick).padStart(3, "0")}</strong><small>{(tick * bundle.run.tick_duration_seconds).toFixed(1)} s</small></div><small>←/→ step · space play/pause</small></section>
           <section className="validation-phase panel"><div><span>Current analytical phase</span><strong>{presentation.currentPhase}</strong></div><div><span>Why this interval matters</span><p>{presentation.phaseExplanation}</p></div><div><span>Expected next transition</span><strong>{presentation.expectedNextTransition}</strong></div><small>Authored validation metadata; explanatory overlays do not alter exact replay.</small></section>
