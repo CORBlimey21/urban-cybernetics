@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import time
 from pathlib import Path
+from threading import Barrier, Lock, Thread
 
 import pytest
 from fastapi.testclient import TestClient
@@ -72,6 +73,49 @@ def test_cancel_retains_partial_result_and_replay_evidence(tmp_path: Path) -> No
     assert result.metric_results == ()
     assert bundle.run.status.value == "partial"
     assert bundle.event_stream.events
+
+
+def test_status_writes_are_serialized_with_result_persistence(tmp_path: Path, monkeypatch) -> None:
+    """Concurrent status/result writes must not share a live temporary file."""
+
+    repository = ValidationRepository(tmp_path)
+    original_write_text = Path.write_text
+    start = Barrier(3)
+    counter_lock = Lock()
+    active_writes = 0
+    maximum_active_writes = 0
+
+    def observed_write_text(path: Path, *args, **kwargs):
+        nonlocal active_writes, maximum_active_writes
+        with counter_lock:
+            active_writes += 1
+            maximum_active_writes = max(maximum_active_writes, active_writes)
+        try:
+            time.sleep(0.01)
+            return original_write_text(path, *args, **kwargs)
+        finally:
+            with counter_lock:
+                active_writes -= 1
+
+    monkeypatch.setattr(Path, "write_text", observed_write_text)
+    errors: list[BaseException] = []
+
+    def write(name: str) -> None:
+        try:
+            start.wait()
+            repository._write_json(tmp_path / f"{name}.json", {"name": name})
+        except BaseException as exc:  # pragma: no cover - asserted below
+            errors.append(exc)
+
+    threads = [Thread(target=write, args=(name,)) for name in ("status", "result")]
+    for thread in threads:
+        thread.start()
+    start.wait()
+    for thread in threads:
+        thread.join()
+
+    assert errors == []
+    assert maximum_active_writes == 1
 
 
 def test_api_discovers_cases_loads_history_and_runs_sanctioned_case(tmp_path: Path) -> None:

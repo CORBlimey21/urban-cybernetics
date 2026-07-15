@@ -70,12 +70,12 @@ class ValidationRepository:
                 return path
         raise ValidationArtifactNotFound(result_id)
 
-    @staticmethod
-    def _write_json(path: Path, value: object) -> None:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        temporary = path.with_suffix(path.suffix + ".tmp")
-        temporary.write_text(json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
-        temporary.replace(path)
+    def _write_json(self, path: Path, value: object) -> None:
+        with self._lock:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            temporary = path.with_suffix(path.suffix + ".tmp")
+            temporary.write_text(json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+            temporary.replace(path)
 
 
 @dataclass
