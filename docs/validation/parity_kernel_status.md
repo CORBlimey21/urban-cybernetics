@@ -1,5 +1,13 @@
 # Parity Kernel Status After M0-M7 and Stage 2 Nodes
 
+> Superseded status snapshot. This document records the pre-M8 state and its
+> 507-test baseline. As of 2026-07-16, de Souza Figures 5, 7, 8, and 9 have
+> completed observational comparisons, the full suite is 682 tests plus 88
+> subtests, and the base kernel is frozen by
+> `docs/architecture/loading_kernel_freeze_contract_v1.md`. Historical
+> statements below that call de Souza deferred or externally unvalidated are
+> not current claims. Full Sioux Falls and empirical parity remain deferred.
+
 Status: current implementation summary after M0-M7 and Stage 2 movement allocation.
 
 Scope: this document summarizes what the UC parity kernel can safely claim today, what is internally verified, and what remains blocked before full benchmark parity validation. It does not introduce new requirements, mechanics, validation fixtures, or benchmark claims.

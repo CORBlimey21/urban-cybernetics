@@ -1,5 +1,11 @@
 # Urban Cybernetics base loading-kernel validation dossier v1
 
+Freeze status (2026-07-16): this dossier supports the canonical
+`loading-kernel-v1.0.0` boundary in
+`docs/architecture/loading_kernel_freeze_contract_v1.md`. Current claim
+boundaries are indexed by
+`docs/architecture/loading_kernel_capability_statement_v1.md`.
+
 ## Technical summary
 
 The base unit-packet loading kernel satisfies the complete internal validation
@@ -7,8 +13,8 @@ matrix, the composed merge/spillback case, and exact deterministic replay.
 The de Souza Figure 5 DT1 lane-drop comparison is measured without calibration;
 the Equation (6) correction materially reduces the observed L1 outflow and
 storage disagreement while preserving conservation, FIFO, packet identity,
-counts, and replay. Within the boundary defined in
-`loading_kernel_freeze_v1.md`, the kernel remains frozen. De Souza Figure 7(a)
+counts, and replay. Within the boundary defined in the versioned architecture
+freeze contract, the kernel remains frozen. De Souza Figure 7(a)
 DT1 now adds an observational strict-FIFO diverge comparison without tuning or
 kernel modification. Figure 8 adds a 100-replication seeded stochastic envelope
 around that deterministic centre, again without changing the frozen kernel.

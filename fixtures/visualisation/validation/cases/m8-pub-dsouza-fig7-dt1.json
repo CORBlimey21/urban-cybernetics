@@ -26,7 +26,7 @@
     "Execute the unchanged parity_ltm_v1 kernel through the 120 s demand-support boundary.",
     "Export upstream outflow and downstream inflows as cumulative and per-tick event folds."
   ],
-  "expected_result_summary": "No expected numerical series is encoded yet; the UC observables are frozen for a later read-only first-divergence comparison.",
+  "expected_result_summary": "The preserved DT1 digitisation has been compared descriptively with a read-only first-divergence audit; no fitted pass threshold is asserted.",
   "expected_scalars": [],
   "expected_series": [],
   "group_id": "m8-published-desouza-figure7-preparation-v1",
@@ -83,7 +83,7 @@
   ],
   "profile_reference": "parity_ltm_v1",
   "provenance": [
-    "Declared inputs and observable identities were externally checked against Section 4.2 and Equation 14; Figure 7 curves were not inspected or digitised.",
+    "Declared inputs and observable identities were externally checked against Section 4.2 and Equation 14; raw DT1 Gu, F1, and F2 digitisation is preserved and compared in the Figure 7 report.",
     "Source PDF SHA-256: ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903.",
     "Structured transcription: docs/validation/m8_desouza_figure7_preparation_v1.json."
   ],
@@ -135,7 +135,7 @@
       "L3"
     ]
   ],
-  "safe_claim": "UC executed the declared Figure 7 physical scenario and exact packet routes, and exported internally checked evidence; paper agreement is pending.",
+  "safe_claim": "UC executed the declared Figure 7 physical scenario and exact packet routes; the DT1 digitised curves were observationally compared without tuning.",
   "schema_version": "uc.validation.case.v1",
   "short_explanation": "Runs the frozen UC kernel on the paper-declared three-link diverge and exports the six Figure 7 observables without loading published values.",
   "tick_duration_seconds": 1.0,

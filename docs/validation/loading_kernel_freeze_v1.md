@@ -1,6 +1,9 @@
 # Base loading-kernel freeze v1
 
-Status: frozen after the canonical loading-kernel validation matrix passes.
+Status: superseded on 2026-07-16 by the canonical, versioned contract at
+`docs/architecture/loading_kernel_freeze_contract_v1.md`. This file preserves
+the original M8 freeze decision and records its completed external-evidence
+closure.
 
 ## Frozen boundary
 
@@ -42,9 +45,10 @@ A feature outside the frozen boundary must integrate through declared public
 interfaces. It must not reinterpret canonical events, packet identity,
 ordering, FIFO, counts, storage, or conservation without following this rule.
 
-## External evidence still pending
+## External evidence closure
 
-One further de Souza merge or diverge benchmark is reserved in the external
-validation matrix. It is blocked until the exact figure, declared input text,
-and digitised numerical data are supplied. No parameters, routes, priorities,
-FIFO convention, or expected values will be invented to fill that gap.
+This original freeze preceded the completed de Souza comparisons. Figures 5,
+7, 8, 9(a–c), and 9(d–f) now form the accepted observational evidence set.
+Figure 9(d–f) explicitly resolves the paper inconsistency as `alpha_1=0.75`,
+`x=[0,0,0,1]`. Remaining unselected external matrix groups stay deferred and
+do not prevent the named base-kernel v1 boundary.

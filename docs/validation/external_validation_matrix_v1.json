@@ -1,7 +1,7 @@
 {
   "matrix_id": "external_validation_matrix_v1",
   "milestone": "M8",
-  "status": "base_kernel_sealed_external_evidence_pending",
+  "status": "accepted_desouza_external_evidence_complete_other_groups_deferred",
   "claim_policy": "A UC internal test does not constitute external validation. A group may be marked externally validated only after the declared independent source or implementation is reproduced and the comparison passes at the declared tolerance.",
   "validation_groups": [
     {

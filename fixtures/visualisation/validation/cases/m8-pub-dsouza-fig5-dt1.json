@@ -25,7 +25,7 @@
     "Execute the unchanged parity_ltm_v1 loading engine through the 150 s demand-support boundary.",
     "Persist canonical events, replay states, cumulative counts, storage, queues, movement traces, and internal validation outputs."
   ],
-  "expected_result_summary": "No expected numerical result is encoded in this preparation slice; published curves, errors, and agreement metrics remain withheld.",
+  "expected_result_summary": "The preserved Figure 5(a) DT1 curves have been compared descriptively without calibration; no fitted pass threshold is asserted.",
   "expected_scalars": [],
   "expected_series": [],
   "group_id": "m8-published-desouza-figure5-preparation-v1",
@@ -71,7 +71,7 @@
   ],
   "profile_reference": "parity_ltm_v1",
   "provenance": [
-    "Declared inputs transcribed from paper text only; Figure 5 curves were not inspected or digitised.",
+    "Declared inputs were transcribed from the paper; the raw Figure 5(a) DT1 digitisation is preserved and compared in the Figure 5 report.",
     "Source PDF SHA-256: ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903.",
     "Structured transcription: docs/validation/m8_desouza_figure5_preparation_v1.json."
   ],
@@ -112,7 +112,7 @@
       "L2"
     ]
   ],
-  "safe_claim": "UC executed the declared physical scenario plus the listed explicit assumptions and exported internally checked evidence; no agreement or disagreement with the paper is claimed.",
+  "safe_claim": "UC executed the declared Figure 5 scenario and observationally compared the DT1 digitised curves without calibration.",
   "schema_version": "uc.validation.case.v1",
   "short_explanation": "Runs UC on the paper-declared two-link lane drop and exports observations without loading or comparing any published numerical result.",
   "tick_duration_seconds": 1.0,

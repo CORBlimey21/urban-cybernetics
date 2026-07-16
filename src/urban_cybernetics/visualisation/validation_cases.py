@@ -289,8 +289,13 @@ def _desouza_cases() -> tuple[ValidationCase, ...]:
                 "Persist canonical events, replay states, cumulative counts, storage, queues, movement traces, and internal validation outputs.",
             ),
             expected_result_summary=(
-                "No expected numerical result is encoded in this preparation slice; published "
-                "curves, errors, and agreement metrics remain withheld."
+                (
+                    "The preserved Figure 5(a) DT1 curves have been compared descriptively "
+                    "without calibration; no fitted pass threshold is asserted."
+                ) if timestep == 1.0 else (
+                    "No published numerical curve is supplied for this timestep; UC evidence "
+                    "is retained without an external comparison."
+                )
             ),
             why_it_matters=(
                 "This freezes the first published-case input transcription and UC evidence before "
@@ -325,11 +330,22 @@ def _desouza_cases() -> tuple[ValidationCase, ...]:
                 "UC unit-packet departure conversion and same-tick event ordering are implementation conventions because Figure 5 does not declare them.",
             ),
             safe_claim=(
-                "UC executed the declared physical scenario plus the listed explicit assumptions "
-                "and exported internally checked evidence; no agreement or disagreement with the paper is claimed."
+                (
+                    "UC executed the declared Figure 5 scenario and observationally compared "
+                    "the DT1 digitised curves without calibration."
+                ) if timestep == 1.0 else (
+                    "UC executed the declared Figure 5 scenario and exported internally checked "
+                    "evidence; no external curve comparison is claimed for this timestep."
+                )
             ),
             provenance=(
-                "Declared inputs transcribed from paper text only; Figure 5 curves were not inspected or digitised.",
+                (
+                    "Declared inputs were transcribed from the paper; the raw Figure 5(a) DT1 "
+                    "digitisation is preserved and compared in the Figure 5 report."
+                ) if timestep == 1.0 else (
+                    "Declared inputs were transcribed from the paper; no digitised reference "
+                    "curve is supplied for this timestep."
+                ),
                 f"Source PDF SHA-256: {DESOUZA_FIGURE5_SOURCE_SHA256}.",
                 "Structured transcription: docs/validation/m8_desouza_figure5_preparation_v1.json.",
             ),
@@ -390,8 +406,13 @@ def _desouza_figure7_cases() -> tuple[ValidationCase, ...]:
                 "Export upstream outflow and downstream inflows as cumulative and per-tick event folds.",
             ),
             expected_result_summary=(
-                "No expected numerical series is encoded yet; the UC observables are frozen "
-                "for a later read-only first-divergence comparison."
+                (
+                    "The preserved DT1 digitisation has been compared descriptively with a "
+                    "read-only first-divergence audit; no fitted pass threshold is asserted."
+                ) if timestep == 1.0 else (
+                    "No DT3 published numerical series is supplied; UC observables remain "
+                    "frozen for a later comparison."
+                )
             ),
             why_it_matters=(
                 "This adds the paper's route-encoded strict-FIFO diverge as an external "
@@ -432,11 +453,23 @@ def _desouza_figure7_cases() -> tuple[ValidationCase, ...]:
                 "The paper names downstream destinations as links 1 and 2 in prose while its plotted network variables are represented here unambiguously as UC L2 and L3.",
             ),
             safe_claim=(
-                "UC executed the declared Figure 7 physical scenario and exact packet routes, "
-                "and exported internally checked evidence; paper agreement is pending."
+                (
+                    "UC executed the declared Figure 7 physical scenario and exact packet "
+                    "routes; the DT1 digitised curves were observationally compared without tuning."
+                ) if timestep == 1.0 else (
+                    "UC executed the declared Figure 7 physical scenario and exact packet routes; "
+                    "DT3 external curve comparison remains unavailable."
+                )
             ),
             provenance=(
-                "Declared inputs and observable identities were externally checked against Section 4.2 and Equation 14; Figure 7 curves were not inspected or digitised.",
+                (
+                    "Declared inputs and observable identities were externally checked against "
+                    "Section 4.2 and Equation 14; raw DT1 Gu, F1, and F2 digitisation is preserved "
+                    "and compared in the Figure 7 report."
+                ) if timestep == 1.0 else (
+                    "Declared inputs and observable identities were externally checked against "
+                    "Section 4.2 and Equation 14; DT3 digitised curves are not supplied."
+                ),
                 f"Source PDF SHA-256: {DESOUZA_FIGURE5_SOURCE_SHA256}.",
                 "Structured transcription: docs/validation/m8_desouza_figure7_preparation_v1.json.",
             ),

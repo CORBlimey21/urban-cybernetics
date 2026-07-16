@@ -1,7 +1,9 @@
 # External Validation Matrix v1
 
-Status: base-kernel milestone sealed; additional external evidence remains
-explicitly pending. Machine-readable companion:
+Status (2026-07-16): the accepted de Souza Figures 5, 7, 8, and 9 evidence set
+for `loading-kernel-v1.0.0` is complete. Other unselected published or
+cross-implementation rows remain explicitly deferred and are not requirements
+for reopening this named freeze. Machine-readable companion:
 `docs/validation/external_validation_matrix_v1.json`.
 
 An internal UC test is not external validation. A group may receive an

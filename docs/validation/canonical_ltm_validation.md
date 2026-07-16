@@ -1,5 +1,13 @@
 # Canonical LTM Validation
 
+> Historical analytical-validation snapshot. The de Souza deferral sections
+> below preserve the state when this document was written; they were
+> superseded on 2026-07-16 by completed observational reproductions of Figures
+> 5, 7, 8, and 9. Current claims and exclusions are in
+> `docs/architecture/loading_kernel_capability_statement_v1.md` and the
+> loading-kernel validation dossier. Yperman and full Sioux Falls parity remain
+> deferred.
+
 Status: initial analytical validation slice.
 
 Scope: compare the frozen packetised parity kernel against recognised LTM

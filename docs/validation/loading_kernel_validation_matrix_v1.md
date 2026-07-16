@@ -1,8 +1,9 @@
 # Base loading-kernel validation matrix v1
 
-Status: passed for the frozen base-kernel boundary. One additional external de
-Souza node benchmark remains blocked on source inputs and is not represented as
-completed evidence.
+Status: passed and frozen as `loading-kernel-v1.0.0`. The accepted de Souza
+Figures 5, 7, 8, and 9 evidence set is complete. Other unselected literature or
+cross-implementation groups remain explicitly deferred and are not implied by
+this boundary.
 
 Exact internal cases use zero-packet, zero-tick, and exact sequence tolerances,
 except the independently authored mean-delay scalar in M8-LINK-02, which uses
@@ -42,9 +43,9 @@ second run has an identical canonical event log.
 ## Matrix interpretation
 
 “Passed internal” establishes deterministic agreement with authored analytical
-or invariant evidence. It is not external validation. Figure 5 is the first
-published observational comparison; its digitised curves remain reference
-measurements with digitisation and paper-convention uncertainty.
+or invariant evidence. It is not external validation. Figures 5, 7, 8, and 9
+are published observational reproductions; their digitised curves remain
+reference measurements with digitisation and paper-convention uncertainty.
 
 The machine-readable companion is
 `docs/validation/loading_kernel_validation_matrix_v1.json`.

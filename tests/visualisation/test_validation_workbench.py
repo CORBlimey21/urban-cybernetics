@@ -26,7 +26,17 @@ def test_case_contract_is_versioned_and_expected_evidence_is_independent() -> No
         if case.comparison_status == ComparisonStatus.NOT_COMPARABLE:
             assert case.expected_series == ()
             assert case.metrics == ()
-            assert any("curves were not inspected" in note.lower() for note in case.provenance)
+            provenance = " ".join(case.provenance).lower()
+            assert any(
+                marker in provenance
+                for marker in (
+                    "curves were not inspected",
+                    "digitisation is preserved and compared",
+                    "digitisation is preserved",
+                    "digitised curves are not supplied",
+                    "no digitised reference curve is supplied",
+                )
+            )
         else:
             assert case.expected_series
             assert {series.evidence_source for series in case.expected_series} == {EvidenceSource.ANALYTICAL_REFERENCE}
