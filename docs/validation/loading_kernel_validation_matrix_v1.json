@@ -1,0 +1,56 @@
+{
+  "matrix_id": "loading_kernel_validation_matrix_v1",
+  "milestone": "base_loading_kernel",
+  "status": "passed_with_external_node_case_pending",
+  "exact_internal_tolerance": "zero packets, zero ticks, exact event/order/count sequences unless a case explicitly declares a floating-point tolerance",
+  "closure_verification": {
+    "python": "653 passed, 0 failed, 88 subtests passed in 14.87 s (15.16 s wall)",
+    "frontend": "26 passed, 0 failed in 0.453 s (0.94 s wall)",
+    "typescript": "typecheck passed in 1.60 s wall",
+    "known_warning": "one FastAPI TestClient deprecation warning"
+  },
+  "rows": [
+    {
+      "id": "LINK-ANALYTICAL",
+      "scope": "M8-LINK-01 through M8-LINK-07",
+      "mechanisms": ["free-flow translation", "sending capacity", "queue growth and clearance", "finite storage", "backward-wave vacancy", "fractional sending credit"],
+      "status": "passed_exact_internal",
+      "artifacts": ["fixtures/visualisation/validation/cases", "fixtures/visualisation/validation/runs", "docs/validation/m8_analytical_coverage_v2.md"]
+    },
+    {
+      "id": "NODE-INTERNAL",
+      "scope": "one-to-one, priority merge, strict and partial FIFO diverge, MIMO, conflict, lane-group, signal and closure gates",
+      "mechanisms": ["movement allocation", "FIFO", "priority share", "unused-share release", "resource capacity", "deterministic ordering"],
+      "status": "passed_internal",
+      "artifacts": ["tests/test_ltm_parity_node_family.py", "tests/external_validation/test_m8_analytical_node_cases.py"]
+    },
+    {
+      "id": "EQ6-RECEIVING-CREDIT",
+      "scope": "de Souza Equation (6) retained receiving credit",
+      "mechanisms": ["unused whole-packet credit", "actual-flow subtraction", "published credit cap"],
+      "status": "passed_focused_regression",
+      "artifacts": ["tests/test_ltm_parity_receiving.py", "tests/visualisation/test_desouza_receiving_credit_regression.py", "docs/validation/m8_desouza_figure5a_dt1_eq6_before_after_v1.md"]
+    },
+    {
+      "id": "COMPOSITION",
+      "scope": "M8-COMP-NET-01",
+      "mechanisms": ["equal-priority merge", "downstream bottleneck", "multi-link spillback", "multiple OD routes", "queue clearance"],
+      "status": "passed_exact_internal",
+      "artifacts": ["src/urban_cybernetics/canonical_validation/composition.py", "tests/validation/test_composed_loading_kernel_case.py"]
+    },
+    {
+      "id": "DSOUZA-FIG5-DT1",
+      "scope": "published Figure 5(a) L1 inflow, outflow and storage",
+      "mechanisms": ["full lane-drop loading path", "digitised reference comparison", "event diagnosis"],
+      "status": "observational_comparison_complete_no_calibration",
+      "artifacts": ["data/validation", "docs/validation/m8_desouza_figure5a_dt1_eq6_before_after_v1.md", "fixtures/visualisation/validation/runs/m8-pub-dsouza-fig5-dt1-baseline-v1"]
+    },
+    {
+      "id": "DSOUZA-NODE-NEXT",
+      "scope": "one further published de Souza merge or diverge figure",
+      "mechanisms": ["external node comparison"],
+      "status": "blocked_input_not_supplied",
+      "artifacts": ["docs/validation/external_validation_matrix_v1.md"]
+    }
+  ]
+}

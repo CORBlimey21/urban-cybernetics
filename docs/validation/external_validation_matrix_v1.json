@@ -1,0 +1,194 @@
+{
+  "matrix_id": "external_validation_matrix_v1",
+  "milestone": "M8",
+  "status": "base_kernel_sealed_external_evidence_pending",
+  "claim_policy": "A UC internal test does not constitute external validation. A group may be marked externally validated only after the declared independent source or implementation is reproduced and the comparison passes at the declared tolerance.",
+  "validation_groups": [
+    {
+      "validation_id": "M8-VAL-01",
+      "scientific_subject": "uncongested single-link translation",
+      "reference_type": "independent closed-form cumulative-count derivation",
+      "reference_source_or_source_status": "Independent literal oracle implemented in M8-LINK-01; recognised Newell/LTM behaviour is contextual only, not a reproduced published table.",
+      "exact_inputs_required": [
+        "one 200 m, one-lane link",
+        "free-flow speed 10 m/s; backward-wave speed 5 m/s",
+        "jam density 120 veh/km/lane; capacity 1440 veh/h/lane",
+        "10 s timestep; three-unit-packet initial pulse admitted at tick 0 with origin budget 4; no downstream restriction"
+      ],
+      "expected_outputs": [
+        "cumulative entries (3,3,3,3)",
+        "cumulative exits (0,0,3,3)",
+        "exit ticks (2,2,2)",
+        "point queue (0,0,0,0); exact conservation"
+      ],
+      "comparison_tolerance": "exact: 0 packets and 0 ticks",
+      "uc_subsystem_exercised": ["physical parameter resolution", "origin admission", "free-flow sending", "canonical lifecycle events"],
+      "claim_supported_if_passed": "Under the declared discrete convention, UC translates this below-capacity unit-packet pulse by ceil((L/v)/dt).",
+      "claims_not_supported": ["academic LTM parity", "empirical realism", "node semantics", "network-scale validity", "production readiness"],
+      "implementation_status": "implemented_independent_analytical_oracle_not_externally_validated",
+      "blocking_issue_if_any": "No execution blocker; an independent published or cross-implementation source is still required for an external-validation label."
+    },
+    {
+      "validation_id": "M8-VAL-02",
+      "scientific_subject": "capacity bottleneck and queue dissipation",
+      "reference_type": "independent closed-form cumulative-count and point-queue derivation",
+      "reference_source_or_source_status": "Independent literal oracle implemented in M8-LINK-02; recognised Newell/Daganzo bottleneck behaviour is contextual only, not a reproduced published table.",
+      "exact_inputs_required": [
+        "one 200 m, one-lane link",
+        "free-flow speed 10 m/s; backward-wave speed 5 m/s",
+        "jam density 30 veh/km/lane; capacity 360 veh/h/lane",
+        "10 s timestep; five-unit-packet initial pulse admitted at tick 0 with origin budget 5"
+      ],
+      "expected_outputs": [
+        "cumulative exits (0,0,1,2,3,4,5)",
+        "point queue (0,0,4,3,2,1,0)",
+        "exit ticks (2,3,4,5,6)",
+        "experienced delays (0,1,2,3,4) ticks; mean 2.0; exact conservation"
+      ],
+      "comparison_tolerance": "exact counts/ticks; absolute tolerance 1e-12 for mean delay",
+      "uc_subsystem_exercised": ["lagged sending", "capacity budget", "FIFO eligible prefix", "canonical cumulative event evidence"],
+      "claim_supported_if_passed": "Under the declared discrete convention, UC forms and dissipates the analytically specified exit-boundary queue at one packet per tick.",
+      "claims_not_supported": ["continuous-flow convergence", "empirical queue realism", "spillback", "node semantics", "production readiness"],
+      "implementation_status": "implemented_independent_analytical_oracle_not_externally_validated",
+      "blocking_issue_if_any": "No execution blocker; an independent published or cross-implementation source is still required for an external-validation label."
+    },
+    {
+      "validation_id": "M8-VAL-03",
+      "scientific_subject": "backward-wave vacancy propagation",
+      "reference_type": "independent closed-form lagged-vacancy derivation",
+      "reference_source_or_source_status": "Independent literal oracle implemented in M8-LINK-03; recognised Newell/Daganzo spillback behaviour is contextual only, not a reproduced published table.",
+      "exact_inputs_required": [
+        "two 40 m, one-lane links in series",
+        "free-flow speed 10 m/s; backward-wave speed 5 m/s",
+        "jam density 75 veh/km/lane; capacity 900 veh/h/lane",
+        "4 s timestep; downstream storage three packets and initially full via an explicit origin preload budget of 3",
+        "one upstream unit packet requests the downstream link"
+      ],
+      "expected_outputs": [
+        "first downstream exit at tick 1",
+        "no pre-accept vacancy at ticks 1 or 2",
+        "one slot of pre-accept vacancy at tick 3",
+        "upstream packet enters downstream at tick 3",
+        "boundary queue enters at tick 1 and exits at tick 3"
+      ],
+      "comparison_tolerance": "exact: 0 packets and 0 ticks",
+      "uc_subsystem_exercised": ["finite storage", "lagged receiving supply", "boundary queue events", "resumed transfer"],
+      "claim_supported_if_passed": "Under the declared discrete convention, UC delays a released downstream vacancy by ceil((L/w)/dt) before upstream reuse.",
+      "claims_not_supported": ["continuous kinematic-wave convergence", "network spillback validity", "empirical wave speed", "node-model validity", "production readiness"],
+      "implementation_status": "implemented_independent_analytical_oracle_not_externally_validated",
+      "blocking_issue_if_any": "No execution blocker; an independent published or cross-implementation source is still required for an external-validation label."
+    },
+    {
+      "validation_id": "M8-VAL-04",
+      "scientific_subject": "one-to-one node",
+      "reference_type": "independent analytical node-flow table",
+      "reference_source_or_source_status": "Source and exact external numerical case not yet selected; UC internal one-to-one tests exist but are not external validation.",
+      "exact_inputs_required": ["one incoming and one outgoing link", "sending and receiving cumulative curves", "node timestep", "initial storage and packet order"],
+      "expected_outputs": ["movement flow by tick", "upstream and downstream cumulative curves", "queue and delay series", "conservation"],
+      "comparison_tolerance": "planned exact integer series, or source-declared numerical tolerance if non-integer",
+      "uc_subsystem_exercised": ["Stage 2 movement allocation", "receiving constraint", "queue lifecycle"],
+      "claim_supported_if_passed": "UC reproduces the selected independent one-to-one node case under matched discretisation.",
+      "claims_not_supported": ["merge/diverge validity", "general MIMO validity", "empirical realism", "full network validity"],
+      "implementation_status": "planned_external_oracle_missing_internal_coverage_only",
+      "blocking_issue_if_any": "Select and encode a source with complete numerical inputs and timestep convention."
+    },
+    {
+      "validation_id": "M8-VAL-05",
+      "scientific_subject": "priority merge",
+      "reference_type": "published or independently calculated node-model numerical sequence",
+      "reference_source_or_source_status": "Tampere-style generic-node behaviour is identified; a reproducible external numerical priority-merge table has not yet been selected. Internal UC tests are non-external.",
+      "exact_inputs_required": ["two incoming and one outgoing link", "demand and supply by tick", "explicit priority weights", "FIFO and unused-share rule", "packet ordering"],
+      "expected_outputs": ["approved source sequence", "movement flows by tick", "cumulative curves", "queue and delay by input"],
+      "comparison_tolerance": "planned exact packet sequence and counts; source-declared tolerance for fractional shares",
+      "uc_subsystem_exercised": ["priority allocation", "unused-share release", "global FIFO", "receiving capacity"],
+      "claim_supported_if_passed": "UC reproduces the selected independent priority-merge allocation case.",
+      "claims_not_supported": ["all merge solvers", "gap acceptance", "empirical merge behaviour", "general MIMO validity"],
+      "implementation_status": "planned_external_oracle_missing_internal_coverage_only",
+      "blocking_issue_if_any": "Obtain a complete numerical source and reconcile its continuous or fractional flows with unit packets."
+    },
+    {
+      "validation_id": "M8-VAL-06",
+      "scientific_subject": "strict-FIFO diverge",
+      "reference_type": "independent node-model blocking sequence",
+      "reference_source_or_source_status": "Generic-node strict-FIFO semantics are identified; no external tick-by-tick numerical fixture is encoded. Internal UC tests are non-external.",
+      "exact_inputs_required": ["one incoming and at least two outgoing links", "route split and immutable packet order", "branch demands/supplies", "strict-FIFO rule", "closure schedule if used"],
+      "expected_outputs": ["head-of-line blocking sequence", "movement flows", "branch cumulative curves", "boundary queues and delays"],
+      "comparison_tolerance": "planned exact packet order, counts, and ticks",
+      "uc_subsystem_exercised": ["strict upstream FIFO", "route-encoded diverge", "movement rejection", "queue release"],
+      "claim_supported_if_passed": "UC reproduces the selected independent strict-FIFO diverge blocking case.",
+      "claims_not_supported": ["partial FIFO", "lane-changing bypass", "empirical diverge behaviour", "general MIMO validity"],
+      "implementation_status": "planned_external_oracle_missing_internal_coverage_only",
+      "blocking_issue_if_any": "Select a source with explicit commodity order, FIFO convention, and numerical outputs."
+    },
+    {
+      "validation_id": "M8-VAL-07",
+      "scientific_subject": "partial-FIFO diverge",
+      "reference_type": "published partial-FIFO node-model numerical case",
+      "reference_source_or_source_status": "UC supports explicit partial_by_movement internally; an external numerical reference and overlap parameters have not been selected.",
+      "exact_inputs_required": ["one incoming and multiple outgoing links", "commodity demands", "oriented capacity or lane-overlap parameters", "partial-FIFO rule", "supplies and timestep"],
+      "expected_outputs": ["movement flows", "restricted and unrestricted fractions", "branch cumulative curves", "queues and delays"],
+      "comparison_tolerance": "source-declared absolute/relative flow tolerance plus exact conservation",
+      "uc_subsystem_exercised": ["partial_by_movement FIFO", "lane groups", "movement allocation", "commodity evidence"],
+      "claim_supported_if_passed": "UC reproduces the selected independent partial-FIFO diverge case for the encoded overlap semantics.",
+      "claims_not_supported": ["physical lane changing", "all partial-FIFO formulations", "empirical lane choice", "general MIMO validity"],
+      "implementation_status": "planned_external_oracle_missing_internal_coverage_only",
+      "blocking_issue_if_any": "Choose a formulation whose partial-FIFO parameters map explicitly to UC movement/lane-group metadata."
+    },
+    {
+      "validation_id": "M8-VAL-08",
+      "scientific_subject": "general MIMO node",
+      "reference_type": "published generic-node numerical case",
+      "reference_source_or_source_status": "Tampere 2011 is a candidate model source; a complete reproducible MIMO numerical case and parameter mapping are not yet encoded.",
+      "exact_inputs_required": ["multiple inputs and outputs", "commodity demands and turning movements", "input priorities", "output supplies", "mutual restrictions/resources", "timestep"],
+      "expected_outputs": ["movement-flow matrix by tick", "input/output cumulative curves", "resource use", "queues", "commodity conservation"],
+      "comparison_tolerance": "source-declared numerical tolerance; exact packet identity and conservation",
+      "uc_subsystem_exercised": ["general movement allocator", "priorities", "conflict resources", "lane groups", "signals/closures", "commodity evidence"],
+      "claim_supported_if_passed": "UC reproduces the selected independent MIMO numerical case within declared tolerance.",
+      "claims_not_supported": ["every node model", "adaptive control", "gap acceptance", "empirical junction realism", "network-scale validity"],
+      "implementation_status": "planned_external_oracle_missing_internal_coverage_only",
+      "blocking_issue_if_any": "Select a fully specified source case and document the exact mapping to JunctionSpec and MovementSpec."
+    },
+    {
+      "validation_id": "M8-VAL-09",
+      "scientific_subject": "published network-loading numerical case",
+      "reference_type": "primary-source dynamic network-loading numerical table or digitised curves",
+      "reference_source_or_source_status": "de Souza et al. 2025 Figure 5 selected. Text-declared lane-drop inputs are versioned. Supplied digitised Figure 5(a) L1 cumulative inflow, cumulative outflow, and storage series have been compared with unchanged DT1 UC evidence without calibration.",
+      "exact_inputs_required": ["published topology and link physics", "OD demand and departure profile", "routes or route-choice rule", "node parameters", "initial conditions", "timestep and horizon", "published dynamic outputs"],
+      "expected_outputs": ["link cumulative curves", "link or path travel times", "queue/spillback timing", "network clearance", "source-matched summary metrics"],
+      "comparison_tolerance": "descriptive RMSE, MAE, maximum absolute difference, threshold, final signed-difference, peak, and drift metrics; digitised curves are reference measurements rather than pass/fail ground truth; exact conservation remains mandatory",
+      "uc_subsystem_exercised": ["full parity loading path", "node allocation", "commodity counts", "travel times", "spillback", "provenance"],
+      "claim_supported_if_passed": "UC completed one observational published-figure comparison using fixed inputs and comparison rules without calibration.",
+      "claims_not_supported": ["all LTM formulations", "empirical calibration", "Sioux Falls or Anaheim validation unless that is the selected source", "production readiness"],
+      "implementation_status": "dt1_observational_comparison_complete_dt3_dt6_reference_curves_not_supplied",
+      "blocking_issue_if_any": "No DT1 execution blocker. DT3 and DT6 published reference curves are not supplied; residual DT1 differences remain observational evidence rather than a trigger for kernel changes."
+    },
+    {
+      "validation_id": "M8-VAL-10",
+      "scientific_subject": "external benchmark/cross-implementation comparison",
+      "reference_type": "independently implemented LTM/DNL solver or published executable benchmark",
+      "reference_source_or_source_status": "No external implementation and version has been selected or executed.",
+      "exact_inputs_required": ["identical canonical topology", "identical physical and node parameters", "identical unit/flow demand", "route inputs", "timestep/rounding convention", "random seeds if any", "versioned external outputs"],
+      "expected_outputs": ["boundary cumulative curves", "movement flows", "queues", "path/link travel times", "completion/clearance", "runtime reported separately from scientific agreement"],
+      "comparison_tolerance": "pre-registered per metric after convention alignment; exact conservation and deterministic UC replay remain separate gates",
+      "uc_subsystem_exercised": ["end-to-end kernel", "adapters", "evidence export", "replay", "comparison tooling"],
+      "claim_supported_if_passed": "UC agrees with the named independent implementation for the exact shared scenario and declared metrics.",
+      "claims_not_supported": ["universal implementation equivalence", "empirical realism", "calibration", "production readiness", "performance superiority"],
+      "implementation_status": "planned_blocked_external_implementation_selection",
+      "blocking_issue_if_any": "Choose an accessible versioned implementation, establish a neutral input/output interchange, and resolve convention differences before comparison."
+    },
+    {
+      "validation_id": "M8-VAL-11",
+      "scientific_subject": "further de Souza merge or diverge figure",
+      "reference_type": "primary-source de Souza node figure with supplied digitised series or table",
+      "reference_source_or_source_status": "Reserved only. No exact figure/page, complete declared parameters, or digitised numerical data has been supplied.",
+      "exact_inputs_required": ["figure and page identity", "declared link and node parameters", "routes or turning proportions", "priorities and FIFO convention", "initial state", "timestep and horizon", "digitised reference series or tables"],
+      "expected_outputs": ["movement and link cumulative curves", "queues and storage", "packet/event trace", "deterministic replay", "same disciplined comparison metrics as Figure 5"],
+      "comparison_tolerance": "fix interpolation and any tolerance from source precision before UC comparison; no calibration",
+      "uc_subsystem_exercised": ["generic movement allocator", "merge or diverge FIFO semantics", "cumulative curves", "queues", "packet events", "replay"],
+      "claim_supported_if_passed": "UC reproduces the named supplied de Souza node figure under its declared conventions.",
+      "claims_not_supported": ["invented source parameters", "calibration", "general agreement with every de Souza case", "silent change to frozen kernel semantics"],
+      "implementation_status": "blocked_input_not_supplied",
+      "blocking_issue_if_any": "Supply the exact source figure/text and digitised data. No topology, priority, route split, FIFO convention, or expected sequence will be invented."
+    }
+  ]
+}

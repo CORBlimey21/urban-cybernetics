@@ -1,8 +1,8 @@
 # M8 Analytical Coverage v2
 
-Status: readiness report after completing the pre-publication link and NODE-01
-analytical slice. The de Souza Figure 5 input/evidence preparation has now
-begun, but published numerical comparison has not.
+Status: historical readiness report for the pre-publication link and NODE-01
+analytical slice. The subsequent Figure 5 DT1 observational comparison and
+base-kernel closure are documented in the canonical validation dossier.
 
 ## Before This Slice
 
@@ -35,8 +35,8 @@ begun, but published numerical comparison has not.
 | strict/partial FIFO diverge | Implemented but not independently validated | future analytical node family |
 | general MIMO node allocation | Implemented but not independently validated | future analytical node family |
 | unsupported adaptive node control | Not yet implemented | explicitly rejected by current contracts |
-| published lane-drop scenario preparation | UC evidence generated; no paper comparison | de Souza Figure 5 text inputs instantiated at 1 s, 3 s, and 6 s |
-| published lane-drop numerical agreement | Future published comparison | curves, tolerances, and errors deliberately withheld |
+| published lane-drop scenario preparation | UC evidence generated | de Souza Figure 5 text inputs instantiated at 1 s, 3 s, and 6 s |
+| published lane-drop observational comparison | DT1 inflow, outflow, and storage measured | fixed digitised references; no calibration or agreement threshold |
 | Yperman and cross-implementation agreement | Future published reproduction | deliberately untouched |
 
 No elementary analytical mechanism in the first lane-drop dependency set is
@@ -47,9 +47,6 @@ future published evidence.
 ## Readiness Boundary
 
 The elementary link dynamics and one-to-one node boundary needed to start the
-first lane-drop reproduction now have isolated analytical evidence. Timestep
-invariance and a standalone static triangular-FD Workbench case remain useful
-follow-ups, but they are numerical/input-admissibility checks rather than a
-missing loading mechanism. Merge, diverge, and MIMO evidence are not required
-to begin the one-to-one lane-drop reproduction and remain outside the safe
-claim.
+first lane-drop reproduction have isolated analytical evidence. The later
+composition case and internal node-family suite extend the frozen-kernel
+boundary; external merge/diverge reproduction remains a separate evidence gap.
