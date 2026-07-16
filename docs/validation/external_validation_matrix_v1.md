@@ -23,6 +23,7 @@ implementation is reproduced and passes a tolerance fixed before comparison.
 | M8-VAL-09 | Published network-loading numerical case | de Souza Figure 5(a) digitised L1 inflow, outflow, and storage supplied | DT1 observational comparison complete without calibration |
 | M8-VAL-10 | External benchmark/cross-implementation comparison | Implementation not selected or run | Blocked on implementation selection |
 | M8-VAL-11 | de Souza Figure 7 deterministic diverge | DT1 digitised `Gu/F1/F2` supplied; DT3 values pending | DT1 observational comparison and audit complete without calibration; no formal threshold pass assigned |
+| M8-VAL-12 | Figure 8 — stochastic route-encoded diverge replication envelope | Figure 7(a) deterministic cumulative curves used as the declared centre | 100 seeded replications complete; deterministic centre is inside both bands at every tick |
 
 ## M8-VAL-01 — Uncongested Single-Link Translation
 
@@ -236,6 +237,29 @@ implementation is reproduced and passes a tolerance fixed before comparison.
 - Status/blocker: DT1 comparison and read-only first-divergence audit are
   complete; no kernel discrepancy is established. DT3 paper values remain
   required for the bottom-row comparison.
+
+## M8-VAL-12 — Figure 8 Stochastic Diverge Envelope
+
+- Reference/status: de Souza Figure 8 stochastic route choice is represented
+  as a seeded extension of the frozen Figure 7(a) fixture. The faint published
+  traces are not digitised or fitted; the committed deterministic Figure 7(a)
+  curves are the reference centre.
+- Exact inputs: all Figure 7(a) DT1 topology, physics, demand, horizon,
+  timestep, packetisation, and loading semantics; each of 68 routes is drawn
+  independently with `P(L2)=0.75` and `P(L3)=0.25`.
+- Ensemble: 100 exactly replayable replications using ordered integer seeds
+  0–99 and a local `random.Random(seed)` stream.
+- Outputs/tolerance: pointwise mean, median, min/max, Type-7 5th/95th bands;
+  endpoint and route-share distributions; exact per-tick closure,
+  conservation, FIFO, identity, physical eligibility, and replay.
+- Claim supported: the deterministic centre is contained by both the full
+  envelope and percentile band for `Gu`, `F1`, and `F2` at all 121 ticks; all
+  exact validation gates pass 100/100.
+- Not supported: fitted agreement to individual faint Figure 8 traces,
+  alternative random generators, behavioural route choice, or changes to the
+  frozen kernel.
+- Status: observationally reproduced; no material discrepancy and therefore
+  no read-only first-divergence audit trigger.
 
 ## Recommended Sequence
 

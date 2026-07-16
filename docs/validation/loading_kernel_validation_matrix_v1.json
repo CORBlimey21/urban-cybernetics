@@ -4,7 +4,7 @@
   "status": "passed_with_external_node_case_pending",
   "exact_internal_tolerance": "zero packets, zero ticks, exact event/order/count sequences unless a case explicitly declares a floating-point tolerance",
   "closure_verification": {
-    "python": "653 passed, 0 failed, 88 subtests passed in 14.87 s (15.16 s wall)",
+    "python": "672 passed, 0 failed, 88 subtests passed in 16.35 s",
     "frontend": "26 passed, 0 failed in 0.453 s (0.94 s wall)",
     "typescript": "typecheck passed in 1.60 s wall",
     "known_warning": "one FastAPI TestClient deprecation warning"
@@ -51,6 +51,13 @@
       "mechanisms": ["exact packet routes", "strict FIFO", "diverge movement allocation", "cumulative event folds", "per-tick flows", "deterministic replay"],
       "status": "dt1_observational_comparison_complete_no_calibration_dt3_reference_pending",
       "artifacts": ["tests/external_validation/test_m8_desouza_figure7.py", "tests/external_validation/test_m8_desouza_figure7_comparison.py", "docs/validation/m8_desouza_figure7a_dt1_comparison_v1.md", "data/validation/desouza_figure7a_dt1_Gu_digitised_v1.csv", "data/validation/desouza_figure7a_dt1_F1_digitised_v1.csv", "data/validation/desouza_figure7a_dt1_F2_digitised_v1.csv", "scripts/compare_desouza_figure7a_dt1.py", "fixtures/visualisation/validation/runs/m8-pub-dsouza-fig7-dt1-baseline-v1"]
+    },
+    {
+      "id": "DSOUZA-FIG8-DT1",
+      "scope": "Figure 8 seeded stochastic extension of Figure 7(a) DT1",
+      "mechanisms": ["independent seeded 75:25 packet routes", "strict FIFO", "pointwise ensemble bands", "endpoint distributions", "exact replay"],
+      "status": "observational_stochastic_envelope_reproduced",
+      "artifacts": ["src/urban_cybernetics/canonical_validation/desouza_figure8.py", "tests/external_validation/test_m8_desouza_figure8.py", "scripts/run_desouza_figure8_ensemble.py", "docs/validation/m8_desouza_figure8_ensemble_v1.md", "data/validation/desouza_figure8_ensemble_summary_v1.json", "data/validation/desouza_figure8_pointwise_v1.csv", "data/validation/desouza_figure8_replications_v1.csv"]
     }
   ]
 }

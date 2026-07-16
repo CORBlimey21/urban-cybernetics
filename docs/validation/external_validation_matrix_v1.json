@@ -189,6 +189,20 @@
       "claims_not_supported": ["invented source parameters", "calibration", "general agreement with every de Souza case", "silent change to frozen kernel semantics"],
       "implementation_status": "dt1_observational_comparison_and_first_divergence_audit_complete_dt3_reference_pending",
       "blocking_issue_if_any": "No DT1 execution blocker and no kernel discrepancy established. A formal threshold pass is unavailable because no threshold was fixed before comparison; DT3 published values remain pending."
+    },
+    {
+      "validation_id": "M8-VAL-12",
+      "scientific_subject": "Figure 8 — stochastic route-encoded diverge replication envelope",
+      "reference_type": "seeded stochastic extension around the committed deterministic Figure 7(a) cumulative curves",
+      "reference_source_or_source_status": "de Souza Figure 8 route probabilities are represented without digitising or fitting its faint stochastic traces; the frozen Figure 7(a) DT1 curves are the declared reference centre.",
+      "exact_inputs_required": ["exact Figure 7(a) DT1 topology, physical parameters, demand, horizon, timestep, packetisation, and loading semantics", "68 independent route draws with P(L2)=0.75 and P(L3)=0.25", "100 ordered integer seeds 0 through 99 using a local random.Random(seed) stream"],
+      "expected_outputs": ["pointwise mean, median, minimum, maximum, and Type-7 5th/95th percentiles for Gu, F1, and F2", "deterministic envelope and percentile-band coverage", "endpoint and route-share distributions", "exact per-replication closure and validation gates"],
+      "comparison_tolerance": "descriptive ensemble statistics and exact zero-tolerance closure, conservation, FIFO, identity, physical eligibility, and seeded replay",
+      "uc_subsystem_exercised": ["frozen parity loading kernel", "strict FIFO diverge", "independent seeded route encoding", "cumulative event folds", "canonical replay"],
+      "claim_supported_if_passed": "UC observationally reproduces the seeded Figure 8 stochastic envelope: all deterministic cumulative curves are within the full and 5th-95th percentile bands at all 121 ticks and all exact gates pass 100/100.",
+      "claims_not_supported": ["fitted agreement to individual faint published traces", "alternative random generators", "behavioural route choice", "change to frozen loading semantics"],
+      "implementation_status": "observational_stochastic_envelope_reproduced_100_seeded_replications",
+      "blocking_issue_if_any": "None. No material envelope discrepancy was observed, so the read-only first-divergence audit trigger was not reached."
     }
   ]
 }

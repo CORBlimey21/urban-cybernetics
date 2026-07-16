@@ -10,14 +10,15 @@ storage disagreement while preserving conservation, FIFO, packet identity,
 counts, and replay. Within the boundary defined in
 `loading_kernel_freeze_v1.md`, the kernel remains frozen. De Souza Figure 7(a)
 DT1 now adds an observational strict-FIFO diverge comparison without tuning or
-kernel modification.
+kernel modification. Figure 8 adds a 100-replication seeded stochastic envelope
+around that deterministic centre, again without changing the frozen kernel.
 
 This is not a claim about OSM import, network-scale performance, routing or
 behavioural validity, observability experiments, governance, optimisation, or
 future cybernetic mechanisms. Figure 7(a) DT1 is comparison-complete; Figure
 7(d) DT3 remains blocked on its digitised numerical references.
 
-The closure gate reports 664 Python tests passed with zero failures and 88
+The closure gate reports 672 Python tests passed with zero failures and 88
 subtests passed. The frontend suite
 reports 26 tests passed with zero failures in 0.453 seconds (0.94 seconds wall
 time), and TypeScript typechecking passes in 1.60 seconds wall time. The only
@@ -142,6 +143,22 @@ physical eligibility, and replay all pass exactly. Because no numerical
 threshold was fixed before comparison, this is an observational reproduction,
 not a formal binary pass.
 
+## Figure 8 reproduces the stochastic route envelope
+
+The Figure 7(a) DT1 fixture was rerun with independent `P(L2)=0.75` and
+`P(L3)=0.25` route draws for 100 ordered seeds, 0 through 99. The deterministic
+`Gu`, `F1`, and `F2` curves remain inside both the ensemble min/max envelope
+and the Type-7 5th–95th percentile band for all 121 ticks. Endpoint means are
+49.49 packets for `F1` and 16.51 for `F2`; their population standard deviations
+are both 3.4914. The mean assigned L2 share is 0.750147, only +0.000147 from the
+declared probability.
+
+All 100 runs pass exact per-tick cumulative closure, conservation, FIFO,
+packet identity/count consistency, physical eligibility, and seeded canonical
+replay. The faint published stochastic traces were not digitised or fitted.
+The complete statistics, limitations, and reproducible artifact paths are in
+`m8_desouza_figure8_ensemble_v1.md`.
+
 ## Evidence definitions, tolerances, and artifacts
 
 Internal discrete oracles use zero packets, zero ticks, and exact sequence
@@ -167,6 +184,8 @@ Canonical committed artifacts include:
 - the preserved Figure 7(a) DT1 `Gu`, `F1`, and `F2` CSVs,
   `scripts/compare_desouza_figure7a_dt1.py`, and
   `m8_desouza_figure7a_dt1_comparison_v1.md`;
+- the Figure 8 ensemble JSON/CSVs, seeded exporter, focused tests, and
+  `m8_desouza_figure8_ensemble_v1.md`;
 - the composition case and test paths listed above;
 - `docs/validation/external_validation_matrix_v1.md` and JSON companion.
 
@@ -183,6 +202,8 @@ source-controlled fixtures.
   conventions can affect cross-model traces.
 - Figure 7(a) is external evidence for one deterministic diverge only, with
   digitisation and paper-silent timing uncertainty.
+- Figure 8 is a seeded stochastic-envelope reproduction around that fixed
+  deterministic centre; individual faint published traces were not digitised.
 - DT3 and DT6 Figure 5 runs have complete UC evidence but no supplied published
   curve comparison; DT6 is statically ineligible under the paper's CFL rule.
 - Weighted packets, rerouting, adaptive signals, lane changing, gap acceptance,
