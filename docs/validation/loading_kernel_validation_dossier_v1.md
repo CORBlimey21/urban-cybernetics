@@ -18,7 +18,7 @@ behavioural validity, observability experiments, governance, optimisation, or
 future cybernetic mechanisms. Figure 7(a) DT1 is comparison-complete; Figure
 7(d) DT3 remains blocked on its digitised numerical references.
 
-The closure gate reports 672 Python tests passed with zero failures and 88
+The closure gate reports 677 Python tests passed with zero failures and 88
 subtests passed. The frontend suite
 reports 26 tests passed with zero failures in 0.453 seconds (0.94 seconds wall
 time), and TypeScript typechecking passes in 1.60 seconds wall time. The only
@@ -161,6 +161,23 @@ The complete statistics, limitations, and reproducible artifact paths are in
 
 ## Evidence definitions, tolerances, and artifacts
 
+## Figure 9(a–c) exercises the equal-priority merge externally
+
+The frozen kernel runs the inherited 150 m three-link merge with `V=30 m/s`,
+`W=6 m/s`, `K=0.1 veh/m`, Equation (15) demand, `dt=1 s`, `α1=0.5`, and
+priority sequence `[0,1]`. While both approaches are constrained, approved
+service is equal within one indivisible packet (7 from L1, 6 from L2 through
+40 s). Both queues are retained and later discharge after link-2 demand falls.
+Final counts are `G1=34`, `G2=19`, and `F3=53`, with exact closure at all ticks.
+
+Against the untouched digitisation, `G1` has RMSE 1.951 and maximum absolute
+difference 4.112 vehicles; `G2` has RMSE 1.366 and maximum 3.136. The requested
+read-only audit identifies a paper-silent fractional-demand/initial-credit
+phase and digitisation uncertainty: `G2` has seven decreasing cumulative
+segments, and each trace has one above-capacity local segment. No parameter,
+reference, or kernel semantic was changed. Full evidence is in
+`m8_desouza_figure9a_equal_comparison_v1.md`.
+
 Internal discrete oracles use zero packets, zero ticks, and exact sequence
 tolerance unless explicitly stated. M8-LINK-02 uses absolute tolerance
 `1e-12` only for its mean-delay scalar. Conservation, count identities,
@@ -186,6 +203,8 @@ Canonical committed artifacts include:
   `m8_desouza_figure7a_dt1_comparison_v1.md`;
 - the Figure 8 ensemble JSON/CSVs, seeded exporter, focused tests, and
   `m8_desouza_figure8_ensemble_v1.md`;
+- the Figure 9(a–c) equal-priority raw references, machine summaries, exporter,
+  focused tests, plots, and `m8_desouza_figure9a_equal_comparison_v1.md`;
 - the composition case and test paths listed above;
 - `docs/validation/external_validation_matrix_v1.md` and JSON companion.
 
@@ -204,6 +223,8 @@ source-controlled fixtures.
   digitisation and paper-silent timing uncertainty.
 - Figure 8 is a seeded stochastic-envelope reproduction around that fixed
   deterministic centre; individual faint published traces were not digitised.
+- Figure 9(a–c) is observational equal-priority merge evidence with
+  paper-silent departure phase and non-monotone digitisation caveats.
 - DT3 and DT6 Figure 5 runs have complete UC evidence but no supplied published
   curve comparison; DT6 is statically ineligible under the paper's CFL rule.
 - Weighted packets, rerouting, adaptive signals, lane changing, gap acceptance,

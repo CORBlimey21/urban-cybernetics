@@ -4,7 +4,7 @@
   "status": "passed_with_external_node_case_pending",
   "exact_internal_tolerance": "zero packets, zero ticks, exact event/order/count sequences unless a case explicitly declares a floating-point tolerance",
   "closure_verification": {
-    "python": "672 passed, 0 failed, 88 subtests passed in 16.35 s",
+    "python": "677 passed, 0 failed, 88 subtests passed in 16.44 s",
     "frontend": "26 passed, 0 failed in 0.453 s (0.94 s wall)",
     "typescript": "typecheck passed in 1.60 s wall",
     "known_warning": "one FastAPI TestClient deprecation warning"
@@ -58,6 +58,13 @@
       "mechanisms": ["independent seeded 75:25 packet routes", "strict FIFO", "pointwise ensemble bands", "endpoint distributions", "exact replay"],
       "status": "observational_stochastic_envelope_reproduced",
       "artifacts": ["src/urban_cybernetics/canonical_validation/desouza_figure8.py", "tests/external_validation/test_m8_desouza_figure8.py", "scripts/run_desouza_figure8_ensemble.py", "docs/validation/m8_desouza_figure8_ensemble_v1.md", "data/validation/desouza_figure8_ensemble_summary_v1.json", "data/validation/desouza_figure8_pointwise_v1.csv", "data/validation/desouza_figure8_replications_v1.csv"]
+    },
+    {
+      "id": "DSOUZA-FIG9-EQUAL-DT1",
+      "scope": "Figure 9(a-c) equal-priority merge",
+      "mechanisms": ["1:1 merge service", "retained approach queues", "post-change unused-share release", "downstream closure", "canonical replay"],
+      "status": "observational_comparison_and_read_only_audit_complete_asymmetric_pending",
+      "artifacts": ["src/urban_cybernetics/canonical_validation/desouza_figure9.py", "src/urban_cybernetics/canonical_validation/desouza_figure9_comparison.py", "tests/external_validation/test_m8_desouza_figure9_equal.py", "scripts/run_desouza_figure9_equal.py", "docs/validation/m8_desouza_figure9a_equal_comparison_v1.md", "data/validation/desouza_figure9a_equal_uc_evidence_v1.json", "data/validation/desouza_figure9a_equal_comparison_summary_v1.json"]
     }
   ]
 }

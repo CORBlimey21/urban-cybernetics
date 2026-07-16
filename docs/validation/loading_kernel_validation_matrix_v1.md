@@ -26,6 +26,7 @@ measurements against digitised reference data, not pass/fail ground truth.
 | de Souza Figure 5 DT3/DT6 | declared input execution and complete UC evidence | internal invariants only; no paper curve supplied | evidence complete; external comparison not run | Workbench fixtures |
 | de Souza Figure 7 DT1/DT3 | route-encoded strict-FIFO diverge; six Figure 7 cumulative/per-tick observables | exact routes/conservation/FIFO/replay internally; DT1 descriptive metrics with no fitted tolerance | DT1 observational comparison/audit complete; DT3 reference pending | raw digitisation, report, comparison tool, case/run replay fixtures, focused tests |
 | de Souza Figure 8 DT1 | 100 seeded 75:25 route-encoded diverge replications | exact closure/conservation/FIFO/identity/eligibility/replay; descriptive ensemble bands | observational stochastic envelope reproduced | ensemble JSON/CSVs, report, plots, exporter, focused tests |
+| de Souza Figure 9 equal priority | 1:1 merge, retained queues, post-change unused-share release | descriptive published-curve metrics; exact closure/conservation/FIFO/identity/eligibility/events/replay | observational comparison and read-only audit complete | raw CSVs, UC evidence, summary, report, plots, exporter, focused tests |
 
 ## Composition congestion sequence
 
@@ -49,7 +50,7 @@ The machine-readable companion is
 
 ## Closure verification
 
-- Python: 672 passed, zero failed, 88 subtests passed in 16.35 seconds.
+- Python: 677 passed, zero failed, 88 subtests passed in 16.44 seconds.
 - Frontend: 26 passed, zero failed in 0.453 seconds (0.94 seconds wall time).
 - TypeScript: project typecheck passed in 1.60 seconds wall time.
 - Known non-failure: one FastAPI `TestClient` deprecation warning.

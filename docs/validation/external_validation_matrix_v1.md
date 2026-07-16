@@ -16,7 +16,7 @@ implementation is reproduced and passes a tolerance fixed before comparison.
 | M8-VAL-02 | Capacity bottleneck and queue dissipation | Independent literal analytical oracle; published table not yet reproduced | Implemented; not externally validated |
 | M8-VAL-03 | Backward-wave vacancy propagation | Independent literal analytical oracle; published table not yet reproduced | Implemented; not externally validated |
 | M8-VAL-04 | One-to-one node | External numerical source not selected | Planned; internal coverage only |
-| M8-VAL-05 | Priority merge | Candidate generic-node literature identified; numerical table missing | Planned; internal coverage only |
+| M8-VAL-05 | Priority merge | de Souza Figure 9(a) `G1/G2` supplied; asymmetric case pending | Equal-priority observational comparison and audit complete without calibration |
 | M8-VAL-06 | Strict-FIFO diverge | External tick-by-tick case not selected | Planned; internal coverage only |
 | M8-VAL-07 | Partial-FIFO diverge | External formulation and overlap parameters not selected | Planned; internal coverage only |
 | M8-VAL-08 | General MIMO node | Tampere 2011 candidate; numerical case/mapping missing | Planned; internal coverage only |
@@ -105,20 +105,24 @@ implementation is reproduced and passes a tolerance fixed before comparison.
 
 ## M8-VAL-05 — Priority Merge
 
-- Reference/status: Tampere-style generic-node behaviour is identified, but no
-  complete external numerical priority-merge sequence is encoded.
-- Inputs required: two inputs, one output, demand/supply by tick, explicit
-  priorities, unused-share rule, FIFO convention, packet order.
-- Outputs/tolerance: source sequence, movement flows, cumulative curves,
-  queues, delays; exact packet sequence/counts and source-declared tolerance
-  for fractional shares.
-- UC subsystem: priority allocation, unused-share release, global FIFO,
-  receiving capacity.
-- Claim if passed: reproduction of the named priority-merge case only.
-- Not supported: all merge models, gap acceptance, empirical or general-MIMO
-  validity.
-- Status/blocker: planned; obtain a complete source and map fractional flows to
-  unit packets without changing semantics.
+- Reference/status: de Souza Figure 9 is selected. The supplied panel (a)
+  equal-priority `G1/G2` digitisation is preserved and compared; panel (d)
+  asymmetric evidence remains for the second bounded commit.
+- Exact inputs: three inherited 150 m links, `V=30 m/s`, `W=6 m/s`,
+  `K1=K2=K3=0.1 veh/m`, Equation (15) demands, `dt=1 s`, 120 s horizon,
+  `α1=0.5`, and priority sequence `[0,1]`.
+- Outputs/tolerance: cumulative `G1/G2`, derived `F3=G1+G2`, descriptive
+  Figure 5/7 metrics on actual supports, and exact zero-tolerance closure,
+  conservation, FIFO, identity, physical eligibility, event ordering, and
+  replay gates.
+- Claim supported: UC observationally reproduces the equal-priority service
+  and queue transition without calibration. Exact internal gates pass; a
+  read-only audit classifies material numerical differences as digitisation
+  uncertainty plus an unknown paper departure/initial-credit phase.
+- Not supported: a formal fitted tolerance, all merge solvers, or a kernel
+  change.
+- Status/blocker: equal-priority comparison complete. The asymmetric Figure
+  9(d–f) comparison is intentionally deferred to the separate second commit.
 
 ## M8-VAL-06 — Strict-FIFO Diverge
 

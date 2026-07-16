@@ -1,0 +1,378 @@
+{
+  "case_id": "M8-PUB-DSOUZA-FIG9-EQUAL-DT1",
+  "comparison_id": "desouza-figure9a-comparison-v1",
+  "derived_downstream_inflow": "F3(t)=G1(t)+G2(t)",
+  "interpolation": {
+    "each_series_compared_only_on_actual_reference_support": true,
+    "extrapolation": false,
+    "method": "piecewise linear reference interpolation onto exact integer-second UC ticks",
+    "uc_interpolated": false
+  },
+  "provenance": {
+    "loading_engine_imported_or_executed_by_comparator": false,
+    "reference_files_modified": false,
+    "uc_evidence_path": "data/validation/desouza_figure9a_equal_uc_evidence_v1.json",
+    "uc_evidence_sha256": "a959a2678e651c178a3889cd539486d9dcfd8844efd7007ed88904df2f282be1"
+  },
+  "read_only_first_divergence_audit": {
+    "kernel_mutated": false,
+    "parameters_or_references_tuned": false,
+    "series": {
+      "G1": {
+        "first_absolute_difference_over_0_5": {
+          "absolute_difference_vehicles": 0.8010776269239108,
+          "difference_vehicles": -0.8010776269239108,
+          "published_interpolated_reference_vehicles": 1.8010776269239108,
+          "reference_bracketing_points": [
+            [
+              9.352085054035392,
+              1.7749855384588216
+            ],
+            [
+              14.791327916149179,
+              1.994028495910726
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.04027085441939255,
+          "time_seconds": 10.0,
+          "uc_eligible_queue_at_tick": 0,
+          "uc_observed_vehicles": 1,
+          "uc_previous_tick_value": 0,
+          "uc_transfer_sources_at_tick": [
+            "L1",
+            "L2"
+          ]
+        },
+        "first_absolute_difference_over_2": {
+          "absolute_difference_vehicles": 2.3614271442692463,
+          "difference_vehicles": -2.3614271442692463,
+          "published_interpolated_reference_vehicles": 15.361427144269246,
+          "reference_bracketing_points": [
+            [
+              61.4471432418049,
+              15.195311709924553
+            ],
+            [
+              64.36093243064047,
+              16.070810380271794
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.3004674029616788,
+          "time_seconds": 62.0,
+          "uc_eligible_queue_at_tick": 4,
+          "uc_observed_vehicles": 13,
+          "uc_previous_tick_value": 13,
+          "uc_transfer_sources_at_tick": [
+            "L2"
+          ]
+        },
+        "maximum_absolute_difference": {
+          "absolute_difference_vehicles": 4.1123925380333475,
+          "difference_vehicles": -4.1123925380333475,
+          "published_interpolated_reference_vehicles": 22.112392538033347,
+          "reference_bracketing_points": [
+            [
+              77.69413598599553,
+              21.577019943577746
+            ],
+            [
+              80.43395495667232,
+              22.70027931433861
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.4099757621881835,
+          "time_seconds": 79.0,
+          "uc_eligible_queue_at_tick": 4,
+          "uc_observed_vehicles": 18,
+          "uc_previous_tick_value": 18,
+          "uc_transfer_sources_at_tick": []
+        },
+        "reference_decreasing_segment_count": 0,
+        "reference_segment_slope_above_0_5_veh_per_second_count": 1
+      },
+      "G2": {
+        "first_absolute_difference_over_0_5": {
+          "absolute_difference_vehicles": 1.0146475918549995,
+          "difference_vehicles": -1.0146475918549995,
+          "published_interpolated_reference_vehicles": 1.0146475918549995,
+          "reference_bracketing_points": [
+            [
+              4.47990838008522,
+              1.034697990432349
+            ],
+            [
+              7.0723970018702005,
+              0.93475323419392
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": -0.03855166630186213,
+          "time_seconds": 5.0,
+          "uc_eligible_queue_at_tick": 0,
+          "uc_observed_vehicles": 0,
+          "uc_previous_tick_value": 0,
+          "uc_transfer_sources_at_tick": []
+        },
+        "first_absolute_difference_over_2": {
+          "absolute_difference_vehicles": 2.218071010786412,
+          "difference_vehicles": -2.218071010786412,
+          "published_interpolated_reference_vehicles": 9.218071010786412,
+          "reference_bracketing_points": [
+            [
+              36.56321770563873,
+              8.04729753235543
+            ],
+            [
+              39.11465069843933,
+              9.273155946903586
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.48045879237556766,
+          "time_seconds": 39.0,
+          "uc_eligible_queue_at_tick": 3,
+          "uc_observed_vehicles": 7,
+          "uc_previous_tick_value": 7,
+          "uc_transfer_sources_at_tick": []
+        },
+        "maximum_absolute_difference": {
+          "absolute_difference_vehicles": 3.136105382297874,
+          "difference_vehicles": -3.136105382297874,
+          "published_interpolated_reference_vehicles": 10.136105382297874,
+          "reference_bracketing_points": [
+            [
+              39.11465069843933,
+              9.273155946903586
+            ],
+            [
+              41.484694543638504,
+              10.357956517482904
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.4577132920037403,
+          "time_seconds": 41.0,
+          "uc_eligible_queue_at_tick": 3,
+          "uc_observed_vehicles": 7,
+          "uc_previous_tick_value": 7,
+          "uc_transfer_sources_at_tick": []
+        },
+        "reference_decreasing_segment_count": 7,
+        "reference_segment_slope_above_0_5_veh_per_second_count": 1
+      }
+    },
+    "trigger": "material differences above 2 vehicles observed"
+  },
+  "reference_classification": "published digitised figure data; not ground truth",
+  "schema_version": "uc.validation.published-comparison.v1",
+  "series": {
+    "G1": {
+      "comparison_support_seconds": [
+        10,
+        118
+      ],
+      "final_comparable_signed_difference_vehicles": -1.2373449900384017,
+      "first_absolute_difference_exceeds_0_5_vehicles_seconds": 10,
+      "first_absolute_difference_exceeds_1_vehicles_seconds": 43,
+      "first_absolute_difference_exceeds_2_vehicles_seconds": 62,
+      "maximum_absolute_difference_time_seconds": 79,
+      "maximum_absolute_difference_vehicles": 4.1123925380333475,
+      "mean_absolute_difference_vehicles": 1.5602548678234356,
+      "mean_signed_difference_vehicles": -1.4102352780972343,
+      "regions": {
+        "after_t40": {
+          "end_seconds": 118,
+          "final_comparable_signed_difference_vehicles": -1.2373449900384017,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 41,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 43,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 62,
+          "maximum_absolute_difference_time_seconds": 79,
+          "maximum_absolute_difference_vehicles": 4.1123925380333475,
+          "mean_absolute_difference_vehicles": 2.014878537049288,
+          "mean_signed_difference_vehicles": -2.014878537049288,
+          "rmse_vehicles": 2.273962159905701,
+          "sample_count": 79,
+          "signed_difference_slope_vehicles_per_second": -0.015781291313258297,
+          "start_seconds": 40
+        },
+        "before_t40": {
+          "end_seconds": 39,
+          "final_comparable_signed_difference_vehicles": 0.06628848198092374,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 10,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": null,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": null,
+          "maximum_absolute_difference_time_seconds": 36,
+          "maximum_absolute_difference_vehicles": 0.9088735810618127,
+          "mean_absolute_difference_vehicles": 0.3630792055286913,
+          "mean_signed_difference_vehicles": 0.18199197047650734,
+          "rmse_vehicles": 0.4617261028495981,
+          "sample_count": 30,
+          "signed_difference_slope_vehicles_per_second": 0.028479630211276658,
+          "start_seconds": 10
+        },
+        "early_after_t40": {
+          "end_seconds": 60,
+          "final_comparable_signed_difference_vehicles": -1.0292641878192619,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 41,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 43,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": null,
+          "maximum_absolute_difference_time_seconds": 59,
+          "maximum_absolute_difference_vehicles": 1.2235059958029844,
+          "mean_absolute_difference_vehicles": 0.7019071645840484,
+          "mean_signed_difference_vehicles": -0.7019071645840484,
+          "rmse_vehicles": 0.7631307578240409,
+          "sample_count": 21,
+          "signed_difference_slope_vehicles_per_second": -0.016222786831561635,
+          "start_seconds": 40
+        },
+        "late_after_t40": {
+          "end_seconds": 118,
+          "final_comparable_signed_difference_vehicles": -1.2373449900384017,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 61,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 61,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 62,
+          "maximum_absolute_difference_time_seconds": 79,
+          "maximum_absolute_difference_vehicles": 4.1123925380333475,
+          "mean_absolute_difference_vehicles": 2.49026472363153,
+          "mean_signed_difference_vehicles": -2.49026472363153,
+          "rmse_vehicles": 2.613861157848996,
+          "sample_count": 58,
+          "signed_difference_slope_vehicles_per_second": 0.027888021912182336,
+          "start_seconds": 61
+        }
+      },
+      "rmse_vehicles": 1.950998658160109,
+      "sample_count": 109,
+      "signed_difference_slope_vehicles_per_second": -0.029539236675626673
+    },
+    "G2": {
+      "comparison_support_seconds": [
+        5,
+        118
+      ],
+      "final_comparable_signed_difference_vehicles": -0.7049940531712835,
+      "first_absolute_difference_exceeds_0_5_vehicles_seconds": 5,
+      "first_absolute_difference_exceeds_1_vehicles_seconds": 5,
+      "first_absolute_difference_exceeds_2_vehicles_seconds": 39,
+      "maximum_absolute_difference_time_seconds": 41,
+      "maximum_absolute_difference_vehicles": 3.136105382297874,
+      "mean_absolute_difference_vehicles": 1.2434579828849863,
+      "mean_signed_difference_vehicles": -1.241239907102371,
+      "regions": {
+        "after_t40": {
+          "end_seconds": 118,
+          "final_comparable_signed_difference_vehicles": -0.7049940531712835,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 40,
+          "maximum_absolute_difference_time_seconds": 41,
+          "maximum_absolute_difference_vehicles": 3.136105382297874,
+          "mean_absolute_difference_vehicles": 1.3882288342614333,
+          "mean_signed_difference_vehicles": -1.3882288342614333,
+          "rmse_vehicles": 1.4978485591228232,
+          "sample_count": 79,
+          "signed_difference_slope_vehicles_per_second": 0.012545683768805795,
+          "start_seconds": 40
+        },
+        "before_t40": {
+          "end_seconds": 39,
+          "final_comparable_signed_difference_vehicles": -2.218071010786412,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 5,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 5,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 39,
+          "maximum_absolute_difference_time_seconds": 39,
+          "maximum_absolute_difference_vehicles": 2.218071010786412,
+          "mean_absolute_difference_vehicles": 0.9166894897781489,
+          "mean_signed_difference_vehicles": -0.9094649000862015,
+          "rmse_vehicles": 1.0088580774953442,
+          "sample_count": 35,
+          "signed_difference_slope_vehicles_per_second": -0.021986623069025876,
+          "start_seconds": 5
+        },
+        "early_after_t40": {
+          "end_seconds": 60,
+          "final_comparable_signed_difference_vehicles": -1.9277492629420951,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 40,
+          "maximum_absolute_difference_time_seconds": 41,
+          "maximum_absolute_difference_vehicles": 3.136105382297874,
+          "mean_absolute_difference_vehicles": 2.101142135018776,
+          "mean_signed_difference_vehicles": -2.101142135018776,
+          "rmse_vehicles": 2.135436574455105,
+          "sample_count": 21,
+          "signed_difference_slope_vehicles_per_second": 0.013279296803709262,
+          "start_seconds": 40
+        },
+        "late_after_t40": {
+          "end_seconds": 118,
+          "final_comparable_signed_difference_vehicles": -0.7049940531712835,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 61,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 61,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": null,
+          "maximum_absolute_difference_time_seconds": 61,
+          "maximum_absolute_difference_vehicles": 1.8939111913712363,
+          "mean_absolute_difference_vehicles": 1.1301050529527403,
+          "mean_signed_difference_vehicles": -1.1301050529527403,
+          "rmse_vehicles": 1.1852440280185246,
+          "sample_count": 58,
+          "signed_difference_slope_vehicles_per_second": -0.005303759100220232,
+          "start_seconds": 61
+        }
+      },
+      "rmse_vehicles": 1.3664632472628822,
+      "sample_count": 114,
+      "signed_difference_slope_vehicles_per_second": -0.0018226175584223762
+    }
+  },
+  "source_integrity": {
+    "G1": {
+      "analysis_time_normalization": "stable ascending time sort only; no smoothing, averaging, fitting, shifting, monotonicisation, point removal, or synthetic origin",
+      "input_duplicate_time_count": 0,
+      "input_nonincreasing_adjacent_pair_count": 0,
+      "path": "data/validation/desouza_figure9a_equal_priority_G1_digitised_v1.csv",
+      "point_count": 36,
+      "raw_point_order_preserved": true,
+      "sha256": "8906678de58c29cec0534fb41ac5719cad1d7e24d45b072e422a12b100583cc4",
+      "sorted_value_decrease_count": 0,
+      "stable_sort_retained_input_order_for_equal_times": true,
+      "support_seconds": [
+        9.352085054035392,
+        118.63620694801756
+      ]
+    },
+    "G2": {
+      "analysis_time_normalization": "stable ascending time sort only; no smoothing, averaging, fitting, shifting, monotonicisation, point removal, or synthetic origin",
+      "input_duplicate_time_count": 0,
+      "input_nonincreasing_adjacent_pair_count": 0,
+      "path": "data/validation/desouza_figure9a_equal_priority_G2_digitised_v1.csv",
+      "point_count": 42,
+      "raw_point_order_preserved": true,
+      "sha256": "406bbde17b9220429460a0dca065d0e52077eb5300c6be72581a07b59ad08825",
+      "sorted_value_decrease_count": 7,
+      "stable_sort_retained_input_order_for_equal_times": true,
+      "support_seconds": [
+        4.47990838008522,
+        118.88176464886243
+      ]
+    }
+  },
+  "uc_endpoints": {
+    "F3": 53,
+    "G1": 34,
+    "G2": 19,
+    "final_queue_l1": 0,
+    "final_queue_l2": 0,
+    "maximum_queue_l1": 4,
+    "maximum_queue_l2": 4
+  },
+  "uc_validation_gates": {
+    "canonical_event_ordering_check": true,
+    "conservation_check": true,
+    "downstream_closure_check": true,
+    "fifo_check": true,
+    "identity_check": true,
+    "physical_eligibility_check": true,
+    "post_change_discharge_check": true,
+    "priority_allocation_check": true,
+    "queue_retention_check": true,
+    "replay_check": true
+  }
+}
