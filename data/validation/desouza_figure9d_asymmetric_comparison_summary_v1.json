@@ -1,0 +1,402 @@
+{
+  "case_id": "M8-PUB-DSOUZA-FIG9-ASYMMETRIC-DT1",
+  "comparison_id": "desouza-figure9d-comparison-v1",
+  "derived_downstream_inflow": "F3(t)=G1(t)+G2(t)",
+  "interpolation": {
+    "each_series_compared_only_on_actual_reference_support": true,
+    "extrapolation": false,
+    "method": "piecewise linear reference interpolation onto exact integer-second UC ticks",
+    "uc_interpolated": false
+  },
+  "paper_priority_ambiguity_resolution": {
+    "classification": "paper transcription inconsistency resolved by internal evidence",
+    "evidence": [
+      "Figure 9(d-f) panel labels print alpha_1=0.75 with x=[0,0,0,1].",
+      "The accompanying behaviour prose identifies link 1 as higher priority and states alpha_1=0.75.",
+      "Equation (5) defines alpha_p as approach p's downstream-supply share, so alpha_1 is link 1's share.",
+      "The merge algorithm defines repeated entries in x as repeated priority opportunities.",
+      "The later freeway example pairs alpha_freeway=0.75 with x=[0,0,0,1].",
+      "The two alpha_1=0.25 mentions in the section body and caption conflict with all five signals above."
+    ],
+    "interpretation": "alpha_1 denotes link 1's share; x=[0,0,0,1] therefore encodes three link-1 opportunities for each link-2 opportunity",
+    "paper_priority_sequence_zero_based": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "rejected_textual_value": 0.25,
+    "selected_alpha_1": 0.75,
+    "uc_priority_sequence": [
+      "L1",
+      "L1",
+      "L1",
+      "L2"
+    ]
+  },
+  "provenance": {
+    "loading_engine_imported_or_executed_by_comparator": false,
+    "reference_files_modified": false,
+    "uc_evidence_path": "data/validation/desouza_figure9d_asymmetric_uc_evidence_v1.json",
+    "uc_evidence_sha256": "64a716bace7eb3d193e7fde2ebbef407d91783bfbdc4c8cba8690b398d538fed"
+  },
+  "read_only_first_divergence_audit": {
+    "kernel_mutated": false,
+    "parameters_or_references_tuned": false,
+    "series": {
+      "G1": {
+        "first_absolute_difference_over_0_5": {
+          "absolute_difference_vehicles": 0.8029248292545963,
+          "difference_vehicles": -0.8029248292545963,
+          "published_interpolated_reference_vehicles": 1.8029248292545963,
+          "reference_bracketing_points": [
+            [
+              9.257748514533482,
+              1.7794742173690565
+            ],
+            [
+              14.602537337401635,
+              1.948336888241954
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.03159389013657632,
+          "time_seconds": 10.0,
+          "uc_eligible_queue_at_tick": 0,
+          "uc_observed_vehicles": 1,
+          "uc_previous_tick_value": 0,
+          "uc_transfer_sources_at_tick": [
+            "L1",
+            "L2"
+          ]
+        },
+        "first_absolute_difference_over_2": {
+          "absolute_difference_vehicles": 2.176776510686537,
+          "difference_vehicles": -2.176776510686537,
+          "published_interpolated_reference_vehicles": 10.176776510686537,
+          "reference_bracketing_points": [
+            [
+              36.04088187386726,
+              9.589780595259853
+            ],
+            [
+              38.775424992543996,
+              10.409111303199325
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.29962252280591206,
+          "time_seconds": 38.0,
+          "uc_eligible_queue_at_tick": 1,
+          "uc_observed_vehicles": 8,
+          "uc_previous_tick_value": 8,
+          "uc_transfer_sources_at_tick": []
+        },
+        "maximum_absolute_difference": {
+          "absolute_difference_vehicles": 3.1038850929811073,
+          "difference_vehicles": -3.1038850929811073,
+          "published_interpolated_reference_vehicles": 11.103885092981107,
+          "reference_bracketing_points": [
+            [
+              38.775424992543996,
+              10.409111303199325
+            ],
+            [
+              41.5626465392645,
+              11.279609474978656
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.3123175381603864,
+          "time_seconds": 41.0,
+          "uc_eligible_queue_at_tick": 2,
+          "uc_observed_vehicles": 8,
+          "uc_previous_tick_value": 8,
+          "uc_transfer_sources_at_tick": []
+        },
+        "reference_decreasing_segment_count": 4,
+        "reference_segment_slope_above_0_5_veh_per_second_count": 5
+      },
+      "G2": {
+        "first_absolute_difference_over_0_5": {
+          "absolute_difference_vehicles": 0.8534689245000843,
+          "difference_vehicles": -0.8534689245000843,
+          "published_interpolated_reference_vehicles": 0.8534689245000843,
+          "reference_bracketing_points": [
+            [
+              7.797253894331142,
+              0.8256601942206032
+            ],
+            [
+              11.344636684049938,
+              1.312220519864951
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.1371603670893712,
+          "time_seconds": 8.0,
+          "uc_eligible_queue_at_tick": 0,
+          "uc_observed_vehicles": 0,
+          "uc_previous_tick_value": 0,
+          "uc_transfer_sources_at_tick": []
+        },
+        "first_absolute_difference_over_2": {
+          "absolute_difference_vehicles": 2.0316238970058844,
+          "difference_vehicles": -2.0316238970058844,
+          "published_interpolated_reference_vehicles": 9.031623897005884,
+          "reference_bracketing_points": [
+            [
+              45.16312831218885,
+              8.652923849897796
+            ],
+            [
+              49.121705017320885,
+              9.469046823898694
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.20616575976482873,
+          "time_seconds": 47.0,
+          "uc_eligible_queue_at_tick": 5,
+          "uc_observed_vehicles": 7,
+          "uc_previous_tick_value": 7,
+          "uc_transfer_sources_at_tick": []
+        },
+        "maximum_absolute_difference": {
+          "absolute_difference_vehicles": 3.4801945124242764,
+          "difference_vehicles": -3.4801945124242764,
+          "published_interpolated_reference_vehicles": 15.480194512424276,
+          "reference_bracketing_points": [
+            [
+              81.88014841986936,
+              15.300075671660558
+            ],
+            [
+              84.61469153854608,
+              15.739904257245975
+            ]
+          ],
+          "reference_local_segment_slope_vehicles_per_second": 0.16084170791874536,
+          "time_seconds": 83.0,
+          "uc_eligible_queue_at_tick": 3,
+          "uc_observed_vehicles": 12,
+          "uc_previous_tick_value": 12,
+          "uc_transfer_sources_at_tick": []
+        },
+        "reference_decreasing_segment_count": 4,
+        "reference_segment_slope_above_0_5_veh_per_second_count": 4
+      }
+    },
+    "trigger": "material differences above 2 vehicles observed"
+  },
+  "reference_classification": "published digitised figure data; not ground truth",
+  "schema_version": "uc.validation.published-comparison.v1",
+  "series": {
+    "G1": {
+      "comparison_support_seconds": [
+        10,
+        119
+      ],
+      "final_comparable_signed_difference_vehicles": -1.2896245327041171,
+      "first_absolute_difference_exceeds_0_5_vehicles_seconds": 10,
+      "first_absolute_difference_exceeds_1_vehicles_seconds": 15,
+      "first_absolute_difference_exceeds_2_vehicles_seconds": 38,
+      "maximum_absolute_difference_time_seconds": 41,
+      "maximum_absolute_difference_vehicles": 3.1038850929811073,
+      "mean_absolute_difference_vehicles": 1.212260880778595,
+      "mean_signed_difference_vehicles": -1.189086770098683,
+      "regions": {
+        "after_t40": {
+          "end_seconds": 119,
+          "final_comparable_signed_difference_vehicles": -1.2896245327041171,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 40,
+          "maximum_absolute_difference_time_seconds": 41,
+          "maximum_absolute_difference_vehicles": 3.1038850929811073,
+          "mean_absolute_difference_vehicles": 1.2904987964516352,
+          "mean_signed_difference_vehicles": -1.2904987964516352,
+          "rmse_vehicles": 1.4167343734092626,
+          "sample_count": 80,
+          "signed_difference_slope_vehicles_per_second": 0.011749140387005884,
+          "start_seconds": 40
+        },
+        "before_t40": {
+          "end_seconds": 39,
+          "final_comparable_signed_difference_vehicles": -2.479250016660334,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 10,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 15,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 38,
+          "maximum_absolute_difference_time_seconds": 39,
+          "maximum_absolute_difference_vehicles": 2.479250016660334,
+          "mean_absolute_difference_vehicles": 1.0036264389838212,
+          "mean_signed_difference_vehicles": -0.9186546998241425,
+          "rmse_vehicles": 1.155873418234903,
+          "sample_count": 30,
+          "signed_difference_slope_vehicles_per_second": -0.029531218325043903,
+          "start_seconds": 10
+        },
+        "early_after_t40": {
+          "end_seconds": 60,
+          "final_comparable_signed_difference_vehicles": -0.7563235084243445,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 40,
+          "maximum_absolute_difference_time_seconds": 41,
+          "maximum_absolute_difference_vehicles": 3.1038850929811073,
+          "mean_absolute_difference_vehicles": 1.8598484495871408,
+          "mean_signed_difference_vehicles": -1.8598484495871408,
+          "rmse_vehicles": 1.9552191009369233,
+          "sample_count": 21,
+          "signed_difference_slope_vehicles_per_second": 0.08283103650542963,
+          "start_seconds": 40
+        },
+        "late_after_t40": {
+          "end_seconds": 119,
+          "final_comparable_signed_difference_vehicles": -1.2896245327041171,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 61,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 61,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": null,
+          "maximum_absolute_difference_time_seconds": 117,
+          "maximum_absolute_difference_vehicles": 1.8958831033202515,
+          "mean_absolute_difference_vehicles": 1.0878489199118793,
+          "mean_signed_difference_vehicles": -1.0878489199118793,
+          "rmse_vehicles": 1.1665564738769303,
+          "sample_count": 59,
+          "signed_difference_slope_vehicles_per_second": -0.0023854633450224707,
+          "start_seconds": 61
+        }
+      },
+      "rmse_vehicles": 1.3505965131728346,
+      "sample_count": 110,
+      "signed_difference_slope_vehicles_per_second": -0.00010248179995813139
+    },
+    "G2": {
+      "comparison_support_seconds": [
+        8,
+        118
+      ],
+      "final_comparable_signed_difference_vehicles": -0.35521664920121054,
+      "first_absolute_difference_exceeds_0_5_vehicles_seconds": 8,
+      "first_absolute_difference_exceeds_1_vehicles_seconds": 13,
+      "first_absolute_difference_exceeds_2_vehicles_seconds": 47,
+      "maximum_absolute_difference_time_seconds": 83,
+      "maximum_absolute_difference_vehicles": 3.4801945124242764,
+      "mean_absolute_difference_vehicles": 1.6912309244727959,
+      "mean_signed_difference_vehicles": -1.6801768334063205,
+      "regions": {
+        "after_t40": {
+          "end_seconds": 118,
+          "final_comparable_signed_difference_vehicles": -0.35521664920121054,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 41,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 47,
+          "maximum_absolute_difference_time_seconds": 83,
+          "maximum_absolute_difference_vehicles": 3.4801945124242764,
+          "mean_absolute_difference_vehicles": 2.12716901959211,
+          "mean_signed_difference_vehicles": -2.12716901959211,
+          "rmse_vehicles": 2.2334356402054927,
+          "sample_count": 79,
+          "signed_difference_slope_vehicles_per_second": -0.0005397127270407575,
+          "start_seconds": 40
+        },
+        "before_t40": {
+          "end_seconds": 39,
+          "final_comparable_signed_difference_vehicles": -0.3295412950409773,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 8,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 13,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": null,
+          "maximum_absolute_difference_time_seconds": 33,
+          "maximum_absolute_difference_vehicles": 1.3559256877046986,
+          "mean_absolute_difference_vehicles": 0.6150087521469888,
+          "mean_signed_difference_vehicles": -0.5766648737601521,
+          "rmse_vehicles": 0.7379443273021972,
+          "sample_count": 32,
+          "signed_difference_slope_vehicles_per_second": 0.012197150865110104,
+          "start_seconds": 8
+        },
+        "early_after_t40": {
+          "end_seconds": 60,
+          "final_comparable_signed_difference_vehicles": -2.5280715055801544,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 40,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 41,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 47,
+          "maximum_absolute_difference_time_seconds": 55,
+          "maximum_absolute_difference_vehicles": 2.5426448149500764,
+          "mean_absolute_difference_vehicles": 1.7674245220039035,
+          "mean_signed_difference_vehicles": -1.7674245220039035,
+          "rmse_vehicles": 1.827193656751877,
+          "sample_count": 21,
+          "signed_difference_slope_vehicles_per_second": -0.055148532468043285,
+          "start_seconds": 40
+        },
+        "late_after_t40": {
+          "end_seconds": 118,
+          "final_comparable_signed_difference_vehicles": -0.35521664920121054,
+          "first_absolute_difference_exceeds_0_5_vehicles_seconds": 61,
+          "first_absolute_difference_exceeds_1_vehicles_seconds": 61,
+          "first_absolute_difference_exceeds_2_vehicles_seconds": 61,
+          "maximum_absolute_difference_time_seconds": 83,
+          "maximum_absolute_difference_vehicles": 3.4801945124242764,
+          "mean_absolute_difference_vehicles": 2.257421337684392,
+          "mean_signed_difference_vehicles": -2.257421337684392,
+          "rmse_vehicles": 2.363366885696195,
+          "sample_count": 58,
+          "signed_difference_slope_vehicles_per_second": 0.01960694158066852,
+          "start_seconds": 61
+        }
+      },
+      "rmse_vehicles": 1.9254027881458733,
+      "sample_count": 111,
+      "signed_difference_slope_vehicles_per_second": -0.017100165071941113
+    }
+  },
+  "source_integrity": {
+    "G1": {
+      "analysis_time_normalization": "stable ascending time sort only; no smoothing, averaging, fitting, shifting, monotonicisation, point removal, or synthetic origin",
+      "input_duplicate_time_count": 0,
+      "input_nonincreasing_adjacent_pair_count": 4,
+      "path": "data/validation/desouza_figure9d_asymmetric_priority_G1_digitised_v1.csv",
+      "point_count": 45,
+      "raw_point_order_preserved": true,
+      "sha256": "15a411998a5f09a75c0424980a804be42c30dad81279807d86ddb28f3684343d",
+      "sorted_value_decrease_count": 4,
+      "stable_sort_retained_input_order_for_equal_times": true,
+      "support_seconds": [
+        9.257748514533482,
+        119.50955516299985
+      ]
+    },
+    "G2": {
+      "analysis_time_normalization": "stable ascending time sort only; no smoothing, averaging, fitting, shifting, monotonicisation, point removal, or synthetic origin",
+      "input_duplicate_time_count": 0,
+      "input_nonincreasing_adjacent_pair_count": 0,
+      "path": "data/validation/desouza_figure9d_asymmetric_priority_G2_digitised_v1.csv",
+      "point_count": 41,
+      "raw_point_order_preserved": true,
+      "sha256": "f9e239118d5c38ca5c74ab90e2595d25e3116063140d2043c0872c220938bb30",
+      "sorted_value_decrease_count": 4,
+      "stable_sort_retained_input_order_for_equal_times": true,
+      "support_seconds": [
+        7.797253894331142,
+        118.9129275734704
+      ]
+    }
+  },
+  "uc_endpoints": {
+    "F3": 53,
+    "G1": 34,
+    "G2": 19,
+    "final_queue_l1": 0,
+    "final_queue_l2": 0,
+    "maximum_queue_l1": 2,
+    "maximum_queue_l2": 5
+  },
+  "uc_validation_gates": {
+    "canonical_event_ordering_check": true,
+    "conservation_check": true,
+    "downstream_closure_check": true,
+    "fifo_check": true,
+    "identity_check": true,
+    "physical_eligibility_check": true,
+    "post_change_discharge_check": true,
+    "priority_allocation_check": true,
+    "queue_retention_check": true,
+    "replay_check": true
+  }
+}

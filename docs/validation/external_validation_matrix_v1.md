@@ -16,7 +16,7 @@ implementation is reproduced and passes a tolerance fixed before comparison.
 | M8-VAL-02 | Capacity bottleneck and queue dissipation | Independent literal analytical oracle; published table not yet reproduced | Implemented; not externally validated |
 | M8-VAL-03 | Backward-wave vacancy propagation | Independent literal analytical oracle; published table not yet reproduced | Implemented; not externally validated |
 | M8-VAL-04 | One-to-one node | External numerical source not selected | Planned; internal coverage only |
-| M8-VAL-05 | Priority merge | de Souza Figure 9(a) `G1/G2` supplied; asymmetric case pending | Equal-priority observational comparison and audit complete without calibration |
+| M8-VAL-05 | Priority merge | de Souza Figure 9(a,d) `G1/G2` supplied | Equal and asymmetric observational comparisons and audits complete without calibration |
 | M8-VAL-06 | Strict-FIFO diverge | External tick-by-tick case not selected | Planned; internal coverage only |
 | M8-VAL-07 | Partial-FIFO diverge | External formulation and overlap parameters not selected | Planned; internal coverage only |
 | M8-VAL-08 | General MIMO node | Tampere 2011 candidate; numerical case/mapping missing | Planned; internal coverage only |
@@ -105,24 +105,27 @@ implementation is reproduced and passes a tolerance fixed before comparison.
 
 ## M8-VAL-05 — Priority Merge
 
-- Reference/status: de Souza Figure 9 is selected. The supplied panel (a)
-  equal-priority `G1/G2` digitisation is preserved and compared; panel (d)
-  asymmetric evidence remains for the second bounded commit.
+- Reference/status: de Souza Figure 9 is complete. The supplied panel (a)
+  equal-priority and panel (d) asymmetric `G1/G2` digitisation are preserved
+  byte-for-byte and compared on their actual supports.
 - Exact inputs: three inherited 150 m links, `V=30 m/s`, `W=6 m/s`,
   `K1=K2=K3=0.1 veh/m`, Equation (15) demands, `dt=1 s`, 120 s horizon,
-  `α1=0.5`, and priority sequence `[0,1]`.
+  equal `α1=0.5`, `[0,1]`, and asymmetric `α1=0.75`, `[0,0,0,1]` cases.
 - Outputs/tolerance: cumulative `G1/G2`, derived `F3=G1+G2`, descriptive
   Figure 5/7 metrics on actual supports, and exact zero-tolerance closure,
   conservation, FIFO, identity, physical eligibility, event ordering, and
   replay gates.
-- Claim supported: UC observationally reproduces the equal-priority service
-  and queue transition without calibration. Exact internal gates pass; a
-  read-only audit classifies material numerical differences as digitisation
-  uncertainty plus an unknown paper departure/initial-credit phase.
+- Claim supported: UC observationally reproduces both Figure 9 priority and
+  queue transitions without calibration. Exact internal gates pass. Read-only
+  audits classify material differences as digitisation uncertainty, unknown
+  paper timing/priority phase, and the documented frozen implementation
+  convention.
 - Not supported: a formal fitted tolerance, all merge solvers, or a kernel
   change.
-- Status/blocker: equal-priority comparison complete. The asymmetric Figure
-  9(d–f) comparison is intentionally deferred to the separate second commit.
+- Status/blocker: complete. The asymmetric inconsistency is explicitly
+  resolved as `α1=0.75`: the 3:1 sequence, panel labels, behaviour prose,
+  algorithm, and later freeway example outweigh two conflicting `0.25`
+  transcription instances.
 
 ## M8-VAL-06 — Strict-FIFO Diverge
 

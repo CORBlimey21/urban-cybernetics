@@ -18,7 +18,7 @@ behavioural validity, observability experiments, governance, optimisation, or
 future cybernetic mechanisms. Figure 7(a) DT1 is comparison-complete; Figure
 7(d) DT3 remains blocked on its digitised numerical references.
 
-The closure gate reports 677 Python tests passed with zero failures and 88
+The closure gate reports 682 Python tests passed with zero failures and 88
 subtests passed. The frontend suite
 reports 26 tests passed with zero failures in 0.453 seconds (0.94 seconds wall
 time), and TypeScript typechecking passes in 1.60 seconds wall time. The only
@@ -161,7 +161,7 @@ The complete statistics, limitations, and reproducible artifact paths are in
 
 ## Evidence definitions, tolerances, and artifacts
 
-## Figure 9(a–c) exercises the equal-priority merge externally
+## Figure 9 exercises equal and asymmetric priority merges externally
 
 The frozen kernel runs the inherited 150 m three-link merge with `V=30 m/s`,
 `W=6 m/s`, `K=0.1 veh/m`, Equation (15) demand, `dt=1 s`, `α1=0.5`, and
@@ -177,6 +177,23 @@ phase and digitisation uncertainty: `G2` has seven decreasing cumulative
 segments, and each trace has one above-capacity local segment. No parameter,
 reference, or kernel semantic was changed. Full evidence is in
 `m8_desouza_figure9a_equal_comparison_v1.md`.
+
+Figure 9(d–f) uses the same physical and demand fixture with the internally
+supported asymmetric interpretation `α1=0.75`, `x=[0,0,0,1]`. The panel labels,
+stated higher-priority behaviour, merge algorithm, and later freeway example
+all establish a 3:1 share for link 1; two contradictory `0.25` text instances
+are recorded as a paper transcription inconsistency. Constrained service is
+8:3 through 40 s, within one unit packet of 75%, while the disadvantaged L2
+queue peaks at five versus two for L1. Both queues finish at zero and closure
+is exact for all 121 ticks.
+
+Against the untouched asymmetric digitisation, `G1` has RMSE 1.351 and maximum
+absolute difference 3.104 vehicles; `G2` has RMSE 1.925 and maximum 3.480.
+The read-only audit classifies non-monotone/above-capacity reference geometry
+as digitisation uncertainty and the remaining service phase as an unknown
+paper convention plus UC's already-frozen implementation convention. No
+kernel semantic or input changed. Full evidence is in
+`m8_desouza_figure9d_asymmetric_comparison_v1.md`.
 
 Internal discrete oracles use zero packets, zero ticks, and exact sequence
 tolerance unless explicitly stated. M8-LINK-02 uses absolute tolerance
@@ -205,6 +222,9 @@ Canonical committed artifacts include:
   `m8_desouza_figure8_ensemble_v1.md`;
 - the Figure 9(a–c) equal-priority raw references, machine summaries, exporter,
   focused tests, plots, and `m8_desouza_figure9a_equal_comparison_v1.md`;
+- the Figure 9(d–f) asymmetric raw references, ambiguity resolution, machine
+  summaries, exporter, focused tests, plots, and
+  `m8_desouza_figure9d_asymmetric_comparison_v1.md`;
 - the composition case and test paths listed above;
 - `docs/validation/external_validation_matrix_v1.md` and JSON companion.
 
@@ -225,6 +245,9 @@ source-controlled fixtures.
   deterministic centre; individual faint published traces were not digitised.
 - Figure 9(a–c) is observational equal-priority merge evidence with
   paper-silent departure phase and non-monotone digitisation caveats.
+- Figure 9(d–f) is observational asymmetric-priority merge evidence with an
+  explicitly resolved paper inconsistency and paper-silent priority/timing
+  phase plus non-monotone digitisation caveats.
 - DT3 and DT6 Figure 5 runs have complete UC evidence but no supplied published
   curve comparison; DT6 is statically ineligible under the paper's CFL rule.
 - Weighted packets, rerouting, adaptive signals, lane changing, gap acceptance,

@@ -125,6 +125,10 @@ def compare_figure9_case(
             "reference_files_modified": False,
         },
     }
+    if "paper_priority_ambiguity_resolution" in evidence:
+        summary["paper_priority_ambiguity_resolution"] = evidence[
+            "paper_priority_ambiguity_resolution"
+        ]
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     output_dir.mkdir(parents=True, exist_ok=True)

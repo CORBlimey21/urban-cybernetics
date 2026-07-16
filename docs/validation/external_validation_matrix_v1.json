@@ -96,15 +96,15 @@
       "validation_id": "M8-VAL-05",
       "scientific_subject": "priority merge",
       "reference_type": "de Souza Figure 9 published cumulative merge curves",
-      "reference_source_or_source_status": "Panel (a) equal-priority G1/G2 digitisation is preserved and compared. Panel (d) asymmetric evidence is reserved for the separate second commit.",
-      "exact_inputs_required": ["three inherited 150 m links", "V=30 m/s; W=6 m/s; K1=K2=K3=0.1 veh/m", "Equation (15) demands", "1 s timestep and 120 s horizon", "alpha1=0.5 and priority sequence [0,1]"],
+      "reference_source_or_source_status": "Panel (a) equal-priority and panel (d) asymmetric G1/G2 digitisations are preserved byte-for-byte and compared on actual support.",
+      "exact_inputs_required": ["three inherited 150 m links", "V=30 m/s; W=6 m/s; K1=K2=K3=0.1 veh/m", "Equation (15) demands", "1 s timestep and 120 s horizon", "equal alpha1=0.5 and sequence [0,1]", "asymmetric alpha1=0.75 and sequence [0,0,0,1]"],
       "expected_outputs": ["upstream cumulative outflows G1 and G2", "derived F3=G1+G2", "priority service and eligible queues", "packet/event/replay evidence"],
       "comparison_tolerance": "descriptive Figure 5/7 metrics on each actual reference support; exact closure, conservation, FIFO, identity, physical eligibility, canonical event ordering, and replay",
       "uc_subsystem_exercised": ["frozen parity loading kernel", "declared-priority merge", "unused-share release", "per-upstream FIFO", "cumulative events and replay"],
-      "claim_supported_if_passed": "UC observationally reproduces the equal-priority Figure 9 service and queue transition without calibration; exact internal gates pass.",
+      "claim_supported_if_passed": "UC observationally reproduces the equal and asymmetric Figure 9 service and queue transitions without calibration; exact internal gates pass.",
       "claims_not_supported": ["formal fitted tolerance", "all merge solvers", "gap acceptance", "kernel change"],
-      "implementation_status": "figure9_equal_priority_observational_comparison_and_read_only_audit_complete_asymmetric_pending",
-      "blocking_issue_if_any": "Equal-priority material differences are classified as digitisation uncertainty plus an unknown paper departure/initial-credit phase. The asymmetric case remains for the separate second commit."
+      "implementation_status": "figure9_equal_and_asymmetric_observational_comparisons_and_read_only_audits_complete",
+      "blocking_issue_if_any": "None. The asymmetric alpha inconsistency is explicitly resolved as 0.75 from the 3:1 sequence, panel labels, behaviour prose, algorithm, and later freeway example. Residuals are classified as digitisation uncertainty, unknown paper timing/priority phase, and frozen implementation convention."
     },
     {
       "validation_id": "M8-VAL-06",

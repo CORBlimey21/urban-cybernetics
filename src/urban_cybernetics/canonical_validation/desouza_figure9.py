@@ -27,6 +27,10 @@ FIGURE9_CAPACITY_VEH_PER_SECOND = 0.5
 FIGURE9_EQUAL_CASE_ID = "M8-PUB-DSOUZA-FIG9-EQUAL-DT1"
 FIGURE9_EQUAL_PRIORITY_SEQUENCE = ("L1", "L2")
 FIGURE9_EQUAL_PRIORITY_WEIGHTS = (("L1", 1), ("L2", 1))
+FIGURE9_ASYMMETRIC_CASE_ID = "M8-PUB-DSOUZA-FIG9-ASYMMETRIC-DT1"
+FIGURE9_ASYMMETRIC_ALPHA_1 = 0.75
+FIGURE9_ASYMMETRIC_PRIORITY_SEQUENCE = ("L1", "L1", "L1", "L2")
+FIGURE9_ASYMMETRIC_PRIORITY_WEIGHTS = (("L1", 3), ("L2", 1))
 
 
 @dataclass(frozen=True, slots=True)
@@ -105,6 +109,17 @@ def run_figure9_equal_priority() -> Figure9Result:
     )
 
 
+def run_figure9_asymmetric_priority() -> Figure9Result:
+    """Run Figure 9(d-f) with the intended 3:1 merge priority for link 1."""
+
+    return _run_case(
+        case_id=FIGURE9_ASYMMETRIC_CASE_ID,
+        alpha_1=FIGURE9_ASYMMETRIC_ALPHA_1,
+        priority_sequence=FIGURE9_ASYMMETRIC_PRIORITY_SEQUENCE,
+        priority_weights=FIGURE9_ASYMMETRIC_PRIORITY_WEIGHTS,
+    )
+
+
 def _run_case(
     *,
     case_id: str,
@@ -168,14 +183,21 @@ def _run_case(
             l1_exit_order == l1_entry_order[:len(l1_exit_order)]
             and l2_exit_order == l2_entry_order[:len(l2_exit_order)]
         ),
-        queue_retention_check=max(queue_l1[:41]) > 0 and max(queue_l2[:41]) > 0,
+        queue_retention_check=(
+            max(queue_l1[:41]) > 0
+            and max(queue_l2[:41]) > 0
+            and (alpha_1 == 0.5 or max(queue_l2[:41]) > max(queue_l1[:41]))
+        ),
         post_change_discharge_check=(
             max(queue_l1[40:]) > 0 and queue_l1[-1] == 0
             and max(queue_l2[40:]) > queue_l2[-1]
         ),
         priority_allocation_check=(
-            len(constrained_sources) >= 4
-            and abs(constrained_sources.count("L1") - constrained_sources.count("L2")) <= 1
+            len(constrained_sources) >= len(priority_sequence)
+            and abs(
+                constrained_sources.count("L1")
+                - alpha_1 * len(constrained_sources)
+            ) <= 1.0
         ),
         identity_check=(
             len(instantiated) == len(departures_l1) + len(departures_l2)
