@@ -99,6 +99,11 @@ and transition markers. It provides:
 The starter does not import the fixture's cumulative expected values. Those
 values arise only after the bounded table formulas are evaluated.
 
+The de Souza Figure 5 preparation family also has a starter. It exposes both
+links' declared physical inputs, the 150 s bounded observation setting, and the
+explicit tick-end unit-departure conversion. It does not import published
+curves or UC-observed outputs and therefore does not create a paper oracle.
+
 ## Known first-slice limits
 
 - The lightweight preview preserves and displays LaTeX source but is not a full
@@ -107,8 +112,9 @@ values arise only after the bounded table formulas are evaluated.
   manual column; column creation/removal is not yet exposed in the UI.
 - Unit support is deliberately narrow and does not yet cover compound density
   declarations or affine units.
-- Only M8-LINK-01 has a complete starter. Other cases expose their declared
-  variables and can receive future case-specific starter templates.
+- M8-LINK-01 and the three de Souza preparation timesteps have complete
+  starters. Other cases expose their declared variables and can receive future
+  case-specific starter templates.
 - Frozen Lab Bench oracles can be compared alongside fixtures, but cannot yet
   become a case's formal primary oracle.
 

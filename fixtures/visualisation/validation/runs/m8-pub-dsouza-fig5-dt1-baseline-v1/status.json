@@ -1,0 +1,9 @@
+{
+  "case_id": "M8-PUB-DSOUZA-FIG5-DT1",
+  "detail": "UC observation completed and the evidence bundle was exported; the published comparison remains deliberately withheld.",
+  "final_tick": 150,
+  "lifecycle": "complete",
+  "physical_tick": 150,
+  "result_id": "m8-pub-dsouza-fig5-dt1-baseline-v1",
+  "terminal": true
+}

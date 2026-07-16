@@ -146,7 +146,7 @@
     }
   ],
   "difference_summary": "All declared differences are zero.",
-  "expected_evidence_hash": "59bc7295a6a6d78cb375759a29277e941d14b8a4919341b0b1b181b85c1b59e3",
+  "expected_evidence_hash": "c5d97468ee8ed1f2fc36502322c66fc3d28272c4c6c9fecc29acf9dc48b1f435",
   "headline_metric": "maximum declared error 0",
   "lifecycle": [
     "created",
@@ -330,7 +330,7 @@
       "values": [
         0.0,
         0.0,
-        2.0,
+        3.0,
         0.0
       ]
     },

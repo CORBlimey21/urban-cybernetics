@@ -31,11 +31,20 @@ analytical library.
 - `M8-LINK-07`: fractional sending-capacity carry.
 - `M8-NODE-01-*`: demand-limited, supply-limited, equal, zero-demand,
   zero-supply, reopening, and fractional one-to-one transfers.
+- `M8-PUB-DSOUZA-FIG5-DT1`, `DT3`, and `DT6`: evidence-only execution of
+  the text-declared Figure 5 lane-drop inputs. These cases intentionally carry
+  no paper expected series or comparison metrics.
 
 Expected tables remain literal fixture data. They are duplicated deliberately
 between independent external-validation tests and the workbench case contract;
 neither is generated from UC projections. Baseline results under
 `fixtures/visualisation/validation/` are deterministic reloadable evidence.
+
+Published preparation cases use the same library, replay, inspectors, charts,
+and Lab Bench. The chart switches generically to observed-only mode when a case
+declares no expected series. Supplemental execution evidence exposes movement
+allocation traces and post-run vacancy-wave presentation windows without
+case-ID-specific frontend behaviour.
 
 ## Evidence semantics
 
@@ -120,5 +129,6 @@ copyrighted figures.
   engine state.
 - Paired timestep-invariance and standalone static triangular-FD Workbench
   cases remain optional analytical follow-ups.
-- The next milestone is the de Souza lane-drop reproduction; it is not part of
-  this analytical slice.
+- The de Souza lane-drop input/evidence preparation is now present. Published
+  curves, tolerances, errors, and agreement/disagreement remain outside this
+  slice.

@@ -9,7 +9,9 @@ from fastapi.testclient import TestClient
 
 from urban_cybernetics.visualisation.server import create_app
 from urban_cybernetics.visualisation.validation_cases import CASES, execute_case
-from urban_cybernetics.visualisation.validation_contract import EvidenceSource, ValidationCase, ValidationResult
+from urban_cybernetics.visualisation.validation_contract import (
+    ComparisonStatus, EvidenceSource, ValidationCase, ValidationResult,
+)
 from urban_cybernetics.visualisation.validation_fixtures import write_validation_fixtures
 from urban_cybernetics.visualisation.validation_store import ValidationOrchestrator, ValidationRepository
 
@@ -21,18 +23,30 @@ FIXTURES = ROOT / "fixtures" / "visualisation" / "validation"
 def test_case_contract_is_versioned_and_expected_evidence_is_independent() -> None:
     for case in CASES:
         assert ValidationCase.model_validate_json(case.model_dump_json()).schema_version == "uc.validation.case.v1"
-        assert case.expected_series
-        assert {series.evidence_source for series in case.expected_series} == {EvidenceSource.ANALYTICAL_REFERENCE}
-        assert all("literal fixture data" in note.lower() for note in case.provenance)
+        if case.comparison_status == ComparisonStatus.NOT_COMPARABLE:
+            assert case.expected_series == ()
+            assert case.metrics == ()
+            assert any("curves were not inspected" in note.lower() for note in case.provenance)
+        else:
+            assert case.expected_series
+            assert {series.evidence_source for series in case.expected_series} == {EvidenceSource.ANALYTICAL_REFERENCE}
+            assert all("literal fixture data" in note.lower() for note in case.provenance)
 
 
 @pytest.mark.parametrize("case", CASES, ids=lambda case: case.case_id)
 def test_declared_case_execution_matches_exact_oracle_and_exports_replay(case: ValidationCase) -> None:
     result, bundle = execute_case(case, result_id=f"test-{case.case_id.lower()}", created_at="2026-07-14T00:00:00+00:00", completed_at="2026-07-14T00:00:00+00:00", code_commit="test")
-    assert result.status.value == "passed"
+    if case.comparison_status == ComparisonStatus.NOT_COMPARABLE:
+        assert result.status.value == "not_run"
+        assert result.metric_results == ()
+        assert result.difference_series == ()
+        assert "comparison withheld" in result.headline_metric
+        assert bundle.run.packet_count == 70
+    else:
+        assert result.status.value == "passed"
+        assert all(metric.passed and metric.value == 0 for metric in result.metric_results)
     assert result.schema_version == "uc.validation.result.v1"
     assert result.expected_evidence_hash != result.configuration_hash
-    assert all(metric.passed and metric.value == 0 for metric in result.metric_results)
     assert [state.tick for state in bundle.replay_states] == list(range(case.default_final_tick + 1))
     assert [event.sequence_number for event in bundle.event_stream.events] == list(range(len(bundle.event_stream.events)))
 
@@ -135,8 +149,15 @@ def test_api_discovers_cases_loads_history_and_runs_sanctioned_case(tmp_path: Pa
         "M8-NODE-01-DEMAND", "M8-NODE-01-SUPPLY", "M8-NODE-01-EQUAL",
         "M8-NODE-01-ZERO-DEMAND", "M8-NODE-01-ZERO-SUPPLY",
         "M8-NODE-01-REOPEN", "M8-NODE-01-FRACTIONAL",
+        "M8-PUB-DSOUZA-FIG5-DT1", "M8-PUB-DSOUZA-FIG5-DT3",
+        "M8-PUB-DSOUZA-FIG5-DT6",
     ]
-    assert all(item["latest_result"]["status"] == "passed" for item in library.json())
+    assert all(
+        item["latest_result"]["status"] == (
+            "not_run" if item["case"]["comparison_status"] == "not_comparable" else "passed"
+        )
+        for item in library.json()
+    )
     history_before = api.get("/api/v3/validation/cases/M8-LINK-01/history").json()
     started = api.post("/api/v3/validation/cases/M8-LINK-01/runs")
     assert started.status_code == 202
@@ -145,6 +166,34 @@ def test_api_discovers_cases_loads_history_and_runs_sanctioned_case(tmp_path: Pa
     assert api.get(f"/api/v3/validation/results/{result_id}").json()["status"] == "passed"
     assert len(api.get("/api/v3/validation/cases/M8-LINK-01/history").json()) == len(history_before) + 1
     assert api.post("/api/v3/validation/cases/not-declared/runs").status_code == 404
+
+
+def test_published_preparation_persists_movement_and_vacancy_evidence(tmp_path: Path) -> None:
+    repository = ValidationRepository(tmp_path / "runtime")
+    orchestrator = ValidationOrchestrator(repository, execution_yield_seconds=0)
+    status = orchestrator.start(
+        "M8-PUB-DSOUZA-FIG5-DT3", result_id="desouza-preparation"
+    )
+    terminal = orchestrator.wait(status.result_id, 3)
+    evidence = repository.execution_evidence(status.result_id)
+    result = repository.result(status.result_id)
+    assert terminal.lifecycle.value == "complete"
+    assert result.status.value == "not_run"
+    assert evidence.movement_evidence
+    assert evidence.observed_overlays
+    assert {item.kind for item in evidence.observed_overlays} == {"reference_wave"}
+    api = TestClient(create_app(
+        artifact_directory=ROOT / "fixtures" / "visualisation" / "v1",
+        v2_artifact_directory=tmp_path / "v2",
+        web_distribution=ROOT / "web" / "nonexistent-test-dist",
+        validation_orchestrator=orchestrator,
+    ))
+    response = api.get(
+        f"/api/v3/validation/results/{status.result_id}/execution-evidence"
+    )
+    assert response.status_code == 200
+    assert response.json()["movement_evidence"]
+    assert response.json()["observed_overlays"]
 
 
 def test_loading_kernel_does_not_import_validation_workbench() -> None:

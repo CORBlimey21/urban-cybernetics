@@ -105,6 +105,21 @@ def test_declared_case_variables_retain_source_units_and_configuration_identity(
     assert len({item.configuration_identity for item in variables}) == 1
 
 
+def test_desouza_preparation_starter_exposes_inputs_without_paper_outputs() -> None:
+    case_id = "M8-PUB-DSOUZA-FIG5-DT3"
+    variables = {item.variable_id: item for item in declared_case_variables(case_id)}
+    assert variables["upstream_capacity"].value == 1.0
+    assert variables["downstream_capacity"].value == 0.5
+    assert variables["integrated_demand"].value == 70
+    worksheet = starter_worksheet(
+        case_id, "desouza-lab", created_at="2026-07-15T00:00:00+00:00"
+    )
+    assert worksheet.table.tick_end == 50
+    assert sum(worksheet.table.columns[0].values) == 70
+    assert "No published Figure 5 curve" in worksheet.notebook.markdown
+    assert all(column.kind.value != "uc_observed" for column in worksheet.table.columns)
+
+
 def test_scratch_candidate_frozen_lifecycle_is_explicit_append_only_and_versioned(tmp_path: Path) -> None:
     repository = LabBenchRepository(tmp_path)
     worksheet = starter_worksheet("M8-LINK-01", "manual-one")

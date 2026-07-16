@@ -17,8 +17,10 @@ from .lab_bench_contract import (
 )
 from .lab_bench_evaluator import LabExpressionError, _quantity
 from .validation_cases import (
-    BOTTLENECK, CASES_BY_ID, FRACTIONAL_SENDING, NODE_SPECS, NODE_UPSTREAM,
+    BOTTLENECK, CASES_BY_ID, DESOUZA_FIGURE5_CASE_PREFIX,
+    DESOUZA_INPUTS_BY_TIMESTEP, FRACTIONAL_SENDING, NODE_SPECS, NODE_UPSTREAM,
     QUEUE_GROWTH, SUSTAINED_FREE_FLOW, UNCONGESTED, VACANCY_L1, VACANCY_L2,
+    _desouza_demands,
 )
 
 
@@ -47,6 +49,9 @@ def _case_link_input(case_id: str):
         spec = next(item for item in NODE_SPECS if item.case_id == case_id)
         downstream = NODE_UPSTREAM.__class__("L2", 10.0, 10.0, 5.0, 1800.0, 21600.0, 1.0, spec.receiving_supply)
         return (NODE_UPSTREAM, downstream)
+    if case_id.startswith(DESOUZA_FIGURE5_CASE_PREFIX):
+        timestep = float(case_id.removeprefix(DESOUZA_FIGURE5_CASE_PREFIX))
+        return DESOUZA_INPUTS_BY_TIMESTEP[timestep]
     raise LabArtifactNotFound(case_id)
 
 
@@ -77,6 +82,17 @@ def declared_case_variables(case_id: str) -> tuple[LabVariable, ...]:
         LabVariable(variable_id="route_sequence", label="Route sequence", value=case.route_sequences[0] if case.route_sequences else (), units="link IDs", source="declared validation case input", evidence_classification="configuration_metadata", configuration_identity=identity),
         LabVariable(variable_id="transition_markers", label="Expected transition markers", value=tuple(f"tick {item.active_from_tick}: {item.label}" for item in case.overlays), units="ticks", source="authored validation metadata", evidence_classification="analytical_reference", configuration_identity=identity),
     ]
+    if case_id.startswith(DESOUZA_FIGURE5_CASE_PREFIX):
+        downstream = links[1]
+        values.extend((
+            LabVariable(variable_id="downstream_length", label="Downstream link length", value=downstream.length_m, units="m", source="paper-declared L2 input", evidence_classification="configuration_metadata", configuration_identity=identity),
+            LabVariable(variable_id="upstream_jam_density", label="Upstream jam density", value=first.jam_density_veh_per_km_per_lane / 1000, units="veh/m", source="paper-declared L1 input", evidence_classification="configuration_metadata", configuration_identity=identity),
+            LabVariable(variable_id="downstream_jam_density", label="Downstream jam density", value=downstream.jam_density_veh_per_km_per_lane / 1000, units="veh/m", source="paper-declared L2 input", evidence_classification="configuration_metadata", configuration_identity=identity),
+            LabVariable(variable_id="upstream_capacity", label="Upstream capacity", value=first.capacity_veh_per_hour_per_lane / 3600, units="veh/s", source="paper-declared L1 input", evidence_classification="configuration_metadata", configuration_identity=identity),
+            LabVariable(variable_id="downstream_capacity", label="Downstream capacity", value=downstream.capacity_veh_per_hour_per_lane / 3600, units="veh/s", source="paper-declared L2 input", evidence_classification="configuration_metadata", configuration_identity=identity),
+            LabVariable(variable_id="observation_horizon", label="Observation horizon", value=150, units="s", source="derived from end of declared demand support; not a paper-declared stop rule", evidence_classification="deterministic_tool_output", configuration_identity=identity),
+            LabVariable(variable_id="integrated_demand", label="Integrated demand through horizon", value=70, units="packets", source="integral of paper-declared piecewise demand", evidence_classification="deterministic_tool_output", configuration_identity=identity),
+        ))
     if case_id.startswith("M8-NODE-01-"):
         spec = next(item for item in NODE_SPECS if item.case_id == case_id)
         values.extend((
@@ -87,8 +103,67 @@ def declared_case_variables(case_id: str) -> tuple[LabVariable, ...]:
 
 
 def starter_worksheet(case_id: str, worksheet_id: str | None = None, *, created_at: str | None = None) -> LabWorksheet:
+    if case_id.startswith(DESOUZA_FIGURE5_CASE_PREFIX):
+        case = CASES_BY_ID[case_id]
+        now = created_at or _now()
+        variables = declared_case_variables(case_id)
+        config_hash = variables[0].configuration_identity
+        demands = _desouza_demands(case.tick_duration_seconds)
+        departures = [0.0] * (case.default_final_tick + 1)
+        for _, _, tick in demands:
+            departures[tick] += 1
+        return LabWorksheet(
+            worksheet_id=worksheet_id or f"lab-{uuid.uuid4().hex}",
+            title=f"{case.title} declared-input scratch",
+            case_id=case.case_id, case_version=case.version,
+            case_configuration_hash=config_hash, created_at=now, updated_at=now,
+            variables=variables,
+            notebook=Notebook(markdown=(
+                "# de Souza Figure 5 preparation\n\n"
+                "This worksheet contains declared physical inputs and the explicit UC boundary-demand conversion only.\n\n"
+                "No published Figure 5 curve, table, expected value, tolerance, error, agreement, or disagreement is loaded.\n\n"
+                "The scheduled-departure column integrates the declared piecewise demand and floors cumulative vehicles at tick endpoints. "
+                "That boundary convention is an implementation assumption and remains editable scratch evidence."
+            ), linked_references=(
+                "timestep", "length", "downstream_length", "free_flow_speed",
+                "backward_wave_speed", "upstream_capacity", "downstream_capacity",
+                "demand_schedule", "observation_horizon",
+            )),
+            table=TickTable(
+                tick_start=0, tick_end=case.default_final_tick,
+                out_of_range_values={"cumulative_scheduled_demand": 0},
+                columns=(
+                    LabColumn(
+                        column_id="scheduled_departures", label="Scheduled UC unit departures",
+                        units="packets", kind=ColumnKind.CASE_LINKED,
+                        provenance=ProvenanceClass.INDEPENDENT_ARITHMETIC,
+                        values=tuple(departures),
+                        source_reference="declared demand integral plus explicit tick-end floor convention",
+                    ),
+                    LabColumn(
+                        column_id="cumulative_scheduled_demand",
+                        label="Cumulative scheduled demand", units="packets",
+                        kind=ColumnKind.FORMULA,
+                        provenance=ProvenanceClass.INDEPENDENT_ARITHMETIC,
+                        formula="cumulative_scheduled_demand[t - 1] + scheduled_departures[t]",
+                        source_reference="deterministic cumulative sum of scheduled unit departures",
+                    ),
+                ),
+            ),
+            assumptions=(
+                "Both links are empty initially.",
+                "One lane maps the paper's aggregate link parameters into UC metadata.",
+                "All unit packets follow L1 to L2 and then a free terminal sink.",
+                "Demand is integrated and floored at tick endpoints.",
+                "The observation stops at 150 seconds.",
+            ),
+            limitations=(
+                "Preparation-only worksheet; no published output has been transcribed.",
+                "Not a frozen oracle and not formal validation evidence.",
+            ),
+        )
     if case_id != "M8-LINK-01":
-        raise LabExpressionError("the first slice provides a complete starter only for M8-LINK-01")
+        raise LabExpressionError("a complete starter is available for M8-LINK-01 and the de Souza preparation family")
     now = created_at or _now(); variables = declared_case_variables(case_id)
     config_hash = variables[0].configuration_identity
     return LabWorksheet(

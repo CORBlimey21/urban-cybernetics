@@ -1,0 +1,2412 @@
+{
+  "movement_evidence": [
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P4",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P5",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P6",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P5",
+            "P6"
+          ],
+          "resulting_canonical_event_sequences": [
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P5",
+            "P6"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 2
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P4",
+            "P5",
+            "P6"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P7",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P8",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P9",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "resulting_canonical_event_sequences": [
+            46,
+            47,
+            49,
+            50,
+            52,
+            53
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 3
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P10",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P11",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P12",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P7",
+            "P8",
+            "P9",
+            "P10",
+            "P11",
+            "P12"
+          ],
+          "resulting_canonical_event_sequences": [
+            76,
+            77,
+            79,
+            80,
+            82,
+            83
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P7",
+            "P8",
+            "P9",
+            "P10",
+            "P11",
+            "P12"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 4
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P10",
+            "P11",
+            "P12"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P13",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P14",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P15",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P10",
+            "P11",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "resulting_canonical_event_sequences": [
+            106,
+            107,
+            109,
+            110,
+            112,
+            113
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P10",
+            "P11",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 5
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P16",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P17",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P18",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P13",
+            "P14",
+            "P15",
+            "P16",
+            "P17",
+            "P18"
+          ],
+          "resulting_canonical_event_sequences": [
+            124,
+            125,
+            127,
+            128,
+            130,
+            131
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P13",
+            "P14",
+            "P15",
+            "P16",
+            "P17",
+            "P18"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 6
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P16",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P17",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P18",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P19",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P20",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P21",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P16",
+            "P17",
+            "P18",
+            "P19",
+            "P20",
+            "P21"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P16",
+            "P17",
+            "P18",
+            "P19",
+            "P20",
+            "P21"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 7
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P16",
+            "P17",
+            "P18"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P19",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P20",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P21",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P16",
+            "P17",
+            "P18",
+            "P19",
+            "P20",
+            "P21"
+          ],
+          "resulting_canonical_event_sequences": [
+            163,
+            164,
+            166,
+            167,
+            169,
+            170
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P16",
+            "P17",
+            "P18",
+            "P19",
+            "P20",
+            "P21"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 8
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P19",
+            "P20",
+            "P21"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P22",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P23",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P24",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P19",
+            "P20",
+            "P21",
+            "P22",
+            "P23",
+            "P24"
+          ],
+          "resulting_canonical_event_sequences": [
+            178,
+            179,
+            181,
+            182,
+            184,
+            185
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P19",
+            "P20",
+            "P21",
+            "P22",
+            "P23",
+            "P24"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 9
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P22",
+            "P23",
+            "P24"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P25",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P26",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P27",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P22",
+            "P23",
+            "P24",
+            "P25",
+            "P26",
+            "P27"
+          ],
+          "resulting_canonical_event_sequences": [
+            202,
+            203,
+            205,
+            206,
+            208,
+            209
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P22",
+            "P23",
+            "P24",
+            "P25",
+            "P26",
+            "P27"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 10
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P25",
+            "P26",
+            "P27"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P28",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P29",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P30",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P25",
+            "P26",
+            "P27",
+            "P28",
+            "P29",
+            "P30"
+          ],
+          "resulting_canonical_event_sequences": [
+            226,
+            227,
+            229,
+            230,
+            232,
+            233
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P25",
+            "P26",
+            "P27",
+            "P28",
+            "P29",
+            "P30"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 11
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P28",
+            "P29",
+            "P30"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P31",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P32",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P33",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P28",
+            "P29",
+            "P30",
+            "P31",
+            "P32",
+            "P33"
+          ],
+          "resulting_canonical_event_sequences": [
+            244,
+            245,
+            247,
+            248,
+            250,
+            251
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P28",
+            "P29",
+            "P30",
+            "P31",
+            "P32",
+            "P33"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 12
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P31",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P32",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P33",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P34",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P35",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P36",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P31",
+            "P32",
+            "P33",
+            "P34",
+            "P35",
+            "P36"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P31",
+            "P32",
+            "P33",
+            "P34",
+            "P35",
+            "P36"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 13
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P31",
+            "P32",
+            "P33"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P34",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P35",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P36",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P31",
+            "P32",
+            "P33",
+            "P34",
+            "P35",
+            "P36"
+          ],
+          "resulting_canonical_event_sequences": [
+            283,
+            284,
+            286,
+            287,
+            289,
+            290
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P31",
+            "P32",
+            "P33",
+            "P34",
+            "P35",
+            "P36"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 14
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P34",
+            "P35",
+            "P36"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P37",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P38",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P39",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P34",
+            "P35",
+            "P36",
+            "P37",
+            "P38",
+            "P39"
+          ],
+          "resulting_canonical_event_sequences": [
+            298,
+            299,
+            301,
+            302,
+            304,
+            305
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P34",
+            "P35",
+            "P36",
+            "P37",
+            "P38",
+            "P39"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 15
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P37",
+            "P38",
+            "P39"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P40",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P41",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P42",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P37",
+            "P38",
+            "P39",
+            "P40",
+            "P41",
+            "P42"
+          ],
+          "resulting_canonical_event_sequences": [
+            322,
+            323,
+            325,
+            326,
+            328,
+            329
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P37",
+            "P38",
+            "P39",
+            "P40",
+            "P41",
+            "P42"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 16
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P40",
+            "P41",
+            "P42"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P43",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P44",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P45",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P40",
+            "P41",
+            "P42",
+            "P43",
+            "P44",
+            "P45"
+          ],
+          "resulting_canonical_event_sequences": [
+            346,
+            347,
+            349,
+            350,
+            352,
+            353
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P40",
+            "P41",
+            "P42",
+            "P43",
+            "P44",
+            "P45"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 17
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P43",
+            "P44",
+            "P45"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P46",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P47",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P48",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P43",
+            "P44",
+            "P45",
+            "P46",
+            "P47",
+            "P48"
+          ],
+          "resulting_canonical_event_sequences": [
+            364,
+            365,
+            367,
+            368,
+            370,
+            371
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P43",
+            "P44",
+            "P45",
+            "P46",
+            "P47",
+            "P48"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 18
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P46",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P47",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P48",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P49",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P50",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P51",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P46",
+            "P47",
+            "P48",
+            "P49",
+            "P50",
+            "P51"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P46",
+            "P47",
+            "P48",
+            "P49",
+            "P50",
+            "P51"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 19
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P46",
+            "P47",
+            "P48"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P49",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P50",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P51",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P46",
+            "P47",
+            "P48",
+            "P49",
+            "P50",
+            "P51"
+          ],
+          "resulting_canonical_event_sequences": [
+            399,
+            400,
+            402,
+            403,
+            405,
+            406
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P46",
+            "P47",
+            "P48",
+            "P49",
+            "P50",
+            "P51"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 20
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P49",
+            "P50",
+            "P51"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P52",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P53",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P54",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P49",
+            "P50",
+            "P51",
+            "P52",
+            "P53",
+            "P54"
+          ],
+          "resulting_canonical_event_sequences": [
+            410,
+            411,
+            413,
+            414,
+            416,
+            417
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P49",
+            "P50",
+            "P51",
+            "P52",
+            "P53",
+            "P54"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 21
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P52",
+            "P53",
+            "P54"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P55",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P56",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P57",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P52",
+            "P53",
+            "P54",
+            "P55",
+            "P56",
+            "P57"
+          ],
+          "resulting_canonical_event_sequences": [
+            430,
+            431,
+            433,
+            434,
+            436,
+            437
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P52",
+            "P53",
+            "P54",
+            "P55",
+            "P56",
+            "P57"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 22
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P55",
+            "P56",
+            "P57"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P58",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P59",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P60",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P55",
+            "P56",
+            "P57",
+            "P58",
+            "P59",
+            "P60"
+          ],
+          "resulting_canonical_event_sequences": [
+            450,
+            451,
+            453,
+            454,
+            456,
+            457
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P55",
+            "P56",
+            "P57",
+            "P58",
+            "P59",
+            "P60"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 23
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P58",
+            "P59",
+            "P60"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P61",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P62",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P63",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P58",
+            "P59",
+            "P60",
+            "P61",
+            "P62",
+            "P63"
+          ],
+          "resulting_canonical_event_sequences": [
+            470,
+            471,
+            473,
+            474,
+            476,
+            477
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P58",
+            "P59",
+            "P60",
+            "P61",
+            "P62",
+            "P63"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 24
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "ae7d93022e5c9b3061e782b7277cc553eb7c5242537e4eb2faacb97a21631465",
+      "movements": [
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P61",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P62",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P63",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P64",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P65",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P66",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P61",
+            "P62",
+            "P63",
+            "P64",
+            "P65",
+            "P66"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P61",
+            "P62",
+            "P63",
+            "P64",
+            "P65",
+            "P66"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 25
+    }
+  ],
+  "observed_overlays": [
+    {
+      "active_from_tick": 3,
+      "active_through_tick": 8,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 3; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-54"
+    },
+    {
+      "active_from_tick": 3,
+      "active_through_tick": 8,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 3; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-56"
+    },
+    {
+      "active_from_tick": 3,
+      "active_through_tick": 8,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 3; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-58"
+    },
+    {
+      "active_from_tick": 4,
+      "active_through_tick": 9,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 4; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-84"
+    },
+    {
+      "active_from_tick": 4,
+      "active_through_tick": 9,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 4; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-86"
+    },
+    {
+      "active_from_tick": 4,
+      "active_through_tick": 9,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 4; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-88"
+    },
+    {
+      "active_from_tick": 5,
+      "active_through_tick": 10,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 5; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-114"
+    },
+    {
+      "active_from_tick": 5,
+      "active_through_tick": 10,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 5; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-116"
+    },
+    {
+      "active_from_tick": 5,
+      "active_through_tick": 10,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 5; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-118"
+    },
+    {
+      "active_from_tick": 6,
+      "active_through_tick": 11,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 6; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-132"
+    },
+    {
+      "active_from_tick": 6,
+      "active_through_tick": 11,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 6; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-134"
+    },
+    {
+      "active_from_tick": 6,
+      "active_through_tick": 11,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 6; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-136"
+    },
+    {
+      "active_from_tick": 7,
+      "active_through_tick": 12,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 7; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-147"
+    },
+    {
+      "active_from_tick": 7,
+      "active_through_tick": 12,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 7; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-149"
+    },
+    {
+      "active_from_tick": 7,
+      "active_through_tick": 12,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 7; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-151"
+    },
+    {
+      "active_from_tick": 9,
+      "active_through_tick": 14,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 9; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-186"
+    },
+    {
+      "active_from_tick": 9,
+      "active_through_tick": 14,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 9; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-188"
+    },
+    {
+      "active_from_tick": 9,
+      "active_through_tick": 14,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 9; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-190"
+    },
+    {
+      "active_from_tick": 10,
+      "active_through_tick": 15,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 10; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-210"
+    },
+    {
+      "active_from_tick": 10,
+      "active_through_tick": 15,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 10; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-212"
+    },
+    {
+      "active_from_tick": 10,
+      "active_through_tick": 15,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 10; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-214"
+    },
+    {
+      "active_from_tick": 11,
+      "active_through_tick": 16,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 11; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-234"
+    },
+    {
+      "active_from_tick": 11,
+      "active_through_tick": 16,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 11; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-236"
+    },
+    {
+      "active_from_tick": 11,
+      "active_through_tick": 16,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 11; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-238"
+    },
+    {
+      "active_from_tick": 12,
+      "active_through_tick": 17,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 12; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-252"
+    },
+    {
+      "active_from_tick": 12,
+      "active_through_tick": 17,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 12; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-254"
+    },
+    {
+      "active_from_tick": 12,
+      "active_through_tick": 17,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 12; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-256"
+    },
+    {
+      "active_from_tick": 13,
+      "active_through_tick": 18,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 13; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-267"
+    },
+    {
+      "active_from_tick": 13,
+      "active_through_tick": 18,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 13; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-269"
+    },
+    {
+      "active_from_tick": 13,
+      "active_through_tick": 18,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 13; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-271"
+    },
+    {
+      "active_from_tick": 15,
+      "active_through_tick": 20,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 15; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-306"
+    },
+    {
+      "active_from_tick": 15,
+      "active_through_tick": 20,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 15; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-308"
+    },
+    {
+      "active_from_tick": 15,
+      "active_through_tick": 20,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 15; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-310"
+    },
+    {
+      "active_from_tick": 16,
+      "active_through_tick": 21,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 16; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-330"
+    },
+    {
+      "active_from_tick": 16,
+      "active_through_tick": 21,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 16; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-332"
+    },
+    {
+      "active_from_tick": 16,
+      "active_through_tick": 21,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 16; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-334"
+    },
+    {
+      "active_from_tick": 17,
+      "active_through_tick": 22,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 17; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-354"
+    },
+    {
+      "active_from_tick": 17,
+      "active_through_tick": 22,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 17; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-356"
+    },
+    {
+      "active_from_tick": 17,
+      "active_through_tick": 22,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 17; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-358"
+    },
+    {
+      "active_from_tick": 18,
+      "active_through_tick": 23,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 18; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-372"
+    },
+    {
+      "active_from_tick": 18,
+      "active_through_tick": 23,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 18; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-374"
+    },
+    {
+      "active_from_tick": 18,
+      "active_through_tick": 23,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 18; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-376"
+    },
+    {
+      "active_from_tick": 19,
+      "active_through_tick": 24,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 19; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-385"
+    },
+    {
+      "active_from_tick": 19,
+      "active_through_tick": 24,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 19; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-387"
+    },
+    {
+      "active_from_tick": 19,
+      "active_through_tick": 24,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 19; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-389"
+    },
+    {
+      "active_from_tick": 21,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 21; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-418"
+    },
+    {
+      "active_from_tick": 21,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 21; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-420"
+    },
+    {
+      "active_from_tick": 21,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 21; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-422"
+    },
+    {
+      "active_from_tick": 22,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 22; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-438"
+    },
+    {
+      "active_from_tick": 22,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 22; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-440"
+    },
+    {
+      "active_from_tick": 22,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 22; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-442"
+    },
+    {
+      "active_from_tick": 23,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 23; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-458"
+    },
+    {
+      "active_from_tick": 23,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 23; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-460"
+    },
+    {
+      "active_from_tick": 23,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 23; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-462"
+    },
+    {
+      "active_from_tick": 24,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 24; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-478"
+    },
+    {
+      "active_from_tick": 24,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 24; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-480"
+    },
+    {
+      "active_from_tick": 24,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 24; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-482"
+    },
+    {
+      "active_from_tick": 25,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 25; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-491"
+    },
+    {
+      "active_from_tick": 25,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 25; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-493"
+    },
+    {
+      "active_from_tick": 25,
+      "active_through_tick": 25,
+      "boundary_id": null,
+      "direction": "backward",
+      "evidence_source": "validation_output",
+      "kind": "reference_wave",
+      "label": "Observed L2 exit vacancy propagation",
+      "link_id": "L2",
+      "note": "Canonical L2 exit at tick 25; presentation window uses UC's declared backward-wave lag of 5 ticks. Screen position is presentation-only.",
+      "overlay_id": "m8-pub-dsouza-fig5-dt6-observed-vacancy-495"
+    }
+  ],
+  "result_id": "m8-pub-dsouza-fig5-dt6-baseline-v1",
+  "schema_version": "uc.validation.execution-evidence.v1"
+}

@@ -13,13 +13,14 @@ import subprocess
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from math import ceil
+from math import ceil, floor
 
 from urban_cybernetics.config import ACADEMIC_LTM_PARITY_PROFILE_ID
 from urban_cybernetics.core import DemandDeclaration, Event, EventType, Link, Node
 from urban_cybernetics.loading import LoadingEngine
 from urban_cybernetics.topology import CanonicalNode, CanonicalTopology, CanonicalTopologyLink, TopologySourceMetadata
 from urban_cybernetics.validation import ValidationContext
+from urban_cybernetics.validation.physical import assess_physical_parameter_eligibility
 
 from .contract import RunStatus, VRunBundle
 from .export import build_run_bundle
@@ -29,6 +30,13 @@ from .validation_contract import (
     ScalarExpectation, ValidationCase, ValidationLifecycle, ValidationOverlay,
     ValidationResult, ValidationSeries, ValidationStatus,
 )
+from .v2_contract import MovementAllocationEvidence, MovementFlowEvidence
+
+
+DESOUZA_FIGURE5_SOURCE_SHA256 = (
+    "ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903"
+)
+DESOUZA_FIGURE5_CASE_PREFIX = "M8-PUB-DSOUZA-FIG5-DT"
 
 
 @dataclass(frozen=True, slots=True)
@@ -78,6 +86,26 @@ FRACTIONAL_SENDING = _LinkInput("L1", 20.0, 10.0, 5.0, 450.0, 5400.0, 1.0, 6, 1.
 NODE_UPSTREAM = _LinkInput("L1", 10.0, 10.0, 5.0, 1800.0, 21600.0, 1.0, 6)
 
 
+def _desouza_inputs(tick_duration_seconds: float) -> tuple[_LinkInput, _LinkInput]:
+    return (
+        _LinkInput(
+            "L1", 150.0, 30.0, 6.0, 200.0, 3600.0,
+            tick_duration_seconds, floor(1.0 * tick_duration_seconds),
+            1.0 * tick_duration_seconds,
+        ),
+        _LinkInput(
+            "L2", 150.0, 30.0, 6.0, 100.0, 1800.0,
+            tick_duration_seconds, floor(0.5 * tick_duration_seconds),
+            0.5 * tick_duration_seconds,
+        ),
+    )
+
+
+DESOUZA_INPUTS_BY_TIMESTEP = {
+    timestep: _desouza_inputs(timestep) for timestep in (1.0, 3.0, 6.0)
+}
+
+
 @dataclass(frozen=True, slots=True)
 class _TickEvidence:
     candidate_count: int = 0
@@ -86,6 +114,10 @@ class _TickEvidence:
     receiving_supply: int = 0
     sending_budget: int = 0
     sending_carry: float = 0.0
+    sending_budget_by_link: tuple[tuple[str, int], ...] = ()
+    sending_carry_by_link: tuple[tuple[str, float], ...] = ()
+    receiving_budget_by_link: tuple[tuple[str, int], ...] = ()
+    receiving_carry_by_link: tuple[tuple[str, float], ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -137,6 +169,138 @@ REFERENCE_PLACEHOLDER = ReferenceAsset(
     rights_provenance_note="Repository-authored numerical reference; no external image embedded.",
     comparison_suitability="suitable",
 )
+
+DESOUZA_CITATION = Citation(
+    source_id="desouza-packetised-ltm-preprint-2025",
+    citation_text=(
+        "Felipe de Souza, Omer Verbas, Joshua Auld, and Chris M.J. Tampere, "
+        "A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles, "
+        "preprint dated 4 June 2025."
+    ),
+    source_section="Section 4.1, One-to-One Connections",
+    figure="Figure 5 (text declarations only; numerical curves withheld)",
+    equation="Equation 13",
+)
+DESOUZA_REFERENCE = ReferenceAsset(
+    asset_id="desouza-figure5-text-declarations-v1",
+    source_id=DESOUZA_CITATION.source_id,
+    label="Figure 5 lane-drop declared inputs (text only)",
+    citation_text=DESOUZA_CITATION.citation_text,
+    figure_table_equation="Section 4.1 and Equation 13; Figure 5 output curves excluded",
+    rights_provenance_note=(
+        "Only parameter declarations and surrounding prose were transcribed. "
+        "No published curve, table, digitised value, or expected numerical result is embedded."
+    ),
+    comparison_suitability="context_only",
+    missing_input_notes=(
+        "Initial conditions are not explicitly declared.",
+        "The downstream sink boundary is not explicitly declared.",
+        "The packet departure boundary convention is not explicitly declared.",
+        "The simulation stop rule is not explicitly declared.",
+    ),
+)
+
+
+def _desouza_cases() -> tuple[ValidationCase, ...]:
+    cases: list[ValidationCase] = []
+    for timestep in (1.0, 3.0, 6.0):
+        suffix = str(int(timestep))
+        final_tick = int(150 / timestep)
+        timestep_note = (
+            "The declared 6 s timestep exceeds the 5 s free-flow travel time and is "
+            "expected to remain visibly ineligible under UC static physical validation."
+            if timestep == 6.0 else
+            "The timestep satisfies UC's static free-flow and backward-wave admissibility checks."
+        )
+        cases.append(ValidationCase(
+            case_id=f"{DESOUZA_FIGURE5_CASE_PREFIX}{suffix}", version="1",
+            group_id="m8-published-desouza-figure5-preparation-v1",
+            title=f"de Souza Figure 5 lane drop - {suffix} s preparation",
+            short_explanation=(
+                "Runs UC on the paper-declared two-link lane drop and exports observations "
+                "without loading or comparing any published numerical result."
+            ),
+            claim_ids=("M8-VAL-09-PREPARATION", f"DESOUZA-FIG5-DT{suffix}"),
+            evidence_class=EvidenceClass.PUBLISHED_NUMERICAL,
+            citations=(DESOUZA_CITATION,), reference_assets=(DESOUZA_REFERENCE,),
+            input_completeness=InputCompleteness.PARTIAL,
+            comparison_status=ComparisonStatus.NOT_COMPARABLE,
+            topology_reference="desouza-figure5-two-successive-links-v1",
+            profile_reference=ACADEMIC_LTM_PARITY_PROFILE_ID,
+            demand_reference=(
+                "paper-declared d(t)=1.0 veh/s for t<=50 s and 0.2 veh/s for "
+                "50<t<=150 s; deterministic unit-packet conversion documented separately"
+            ),
+            route_sequences=(("L1", "L2"),), tick_duration_seconds=timestep,
+            initial_state_reference=(
+                "implementation assumption: both links empty at t=0; no paper-declared "
+                "initial packet placement was found"
+            ),
+            expected_physical_sequence=(
+                "Apply only the declared two-link physical parameters and upstream demand schedule.",
+                "Convert integrated boundary demand to UC unit-packet departures using the declared preparation convention.",
+                "Execute the unchanged parity_ltm_v1 loading engine through the 150 s demand-support boundary.",
+                "Persist canonical events, replay states, cumulative counts, storage, queues, movement traces, and internal validation outputs.",
+            ),
+            expected_result_summary=(
+                "No expected numerical result is encoded in this preparation slice; published "
+                "curves, errors, and agreement metrics remain withheld."
+            ),
+            why_it_matters=(
+                "This freezes the first published-case input transcription and UC evidence before "
+                "any paper comparison, parameter fitting, or interpretation is permitted."
+            ),
+            limits_on_interpretation=(
+                "The result is an observed UC run, not a published numerical reproduction claim.",
+                "No paper curve, table, or expected value is loaded or compared.",
+                "The 150 s run boundary is derived from the end of the declared demand support; the paper does not explicitly declare a stop rule.",
+                "Empty initial links, a single L1-to-L2 route, a free terminal sink, and departure event ordering are explicit implementation assumptions.",
+                timestep_note,
+            ),
+            expected_series=(), expected_scalars=(), metrics=(),
+            overlays=(
+                ValidationOverlay(
+                    overlay_id=f"desouza-dt{suffix}-upstream", kind="relevant_link",
+                    label="Declared upstream link", link_id="L1", active_from_tick=0,
+                    active_through_tick=final_tick, direction="forward",
+                    evidence_source=EvidenceSource.ANALYTICAL_REFERENCE,
+                    note="Topology/parameter cue only; no expected traffic state is asserted.",
+                ),
+                ValidationOverlay(
+                    overlay_id=f"desouza-dt{suffix}-downstream", kind="relevant_link",
+                    label="Declared lower-capacity downstream link", link_id="L2",
+                    active_from_tick=0, active_through_tick=final_tick, direction="forward",
+                    evidence_source=EvidenceSource.ANALYTICAL_REFERENCE,
+                    note="The 0.5 veh/s capacity is paper-declared; no expected queue or curve is asserted.",
+                ),
+            ),
+            known_model_differences=(
+                "UC uses ceiling-rounded positive travel lags; the paper's general LTM text prints floor-based T1/T2 formulas.",
+                "UC unit-packet departure conversion and same-tick event ordering are implementation conventions because Figure 5 does not declare them.",
+            ),
+            safe_claim=(
+                "UC executed the declared physical scenario plus the listed explicit assumptions "
+                "and exported internally checked evidence; no agreement or disagreement with the paper is claimed."
+            ),
+            provenance=(
+                "Declared inputs transcribed from paper text only; Figure 5 curves were not inspected or digitised.",
+                f"Source PDF SHA-256: {DESOUZA_FIGURE5_SOURCE_SHA256}.",
+                "Structured transcription: docs/validation/m8_desouza_figure5_preparation_v1.json.",
+            ),
+            reproducibility_notes=(
+                "paper-declared: two successive 150 m links; shared V=30 m/s and W=6 m/s; K1=0.2 veh/m, K2=0.1 veh/m; C1=1.0 veh/s, C2=0.5 veh/s.",
+                "paper-declared: upstream d(t)=1.0 veh/s for t<=50 s and 0.2 veh/s for 50<t<=150 s.",
+                f"paper-declared: discrete timestep {timestep:g} s.",
+                "paper-declared reference only: the continuous LTM uses a 1 s timestep; no continuous reference run is executed in this slice.",
+                "derived mathematically: 30 and 15 vehicle storage under one-lane UC SI metadata; 70 vehicles of integrated demand through 150 s.",
+                "implementation assumption: one lane per link because the paper declares aggregate jam density/capacity but no lane count.",
+                "implementation assumption: integrate demand over [0,t] and admit floor(cumulative demand) at tick endpoints; no random inputs.",
+                "implementation assumption: empty links, fixed route L1-to-L2, deterministic FIFO, free terminal sink, and a 150 s bounded observation horizon.",
+                "blocked for later comparison: published-output transcription, tolerance selection, and error computation.",
+            ),
+            default_final_tick=final_tick,
+        ))
+    return tuple(cases)
 
 
 CASES: tuple[ValidationCase, ...] = (
@@ -282,7 +446,7 @@ NODE_SPECS = (
     _NodeCaseSpec("M8-NODE-01-EQUAL", "NODE-01 equal demand and supply", 2, 2, 2, (0,2,0), (0,2,0), (0,0,0), (0,2,0), (0,2,2), (0,0,0), "1,1"),
     _NodeCaseSpec("M8-NODE-01-ZERO-DEMAND", "NODE-01 zero demand", 0, 3, 1, (0,0), (0,0), (0,0), (0,0), (0,0), (0,0), ""),
     _NodeCaseSpec("M8-NODE-01-ZERO-SUPPLY", "NODE-01 zero supply", 2, 0, 2, (0,2,2), (0,0,0), (0,2,2), (0,0,0), (0,0,0), (0,2,2), ""),
-    _NodeCaseSpec("M8-NODE-01-REOPEN", "NODE-01 reopening after blockage", 2, 2, 3, (0,2,2,0), (0,0,2,0), (0,2,0,0), (0,0,2,0), (0,0,2,2), (0,2,0,0), "2,2", initial_closed=True, reopen_tick=2),
+    _NodeCaseSpec("M8-NODE-01-REOPEN", "NODE-01 reopening after blockage", 2, 2, 3, (0,2,2,0), (0,0,2,0), (0,2,0,0), (0,0,3,0), (0,0,2,2), (0,2,0,0), "2,2", initial_closed=True, reopen_tick=2),
     _NodeCaseSpec("M8-NODE-01-FRACTIONAL", "NODE-01 fractional receiving transfer", 6, 6, 4, (0,6,5,3,2), (0,1,2,1,2), (0,5,3,2,0), (0,1,2,1,2), (0,1,3,4,6), (0,5,3,2,0), "1,2,2,3,4,4", fractional_receiving_rate=1.5),
 )
 
@@ -316,49 +480,145 @@ def _node_cases() -> tuple[ValidationCase, ...]:
     return tuple(cases)
 
 
-CASES += _remaining_link_cases() + _node_cases()
+CASES += _remaining_link_cases() + _node_cases() + _desouza_cases()
 
 CASES_BY_ID = {case.case_id: case for case in CASES}
 
 
-def execute_case(case: ValidationCase, *, result_id: str, created_at: str | None = None, completed_at: str | None = None, code_commit: str | None = None, cancelled: Callable[[], bool] = lambda: False, progress: Callable[[ValidationLifecycle, int, str], None] = lambda *_: None) -> tuple[ValidationResult, VRunBundle]:
+def execute_case(
+    case: ValidationCase,
+    *,
+    result_id: str,
+    created_at: str | None = None,
+    completed_at: str | None = None,
+    code_commit: str | None = None,
+    cancelled: Callable[[], bool] = lambda: False,
+    progress: Callable[[ValidationLifecycle, int, str], None] = lambda *_: None,
+    movement_evidence: Callable[[MovementAllocationEvidence], None] = lambda *_: None,
+    observed_overlay: Callable[[ValidationOverlay], None] = lambda *_: None,
+) -> tuple[ValidationResult, VRunBundle]:
     created_at = created_at or datetime.now(UTC).isoformat()
     lifecycle = [ValidationLifecycle.CREATED, ValidationLifecycle.SETTING_UP]
-    progress(ValidationLifecycle.SETTING_UP, 0, "Constructing declared analytical fixture")
+    progress(ValidationLifecycle.SETTING_UP, 0, "Constructing declared validation case")
     engine, topology = _setup(case.case_id)
     tick_evidence = [_TickEvidence()]
     lifecycle.append(ValidationLifecycle.EXECUTING)
     progress(ValidationLifecycle.EXECUTING, engine.current_tick, "Python loading engine owns execution")
+    recorded_movements: list[MovementAllocationEvidence] = []
     while engine.current_tick < case.default_final_tick and not cancelled():
         if case.case_id == "M8-NODE-01-REOPEN" and engine.current_tick + 1 == 2:
             engine.set_receiving_open("L2", True)
+        before = len(engine.event_log)
         engine.step()
+        new_events = engine.event_log[before:]
+        if _is_desouza_case(case.case_id):
+            for evidence in _movement_allocation_evidence(
+                result_id=result_id, topology=topology, engine=engine,
+                new_events=new_events,
+            ):
+                recorded_movements.append(evidence)
+                movement_evidence(evidence)
         tick_evidence.append(_tick_evidence(engine))
         progress(ValidationLifecycle.EXECUTING, engine.current_tick, "Exact physical tick sealed")
     was_cancelled = cancelled()
     lifecycle.append(ValidationLifecycle.CANCELLED if was_cancelled else ValidationLifecycle.COMPARING)
     packet_ids = tuple(engine.packets)
-    observed_series, observed_scalars, waits = _observed(case, engine, packet_ids, tuple(tick_evidence))
-    metric_results, differences = _compare(case, observed_series, observed_scalars) if not was_cancelled else ((), ())
+    observed_series, observed_scalars, waits = _observed(
+        case, engine, packet_ids, tuple(tick_evidence), tuple(recorded_movements)
+    )
+    comparison_withheld = case.comparison_status == ComparisonStatus.NOT_COMPARABLE
+    internal_checks: dict[str, bool | str] = {}
+    if not was_cancelled and comparison_withheld:
+        internal_checks = _published_internal_checks(case, engine)
+        observed_scalars += tuple(
+            _scalar(
+                key, key.replace("_", " ").title(), value,
+                None if isinstance(value, bool) else "status",
+                source=EvidenceSource.VALIDATION_OUTPUT,
+            )
+            for key, value in internal_checks.items()
+        )
+        for overlay in _observed_vacancy_overlays(case, engine):
+            observed_overlay(overlay)
+    metric_results, differences = (
+        _compare(case, observed_series, observed_scalars)
+        if not was_cancelled and not comparison_withheld else ((), ())
+    )
     passed = bool(metric_results) and all(metric.passed for metric in metric_results)
-    status = ValidationStatus.CANCELLED if was_cancelled else ValidationStatus.PASSED if passed else ValidationStatus.FAILED
-    lifecycle.extend(() if was_cancelled else (ValidationLifecycle.PERSISTING, ValidationLifecycle.COMPLETE if passed else ValidationLifecycle.FAILED))
-    config = {"case_id": case.case_id, "case_version": case.version, "tick_duration_seconds": case.tick_duration_seconds, "final_tick": case.default_final_tick, "profile": case.profile_reference}
+    status = (
+        ValidationStatus.CANCELLED if was_cancelled
+        else ValidationStatus.NOT_RUN if comparison_withheld
+        else ValidationStatus.PASSED if passed
+        else ValidationStatus.FAILED
+    )
+    lifecycle.extend(
+        () if was_cancelled else (
+            ValidationLifecycle.PERSISTING,
+            ValidationLifecycle.COMPLETE if passed or comparison_withheld else ValidationLifecycle.FAILED,
+        )
+    )
+    config = _validation_config(case)
     expected_hash = _hash({"series": [item.model_dump(mode="json") for item in case.expected_series], "scalars": [item.model_dump(mode="json") for item in case.expected_scalars]})
     configuration_hash = _hash(config)
     replay_run_id = f"validation:{result_id}"
-    context = ValidationContext.from_engine(engine, run_config=config)
+    context = ValidationContext.from_engine(
+        engine, nodes=tuple(engine.nodes.values()), run_config=config
+    )
+    internal_passed = all(
+        value for value in internal_checks.values() if isinstance(value, bool)
+    ) if internal_checks else True
+    validation_status = (
+        "not_run" if was_cancelled else
+        "passed" if comparison_withheld and internal_passed else
+        "failed" if comparison_withheld else
+        "passed" if passed else "failed"
+    )
+    validation_notes = (
+        (
+            "Core conservation, event-cache consistency, cumulative-count consistency, exact deterministic rerun, and static physical eligibility were evaluated internally.",
+            "Published Figure 5 numerical outputs were not loaded or compared; this validation status is not a paper-agreement result.",
+        ) if comparison_withheld else
+        (case.safe_claim if passed else "Comparison did not satisfy the declared exact oracle.",)
+    )
     bundle = build_run_bundle(
         run_id=replay_run_id, scenario_name=f"{case.case_id} · {case.title}", topology=topology,
         context=context, status=RunStatus.PARTIAL if was_cancelled else RunStatus.BOUNDED,
         status_reason="Validation execution cancelled; partial canonical evidence retained." if was_cancelled else "Declared validation execution completed.",
         tick_duration_seconds=case.tick_duration_seconds, config_snapshot=config,
-        configuration_id="uc.validation.case.v1", validation_status="not_run" if was_cancelled else "passed" if passed else "failed",
-        validation_notes=(case.safe_claim if passed else "Comparison did not satisfy the declared exact oracle.",),
+        configuration_id="uc.validation.case.v1", validation_status=validation_status,
+        validation_notes=validation_notes,
         input_artifact_ids=(case.case_id,), code_version=code_commit, created_at=created_at,
         node_positions=_node_positions(topology),
     )
+    if comparison_withheld and not was_cancelled:
+        bundle = bundle.model_copy(update={
+            "validation": bundle.validation.model_copy(update={
+                "checks": {
+                    **bundle.validation.checks,
+                    **{
+                        key: "passed" if value else "failed"
+                        for key, value in internal_checks.items()
+                        if isinstance(value, bool)
+                    },
+                    "published_numerical_comparison": "not_run",
+                }
+            })
+        })
     max_error = max((metric.value for metric in metric_results), default=0.0)
+    observed_summary = (
+        "Partial evidence retained; comparison not performed." if was_cancelled else
+        "UC observation completed and the evidence bundle was exported; the published comparison remains deliberately withheld."
+        if comparison_withheld else
+        "Observed Python projections match all declared expectations." if passed else
+        "One or more observed projections differ from the declared oracle."
+    )
+    difference_summary = (
+        "Not comparable after cancellation." if was_cancelled else
+        "No paper difference series or errors were computed in this preparation slice."
+        if comparison_withheld else
+        "All declared differences are zero." if passed else
+        "See failed metric rows and difference series."
+    )
     result = ValidationResult(
         result_id=result_id, case_id=case.case_id, case_version=case.version, status=status,
         lifecycle=tuple(lifecycle), created_at=created_at,
@@ -367,19 +627,143 @@ def execute_case(case: ValidationCase, *, result_id: str, created_at: str | None
         replay_run_id=replay_run_id, observed_series=observed_series,
         observed_scalars=observed_scalars, difference_series=differences,
         metric_results=metric_results,
-        headline_metric="cancelled before comparison" if was_cancelled else f"maximum declared error {max_error:g}",
-        observed_result_summary="Partial evidence retained; comparison not performed." if was_cancelled else "Observed Python projections match all declared expectations." if passed else "One or more observed projections differ from the declared oracle.",
-        difference_summary="Not comparable after cancellation." if was_cancelled else "All declared differences are zero." if passed else "See failed metric rows and difference series.",
+        headline_metric=(
+            "cancelled before comparison" if was_cancelled else
+            "UC evidence exported; paper comparison withheld" if comparison_withheld else
+            f"maximum declared error {max_error:g}"
+        ),
+        observed_result_summary=observed_summary,
+        difference_summary=difference_summary,
         packet_wait_explanations=waits, stop_reason="cancel_requested" if was_cancelled else None,
-        provenance=("Observed series folded in Python from canonical events.", "Expected evidence loaded from immutable authored case definition."),
+        provenance=(
+            "Observed series folded in Python from canonical events.",
+            "No published numerical output was loaded." if comparison_withheld
+            else "Expected evidence loaded from immutable authored case definition.",
+        ),
     )
     return result, bundle
+
+
+def _is_desouza_case(case_id: str) -> bool:
+    return case_id.startswith(DESOUZA_FIGURE5_CASE_PREFIX)
+
+
+def _validation_config(case: ValidationCase) -> dict[str, object]:
+    config: dict[str, object] = {
+        "case_id": case.case_id,
+        "case_version": case.version,
+        "tick_duration_seconds": case.tick_duration_seconds,
+        "final_tick": case.default_final_tick,
+        "profile": case.profile_reference,
+    }
+    if not _is_desouza_case(case.case_id):
+        return config
+    config.update({
+        "source": {
+            "source_id": DESOUZA_CITATION.source_id,
+            "pdf_sha256": DESOUZA_FIGURE5_SOURCE_SHA256,
+            "source_section": "4.1 One-to-One Connections",
+            "source_equation": "13",
+            "published_output_access": "withheld_not_loaded",
+        },
+        "paper_declared": {
+            "topology": "two successive directed links L1 -> L2",
+            "length_m_by_link": {"L1": 150.0, "L2": 150.0},
+            "free_flow_speed_mps_by_link": {"L1": 30.0, "L2": 30.0},
+            "backward_wave_speed_mps_by_link": {"L1": 6.0, "L2": 6.0},
+            "jam_density_veh_per_m_by_link": {"L1": 0.2, "L2": 0.1},
+            "capacity_veh_per_s_by_link": {"L1": 1.0, "L2": 0.5},
+            "demand_schedule": [
+                {"rate_veh_per_s": 1.0, "condition": "t <= 50 s"},
+                {"rate_veh_per_s": 0.2, "condition": "50 s < t <= 150 s"},
+            ],
+            "tested_timestep_seconds": case.tick_duration_seconds,
+            "continuous_reference_timestep_seconds_not_run": 1.0,
+            "model_assumptions": (
+                "triangular fundamental diagram",
+                "one-to-one node flow is min(upstream demand, downstream supply)",
+                "integer vehicle flows and FIFO vehicle association",
+                "CFL condition max(V,W)*dt <= L stated in the paper",
+            ),
+        },
+        "derived_mathematically": {
+            "capacity_formula": "C=K*V*W/(V+W)",
+            "storage_packets_by_link_under_uc_one_lane_mapping": {"L1": 30, "L2": 15},
+            "integrated_demand_packets_through_150_seconds": 70,
+            "observation_horizon_seconds": 150.0,
+        },
+        "implementation_assumptions": (
+            "one lane per link for UC SI metadata",
+            "both links empty before the first departure",
+            "all unit packets follow the fixed route L1 -> L2",
+            "the terminal boundary after L2 is a free sink governed by current UC completion semantics",
+            "integrate demand over [0,t], floor cumulative vehicles at tick endpoints, and admit new unit packets at that endpoint tick",
+            "stop at 150 seconds, the end of declared demand support",
+            "use current UC ceiling-rounded positive travel lags and current deterministic event ordering",
+        ),
+        "blocked_unknowns": (
+            "paper-declared initial conditions",
+            "paper-declared downstream sink boundary rule",
+            "paper-declared packet departure boundary and tie-breaking convention",
+            "paper-declared simulation stop rule",
+            "published numerical outputs and comparison tolerances intentionally withheld",
+        ),
+    })
+    return config
+
+
+def _published_internal_checks(
+    case: ValidationCase, engine: LoadingEngine
+) -> dict[str, bool | str]:
+    replay_engine, _ = _setup(case.case_id)
+    while replay_engine.current_tick < case.default_final_tick:
+        replay_engine.step()
+    physical = assess_physical_parameter_eligibility(tuple(engine.links.values()))
+    context = ValidationContext.from_engine(
+        engine, nodes=tuple(engine.nodes.values()), run_config=_validation_config(case)
+    )
+    return {
+        "conservation_check": engine.check_conservation(),
+        "event_cache_consistency_check": engine.check_event_cache_consistency(),
+        "cumulative_count_consistency_check": context.count_consistency_report.is_consistent,
+        "deterministic_replay_exact": replay_engine.event_log == engine.event_log,
+        "physical_parameter_parity_eligible": physical.is_parity_eligible,
+        "physical_ineligibility_reasons": ",".join(physical.ineligibility_reasons),
+    }
+
+
+def _observed_vacancy_overlays(
+    case: ValidationCase, engine: LoadingEngine
+) -> tuple[ValidationOverlay, ...]:
+    if not _is_desouza_case(case.case_id):
+        return ()
+    lag = engine.links["L2"].resolved_physical_parameters().backward_wave_lag_ticks
+    assert lag is not None
+    exits = (
+        event for event in engine.event_log
+        if event.event_type == EventType.LINK_EXIT and event.entity_id == "L2"
+    )
+    return tuple(
+        ValidationOverlay(
+            overlay_id=f"{case.case_id.lower()}-observed-vacancy-{event.sequence_number}",
+            kind="reference_wave", label="Observed L2 exit vacancy propagation",
+            link_id="L2", active_from_tick=event.physical_tick,
+            active_through_tick=min(event.physical_tick + lag, engine.current_tick),
+            direction="backward", evidence_source=EvidenceSource.VALIDATION_OUTPUT,
+            note=(
+                f"Canonical L2 exit at tick {event.physical_tick}; presentation window uses "
+                f"UC's declared backward-wave lag of {lag} ticks. Screen position is presentation-only."
+            ),
+        )
+        for event in exits
+    )
 
 
 def _setup(case_id: str) -> tuple[LoadingEngine, CanonicalTopology]:
     nodes: tuple[Node, ...] = ()
     sending_rates: dict[str, float] | None = None
     receiving_rates: dict[str, float] | None = None
+    initial_receiving_credit: dict[str, float] | None = None
     if case_id == "M8-LINK-01":
         inputs, demands = (UNCONGESTED,), tuple((f"D{i}", ("L1",)) for i in range(3))
     elif case_id == "M8-LINK-02":
@@ -408,6 +792,14 @@ def _setup(case_id: str) -> tuple[LoadingEngine, CanonicalTopology]:
         nodes = (Node("N1", incoming_link_ids=("L1",), outgoing_link_ids=("L2",)),)
         if spec.fractional_receiving_rate is not None:
             receiving_rates = {"L2": spec.fractional_receiving_rate}
+    elif _is_desouza_case(case_id):
+        timestep = float(case_id.removeprefix(DESOUZA_FIGURE5_CASE_PREFIX))
+        inputs = DESOUZA_INPUTS_BY_TIMESTEP[timestep]
+        demands = _desouza_demands(timestep)
+        nodes = (Node("N1", incoming_link_ids=("L1",), outgoing_link_ids=("L2",)),)
+        sending_rates = {item.link_id: float(item.sending_rate_per_tick) for item in inputs}
+        receiving_rates = dict(sending_rates)
+        initial_receiving_credit = {"L2": 0.0}
     else:
         raise KeyError(case_id)
     engine = LoadingEngine(
@@ -416,6 +808,7 @@ def _setup(case_id: str) -> tuple[LoadingEngine, CanonicalTopology]:
         model_profile_id=ACADEMIC_LTM_PARITY_PROFILE_ID,
         parity_sending_capacity_vehicles_per_tick_by_link=sending_rates,
         parity_receiving_capacity_vehicles_per_tick_by_link=receiving_rates,
+        parity_initial_receiving_credit_by_link=initial_receiving_credit,
     )
     for demand in demands:
         demand_id, route, *departure = demand
@@ -425,11 +818,64 @@ def _setup(case_id: str) -> tuple[LoadingEngine, CanonicalTopology]:
     return engine, _topology(case_id, inputs)
 
 
+def _desouza_demands(timestep: float) -> tuple[tuple[str, tuple[str, ...], int], ...]:
+    """Convert the declared continuous boundary demand into deterministic unit requests."""
+
+    requests: list[tuple[str, tuple[str, ...], int]] = []
+    previous_total = 0
+    final_tick = int(150 / timestep)
+    for tick in range(1, final_tick + 1):
+        time_seconds = tick * timestep
+        cumulative = (
+            time_seconds if time_seconds <= 50
+            else 50 + (time_seconds - 50) * 0.2
+        )
+        target_total = floor(cumulative + 1e-12)
+        for _ in range(previous_total, target_total):
+            requests.append((
+                f"DESOUZA-FIG5-D{len(requests) + 1:03d}", ("L1", "L2"), tick
+            ))
+        previous_total = target_total
+    if len(requests) != 70:
+        raise AssertionError(f"de Souza integrated demand resolved {len(requests)} packets")
+    return tuple(requests)
+
+
 def _topology(case_id: str, inputs: tuple[_LinkInput, ...]) -> CanonicalTopology:
     node_ids = tuple(f"N{i}" for i in range(len(inputs) + 1))
     links = tuple(CanonicalTopologyLink(link_id=item.link_id, tail_node_id=node_ids[index], head_node_id=node_ids[index+1], source_link_id=item.link_id, source_tail_node_id=str(index), source_head_node_id=str(index+1), length_m=item.length_m, lane_count=1, free_flow_speed_mps=item.free_flow_speed_mps, capacity_veh_per_hour_per_lane=item.capacity_veh_per_hour_per_lane, jam_density_veh_per_km_per_lane=item.jam_density_veh_per_km_per_lane, backward_wave_speed_mps=item.backward_wave_speed_mps) for index, item in enumerate(inputs))
     nodes = tuple(CanonicalNode(node_id=node_id, source_node_id=str(index), incoming_link_ids=tuple(link.link_id for link in links if link.head_node_id == node_id), outgoing_link_ids=tuple(link.link_id for link in links if link.tail_node_id == node_id)) for index, node_id in enumerate(node_ids))
-    return CanonicalTopology(topology_id=f"validation:{case_id.lower()}:v1", nodes=nodes, links=links, source_metadata=TopologySourceMetadata(source_name="M8 authored analytical fixture", source_format="declared_python_contract", source_file_path="validation_cases.py", source_file_sha256=hashlib.sha256(case_id.encode()).hexdigest()), interpretation_assumptions=("Schematic coordinates are non-geographic.", "Unit packets; SI link metadata; declared discrete timestep."))
+    published = _is_desouza_case(case_id)
+    return CanonicalTopology(
+        topology_id=f"validation:{case_id.lower()}:v1", nodes=nodes, links=links,
+        source_metadata=TopologySourceMetadata(
+            source_name=(
+                "de Souza et al. Figure 5 text declarations"
+                if published else "M8 authored analytical fixture"
+            ),
+            source_format=(
+                "published_text_transcription" if published else "declared_python_contract"
+            ),
+            source_file_path=(
+                "de Souza - Packetised LTM.pdf" if published else "validation_cases.py"
+            ),
+            source_file_sha256=(
+                DESOUZA_FIGURE5_SOURCE_SHA256 if published
+                else hashlib.sha256(case_id.encode()).hexdigest()
+            ),
+        ),
+        interpretation_assumptions=(
+            (
+                "Schematic coordinates are non-geographic.",
+                "Paper text declares two successive links but no lane count; one lane is the explicit UC metadata mapping.",
+                "Empty initial links, fixed L1-to-L2 routing, free terminal sink, and tick-end unit departures are implementation assumptions.",
+                "Published numerical outputs are intentionally absent.",
+            ) if published else (
+                "Schematic coordinates are non-geographic.",
+                "Unit packets; SI link metadata; declared discrete timestep.",
+            )
+        ),
+    )
 
 
 def _node_positions(topology: CanonicalTopology) -> dict[str, tuple[float, float]]:
@@ -456,6 +902,14 @@ def _tick_evidence(engine: LoadingEngine) -> _TickEvidence:
         for trace in traces
     )
     sending = engine.parity_link_sending_trace("L1") if "L1" in engine.links else None
+    sending_by_link = {
+        link_id: engine.parity_link_sending_trace(link_id)
+        for link_id in engine.links
+    }
+    receiving_by_link = {
+        link_id: engine.parity_link_supply_view(link_id)
+        for link_id in engine.links
+    }
     return _TickEvidence(
         candidate_count=candidates,
         approval_count=approvals,
@@ -463,13 +917,138 @@ def _tick_evidence(engine: LoadingEngine) -> _TickEvidence:
         receiving_supply=receiving,
         sending_budget=0 if sending is None else sending.integer_capacity,
         sending_carry=0.0 if sending is None else sending.capacity_carry_out,
+        sending_budget_by_link=tuple(
+            (link_id, trace.integer_capacity)
+            for link_id, trace in sending_by_link.items()
+        ),
+        sending_carry_by_link=tuple(
+            (link_id, trace.capacity_carry_out)
+            for link_id, trace in sending_by_link.items()
+        ),
+        receiving_budget_by_link=tuple(
+            (link_id, trace.integer_receiving_capacity)
+            for link_id, trace in receiving_by_link.items()
+        ),
+        receiving_carry_by_link=tuple(
+            (link_id, trace.receiving_capacity_carry_out)
+            for link_id, trace in receiving_by_link.items()
+        ),
     )
 
 
-def _observed(case: ValidationCase, engine: LoadingEngine, packet_ids: tuple[str, ...], tick_evidence: tuple[_TickEvidence, ...]) -> tuple[tuple[ValidationSeries, ...], tuple[ScalarExpectation, ...], tuple[PacketWaitExplanation, ...]]:
+def _observed(
+    case: ValidationCase,
+    engine: LoadingEngine,
+    packet_ids: tuple[str, ...],
+    tick_evidence: tuple[_TickEvidence, ...],
+    movement_evidence: tuple[MovementAllocationEvidence, ...] = (),
+) -> tuple[tuple[ValidationSeries, ...], tuple[ScalarExpectation, ...], tuple[PacketWaitExplanation, ...]]:
     events = engine.event_log
     final = engine.current_tick
     source = EvidenceSource.EVENT_DERIVED
+    if _is_desouza_case(case.case_id):
+        series: list[ValidationSeries] = []
+        for link_id in ("L1", "L2"):
+            entries = _count(events, EventType.LINK_ENTRY, link_id, final)
+            exits = _count(events, EventType.LINK_EXIT, link_id, final)
+            storage = tuple(entry - exit for entry, exit in zip(entries, exits))
+            series.extend((
+                _series(
+                    f"{link_id.lower()}_cumulative_inflow",
+                    f"Observed {link_id} cumulative inflow", entries, source=source,
+                ),
+                _series(
+                    f"{link_id.lower()}_cumulative_outflow",
+                    f"Observed {link_id} cumulative outflow", exits, source=source,
+                ),
+                _series(
+                    f"{link_id.lower()}_storage", f"Observed {link_id} storage",
+                    storage, source=EvidenceSource.EVENT_DERIVED,
+                ),
+                _series(
+                    f"{link_id.lower()}_sending_budget",
+                    f"Observed {link_id} integer sending budget",
+                    tuple(float(dict(item.sending_budget_by_link).get(link_id, 0)) for item in tick_evidence),
+                    source=EvidenceSource.ENGINE_EXPORTED,
+                ),
+                _series(
+                    f"{link_id.lower()}_sending_carry",
+                    f"Observed {link_id} sending carry",
+                    tuple(dict(item.sending_carry_by_link).get(link_id, 0.0) for item in tick_evidence),
+                    units="packets", source=EvidenceSource.ENGINE_EXPORTED,
+                ),
+                _series(
+                    f"{link_id.lower()}_receiving_budget",
+                    f"Observed {link_id} integer receiving budget",
+                    tuple(float(dict(item.receiving_budget_by_link).get(link_id, 0)) for item in tick_evidence),
+                    source=EvidenceSource.ENGINE_EXPORTED,
+                ),
+                _series(
+                    f"{link_id.lower()}_receiving_carry",
+                    f"Observed {link_id} receiving carry",
+                    tuple(dict(item.receiving_carry_by_link).get(link_id, 0.0) for item in tick_evidence),
+                    units="packets", source=EvidenceSource.ENGINE_EXPORTED,
+                ),
+            ))
+        queue_entries = _count(events, EventType.QUEUE_ENTRY, "boundary:L1->L2", final)
+        queue_exits = _count(events, EventType.QUEUE_EXIT, "boundary:L1->L2", final)
+        boundary_queue = tuple(entry - exit for entry, exit in zip(queue_entries, queue_exits))
+        series.extend((
+            _series(
+                "boundary_queue", "Observed canonical L1-to-L2 boundary queue",
+                boundary_queue, source=EvidenceSource.CANONICAL,
+            ),
+            _series(
+                "queue_entries", "Observed cumulative canonical queue entries",
+                queue_entries, source=EvidenceSource.CANONICAL,
+            ),
+            _series(
+                "queue_exits", "Observed cumulative canonical queue exits",
+                queue_exits, source=EvidenceSource.CANONICAL,
+            ),
+        ))
+        rejected: dict[str, tuple[int, str, int | None]] = {}
+        for allocation in movement_evidence:
+            for movement in allocation.movements:
+                for packet_id, reason in movement.rejected_packet_reasons:
+                    rejected.setdefault(
+                        packet_id,
+                        (allocation.tick, reason, movement.receiving_supply_packets),
+                    )
+        queue_exit_tick = {
+            event.packet_id: event.physical_tick
+            for event in events
+            if event.event_type == EventType.QUEUE_EXIT
+            and event.entity_id == "boundary:L1->L2"
+        }
+        waits = tuple(
+            PacketWaitExplanation(
+                packet_id=event.packet_id,
+                active_from_tick=event.physical_tick,
+                active_through_tick=queue_exit_tick.get(event.packet_id, final),
+                current_link_id="L1", fifo_position=None, head_packet_id=None,
+                intended_movement="boundary:L1->L2",
+                blocking_reason=rejected.get(event.packet_id, (0, None, None))[1],
+                receiving_supply_packets=rejected.get(event.packet_id, (0, None, None))[2],
+                signal_or_governance_constraint=None,
+                expected_next_release_tick=None,
+                evidence_sources=(EvidenceSource.CANONICAL, EvidenceSource.ENGINE_EXPORTED),
+                unavailable_fields=(
+                    "paper-declared release tick", "published comparison expectation"
+                ),
+            )
+            for event in events
+            if event.event_type == EventType.QUEUE_ENTRY
+            and event.entity_id == "boundary:L1->L2"
+        )
+        scalars = (
+            _scalar("declared_demand_packets", "Integrated declared demand", 70, "packets", source=EvidenceSource.VALIDATION_OUTPUT),
+            _scalar("instantiated_packets", "Packets instantiated by horizon", len(engine.packets), "packets", source=EvidenceSource.CANONICAL),
+            _scalar("completed_packets", "Packets completed by horizon", len(engine.completed_packet_ids), "packets", source=EvidenceSource.CANONICAL),
+            _scalar("event_count", "Canonical event count", len(events), "events", source=EvidenceSource.CANONICAL),
+            _scalar("observation_horizon", "Bounded observation horizon", final * case.tick_duration_seconds, "s", source=EvidenceSource.VALIDATION_OUTPUT),
+        )
+        return tuple(series), scalars, waits
     if case.case_id.startswith("M8-NODE-01-"):
         transfers = _count(events, EventType.LINK_ENTRY, "L2", final)
         queue_entries = _count(events, EventType.QUEUE_ENTRY, "boundary:L1->L2", final)
@@ -559,6 +1138,115 @@ def _observed(case: ValidationCase, engine: LoadingEngine, packet_ids: tuple[str
     return (
         (_series("l2_entries", "Observed L2 cumulative entries", l2_entries, source=source), _series("l2_exits", "Observed L2 cumulative exits", l2_exits, source=source), _series("queue_entries", "Observed cumulative boundary queue entries", queue_entries, source=EvidenceSource.CANONICAL), _series("queue_exits", "Observed cumulative boundary queue exits", queue_exits, source=EvidenceSource.CANONICAL), _series("pre_accept_vacancy", "Observed pre-accept receiving vacancy", vacancy, source=EvidenceSource.VALIDATION_OUTPUT)),
         (_scalar("candidate_release_tick", "Observed candidate L2 entry", release_ticks[0] if release_ticks else -1, "tick", source=source),), waits,
+    )
+
+
+def _movement_allocation_evidence(
+    *,
+    result_id: str,
+    topology: CanonicalTopology,
+    engine: LoadingEngine,
+    new_events: tuple[Event, ...],
+) -> tuple[MovementAllocationEvidence, ...]:
+    specs = {
+        movement.movement_id: movement
+        for node in topology.nodes
+        for movement in node.junction_spec().movement_specs
+    }
+    evidence: list[MovementAllocationEvidence] = []
+    for trace in engine.allocation_traces():
+        rejected = dict(trace.rejected_transfer_reasons)
+        receiving = dict(trace.receiving_slots_by_downstream_link)
+        lane = dict(trace.lane_group_capacity_by_id)
+        conflict = dict(trace.conflict_resource_capacity_by_id)
+        flows: list[MovementFlowEvidence] = []
+        for summary in trace.movement_flow_summaries:
+            spec = specs.get(summary.movement_id)
+            if spec is None:
+                continue
+            approved = tuple(
+                packet_id for packet_id in trace.approved_packet_ids
+                if _packet_transfer_matches(
+                    packet_id, spec.upstream_link_id, spec.downstream_link_id, new_events
+                )
+            )
+            candidates = tuple(
+                packet_id for packet_id in trace.candidate_packet_ids
+                if _route_contains_movement(
+                    engine.packets[packet_id].route_intent,
+                    spec.upstream_link_id,
+                    spec.downstream_link_id,
+                )
+            )
+            flows.append(MovementFlowEvidence(
+                movement_id=summary.movement_id,
+                upstream_link_id=summary.upstream_link_id,
+                downstream_link_id=summary.downstream_link_id,
+                request_packet_ids=candidates,
+                upstream_fifo_packet_ids=candidates,
+                approved_packet_ids=approved,
+                rejected_packet_reasons=tuple(
+                    (packet_id, rejected[packet_id])
+                    for packet_id in candidates if packet_id in rejected
+                ),
+                receiving_supply_packets=receiving.get(summary.downstream_link_id),
+                movement_capacity_packets=None,
+                lane_group_constraints={
+                    key: value for key, value in lane.items()
+                    if key in spec.lane_group_ids
+                },
+                conflict_resource_constraints={
+                    key: value for key, value in conflict.items()
+                    if key in spec.conflict_resource_ids
+                },
+                signal_state=(
+                    "not_declared" if spec.signal_group_id is None
+                    else "open" if spec.signal_group_id in trace.open_signal_group_ids
+                    else "closed"
+                ),
+                governance_state=(
+                    "closed" if summary.movement_id in trace.closed_movement_ids else "open"
+                ),
+                resulting_canonical_event_sequences=tuple(
+                    event.sequence_number for event in new_events
+                    if event.packet_id in approved
+                    and event.event_type in {EventType.LINK_EXIT, EventType.LINK_ENTRY}
+                ),
+            ))
+        if flows:
+            evidence.append(MovementAllocationEvidence(
+                run_id=result_id, tick=engine.current_tick,
+                junction_id=trace.node_id, allocator_id=trace.allocator_id,
+                movement_spec_hash=engine.movement_spec_hash,
+                semantic_sources={
+                    "requests": "engine_owned_materialised_trace",
+                    "movement_spec": "immutable_topology_metadata",
+                    "approvals": "engine_owned_materialised_trace",
+                    "resulting_events": "canonical_event_data",
+                },
+                movements=tuple(flows),
+            ))
+    return tuple(evidence)
+
+
+def _packet_transfer_matches(
+    packet_id: str, upstream: str, downstream: str, events: tuple[Event, ...]
+) -> bool:
+    event_pairs = {
+        (event.packet_id, event.event_type, event.entity_id) for event in events
+    }
+    return (
+        (packet_id, EventType.LINK_EXIT, upstream) in event_pairs
+        and (packet_id, EventType.LINK_ENTRY, downstream) in event_pairs
+    )
+
+
+def _route_contains_movement(
+    route: tuple[str, ...], upstream: str, downstream: str
+) -> bool:
+    return any(
+        left == upstream and right == downstream
+        for left, right in zip(route, route[1:])
     )
 
 

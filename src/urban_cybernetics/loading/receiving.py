@@ -156,21 +156,40 @@ def bounded_integer_receiving_capacity_carry(
     link_id: str,
     capacity_vehicles_per_tick: float,
     carry_in: float,
+    actual_flow_packets: int = 0,
 ) -> tuple[int, float]:
-    """Return the integer receiving budget and bounded carry for one tick."""
+    """Return de Souza integer supply and retained credit after one tick.
+
+    Equation (6) retains unused whole-packet credit, subtracts realised flow,
+    and caps the credit at ``ceil(C * dt) + 1``.  Equation (7) exposes only
+    the integer floor of the credit available before the tick.
+    """
 
     if capacity_vehicles_per_tick < 0:
         raise ValueError(
             f"capacity_vehicles_per_tick cannot be negative for {link_id}: "
             f"{capacity_vehicles_per_tick}"
         )
-    if carry_in < 0 or carry_in >= 1:
-        raise ValueError(f"carry_in must be in [0, 1) for {link_id}: {carry_in}")
-    available_capacity = carry_in + capacity_vehicles_per_tick
-    integer_capacity = floor(available_capacity)
-    carry_out = available_capacity - integer_capacity
-    if carry_out >= 1:
-        raise ValueError(f"carry_out is not bounded for {link_id}: {carry_out}")
+    if actual_flow_packets < 0:
+        raise ValueError(
+            f"actual_flow_packets cannot be negative for {link_id}: "
+            f"{actual_flow_packets}"
+        )
+    credit_bound = ceil(capacity_vehicles_per_tick) + 1
+    if carry_in < 0 or carry_in > credit_bound:
+        raise ValueError(
+            f"carry_in must be in [0, {credit_bound}] for {link_id}: {carry_in}"
+        )
+    integer_capacity = floor(carry_in)
+    if actual_flow_packets > integer_capacity:
+        raise ValueError(
+            f"actual flow exceeds available receiving credit for {link_id}: "
+            f"{actual_flow_packets} > {integer_capacity}"
+        )
+    carry_out = min(
+        carry_in + capacity_vehicles_per_tick - actual_flow_packets,
+        float(credit_bound),
+    )
     return integer_capacity, carry_out
 
 
@@ -211,12 +230,15 @@ def parity_link_supply_view(
         if capacity_vehicles_per_tick is None
         else capacity_vehicles_per_tick
     )
+    same_tick_accepted_count = _same_tick_link_entries(event_tuple, link.link_id, tick)
     integer_capacity, carry_out = bounded_integer_receiving_capacity_carry(
         link_id=link.link_id,
         capacity_vehicles_per_tick=capacity_rate,
         carry_in=receiving_capacity_carry_in,
+        # Tick zero is the pre-step initial state; its authored entries are
+        # initial conditions rather than flow in an executed recurrence tick.
+        actual_flow_packets=(same_tick_accepted_count if tick > 0 else 0),
     )
-    same_tick_accepted_count = _same_tick_link_entries(event_tuple, link.link_id, tick)
     total_accepted_count = same_tick_accepted_count + already_accepted_count
     available_receiving_capacity = max(integer_capacity - total_accepted_count, 0)
     if not receiving_open:

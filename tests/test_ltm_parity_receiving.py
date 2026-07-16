@@ -87,21 +87,31 @@ class LTMParityReceivingTest(unittest.TestCase):
         self.assertEqual(open_supply.available_receiving_slots, 0)
         self.assertEqual(closed_supply.available_receiving_slots, 0)
 
-    def test_fractional_parity_receiving_capacity_uses_bounded_carry(self) -> None:
-        carry = 0.0
+    def test_fractional_parity_receiving_capacity_retains_unused_credit(self) -> None:
+        carry = 1.5
         budgets: list[int] = []
         carries: list[float] = []
-        for _ in range(4):
+        for actual_flow_packets in (1, 2, 1, 2):
             integer_capacity, carry = bounded_integer_receiving_capacity_carry(
                 link_id="L2",
                 capacity_vehicles_per_tick=1.5,
                 carry_in=carry,
+                actual_flow_packets=actual_flow_packets,
             )
             budgets.append(integer_capacity)
             carries.append(carry)
 
         self.assertEqual(budgets, [1, 2, 1, 2])
-        self.assertEqual(carries, [0.5, 0.0, 0.5, 0.0])
+        self.assertEqual(carries, [2.0, 1.5, 2.0, 1.5])
+        self.assertEqual(
+            bounded_integer_receiving_capacity_carry(
+                link_id="L2",
+                capacity_vehicles_per_tick=0.5,
+                carry_in=2.0,
+                actual_flow_packets=0,
+            ),
+            (2, 2.0),
+        )
 
     def test_parity_engine_uses_fractional_receiving_capacity_for_transfers(self) -> None:
         engine = LoadingEngine(
@@ -137,9 +147,9 @@ class LTMParityReceivingTest(unittest.TestCase):
             [packets[1].packet_id, packets[2].packet_id],
         )
         self.assertEqual(first_tick_supply.receiving_capacity_vehicles_per_tick, 1.5)
-        self.assertEqual(first_tick_supply.receiving_capacity_carry_out, 0.5)
+        self.assertEqual(first_tick_supply.receiving_capacity_carry_out, 2.0)
         self.assertEqual(second_tick_supply.integer_receiving_capacity, 2)
-        self.assertEqual(second_tick_supply.receiving_capacity_carry_in, 0.5)
+        self.assertEqual(second_tick_supply.receiving_capacity_carry_in, 2.0)
         self.assertTrue(engine.check_conservation())
 
     def test_parity_origin_admission_uses_lagged_vacancy_supply(self) -> None:

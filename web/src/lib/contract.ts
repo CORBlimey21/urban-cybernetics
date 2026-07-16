@@ -345,6 +345,12 @@ export const validationSeriesSchema = z.object({
 }).refine((value) => value.ticks.length === value.values.length, "validation series lengths differ");
 export const scalarEvidenceSchema = z.object({ scalar_id: z.string(), label: z.string(), value: z.union([z.number(), z.string(), z.boolean()]), units: z.string().nullable(), evidence_source: evidenceSourceSchema });
 export const validationOverlaySchema = z.object({ overlay_id: z.string(), kind: z.enum(["relevant_link", "queued_region", "blocked_boundary", "reference_wave", "event_marker", "released_storage"]), label: z.string(), link_id: z.string().nullable(), boundary_id: z.string().nullable(), active_from_tick: z.number().int(), active_through_tick: z.number().int(), direction: z.enum(["forward", "backward", "none"]), evidence_source: evidenceSourceSchema, note: z.string() });
+export const validationExecutionEvidenceSchema = z.object({
+  schema_version: z.literal("uc.validation.execution-evidence.v1"),
+  result_id: z.string(),
+  movement_evidence: z.array(movementEvidenceSchema),
+  observed_overlays: z.array(validationOverlaySchema),
+});
 export const validationCaseSchema = z.object({
   schema_version: z.literal("uc.validation.case.v1"), case_id: z.string(), version: z.string(), group_id: z.string(), title: z.string(), short_explanation: z.string(), claim_ids: z.array(z.string()),
   evidence_class: z.enum(["analytical", "published_numerical_reproduction", "structural_requirement", "cross_implementation", "benchmark"]),
@@ -413,6 +419,7 @@ export type MovementEvidence = z.infer<typeof movementEvidenceSchema>;
 export type NetworkLayout = z.infer<typeof networkLayoutSchema>;
 export type ValidationCase = z.infer<typeof validationCaseSchema>;
 export type ValidationResult = z.infer<typeof validationResultSchema>;
+export type ValidationExecutionEvidence = z.infer<typeof validationExecutionEvidenceSchema>;
 export type ValidationRunStatus = z.infer<typeof validationRunStatusSchema>;
 export type ValidationLibraryRecord = z.infer<typeof validationLibrarySchema>[number];
 export type LabVariable = z.infer<typeof labVariableSchema>;

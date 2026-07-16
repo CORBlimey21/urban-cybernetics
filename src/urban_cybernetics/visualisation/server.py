@@ -287,6 +287,16 @@ def create_app(
         except ValidationArtifactNotFound as exc:
             raise HTTPException(status_code=404, detail="validation replay bundle not found") from exc
 
+    @app.get("/api/v3/validation/results/{result_id}/execution-evidence")
+    def validation_execution_evidence(result_id: str) -> dict[str, object]:
+        try:
+            # Result existence is checked separately so an unknown ID does not look
+            # like a valid run with an empty supplemental-evidence record.
+            validation_repository.result(result_id)
+            return validation_repository.execution_evidence(result_id).model_dump(mode="json")
+        except ValidationArtifactNotFound as exc:
+            raise HTTPException(status_code=404, detail="validation result not found") from exc
+
     @app.get("/api/v4/lab-bench/cases/{case_id}/variables")
     def lab_case_variables(case_id: str) -> list[dict[str, object]]:
         try:

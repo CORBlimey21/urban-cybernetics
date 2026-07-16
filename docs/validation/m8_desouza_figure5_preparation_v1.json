@@ -1,0 +1,119 @@
+{
+  "schema_version": "uc.validation.published-case-preparation.v1",
+  "preparation_id": "M8-PUB-DSOUZA-FIG5-v1",
+  "status": "uc_evidence_generated_published_comparison_withheld",
+  "source": {
+    "title": "A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles",
+    "authors": [
+      "Felipe de Souza",
+      "Omer Verbas",
+      "Joshua Auld",
+      "Chris M.J. Tampere"
+    ],
+    "source_section": "4.1 One-to-One Connections",
+    "source_equation": "13",
+    "referenced_figure": "Figure 5",
+    "pdf_sha256": "ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903",
+    "extraction_boundary": "text declarations only; published curves, plotted values, errors, and numerical outcomes were not inspected, digitised, or encoded"
+  },
+  "declared_parameters": {
+    "topology": {
+      "classification": "paper-declared",
+      "value": "two successive directed links, link 1 upstream of link 2; link 2 has lower capacity"
+    },
+    "link_lengths_m": {
+      "classification": "paper-declared",
+      "value": {"L1": 150.0, "L2": 150.0}
+    },
+    "free_flow_speeds_m_per_s": {
+      "classification": "paper-declared",
+      "value": {"L1": 30.0, "L2": 30.0}
+    },
+    "backward_wave_speeds_m_per_s": {
+      "classification": "paper-declared",
+      "value": {"L1": 6.0, "L2": 6.0}
+    },
+    "jam_densities_veh_per_m": {
+      "classification": "paper-declared",
+      "value": {"L1": 0.2, "L2": 0.1}
+    },
+    "capacities_veh_per_s": {
+      "classification": "paper-declared",
+      "value": {"L1": 1.0, "L2": 0.5}
+    },
+    "upstream_demand": {
+      "classification": "paper-declared",
+      "value": [
+        {"rate_veh_per_s": 1.0, "condition": "t <= 50 s"},
+        {"rate_veh_per_s": 0.2, "condition": "50 s < t <= 150 s"}
+      ]
+    },
+    "timesteps_s": {
+      "classification": "paper-declared",
+      "value": [1.0, 3.0, 6.0]
+    },
+    "continuous_reference_timestep_s": {
+      "classification": "paper-declared-reference-only",
+      "value": 1.0,
+      "uc_use": "not run or compared in this preparation slice"
+    },
+    "model_assumptions": {
+      "classification": "paper-declared",
+      "value": [
+        "triangular fundamental diagram with C=K*V*W/(V+W)",
+        "one-to-one node flow is min(upstream demand, downstream supply)",
+        "integer vehicle flows in the proposed model",
+        "FIFO association of vehicles and cumulative flows",
+        "CFL condition max(V,W)*dt <= L"
+      ]
+    }
+  },
+  "derived_mathematically": {
+    "capacity_check_veh_per_s": {"L1": 1.0, "L2": 0.5},
+    "one_lane_uc_storage_packets": {"L1": 30, "L2": 15},
+    "integrated_demand_packets_through_150_s": 70,
+    "free_flow_travel_time_s": {"L1": 5.0, "L2": 5.0},
+    "backward_wave_travel_time_s": {"L1": 25.0, "L2": 25.0},
+    "uc_free_flow_lag_ticks": {"dt_1": 5, "dt_3": 2, "dt_6": 1},
+    "uc_backward_wave_lag_ticks": {"dt_1": 25, "dt_3": 9, "dt_6": 5},
+    "observation_horizon": "150 s, derived from the end of declared demand support rather than an explicit paper stop rule",
+    "cfl_note": "the paper declares both dt=6 s and max(V,W)*dt<=L; with L=150 m and V=30 m/s, dt=6 s violates that stated condition"
+  },
+  "implementation_assumptions": [
+    "map each paper link to one UC lane because lane count is not declared",
+    "treat both links as empty before the first departure",
+    "assign every unit packet the fixed route L1 to L2",
+    "treat the boundary after L2 as a free terminal sink under current UC completion semantics",
+    "integrate the piecewise demand over [0,t], floor cumulative vehicles at tick endpoints, and schedule newly resolved unit packets at that endpoint tick",
+    "use current UC ceiling-rounded positive free-flow and backward-wave lags",
+    "use current UC deterministic same-tick event and movement-allocation ordering",
+    "stop the bounded observation at 150 s"
+  ],
+  "blocked_or_ambiguous": [
+    "paper-declared lane count",
+    "paper-declared initial link occupancies or packet placement",
+    "paper-declared downstream sink boundary rule",
+    "paper-declared route or routing rule beyond the unique two-link topology",
+    "paper-declared departure packetisation and tick-boundary convention",
+    "paper-declared tie-breaking or same-tick event ordering",
+    "paper-declared simulation stop or clearance rule",
+    "published numerical outputs and comparison tolerances, intentionally withheld until the next slice"
+  ],
+  "uc_cases": [
+    {"case_id": "M8-PUB-DSOUZA-FIG5-DT1", "timestep_s": 1.0, "final_tick": 150},
+    {"case_id": "M8-PUB-DSOUZA-FIG5-DT3", "timestep_s": 3.0, "final_tick": 50},
+    {"case_id": "M8-PUB-DSOUZA-FIG5-DT6", "timestep_s": 6.0, "final_tick": 25}
+  ],
+  "uc_evidence_inventory": [
+    {"case_id": "M8-PUB-DSOUZA-FIG5-DT1", "packet_count": 70, "completed_at_horizon": 66, "canonical_event_count": 544, "final_l1_storage": 1, "final_l2_storage": 3, "final_boundary_queue": 0, "core_integrity": "passed", "static_physical_eligibility": "passed", "published_comparison": "not_run"},
+    {"case_id": "M8-PUB-DSOUZA-FIG5-DT3", "packet_count": 70, "completed_at_horizon": 62, "canonical_event_count": 520, "final_l1_storage": 6, "final_l2_storage": 2, "final_boundary_queue": 2, "core_integrity": "passed", "static_physical_eligibility": "passed", "published_comparison": "not_run"},
+    {"case_id": "M8-PUB-DSOUZA-FIG5-DT6", "packet_count": 70, "completed_at_horizon": 60, "canonical_event_count": 500, "final_l1_storage": 10, "final_l2_storage": 0, "final_boundary_queue": 6, "core_integrity": "passed", "static_physical_eligibility": "failed", "published_comparison": "not_run"}
+  ],
+  "comparison_policy": {
+    "published_outputs_loaded": false,
+    "paper_errors_computed": false,
+    "agreement_claimed": false,
+    "disagreement_claimed": false,
+    "uc_loading_semantics_modified": false
+  }
+}

@@ -7,6 +7,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from .v2_contract import MovementAllocationEvidence
+
 
 VALIDATION_CASE_CONTRACT_VERSION = "uc.validation.case.v1"
 VALIDATION_RESULT_CONTRACT_VERSION = "uc.validation.result.v1"
@@ -245,6 +247,17 @@ class ValidationRunStatus(ValidationModel):
     final_tick: int
     detail: str
     terminal: bool
+
+
+class ValidationExecutionEvidence(ValidationModel):
+    """Post-run evidence that is neither a paper oracle nor simulator state."""
+
+    schema_version: Literal["uc.validation.execution-evidence.v1"] = (
+        "uc.validation.execution-evidence.v1"
+    )
+    result_id: str
+    movement_evidence: tuple[MovementAllocationEvidence, ...] = ()
+    observed_overlays: tuple[ValidationOverlay, ...] = ()
 
 
 class ValidationLibraryRecord(ValidationModel):

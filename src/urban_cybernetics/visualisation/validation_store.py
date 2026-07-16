@@ -11,7 +11,10 @@ from threading import Event, RLock, Thread
 
 from .contract import VRunBundle
 from .validation_cases import CASES, CASES_BY_ID, current_code_commit, execute_case
-from .validation_contract import ValidationCase, ValidationLifecycle, ValidationLibraryRecord, ValidationResult, ValidationRunStatus
+from .validation_contract import (
+    ValidationCase, ValidationExecutionEvidence, ValidationLifecycle,
+    ValidationLibraryRecord, ValidationResult, ValidationRunStatus,
+)
 
 
 class ValidationArtifactNotFound(KeyError):
@@ -35,13 +38,23 @@ class ValidationRepository:
     def write_status(self, status: ValidationRunStatus) -> None:
         self._write_json(self.root / "runs" / status.result_id / "status.json", status.model_dump(mode="json"))
 
-    def append_result(self, result: ValidationResult, bundle: VRunBundle) -> None:
+    def append_result(
+        self,
+        result: ValidationResult,
+        bundle: VRunBundle,
+        execution_evidence: ValidationExecutionEvidence | None = None,
+    ) -> None:
         directory = self.root / "runs" / result.result_id
         result_path = directory / "result.json"
         if result_path.exists():
             raise FileExistsError(f"validation result is append-only: {result.result_id}")
         self._write_json(result_path, result.model_dump(mode="json"))
         self._write_json(directory / "replay_bundle.json", bundle.model_dump(mode="json"))
+        if execution_evidence is not None:
+            self._write_json(
+                directory / "execution_evidence.json",
+                execution_evidence.model_dump(mode="json"),
+            )
 
     def list_results(self, case_id: str | None = None) -> tuple[ValidationResult, ...]:
         results: list[ValidationResult] = []
@@ -57,6 +70,13 @@ class ValidationRepository:
 
     def bundle(self, result_id: str) -> VRunBundle:
         return VRunBundle.model_validate_json(self._find(result_id, "replay_bundle.json").read_text(encoding="utf-8"))
+
+    def execution_evidence(self, result_id: str) -> ValidationExecutionEvidence:
+        try:
+            path = self._find(result_id, "execution_evidence.json")
+        except ValidationArtifactNotFound:
+            return ValidationExecutionEvidence(result_id=result_id)
+        return ValidationExecutionEvidence.model_validate_json(path.read_text(encoding="utf-8"))
 
     def status(self, result_id: str) -> ValidationRunStatus:
         return ValidationRunStatus.model_validate_json(self._find(result_id, "status.json").read_text(encoding="utf-8"))
@@ -152,9 +172,23 @@ class ValidationOrchestrator:
                 if lifecycle == ValidationLifecycle.EXECUTING and self.execution_yield_seconds:
                     time.sleep(self.execution_yield_seconds)
 
-            result, bundle = execute_case(runtime.case, result_id=runtime.status.result_id, code_commit=current_code_commit(), cancelled=runtime.cancel.is_set, progress=progress)
-            self.repository.append_result(result, bundle)
-            terminal = ValidationLifecycle.CANCELLED if result.status.value == "cancelled" else ValidationLifecycle.COMPLETE if result.status.value == "passed" else ValidationLifecycle.FAILED
+            movements = []
+            overlays = []
+            result, bundle = execute_case(
+                runtime.case, result_id=runtime.status.result_id,
+                code_commit=current_code_commit(), cancelled=runtime.cancel.is_set,
+                progress=progress, movement_evidence=movements.append,
+                observed_overlay=overlays.append,
+            )
+            execution_evidence = ValidationExecutionEvidence(
+                result_id=result.result_id, movement_evidence=tuple(movements),
+                observed_overlays=tuple(overlays),
+            )
+            self.repository.append_result(
+                result, bundle,
+                execution_evidence if movements or overlays else None,
+            )
+            terminal = ValidationLifecycle.CANCELLED if result.status.value == "cancelled" else ValidationLifecycle.COMPLETE if result.status.value in {"passed", "not_run"} else ValidationLifecycle.FAILED
             self._update(runtime, terminal, bundle.run.end_tick, result.observed_result_summary, terminal=True)
         except Exception as exc:
             self._update(runtime, ValidationLifecycle.FAILED, runtime.status.physical_tick, f"Validation execution failed: {exc}", terminal=True)

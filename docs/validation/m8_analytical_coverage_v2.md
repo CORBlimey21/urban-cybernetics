@@ -1,7 +1,8 @@
 # M8 Analytical Coverage v2
 
 Status: readiness report after completing the pre-publication link and NODE-01
-analytical slice. Published reproduction has not begun.
+analytical slice. The de Souza Figure 5 input/evidence preparation has now
+begun, but published numerical comparison has not.
 
 ## Before This Slice
 
@@ -34,7 +35,8 @@ analytical slice. Published reproduction has not begun.
 | strict/partial FIFO diverge | Implemented but not independently validated | future analytical node family |
 | general MIMO node allocation | Implemented but not independently validated | future analytical node family |
 | unsupported adaptive node control | Not yet implemented | explicitly rejected by current contracts |
-| published lane-drop numerical agreement | Future published reproduction | de Souza is next; deliberately untouched |
+| published lane-drop scenario preparation | UC evidence generated; no paper comparison | de Souza Figure 5 text inputs instantiated at 1 s, 3 s, and 6 s |
+| published lane-drop numerical agreement | Future published comparison | curves, tolerances, and errors deliberately withheld |
 | Yperman and cross-implementation agreement | Future published reproduction | deliberately untouched |
 
 No elementary analytical mechanism in the first lane-drop dependency set is

@@ -19,6 +19,7 @@ import {
   replayStateSchema,
   eventSchema,
   validationLibrarySchema,
+  validationExecutionEvidenceSchema,
   validationResultSchema,
   validationRunStatusSchema,
   labComparisonResultSchema, labEvaluationResultSchema, labOracleSchema, labTableResultSchema, labVariableSchema, labWorksheetSchema,
@@ -160,6 +161,7 @@ export const loadValidationRunStatus = async (resultId: string) => validationRun
 export const cancelValidationRun = async (resultId: string) => validationRunStatusSchema.parse(await postJson(`/api/v3/validation/runs/${encodeURIComponent(resultId)}/commands`, { schema_version: "uc.validation.control.v1", command_id: `cancel-${crypto.randomUUID()}`, action: "cancel" }));
 export const loadValidationResult = async (resultId: string) => validationResultSchema.parse(await getJson(`/api/v3/validation/results/${encodeURIComponent(resultId)}`));
 export const loadValidationBundle = async (resultId: string) => finalBundleSchema.parse(await getJson(`/api/v3/validation/results/${encodeURIComponent(resultId)}/bundle`));
+export const loadValidationExecutionEvidence = async (resultId: string) => validationExecutionEvidenceSchema.parse(await getJson(`/api/v3/validation/results/${encodeURIComponent(resultId)}/execution-evidence`));
 
 export const loadLabVariables = async (caseId: string) => labVariableSchema.array().parse(await getJson(`/api/v4/lab-bench/cases/${encodeURIComponent(caseId)}/variables`));
 export const createLabStarter = async (caseId: string) => labWorksheetSchema.parse(await postJson(`/api/v4/lab-bench/cases/${encodeURIComponent(caseId)}/starter`, {}));

@@ -30,7 +30,7 @@ export const valueAtTick = (
 };
 
 const observedPointQueue = (result: ValidationResult | null, tick: number) => {
-  const series = result?.observed_series.find((item) => item.quantity === "point_queue");
+  const series = result?.observed_series.find((item) => item.quantity === "point_queue" || item.quantity === "boundary_queue");
   if (!series) return null;
   const value = valueAtTick(series, tick);
   return value === null ? null : { value, maximum: Math.max(1, ...series.values), source: series.evidence_source };
@@ -60,7 +60,9 @@ export const validationReplayPresentation = (
     const denominator = canonicalQueue
       ? Math.max(linkState.occupancy_packets, canonicalQueue, 1)
       : Math.max(pointQueue?.maximum ?? 1, 1);
-    const wave = active.find((overlay) => overlay.kind === "reference_wave" && overlay.link_id === linkState.link_id);
+    const wave = active
+      .filter((overlay) => overlay.kind === "reference_wave" && overlay.link_id === linkState.link_id)
+      .sort((left, right) => right.active_from_tick - left.active_from_tick)[0];
     const duration = wave ? Math.max(1, wave.active_through_tick - wave.active_from_tick) : 1;
     const waveProgress = wave ? Math.max(0, Math.min(1, (state.tick - wave.active_from_tick) / duration)) : null;
     if (queuePackets || blocked || queueOverlay || wave) {

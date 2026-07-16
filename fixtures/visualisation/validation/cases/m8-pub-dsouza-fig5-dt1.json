@@ -1,0 +1,123 @@
+{
+  "case_id": "M8-PUB-DSOUZA-FIG5-DT1",
+  "citations": [
+    {
+      "citation_text": "Felipe de Souza, Omer Verbas, Joshua Auld, and Chris M.J. Tampere, A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles, preprint dated 4 June 2025.",
+      "equation": "Equation 13",
+      "figure": "Figure 5 (text declarations only; numerical curves withheld)",
+      "source_id": "desouza-packetised-ltm-preprint-2025",
+      "source_section": "Section 4.1, One-to-One Connections",
+      "table": null,
+      "url": null
+    }
+  ],
+  "claim_ids": [
+    "M8-VAL-09-PREPARATION",
+    "DESOUZA-FIG5-DT1"
+  ],
+  "comparison_status": "not_comparable",
+  "default_final_tick": 150,
+  "demand_reference": "paper-declared d(t)=1.0 veh/s for t<=50 s and 0.2 veh/s for 50<t<=150 s; deterministic unit-packet conversion documented separately",
+  "evidence_class": "published_numerical_reproduction",
+  "expected_physical_sequence": [
+    "Apply only the declared two-link physical parameters and upstream demand schedule.",
+    "Convert integrated boundary demand to UC unit-packet departures using the declared preparation convention.",
+    "Execute the unchanged parity_ltm_v1 loading engine through the 150 s demand-support boundary.",
+    "Persist canonical events, replay states, cumulative counts, storage, queues, movement traces, and internal validation outputs."
+  ],
+  "expected_result_summary": "No expected numerical result is encoded in this preparation slice; published curves, errors, and agreement metrics remain withheld.",
+  "expected_scalars": [],
+  "expected_series": [],
+  "group_id": "m8-published-desouza-figure5-preparation-v1",
+  "initial_state_reference": "implementation assumption: both links empty at t=0; no paper-declared initial packet placement was found",
+  "input_completeness": "partial",
+  "known_model_differences": [
+    "UC uses ceiling-rounded positive travel lags; the paper's general LTM text prints floor-based T1/T2 formulas.",
+    "UC unit-packet departure conversion and same-tick event ordering are implementation conventions because Figure 5 does not declare them."
+  ],
+  "limits_on_interpretation": [
+    "The result is an observed UC run, not a published numerical reproduction claim.",
+    "No paper curve, table, or expected value is loaded or compared.",
+    "The 150 s run boundary is derived from the end of the declared demand support; the paper does not explicitly declare a stop rule.",
+    "Empty initial links, a single L1-to-L2 route, a free terminal sink, and departure event ordering are explicit implementation assumptions.",
+    "The timestep satisfies UC's static free-flow and backward-wave admissibility checks."
+  ],
+  "metrics": [],
+  "overlays": [
+    {
+      "active_from_tick": 0,
+      "active_through_tick": 150,
+      "boundary_id": null,
+      "direction": "forward",
+      "evidence_source": "analytical_reference",
+      "kind": "relevant_link",
+      "label": "Declared upstream link",
+      "link_id": "L1",
+      "note": "Topology/parameter cue only; no expected traffic state is asserted.",
+      "overlay_id": "desouza-dt1-upstream"
+    },
+    {
+      "active_from_tick": 0,
+      "active_through_tick": 150,
+      "boundary_id": null,
+      "direction": "forward",
+      "evidence_source": "analytical_reference",
+      "kind": "relevant_link",
+      "label": "Declared lower-capacity downstream link",
+      "link_id": "L2",
+      "note": "The 0.5 veh/s capacity is paper-declared; no expected queue or curve is asserted.",
+      "overlay_id": "desouza-dt1-downstream"
+    }
+  ],
+  "profile_reference": "parity_ltm_v1",
+  "provenance": [
+    "Declared inputs transcribed from paper text only; Figure 5 curves were not inspected or digitised.",
+    "Source PDF SHA-256: ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903.",
+    "Structured transcription: docs/validation/m8_desouza_figure5_preparation_v1.json."
+  ],
+  "reference_assets": [
+    {
+      "asset_id": "desouza-figure5-text-declarations-v1",
+      "citation_text": "Felipe de Souza, Omer Verbas, Joshua Auld, and Chris M.J. Tampere, A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles, preprint dated 4 June 2025.",
+      "comparison_suitability": "context_only",
+      "digitised_series_id": null,
+      "figure_table_equation": "Section 4.1 and Equation 13; Figure 5 output curves excluded",
+      "label": "Figure 5 lane-drop declared inputs (text only)",
+      "local_asset_path": null,
+      "missing_input_notes": [
+        "Initial conditions are not explicitly declared.",
+        "The downstream sink boundary is not explicitly declared.",
+        "The packet departure boundary convention is not explicitly declared.",
+        "The simulation stop rule is not explicitly declared."
+      ],
+      "rights_provenance_note": "Only parameter declarations and surrounding prose were transcribed. No published curve, table, digitised value, or expected numerical result is embedded.",
+      "source_id": "desouza-packetised-ltm-preprint-2025",
+      "transformation_metadata": []
+    }
+  ],
+  "reproducibility_notes": [
+    "paper-declared: two successive 150 m links; shared V=30 m/s and W=6 m/s; K1=0.2 veh/m, K2=0.1 veh/m; C1=1.0 veh/s, C2=0.5 veh/s.",
+    "paper-declared: upstream d(t)=1.0 veh/s for t<=50 s and 0.2 veh/s for 50<t<=150 s.",
+    "paper-declared: discrete timestep 1 s.",
+    "paper-declared reference only: the continuous LTM uses a 1 s timestep; no continuous reference run is executed in this slice.",
+    "derived mathematically: 30 and 15 vehicle storage under one-lane UC SI metadata; 70 vehicles of integrated demand through 150 s.",
+    "implementation assumption: one lane per link because the paper declares aggregate jam density/capacity but no lane count.",
+    "implementation assumption: integrate demand over [0,t] and admit floor(cumulative demand) at tick endpoints; no random inputs.",
+    "implementation assumption: empty links, fixed route L1-to-L2, deterministic FIFO, free terminal sink, and a 150 s bounded observation horizon.",
+    "blocked for later comparison: published-output transcription, tolerance selection, and error computation."
+  ],
+  "route_sequences": [
+    [
+      "L1",
+      "L2"
+    ]
+  ],
+  "safe_claim": "UC executed the declared physical scenario plus the listed explicit assumptions and exported internally checked evidence; no agreement or disagreement with the paper is claimed.",
+  "schema_version": "uc.validation.case.v1",
+  "short_explanation": "Runs UC on the paper-declared two-link lane drop and exports observations without loading or comparing any published numerical result.",
+  "tick_duration_seconds": 1.0,
+  "title": "de Souza Figure 5 lane drop - 1 s preparation",
+  "topology_reference": "desouza-figure5-two-successive-links-v1",
+  "version": "1",
+  "why_it_matters": "This freezes the first published-case input transcription and UC evidence before any paper comparison, parameter fitting, or interpretation is permitted."
+}

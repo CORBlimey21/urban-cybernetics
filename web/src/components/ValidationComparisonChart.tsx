@@ -8,7 +8,8 @@ import type { ValidationCase, ValidationResult } from "../lib/contract";
 echarts.use([LineChart, GridComponent, LegendComponent, MarkLineComponent, TooltipComponent, CanvasRenderer]);
 
 export function ValidationComparisonChart({ validationCase, result, tick, storageKey, labSeries }: { validationCase: ValidationCase; result: ValidationResult; tick: number; storageKey?: string; labSeries?: { label: string; ticks: number[]; values: number[]; units: string; provenance: string } | null }) {
-  const [seriesId, setSeriesId] = useState(validationCase.expected_series[0]?.series_id ?? "");
+  const selectable = validationCase.expected_series.length ? validationCase.expected_series : result.observed_series;
+  const [seriesId, setSeriesId] = useState(selectable[0]?.series_id ?? "");
   const elementRef = useRef<HTMLDivElement>(null);
   const expected = useMemo(() => validationCase.expected_series.find((item) => item.series_id === seriesId), [validationCase, seriesId]);
   const observed = useMemo(() => result.observed_series.find((item) => item.series_id === seriesId), [result, seriesId]);
@@ -16,35 +17,35 @@ export function ValidationComparisonChart({ validationCase, result, tick, storag
 
   useEffect(() => {
     const remembered = storageKey ? window.localStorage.getItem(storageKey) : null;
-    const next = validationCase.expected_series.some((item) => item.series_id === remembered)
+    const next = selectable.some((item) => item.series_id === remembered)
       ? remembered!
-      : validationCase.expected_series[0]?.series_id ?? "";
+      : selectable[0]?.series_id ?? "";
     setSeriesId(next);
-  }, [storageKey, validationCase]);
+  }, [storageKey, validationCase, result]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (storageKey && validationCase.expected_series.some((item) => item.series_id === seriesId)) window.localStorage.setItem(storageKey, seriesId);
-  }, [seriesId, storageKey, validationCase]);
+    if (storageKey && selectable.some((item) => item.series_id === seriesId)) window.localStorage.setItem(storageKey, seriesId);
+  }, [seriesId, storageKey, selectable]);
 
   useEffect(() => {
-    if (!elementRef.current || !expected || !observed || !difference) return;
+    if (!elementRef.current || !observed) return;
     const chart = echarts.init(elementRef.current, undefined, { renderer: "canvas" });
-    const differenceExtent = Math.max(1, ...difference.values.map((value) => Math.abs(value)));
+    const differenceExtent = difference ? Math.max(1, ...difference.values.map((value) => Math.abs(value))) : 1;
     chart.setOption({
       animationDuration: 260, animationDurationUpdate: 180,
       grid: { left: 52, right: 54, top: 44, bottom: 40 },
       legend: { top: 8, textStyle: { color: "#8ea79f", fontSize: 9 } },
       tooltip: { trigger: "axis", axisPointer: { type: "cross", lineStyle: { color: "#708d83" } }, backgroundColor: "#12231f", borderColor: "#385f54", textStyle: { color: "#e6f0ed", fontSize: 10 } },
-      xAxis: { type: "category", data: expected.ticks, name: expected.time_basis.includes("ordinal") ? "packet ordinal" : "tick", boundaryGap: false, axisLabel: { color: "#78948b" }, axisLine: { lineStyle: { color: "#28443c" } } },
+      xAxis: { type: "category", data: observed.ticks, name: observed.time_basis.includes("ordinal") ? "packet ordinal" : "tick", boundaryGap: false, axisLabel: { color: "#78948b" }, axisLine: { lineStyle: { color: "#28443c" } } },
       yAxis: [
-        { type: "value", name: expected.units, scale: true, minInterval: expected.units === "packets" || expected.units === "ticks" ? 1 : undefined, axisLabel: { color: "#78948b" }, splitLine: { lineStyle: { color: "rgba(89,124,115,.14)" } } },
-        { type: "value", name: "difference", min: -differenceExtent, max: differenceExtent, interval: differenceExtent, axisLabel: { color: "#c98989" }, splitLine: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(255,143,143,.35)" } } },
+        { type: "value", name: observed.units, scale: true, minInterval: observed.units === "packets" || observed.units === "ticks" ? 1 : undefined, axisLabel: { color: "#78948b" }, splitLine: { lineStyle: { color: "rgba(89,124,115,.14)" } } },
+        ...(difference ? [{ type: "value", name: "difference", min: -differenceExtent, max: differenceExtent, interval: differenceExtent, axisLabel: { color: "#c98989" }, splitLine: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(255,143,143,.35)" } } }] : []),
       ],
       series: [
-        { name: "expected · analytical", type: "line", step: "end", data: expected.values, symbol: "circle", symbolSize: 5, lineStyle: { width: 2, color: "#d8ff79", type: "dashed" }, itemStyle: { color: "#d8ff79" } },
+        ...(expected ? [{ name: "expected · analytical", type: "line", step: "end", data: expected.values, symbol: "circle", symbolSize: 5, lineStyle: { width: 2, color: "#d8ff79", type: "dashed" }, itemStyle: { color: "#d8ff79" } }] : []),
         { name: "observed · Python", type: "line", step: "end", data: observed.values, symbol: "none", lineStyle: { width: 3, color: "#5be4bd" }, itemStyle: { color: "#5be4bd" }, markLine: { silent: true, symbol: "none", label: { show: true, formatter: `t${tick}`, color: "#ffcf91", fontSize: 9 }, lineStyle: { color: "#ffb55f", type: "dotted" }, data: [{ xAxis: tick }] } },
-        { name: "observed − expected", type: "line", yAxisIndex: 1, step: "end", data: difference.values, symbol: "diamond", symbolSize: 5, lineStyle: { width: 2, color: "#ff8f8f" }, areaStyle: { color: "rgba(255,143,143,.09)" }, itemStyle: { color: "#ff8f8f" } },
-        ...(labSeries && labSeries.units === expected.units ? [{ name: `${labSeries.label} · Lab Bench`, type: "line", step: "end", data: expected.ticks.map((expectedTick) => labSeries.values[labSeries.ticks.indexOf(expectedTick)] ?? null), symbol: "triangle", symbolSize: 6, lineStyle: { width: 2, color: "#b9a4ff", type: "dotted" }, itemStyle: { color: "#b9a4ff" } }] : []),
+        ...(difference ? [{ name: "observed − expected", type: "line", yAxisIndex: 1, step: "end", data: difference.values, symbol: "diamond", symbolSize: 5, lineStyle: { width: 2, color: "#ff8f8f" }, areaStyle: { color: "rgba(255,143,143,.09)" }, itemStyle: { color: "#ff8f8f" } }] : []),
+        ...(labSeries && labSeries.units === observed.units ? [{ name: `${labSeries.label} · Lab Bench`, type: "line", step: "end", data: observed.ticks.map((observedTick) => labSeries.values[labSeries.ticks.indexOf(observedTick)] ?? null), symbol: "triangle", symbolSize: 6, lineStyle: { width: 2, color: "#b9a4ff", type: "dotted" }, itemStyle: { color: "#b9a4ff" } }] : []),
       ],
     });
     const observer = new ResizeObserver(() => chart.resize());
@@ -52,5 +53,5 @@ export function ValidationComparisonChart({ validationCase, result, tick, storag
     return () => { observer.disconnect(); chart.dispose(); };
   }, [difference, expected, labSeries, observed, tick]);
 
-  return <div className="validation-chart-wrap"><label>Comparison quantity<select value={seriesId} onChange={(event) => setSeriesId(event.target.value)}>{validationCase.expected_series.map((series) => <option key={series.series_id} value={series.series_id}>{series.label}</option>)}</select>{labSeries && <span className="source-chip">Lab export · {labSeries.provenance.replaceAll("_", " ")}</span>}</label><div ref={elementRef} className="validation-comparison-chart" aria-label={`Expected versus observed ${expected?.label ?? "validation series"}`} /><div className="chart-source">Expected: analytical/reference · Observed: Python validation projection · Difference: validation output · Lab export: explicit presentation overlay</div></div>;
+  return <div className="validation-chart-wrap"><label>{expected ? "Comparison quantity" : "Observed quantity"}<select value={seriesId} onChange={(event) => setSeriesId(event.target.value)}>{selectable.map((series) => <option key={series.series_id} value={series.series_id}>{series.label}</option>)}</select>{labSeries && <span className="source-chip">Lab export · {labSeries.provenance.replaceAll("_", " ")}</span>}</label><div ref={elementRef} className="validation-comparison-chart" aria-label={expected ? `Expected versus observed ${expected.label}` : `Observed ${observed?.label ?? "validation series"}`} /><div className="chart-source">{expected ? "Expected: analytical/reference · Observed: Python validation projection · Difference: validation output" : "Observed only: Python validation projection · Published comparison intentionally absent"} · Lab export: explicit presentation overlay</div></div>;
 }
