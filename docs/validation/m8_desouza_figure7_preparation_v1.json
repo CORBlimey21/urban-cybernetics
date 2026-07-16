@@ -1,0 +1,73 @@
+{
+  "schema_version": "uc.validation.published-case-preparation.v1",
+  "preparation_id": "M8-PUB-DSOUZA-FIG7-v1",
+  "status": "source_inputs_checked_uc_evidence_generated_dt1_comparison_complete_dt3_pending",
+  "source": {
+    "title": "A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles",
+    "doi": "10.1016/j.simpat.2025.103088",
+    "source_section": "4.2 Diverge Connections",
+    "source_equation": "14",
+    "referenced_figure": "Figure 7",
+    "accessible_preprint_url": "https://www.osti.gov/servlets/purl/2569501",
+    "extraction_boundary": "preparation baseline used text declarations and observable identities only; later DT1 comparison assets are registered separately below"
+  },
+  "declared_parameters": {
+    "topology": "one upstream link diverging to two downstream links",
+    "link_lengths_m": {"L1": 150.0, "L2": 150.0, "L3": 150.0},
+    "free_flow_speeds_m_per_s": {"L1": 30.0, "L2": 30.0, "L3": 30.0},
+    "backward_wave_speeds_m_per_s": {"L1": 6.0, "L2": 6.0, "L3": 6.0},
+    "jam_densities_veh_per_m": {"L1": 0.2, "L2": 0.1, "L3": 0.1},
+    "deterministic_outbound_route_sequence": ["L2", "L2", "L2", "L3"],
+    "upstream_demand": [
+      {"rate_veh_per_s": 0.8, "condition": "t < 50 s"},
+      {"rate_veh_per_s": 0.4, "condition": "50 s < t <= 120 s"}
+    ],
+    "timesteps_s": [1.0, 3.0]
+  },
+  "derived_mathematically": {
+    "capacities_veh_per_s": {"L1": 1.0, "L2": 0.5, "L3": 0.5},
+    "one_lane_storage_packets": {"L1": 30, "L2": 15, "L3": 15},
+    "integrated_demand_packets_through_120_s": 68,
+    "free_flow_travel_time_s": 5.0,
+    "backward_wave_travel_time_s": 25.0
+  },
+  "uc_cases": [
+    {"case_id": "M8-PUB-DSOUZA-FIG7-DT1", "timestep_s": 1.0, "final_tick": 120},
+    {"case_id": "M8-PUB-DSOUZA-FIG7-DT3", "timestep_s": 3.0, "final_tick": 40}
+  ],
+  "figure_observables": [
+    "upstream cumulative outflow",
+    "downstream link 1 cumulative inflow",
+    "downstream link 2 cumulative inflow",
+    "upstream outflow per tick",
+    "downstream link 1 inflow per tick",
+    "downstream link 2 inflow per tick"
+  ],
+  "implementation_assumptions": [
+    "one UC lane per link",
+    "all links empty before the first departure",
+    "free terminal sink after each downstream link",
+    "integrate demand over [0,t], floor cumulative vehicles at tick endpoints, and admit newly resolved packets at that endpoint tick",
+    "use unchanged parity_ltm_v1 strict FIFO, capacity-credit, lag, and same-tick event semantics",
+    "stop at the bounded 120 s demand-support boundary"
+  ],
+  "dt1_comparison_followup": {
+    "status": "observational_comparison_and_read_only_first_divergence_audit_complete",
+    "report": "docs/validation/m8_desouza_figure7a_dt1_comparison_v1.md",
+    "reference_assets": {
+      "Gu": {"path": "data/validation/desouza_figure7a_dt1_Gu_digitised_v1.csv", "sha256": "852e02f91f4c1e5b98dc1bd8958f64a3efafcd5eef71f0ed546d2a790a6c2124"},
+      "F1": {"path": "data/validation/desouza_figure7a_dt1_F1_digitised_v1.csv", "sha256": "f1decc34b3baeaf24fc64d8f46fee8eea05dc9a02d563aec78e9c1e1cd81c3d6"},
+      "F2": {"path": "data/validation/desouza_figure7a_dt1_F2_digitised_v1.csv", "sha256": "8c40ab91eb62c5ca44c4f5e5a7e5c746beb9fd974b1427551bfc7a06582144cd"}
+    }
+  },
+  "comparison_policy": {
+    "dt1_published_values_loaded": true,
+    "dt3_published_values_loaded": false,
+    "formal_threshold_pass_claimed": false,
+    "dt1_observational_reproduction_complete": true,
+    "disagreement_claimed": false,
+    "parameter_tuning_permitted": false,
+    "kernel_modified": false,
+    "next_step_on_supplied_reference": "read-only first-divergence audit before proposing any change"
+  }
+}

@@ -41,7 +41,8 @@ def test_declared_case_execution_matches_exact_oracle_and_exports_replay(case: V
         assert result.metric_results == ()
         assert result.difference_series == ()
         assert "comparison withheld" in result.headline_metric
-        assert bundle.run.packet_count == 70
+        expected_packets = 68 if "FIG7" in case.case_id else 70
+        assert bundle.run.packet_count == expected_packets
     else:
         assert result.status.value == "passed"
         assert all(metric.passed and metric.value == 0 for metric in result.metric_results)
@@ -151,6 +152,7 @@ def test_api_discovers_cases_loads_history_and_runs_sanctioned_case(tmp_path: Pa
         "M8-NODE-01-REOPEN", "M8-NODE-01-FRACTIONAL",
         "M8-PUB-DSOUZA-FIG5-DT1", "M8-PUB-DSOUZA-FIG5-DT3",
         "M8-PUB-DSOUZA-FIG5-DT6",
+        "M8-PUB-DSOUZA-FIG7-DT1", "M8-PUB-DSOUZA-FIG7-DT3",
     ]
     assert all(
         item["latest_result"]["status"] == (

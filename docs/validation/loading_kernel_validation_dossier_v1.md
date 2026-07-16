@@ -3,21 +3,22 @@
 ## Technical summary
 
 The base unit-packet loading kernel satisfies the complete internal validation
-matrix, the new composed merge/spillback case, and exact deterministic replay.
+matrix, the composed merge/spillback case, and exact deterministic replay.
 The de Souza Figure 5 DT1 lane-drop comparison is measured without calibration;
 the Equation (6) correction materially reduces the observed L1 outflow and
 storage disagreement while preserving conservation, FIFO, packet identity,
 counts, and replay. Within the boundary defined in
-`loading_kernel_freeze_v1.md`, the kernel can now be marked frozen.
+`loading_kernel_freeze_v1.md`, the kernel remains frozen. De Souza Figure 7(a)
+DT1 now adds an observational strict-FIFO diverge comparison without tuning or
+kernel modification.
 
 This is not a claim about OSM import, network-scale performance, routing or
 behavioural validity, observability experiments, governance, optimisation, or
-future cybernetic mechanisms. A further external de Souza merge or diverge
-case is reserved but blocked until its exact source figure, declarations, and
-digitised data are supplied.
+future cybernetic mechanisms. Figure 7(a) DT1 is comparison-complete; Figure
+7(d) DT3 remains blocked on its digitised numerical references.
 
-The closure gate reports 653 Python tests passed with zero failures and 88
-subtests passed in 14.87 seconds (15.16 seconds wall time). The frontend suite
+The closure gate reports 664 Python tests passed with zero failures and 88
+subtests passed. The frontend suite
 reports 26 tests passed with zero failures in 0.453 seconds (0.94 seconds wall
 time), and TypeScript typechecking passes in 1.60 seconds wall time. The only
 warning is an existing FastAPI `TestClient` deprecation notice.
@@ -55,9 +56,9 @@ one-to-one boundaries. The wider internal node-family suite covers:
 - movement ordering invariance and exact replay;
 - explicit rejection of unsupported adaptive node control.
 
-These are internal semantic validations with exact packet, event, count, and
-ordering assertions. No claim is made that they reproduce an external node
-paper until the reserved de Souza case is supplied.
+These semantic validations have exact packet, event, count, and ordering
+assertions. Figure 7(a) now adds external observational evidence for the named
+deterministic strict-FIFO diverge only; it does not validate every node model.
 
 ## The composed case demonstrates congestion propagation and clearance
 
@@ -115,6 +116,32 @@ Full thresholds, drift measurements, event observations, and limitations are
 in `m8_desouza_figure5a_dt1_eq6_before_after_v1.md` and the three quantity
 reports.
 
+## Figure 7(a) DT1 externally exercises the deterministic diverge
+
+The three raw digitised cumulative references are preserved exactly. Stable
+time sorting is analysis-only; no point is averaged, smoothed, shifted,
+monotonicised, removed, or supplemented. Before UC comparison, the reference
+closure `Gu-F1-F2` is measured over 9–119 s: MAE 0.495554 vehicles, RMSE
+0.653678, maximum absolute residual 1.820014, signed bias -0.109943, and
+endpoint residual -0.397159. This establishes material digitisation uncertainty.
+
+| Series | Max abs. difference | MAE | RMSE | Final signed difference |
+| --- | ---: | ---: | ---: | ---: |
+| `Gu` upstream outflow | 2.622989 | 0.843911 | 1.080706 | -0.671649 |
+| `F1` downstream inflow | 1.795374 | 0.708540 | 0.852827 | -0.589341 |
+| `F2` downstream inflow | 1.095461 | 0.368183 | 0.495265 | -0.479466 |
+
+Whole-support signed-difference slopes are near zero, so the differences are
+bounded rather than accumulating. The read-only first-divergence audit finds
+reference non-closure at the first threshold crossing and a later genuine
+timing difference when strict FIFO waits for branch-specific L2 supply. The
+paper does not expose departure phase, initial capacity credit, or same-tick
+ordering, so no kernel discrepancy or change is established. UC cumulative
+closure, exact 3:1 packet routes, FIFO, identity, conservation, counts,
+physical eligibility, and replay all pass exactly. Because no numerical
+threshold was fixed before comparison, this is an observational reproduction,
+not a formal binary pass.
+
 ## Evidence definitions, tolerances, and artifacts
 
 Internal discrete oracles use zero packets, zero ticks, and exact sequence
@@ -137,6 +164,9 @@ Canonical committed artifacts include:
 - deterministic cases and replay bundles under
   `fixtures/visualisation/validation/`;
 - `scripts/compare_desouza_figure5a_dt1.py`;
+- the preserved Figure 7(a) DT1 `Gu`, `F1`, and `F2` CSVs,
+  `scripts/compare_desouza_figure7a_dt1.py`, and
+  `m8_desouza_figure7a_dt1_comparison_v1.md`;
 - the composition case and test paths listed above;
 - `docs/validation/external_validation_matrix_v1.md` and JSON companion.
 
@@ -151,7 +181,8 @@ source-controlled fixtures.
   and sparse-segment uncertainty.
 - Paper-silent packet release, initial credit, and within-tick ordering
   conventions can affect cross-model traces.
-- Internal node-family evidence is not an external merge/diverge reproduction.
+- Figure 7(a) is external evidence for one deterministic diverge only, with
+  digitisation and paper-silent timing uncertainty.
 - DT3 and DT6 Figure 5 runs have complete UC evidence but no supplied published
   curve comparison; DT6 is statically ineligible under the paper's CFL rule.
 - Weighted packets, rerouting, adaptive signals, lane changing, gap acceptance,
@@ -170,7 +201,7 @@ behaviour, observability experiments, governance, optimisation, and cybernetic
 extensions. They require focused evidence when introduced and may not silently
 alter the frozen semantics.
 
-The next external node case requires the supplied de Souza figure identifier
-or page, its complete declared parameters and conventions, and digitised
-reference data. Once supplied, the existing comparison method can be reused
-without calibration. Until then, no result or parameter is inferred.
+The next Figure 7 slice is DT3 and requires its digitised cumulative reference
+data. Once supplied, the same preserved-data and closure-first comparison
+method can be reused without calibration. Until then, no result or parameter
+is inferred.

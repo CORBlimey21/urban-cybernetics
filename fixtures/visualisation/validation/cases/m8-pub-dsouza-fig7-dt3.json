@@ -1,0 +1,146 @@
+{
+  "case_id": "M8-PUB-DSOUZA-FIG7-DT3",
+  "citations": [
+    {
+      "citation_text": "Felipe de Souza, Omer Verbas, Joshua Auld, and Chris M.J. Tampere, A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles, preprint dated 4 June 2025.",
+      "equation": "Equation 14",
+      "figure": "Figure 7 (text declarations only; numerical curves withheld)",
+      "source_id": "desouza-packetised-ltm-preprint-2025",
+      "source_section": "Section 4.2, Diverge Connections",
+      "table": null,
+      "url": null
+    }
+  ],
+  "claim_ids": [
+    "M8-VAL-11-PREPARATION",
+    "DESOUZA-FIG7-DT3"
+  ],
+  "comparison_status": "not_comparable",
+  "default_final_tick": 40,
+  "demand_reference": "paper-declared d(t)=0.8 veh/s for t<50 s and 0.4 veh/s for 50<t<=120 s; deterministic unit-packet conversion documented separately",
+  "evidence_class": "published_numerical_reproduction",
+  "expected_physical_sequence": [
+    "Resolve the declared boundary demand into deterministic unit packets.",
+    "Assign exact outbound routes in repeating order L2,L2,L2,L3.",
+    "Preserve strict upstream FIFO while the diverge allocator applies downstream supply.",
+    "Execute the unchanged parity_ltm_v1 kernel through the 120 s demand-support boundary.",
+    "Export upstream outflow and downstream inflows as cumulative and per-tick event folds."
+  ],
+  "expected_result_summary": "No expected numerical series is encoded yet; the UC observables are frozen for a later read-only first-divergence comparison.",
+  "expected_scalars": [],
+  "expected_series": [],
+  "group_id": "m8-published-desouza-figure7-preparation-v1",
+  "initial_state_reference": "implementation assumption: all three links empty at t=0; no paper-declared initial packet placement was found",
+  "input_completeness": "partial",
+  "known_model_differences": [
+    "UC uses ceiling-rounded positive travel lags and its frozen same-tick event ordering.",
+    "The paper names downstream destinations as links 1 and 2 in prose while its plotted network variables are represented here unambiguously as UC L2 and L3."
+  ],
+  "limits_on_interpretation": [
+    "The result is an observed UC run, not a Figure 7 agreement claim.",
+    "No plotted Figure 7 value or tolerance is loaded or inferred.",
+    "The 120 s boundary is the end of declared demand support, not a clearance run.",
+    "Empty initial links, free terminal sinks, one-lane metadata, and tick-end departures are explicit implementation assumptions."
+  ],
+  "metrics": [],
+  "overlays": [
+    {
+      "active_from_tick": 0,
+      "active_through_tick": 40,
+      "boundary_id": null,
+      "direction": "forward",
+      "evidence_source": "analytical_reference",
+      "kind": "relevant_link",
+      "label": "Declared upstream link",
+      "link_id": "L1",
+      "note": "Upstream cumulative and tick outflow source; no expected value asserted.",
+      "overlay_id": "desouza-fig7-dt3-upstream"
+    },
+    {
+      "active_from_tick": 0,
+      "active_through_tick": 40,
+      "boundary_id": null,
+      "direction": "forward",
+      "evidence_source": "analytical_reference",
+      "kind": "relevant_link",
+      "label": "Declared downstream link 1",
+      "link_id": "L2",
+      "note": "First three packets in every four route here.",
+      "overlay_id": "desouza-fig7-dt3-downstream-1"
+    },
+    {
+      "active_from_tick": 0,
+      "active_through_tick": 40,
+      "boundary_id": null,
+      "direction": "forward",
+      "evidence_source": "analytical_reference",
+      "kind": "relevant_link",
+      "label": "Declared downstream link 2",
+      "link_id": "L3",
+      "note": "Fourth packet in every four routes here.",
+      "overlay_id": "desouza-fig7-dt3-downstream-2"
+    }
+  ],
+  "profile_reference": "parity_ltm_v1",
+  "provenance": [
+    "Declared inputs and observable identities were externally checked against Section 4.2 and Equation 14; Figure 7 curves were not inspected or digitised.",
+    "Source PDF SHA-256: ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903.",
+    "Structured transcription: docs/validation/m8_desouza_figure7_preparation_v1.json."
+  ],
+  "reference_assets": [
+    {
+      "asset_id": "desouza-figure7-text-declarations-v1",
+      "citation_text": "Felipe de Souza, Omer Verbas, Joshua Auld, and Chris M.J. Tampere, A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles, preprint dated 4 June 2025.",
+      "comparison_suitability": "context_only",
+      "digitised_series_id": null,
+      "figure_table_equation": "Section 4.2 and Equation 14; Figure 7 numerical curves excluded",
+      "label": "Figure 7 diverge declared inputs and observable identities (text only)",
+      "local_asset_path": null,
+      "missing_input_notes": [
+        "Initial conditions are not explicitly declared.",
+        "The downstream sink boundaries are not explicitly declared.",
+        "The packet departure boundary convention is not explicitly declared.",
+        "Published numerical series have not been supplied for comparison."
+      ],
+      "rights_provenance_note": "Only parameter declarations, deterministic route order, and observable identities were transcribed. No plotted ordinate, digitised value, or expected numerical result is embedded.",
+      "source_id": "desouza-packetised-ltm-preprint-2025",
+      "transformation_metadata": []
+    }
+  ],
+  "reproducibility_notes": [
+    "paper-declared: three 150 m links; V=30 m/s; W=6 m/s; K1=0.2 veh/m and K2=K3=0.1 veh/m.",
+    "paper-declared: deterministic outbound order sends three vehicles to downstream link 1 followed by one to downstream link 2.",
+    "paper-declared: d(t)=0.8 veh/s for t<50 s and 0.4 veh/s for 50<t<=120 s.",
+    "paper-declared: discrete timestep 3 s.",
+    "derived: triangular-FD capacities are 1.0, 0.5, and 0.5 veh/s; integrated demand is 68 vehicles.",
+    "implementation assumption: one lane, empty links, free downstream sinks, tick-end floored cumulative demand, and bounded 120 s observation.",
+    "no random inputs; exact unit-packet route sequence and frozen strict FIFO are retained.",
+    "blocked for later comparison: published numerical series and predeclared observational metrics."
+  ],
+  "route_sequences": [
+    [
+      "L1",
+      "L2"
+    ],
+    [
+      "L1",
+      "L2"
+    ],
+    [
+      "L1",
+      "L2"
+    ],
+    [
+      "L1",
+      "L3"
+    ]
+  ],
+  "safe_claim": "UC executed the declared Figure 7 physical scenario and exact packet routes, and exported internally checked evidence; paper agreement is pending.",
+  "schema_version": "uc.validation.case.v1",
+  "short_explanation": "Runs the frozen UC kernel on the paper-declared three-link diverge and exports the six Figure 7 observables without loading published values.",
+  "tick_duration_seconds": 3.0,
+  "title": "de Souza Figure 7 deterministic diverge - 3 s preparation",
+  "topology_reference": "desouza-figure7-three-link-diverge-v1",
+  "version": "1",
+  "why_it_matters": "This adds the paper's route-encoded strict-FIFO diverge as an external published-case fixture without changing loading semantics."
+}

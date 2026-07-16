@@ -1,0 +1,86 @@
+{
+  "comparison_id": "m8-desouza-figure7-comparison-preparation-v1",
+  "comparison_policy": {
+    "dt1_paper_errors_computed": true,
+    "dt1_reference_values_loaded": true,
+    "dt3_reference_values_loaded": false,
+    "kernel_changes_made": false,
+    "on_disagreement": "read-only first-divergence audit before any proposed change",
+    "parameter_tuning_permitted": false
+  },
+  "dt1_reference_assets": {
+    "F1": "data/validation/desouza_figure7a_dt1_F1_digitised_v1.csv",
+    "F2": "data/validation/desouza_figure7a_dt1_F2_digitised_v1.csv",
+    "Gu": "data/validation/desouza_figure7a_dt1_Gu_digitised_v1.csv",
+    "comparison_report": "docs/validation/m8_desouza_figure7a_dt1_comparison_v1.md"
+  },
+  "observable_columns": [
+    "upstream_cumulative_outflow",
+    "downstream_1_cumulative_inflow",
+    "downstream_2_cumulative_inflow",
+    "upstream_outflow_per_tick",
+    "downstream_1_inflow_per_tick",
+    "downstream_2_inflow_per_tick"
+  ],
+  "runs": [
+    {
+      "case_id": "M8-PUB-DSOUZA-FIG7-DT1",
+      "dt_seconds": 1.0,
+      "event_count": 442,
+      "final_observables": {
+        "downstream_1_cumulative_inflow": 50.0,
+        "downstream_1_inflow_per_tick": 1.0,
+        "downstream_2_cumulative_inflow": 16.0,
+        "downstream_2_inflow_per_tick": 0.0,
+        "upstream_cumulative_outflow": 66.0,
+        "upstream_outflow_per_tick": 1.0
+      },
+      "final_tick": 120,
+      "internal_checks": {
+        "canonical_count_consistency": "passed",
+        "conservation_check": "passed",
+        "cumulative_count_consistency_check": "passed",
+        "deterministic_replay_exact": "passed",
+        "event_cache_consistency_check": "passed",
+        "physical_parameter_parity_eligible": "passed",
+        "published_numerical_comparison": "not_run"
+      },
+      "packet_count": 68
+    },
+    {
+      "case_id": "M8-PUB-DSOUZA-FIG7-DT3",
+      "dt_seconds": 3.0,
+      "event_count": 432,
+      "final_observables": {
+        "downstream_1_cumulative_inflow": 49.0,
+        "downstream_1_inflow_per_tick": 1.0,
+        "downstream_2_cumulative_inflow": 16.0,
+        "downstream_2_inflow_per_tick": 0.0,
+        "upstream_cumulative_outflow": 65.0,
+        "upstream_outflow_per_tick": 1.0
+      },
+      "final_tick": 40,
+      "internal_checks": {
+        "canonical_count_consistency": "passed",
+        "conservation_check": "passed",
+        "cumulative_count_consistency_check": "passed",
+        "deterministic_replay_exact": "passed",
+        "event_cache_consistency_check": "passed",
+        "physical_parameter_parity_eligible": "passed",
+        "published_numerical_comparison": "not_run"
+      },
+      "packet_count": 68
+    }
+  ],
+  "schema_version": "uc.validation.published-comparison-preparation.v1",
+  "source": {
+    "doi": "10.1016/j.simpat.2025.103088",
+    "equation": "14",
+    "figure": "7",
+    "section": "4.2 Diverge Connections",
+    "text_source_url": "https://www.osti.gov/servlets/purl/2569501",
+    "title": "A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles"
+  },
+  "status": "dt1_observational_comparison_complete_dt3_reference_values_pending",
+  "uc_observations_csv": "data/validation/desouza_figure7_uc_observables_v1.csv"
+}

@@ -178,17 +178,17 @@
     },
     {
       "validation_id": "M8-VAL-11",
-      "scientific_subject": "further de Souza merge or diverge figure",
-      "reference_type": "primary-source de Souza node figure with supplied digitised series or table",
-      "reference_source_or_source_status": "Reserved only. No exact figure/page, complete declared parameters, or digitised numerical data has been supplied.",
-      "exact_inputs_required": ["figure and page identity", "declared link and node parameters", "routes or turning proportions", "priorities and FIFO convention", "initial state", "timestep and horizon", "digitised reference series or tables"],
-      "expected_outputs": ["movement and link cumulative curves", "queues and storage", "packet/event trace", "deterministic replay", "same disciplined comparison metrics as Figure 5"],
-      "comparison_tolerance": "fix interpolation and any tolerance from source precision before UC comparison; no calibration",
-      "uc_subsystem_exercised": ["generic movement allocator", "merge or diverge FIFO semantics", "cumulative curves", "queues", "packet events", "replay"],
-      "claim_supported_if_passed": "UC reproduces the named supplied de Souza node figure under its declared conventions.",
+      "scientific_subject": "de Souza Figure 7 deterministic diverge",
+      "reference_type": "primary-source de Souza node figure with preserved DT1 digitised cumulative series; DT3 series pending",
+      "reference_source_or_source_status": "Figure 7, Section 4.2 and Equation 14 selected. Primary-source parameters, deterministic 3:1 route sequence, timesteps, and observable identities externally checked. DT1 Gu, F1, and F2 digitised series are preserved and compared; DT3 values are not supplied.",
+      "exact_inputs_required": ["three 150 m links", "V=30 m/s and W=6 m/s", "K1=0.2 veh/m and K2=K3=0.1 veh/m", "exact route cycle L2,L2,L2,L3", "0.8 then 0.4 veh/s Equation 14 demand", "1 s and 3 s timesteps", "120 s bounded horizon"],
+      "expected_outputs": ["upstream cumulative outflow", "two downstream cumulative inflows", "upstream outflow per tick", "two downstream inflows per tick", "packet/event trace", "deterministic replay"],
+      "comparison_tolerance": "zero tolerance for UC route identity, conservation, FIFO, count folds, and replay; DT1 uses descriptive Figure 5-style metrics with no fitted or predeclared numerical pass threshold; no calibration",
+      "uc_subsystem_exercised": ["frozen parity loading kernel", "strict FIFO diverge", "fractional capacity credit", "route-encoded packet commodities", "cumulative curves", "packet events", "replay"],
+      "claim_supported_if_passed": "UC completes an observational DT1 Figure 7(a) reproduction with bounded non-drifting differences and exact internal invariants; digitisation closure uncertainty is reported separately.",
       "claims_not_supported": ["invented source parameters", "calibration", "general agreement with every de Souza case", "silent change to frozen kernel semantics"],
-      "implementation_status": "blocked_input_not_supplied",
-      "blocking_issue_if_any": "Supply the exact source figure/text and digitised data. No topology, priority, route split, FIFO convention, or expected sequence will be invented."
+      "implementation_status": "dt1_observational_comparison_and_first_divergence_audit_complete_dt3_reference_pending",
+      "blocking_issue_if_any": "No DT1 execution blocker and no kernel discrepancy established. A formal threshold pass is unavailable because no threshold was fixed before comparison; DT3 published values remain pending."
     }
   ]
 }

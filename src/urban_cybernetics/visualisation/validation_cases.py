@@ -37,6 +37,7 @@ DESOUZA_FIGURE5_SOURCE_SHA256 = (
     "ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903"
 )
 DESOUZA_FIGURE5_CASE_PREFIX = "M8-PUB-DSOUZA-FIG5-DT"
+DESOUZA_FIGURE7_CASE_PREFIX = "M8-PUB-DSOUZA-FIG7-DT"
 
 
 @dataclass(frozen=True, slots=True)
@@ -103,6 +104,25 @@ def _desouza_inputs(tick_duration_seconds: float) -> tuple[_LinkInput, _LinkInpu
 
 DESOUZA_INPUTS_BY_TIMESTEP = {
     timestep: _desouza_inputs(timestep) for timestep in (1.0, 3.0, 6.0)
+}
+
+
+def _desouza_figure7_inputs(
+    tick_duration_seconds: float,
+) -> tuple[_LinkInput, _LinkInput, _LinkInput]:
+    upstream, downstream = _desouza_inputs(tick_duration_seconds)
+    return upstream, downstream, _LinkInput(
+        "L3", downstream.length_m, downstream.free_flow_speed_mps,
+        downstream.backward_wave_speed_mps,
+        downstream.jam_density_veh_per_km_per_lane,
+        downstream.capacity_veh_per_hour_per_lane,
+        tick_duration_seconds, downstream.receiving_capacity_per_tick,
+        downstream.sending_rate_per_tick,
+    )
+
+
+DESOUZA_FIGURE7_INPUTS_BY_TIMESTEP = {
+    timestep: _desouza_figure7_inputs(timestep) for timestep in (1.0, 3.0)
 }
 
 
@@ -197,6 +217,32 @@ DESOUZA_REFERENCE = ReferenceAsset(
         "The downstream sink boundary is not explicitly declared.",
         "The packet departure boundary convention is not explicitly declared.",
         "The simulation stop rule is not explicitly declared.",
+    ),
+)
+
+DESOUZA_FIGURE7_CITATION = Citation(
+    source_id=DESOUZA_CITATION.source_id,
+    citation_text=DESOUZA_CITATION.citation_text,
+    source_section="Section 4.2, Diverge Connections",
+    figure="Figure 7 (text declarations only; numerical curves withheld)",
+    equation="Equation 14",
+)
+DESOUZA_FIGURE7_REFERENCE = ReferenceAsset(
+    asset_id="desouza-figure7-text-declarations-v1",
+    source_id=DESOUZA_FIGURE7_CITATION.source_id,
+    label="Figure 7 diverge declared inputs and observable identities (text only)",
+    citation_text=DESOUZA_FIGURE7_CITATION.citation_text,
+    figure_table_equation="Section 4.2 and Equation 14; Figure 7 numerical curves excluded",
+    rights_provenance_note=(
+        "Only parameter declarations, deterministic route order, and observable identities "
+        "were transcribed. No plotted ordinate, digitised value, or expected numerical result is embedded."
+    ),
+    comparison_suitability="context_only",
+    missing_input_notes=(
+        "Initial conditions are not explicitly declared.",
+        "The downstream sink boundaries are not explicitly declared.",
+        "The packet departure boundary convention is not explicitly declared.",
+        "Published numerical series have not been supplied for comparison.",
     ),
 )
 
@@ -297,6 +343,112 @@ def _desouza_cases() -> tuple[ValidationCase, ...]:
                 "implementation assumption: integrate demand over [0,t] and admit floor(cumulative demand) at tick endpoints; no random inputs.",
                 "implementation assumption: empty links, fixed route L1-to-L2, deterministic FIFO, free terminal sink, and a 150 s bounded observation horizon.",
                 "blocked for later comparison: published-output transcription, tolerance selection, and error computation.",
+            ),
+            default_final_tick=final_tick,
+        ))
+    return tuple(cases)
+
+
+def _desouza_figure7_cases() -> tuple[ValidationCase, ...]:
+    cases: list[ValidationCase] = []
+    for timestep in (1.0, 3.0):
+        suffix = str(int(timestep))
+        final_tick = int(120 / timestep)
+        cases.append(ValidationCase(
+            case_id=f"{DESOUZA_FIGURE7_CASE_PREFIX}{suffix}", version="1",
+            group_id="m8-published-desouza-figure7-preparation-v1",
+            title=f"de Souza Figure 7 deterministic diverge - {suffix} s preparation",
+            short_explanation=(
+                "Runs the frozen UC kernel on the paper-declared three-link diverge "
+                "and exports the six Figure 7 observables without loading published values."
+            ),
+            claim_ids=("M8-VAL-11-PREPARATION", f"DESOUZA-FIG7-DT{suffix}"),
+            evidence_class=EvidenceClass.PUBLISHED_NUMERICAL,
+            citations=(DESOUZA_FIGURE7_CITATION,),
+            reference_assets=(DESOUZA_FIGURE7_REFERENCE,),
+            input_completeness=InputCompleteness.PARTIAL,
+            comparison_status=ComparisonStatus.NOT_COMPARABLE,
+            topology_reference="desouza-figure7-three-link-diverge-v1",
+            profile_reference=ACADEMIC_LTM_PARITY_PROFILE_ID,
+            demand_reference=(
+                "paper-declared d(t)=0.8 veh/s for t<50 s and 0.4 veh/s for "
+                "50<t<=120 s; deterministic unit-packet conversion documented separately"
+            ),
+            route_sequences=(
+                ("L1", "L2"), ("L1", "L2"), ("L1", "L2"), ("L1", "L3"),
+            ),
+            tick_duration_seconds=timestep,
+            initial_state_reference=(
+                "implementation assumption: all three links empty at t=0; no "
+                "paper-declared initial packet placement was found"
+            ),
+            expected_physical_sequence=(
+                "Resolve the declared boundary demand into deterministic unit packets.",
+                "Assign exact outbound routes in repeating order L2,L2,L2,L3.",
+                "Preserve strict upstream FIFO while the diverge allocator applies downstream supply.",
+                "Execute the unchanged parity_ltm_v1 kernel through the 120 s demand-support boundary.",
+                "Export upstream outflow and downstream inflows as cumulative and per-tick event folds.",
+            ),
+            expected_result_summary=(
+                "No expected numerical series is encoded yet; the UC observables are frozen "
+                "for a later read-only first-divergence comparison."
+            ),
+            why_it_matters=(
+                "This adds the paper's route-encoded strict-FIFO diverge as an external "
+                "published-case fixture without changing loading semantics."
+            ),
+            limits_on_interpretation=(
+                "The result is an observed UC run, not a Figure 7 agreement claim.",
+                "No plotted Figure 7 value or tolerance is loaded or inferred.",
+                "The 120 s boundary is the end of declared demand support, not a clearance run.",
+                "Empty initial links, free terminal sinks, one-lane metadata, and tick-end departures are explicit implementation assumptions.",
+            ),
+            expected_series=(), expected_scalars=(), metrics=(),
+            overlays=(
+                ValidationOverlay(
+                    overlay_id=f"desouza-fig7-dt{suffix}-upstream", kind="relevant_link",
+                    label="Declared upstream link", link_id="L1", active_from_tick=0,
+                    active_through_tick=final_tick, direction="forward",
+                    evidence_source=EvidenceSource.ANALYTICAL_REFERENCE,
+                    note="Upstream cumulative and tick outflow source; no expected value asserted.",
+                ),
+                ValidationOverlay(
+                    overlay_id=f"desouza-fig7-dt{suffix}-downstream-1", kind="relevant_link",
+                    label="Declared downstream link 1", link_id="L2", active_from_tick=0,
+                    active_through_tick=final_tick, direction="forward",
+                    evidence_source=EvidenceSource.ANALYTICAL_REFERENCE,
+                    note="First three packets in every four route here.",
+                ),
+                ValidationOverlay(
+                    overlay_id=f"desouza-fig7-dt{suffix}-downstream-2", kind="relevant_link",
+                    label="Declared downstream link 2", link_id="L3", active_from_tick=0,
+                    active_through_tick=final_tick, direction="forward",
+                    evidence_source=EvidenceSource.ANALYTICAL_REFERENCE,
+                    note="Fourth packet in every four routes here.",
+                ),
+            ),
+            known_model_differences=(
+                "UC uses ceiling-rounded positive travel lags and its frozen same-tick event ordering.",
+                "The paper names downstream destinations as links 1 and 2 in prose while its plotted network variables are represented here unambiguously as UC L2 and L3.",
+            ),
+            safe_claim=(
+                "UC executed the declared Figure 7 physical scenario and exact packet routes, "
+                "and exported internally checked evidence; paper agreement is pending."
+            ),
+            provenance=(
+                "Declared inputs and observable identities were externally checked against Section 4.2 and Equation 14; Figure 7 curves were not inspected or digitised.",
+                f"Source PDF SHA-256: {DESOUZA_FIGURE5_SOURCE_SHA256}.",
+                "Structured transcription: docs/validation/m8_desouza_figure7_preparation_v1.json.",
+            ),
+            reproducibility_notes=(
+                "paper-declared: three 150 m links; V=30 m/s; W=6 m/s; K1=0.2 veh/m and K2=K3=0.1 veh/m.",
+                "paper-declared: deterministic outbound order sends three vehicles to downstream link 1 followed by one to downstream link 2.",
+                "paper-declared: d(t)=0.8 veh/s for t<50 s and 0.4 veh/s for 50<t<=120 s.",
+                f"paper-declared: discrete timestep {timestep:g} s.",
+                "derived: triangular-FD capacities are 1.0, 0.5, and 0.5 veh/s; integrated demand is 68 vehicles.",
+                "implementation assumption: one lane, empty links, free downstream sinks, tick-end floored cumulative demand, and bounded 120 s observation.",
+                "no random inputs; exact unit-packet route sequence and frozen strict FIFO are retained.",
+                "blocked for later comparison: published numerical series and predeclared observational metrics.",
             ),
             default_final_tick=final_tick,
         ))
@@ -480,7 +632,10 @@ def _node_cases() -> tuple[ValidationCase, ...]:
     return tuple(cases)
 
 
-CASES += _remaining_link_cases() + _node_cases() + _desouza_cases()
+CASES += (
+    _remaining_link_cases() + _node_cases() + _desouza_cases()
+    + _desouza_figure7_cases()
+)
 
 CASES_BY_ID = {case.case_id: case for case in CASES}
 
@@ -576,7 +731,11 @@ def execute_case(
     validation_notes = (
         (
             "Core conservation, event-cache consistency, cumulative-count consistency, exact deterministic rerun, and static physical eligibility were evaluated internally.",
-            "Published Figure 5 numerical outputs were not loaded or compared; this validation status is not a paper-agreement result.",
+            (
+                "Published Figure 7 numerical outputs were not loaded or compared; this validation status is not a paper-agreement result."
+                if _is_desouza_figure7_case(case.case_id)
+                else "Published Figure 5 numerical outputs were not loaded or compared; this validation status is not a paper-agreement result."
+            ),
         ) if comparison_withheld else
         (case.safe_claim if passed else "Comparison did not satisfy the declared exact oracle.",)
     )
@@ -645,7 +804,15 @@ def execute_case(
 
 
 def _is_desouza_case(case_id: str) -> bool:
+    return _is_desouza_figure5_case(case_id) or _is_desouza_figure7_case(case_id)
+
+
+def _is_desouza_figure5_case(case_id: str) -> bool:
     return case_id.startswith(DESOUZA_FIGURE5_CASE_PREFIX)
+
+
+def _is_desouza_figure7_case(case_id: str) -> bool:
+    return case_id.startswith(DESOUZA_FIGURE7_CASE_PREFIX)
 
 
 def _validation_config(case: ValidationCase) -> dict[str, object]:
@@ -657,6 +824,53 @@ def _validation_config(case: ValidationCase) -> dict[str, object]:
         "profile": case.profile_reference,
     }
     if not _is_desouza_case(case.case_id):
+        return config
+    if _is_desouza_figure7_case(case.case_id):
+        config.update({
+            "source": {
+                "source_id": DESOUZA_FIGURE7_CITATION.source_id,
+                "pdf_sha256": DESOUZA_FIGURE5_SOURCE_SHA256,
+                "source_section": "4.2 Diverge Connections",
+                "source_equation": "14",
+                "referenced_figure": "Figure 7",
+                "published_output_access": "withheld_not_loaded",
+            },
+            "paper_declared": {
+                "topology": "one upstream link L1 diverging to downstream links L2 and L3",
+                "length_m_by_link": {"L1": 150.0, "L2": 150.0, "L3": 150.0},
+                "free_flow_speed_mps_by_link": {"L1": 30.0, "L2": 30.0, "L3": 30.0},
+                "backward_wave_speed_mps_by_link": {"L1": 6.0, "L2": 6.0, "L3": 6.0},
+                "jam_density_veh_per_m_by_link": {"L1": 0.2, "L2": 0.1, "L3": 0.1},
+                "capacity_veh_per_s_by_link": {"L1": 1.0, "L2": 0.5, "L3": 0.5},
+                "deterministic_outbound_route_sequence": ["L2", "L2", "L2", "L3"],
+                "demand_schedule": [
+                    {"rate_veh_per_s": 0.8, "condition": "t < 50 s"},
+                    {"rate_veh_per_s": 0.4, "condition": "50 s < t <= 120 s"},
+                ],
+                "tested_timestep_seconds": case.tick_duration_seconds,
+            },
+            "derived_mathematically": {
+                "capacity_formula": "C=K*V*W/(V+W)",
+                "storage_packets_by_link_under_uc_one_lane_mapping": {"L1": 30, "L2": 15, "L3": 15},
+                "integrated_demand_packets_through_120_seconds": 68,
+                "observation_horizon_seconds": 120.0,
+            },
+            "implementation_assumptions": (
+                "one lane per link for UC SI metadata",
+                "all links empty before the first departure",
+                "route cycle is exactly L1->L2, L1->L2, L1->L2, L1->L3",
+                "both terminal boundaries are free sinks under current UC completion semantics",
+                "integrate demand over [0,t], floor cumulative vehicles at tick endpoints, and admit new unit packets at that endpoint tick",
+                "stop at 120 seconds, the end of declared demand support",
+                "use current UC strict FIFO, ceiling-rounded positive lags, and deterministic event ordering",
+            ),
+            "blocked_unknowns": (
+                "paper-declared initial conditions",
+                "paper-declared terminal sink boundary rules",
+                "paper-declared packet departure boundary convention",
+                "published numerical Figure 7 series and comparison tolerances",
+            ),
+        })
         return config
     config.update({
         "source": {
@@ -735,7 +949,7 @@ def _published_internal_checks(
 def _observed_vacancy_overlays(
     case: ValidationCase, engine: LoadingEngine
 ) -> tuple[ValidationOverlay, ...]:
-    if not _is_desouza_case(case.case_id):
+    if not _is_desouza_figure5_case(case.case_id):
         return ()
     lag = engine.links["L2"].resolved_physical_parameters().backward_wave_lag_ticks
     assert lag is not None
@@ -793,13 +1007,26 @@ def _setup(case_id: str) -> tuple[LoadingEngine, CanonicalTopology]:
         if spec.fractional_receiving_rate is not None:
             receiving_rates = {"L2": spec.fractional_receiving_rate}
     elif _is_desouza_case(case_id):
-        timestep = float(case_id.removeprefix(DESOUZA_FIGURE5_CASE_PREFIX))
-        inputs = DESOUZA_INPUTS_BY_TIMESTEP[timestep]
-        demands = _desouza_demands(timestep)
-        nodes = (Node("N1", incoming_link_ids=("L1",), outgoing_link_ids=("L2",)),)
+        if _is_desouza_figure7_case(case_id):
+            timestep = float(case_id.removeprefix(DESOUZA_FIGURE7_CASE_PREFIX))
+            inputs = DESOUZA_FIGURE7_INPUTS_BY_TIMESTEP[timestep]
+            demands = _desouza_figure7_demands(timestep)
+            nodes = (
+                Node(
+                    "N1", incoming_link_ids=("L1",),
+                    outgoing_link_ids=("L2", "L3"),
+                ),
+            )
+        else:
+            timestep = float(case_id.removeprefix(DESOUZA_FIGURE5_CASE_PREFIX))
+            inputs = DESOUZA_INPUTS_BY_TIMESTEP[timestep]
+            demands = _desouza_demands(timestep)
+            nodes = (Node("N1", incoming_link_ids=("L1",), outgoing_link_ids=("L2",)),)
         sending_rates = {item.link_id: float(item.sending_rate_per_tick) for item in inputs}
         receiving_rates = dict(sending_rates)
-        initial_receiving_credit = {"L2": 0.0}
+        initial_receiving_credit = {
+            item.link_id: 0.0 for item in inputs if item.link_id != "L1"
+        }
     else:
         raise KeyError(case_id)
     engine = LoadingEngine(
@@ -841,16 +1068,62 @@ def _desouza_demands(timestep: float) -> tuple[tuple[str, tuple[str, ...], int],
     return tuple(requests)
 
 
+def _desouza_figure7_demands(
+    timestep: float,
+) -> tuple[tuple[str, tuple[str, ...], int], ...]:
+    """Resolve Equation 14 and preserve the declared deterministic 3:1 routes."""
+
+    requests: list[tuple[str, tuple[str, ...], int]] = []
+    previous_total = 0
+    final_tick = int(120 / timestep)
+    downstream_cycle = ("L2", "L2", "L2", "L3")
+    for tick in range(1, final_tick + 1):
+        time_seconds = tick * timestep
+        cumulative = (
+            0.8 * time_seconds if time_seconds <= 50
+            else 0.8 * 50 + 0.4 * (time_seconds - 50)
+        )
+        target_total = floor(cumulative + 1e-12)
+        for packet_index in range(previous_total, target_total):
+            downstream = downstream_cycle[packet_index % len(downstream_cycle)]
+            requests.append((
+                f"DESOUZA-FIG7-D{packet_index + 1:03d}",
+                ("L1", downstream), tick,
+            ))
+        previous_total = target_total
+    if len(requests) != 68:
+        raise AssertionError(f"de Souza Figure 7 demand resolved {len(requests)} packets")
+    return tuple(requests)
+
+
 def _topology(case_id: str, inputs: tuple[_LinkInput, ...]) -> CanonicalTopology:
     node_ids = tuple(f"N{i}" for i in range(len(inputs) + 1))
-    links = tuple(CanonicalTopologyLink(link_id=item.link_id, tail_node_id=node_ids[index], head_node_id=node_ids[index+1], source_link_id=item.link_id, source_tail_node_id=str(index), source_head_node_id=str(index+1), length_m=item.length_m, lane_count=1, free_flow_speed_mps=item.free_flow_speed_mps, capacity_veh_per_hour_per_lane=item.capacity_veh_per_hour_per_lane, jam_density_veh_per_km_per_lane=item.jam_density_veh_per_km_per_lane, backward_wave_speed_mps=item.backward_wave_speed_mps) for index, item in enumerate(inputs))
+    if _is_desouza_figure7_case(case_id):
+        endpoints = {"L1": ("N0", "N1"), "L2": ("N1", "N2"), "L3": ("N1", "N3")}
+        links = tuple(
+            CanonicalTopologyLink(
+                link_id=item.link_id, tail_node_id=endpoints[item.link_id][0],
+                head_node_id=endpoints[item.link_id][1], source_link_id=item.link_id,
+                source_tail_node_id=endpoints[item.link_id][0],
+                source_head_node_id=endpoints[item.link_id][1], length_m=item.length_m,
+                lane_count=1, free_flow_speed_mps=item.free_flow_speed_mps,
+                capacity_veh_per_hour_per_lane=item.capacity_veh_per_hour_per_lane,
+                jam_density_veh_per_km_per_lane=item.jam_density_veh_per_km_per_lane,
+                backward_wave_speed_mps=item.backward_wave_speed_mps,
+            )
+            for item in inputs
+        )
+    else:
+        links = tuple(CanonicalTopologyLink(link_id=item.link_id, tail_node_id=node_ids[index], head_node_id=node_ids[index+1], source_link_id=item.link_id, source_tail_node_id=str(index), source_head_node_id=str(index+1), length_m=item.length_m, lane_count=1, free_flow_speed_mps=item.free_flow_speed_mps, capacity_veh_per_hour_per_lane=item.capacity_veh_per_hour_per_lane, jam_density_veh_per_km_per_lane=item.jam_density_veh_per_km_per_lane, backward_wave_speed_mps=item.backward_wave_speed_mps) for index, item in enumerate(inputs))
     nodes = tuple(CanonicalNode(node_id=node_id, source_node_id=str(index), incoming_link_ids=tuple(link.link_id for link in links if link.head_node_id == node_id), outgoing_link_ids=tuple(link.link_id for link in links if link.tail_node_id == node_id)) for index, node_id in enumerate(node_ids))
     published = _is_desouza_case(case_id)
     return CanonicalTopology(
         topology_id=f"validation:{case_id.lower()}:v1", nodes=nodes, links=links,
         source_metadata=TopologySourceMetadata(
             source_name=(
-                "de Souza et al. Figure 5 text declarations"
+                "de Souza et al. Figure 7 text declarations"
+                if _is_desouza_figure7_case(case_id)
+                else "de Souza et al. Figure 5 text declarations"
                 if published else "M8 authored analytical fixture"
             ),
             source_format=(
@@ -867,8 +1140,16 @@ def _topology(case_id: str, inputs: tuple[_LinkInput, ...]) -> CanonicalTopology
         interpretation_assumptions=(
             (
                 "Schematic coordinates are non-geographic.",
-                "Paper text declares two successive links but no lane count; one lane is the explicit UC metadata mapping.",
-                "Empty initial links, fixed L1-to-L2 routing, free terminal sink, and tick-end unit departures are implementation assumptions.",
+                (
+                    "Paper text declares three-link diverge physics but no lane count; one lane is the explicit UC metadata mapping."
+                    if _is_desouza_figure7_case(case_id)
+                    else "Paper text declares two successive links but no lane count; one lane is the explicit UC metadata mapping."
+                ),
+                (
+                    "Empty initial links, exact repeating 3:1 routes, free terminal sinks, and tick-end unit departures are implementation assumptions."
+                    if _is_desouza_figure7_case(case_id)
+                    else "Empty initial links, fixed L1-to-L2 routing, free terminal sink, and tick-end unit departures are implementation assumptions."
+                ),
                 "Published numerical outputs are intentionally absent.",
             ) if published else (
                 "Schematic coordinates are non-geographic.",
@@ -879,11 +1160,19 @@ def _topology(case_id: str, inputs: tuple[_LinkInput, ...]) -> CanonicalTopology
 
 
 def _node_positions(topology: CanonicalTopology) -> dict[str, tuple[float, float]]:
+    if {link.link_id for link in topology.links} == {"L1", "L2", "L3"}:
+        return {"N0": (0.12, 0.5), "N1": (0.48, 0.5), "N2": (0.86, 0.25), "N3": (0.86, 0.75)}
     return {node.node_id: (0.15 + index * (0.7 / max(len(topology.nodes)-1, 1)), 0.5) for index, node in enumerate(topology.nodes)}
 
 
 def _count(events: tuple[Event, ...], event_type: EventType, entity: str, final_tick: int) -> tuple[float, ...]:
     return tuple(float(sum(event.event_type == event_type and event.entity_id == entity and event.physical_tick <= tick for event in events)) for tick in range(final_tick + 1))
+
+
+def _per_tick(cumulative: tuple[float, ...]) -> tuple[float, ...]:
+    return (cumulative[0],) + tuple(
+        current - previous for previous, current in zip(cumulative, cumulative[1:])
+    )
 
 
 def _ticks_by_packet(events: tuple[Event, ...], event_type: EventType, entity: str, packet_ids: tuple[str, ...]) -> tuple[int, ...]:
@@ -946,6 +1235,37 @@ def _observed(
     events = engine.event_log
     final = engine.current_tick
     source = EvidenceSource.EVENT_DERIVED
+    if _is_desouza_figure7_case(case.case_id):
+        upstream_outflow = _count(events, EventType.LINK_EXIT, "L1", final)
+        downstream_1_inflow = _count(events, EventType.LINK_ENTRY, "L2", final)
+        downstream_2_inflow = _count(events, EventType.LINK_ENTRY, "L3", final)
+        series = (
+            _series(
+                "upstream_cumulative_outflow", "Observed upstream cumulative outflow",
+                upstream_outflow, source=source,
+            ),
+            _series(
+                "downstream_1_cumulative_inflow", "Observed downstream link 1 cumulative inflow",
+                downstream_1_inflow, source=source,
+            ),
+            _series(
+                "downstream_2_cumulative_inflow", "Observed downstream link 2 cumulative inflow",
+                downstream_2_inflow, source=source,
+            ),
+            _series(
+                "upstream_outflow_per_tick", "Observed upstream outflow per tick",
+                _per_tick(upstream_outflow), source=source,
+            ),
+            _series(
+                "downstream_1_inflow_per_tick", "Observed downstream link 1 inflow per tick",
+                _per_tick(downstream_1_inflow), source=source,
+            ),
+            _series(
+                "downstream_2_inflow_per_tick", "Observed downstream link 2 inflow per tick",
+                _per_tick(downstream_2_inflow), source=source,
+            ),
+        )
+        return series, (), ()
     if _is_desouza_case(case.case_id):
         series: list[ValidationSeries] = []
         for link_id in ("L1", "L2"):

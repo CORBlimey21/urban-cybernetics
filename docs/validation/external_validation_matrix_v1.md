@@ -22,7 +22,7 @@ implementation is reproduced and passes a tolerance fixed before comparison.
 | M8-VAL-08 | General MIMO node | Tampere 2011 candidate; numerical case/mapping missing | Planned; internal coverage only |
 | M8-VAL-09 | Published network-loading numerical case | de Souza Figure 5(a) digitised L1 inflow, outflow, and storage supplied | DT1 observational comparison complete without calibration |
 | M8-VAL-10 | External benchmark/cross-implementation comparison | Implementation not selected or run | Blocked on implementation selection |
-| M8-VAL-11 | Further de Souza merge or diverge figure | Exact figure, declared parameters, and digitised outputs not supplied | Blocked on source inputs; no case invented |
+| M8-VAL-11 | de Souza Figure 7 deterministic diverge | DT1 digitised `Gu/F1/F2` supplied; DT3 values pending | DT1 observational comparison and audit complete without calibration; no formal threshold pass assigned |
 
 ## M8-VAL-01 — Uncongested Single-Link Translation
 
@@ -210,25 +210,37 @@ implementation is reproduced and passes a tolerance fixed before comparison.
 
 ## M8-VAL-11 — Further de Souza Merge or Diverge Figure
 
-- Reference/status: reserved for one additional primary-source de Souza merge
-  or diverge figure. No exact figure or numerical data has been supplied.
-- Inputs required: figure/page identity, all declared link and node parameters,
-  routes or turning proportions, priorities, FIFO convention, initial state,
-  timestep/horizon, and digitised reference series or tables.
-- Outputs/tolerance: reuse the Figure 5 observational metrics and event trace;
-  fix interpolation and any tolerance from source precision before comparison.
-- UC subsystem: generic movement allocator, relevant merge/diverge FIFO and
-  resource semantics, cumulative curves, queues, packet events, and replay.
-- Claim if completed: reproduction evidence for that named figure only.
-- Not supported: invented source parameters, calibration, general agreement
-  with all de Souza cases, or a change to frozen kernel semantics.
-- Status/blocker: exact source figure/text and digitised data are required.
-  No placeholder topology, priority, route split, or expected sequence exists.
+- Reference/status: de Souza et al. 2025 Figure 7, Section 4.2 and Equation 14
+  are selected. The primary-source text was checked against the exact supplied
+  parameters, deterministic 3:1 packet route order, timesteps, and named
+  observables. Preserved DT1 `Gu`, `F1`, and `F2` digitised series are loaded;
+  DT3 numerical values remain pending.
+- Exact inputs: three 150 m links; `V=30 m/s`; `W=6 m/s`; `K1=0.2
+  veh/m`; `K2=K3=0.1 veh/m`; routes repeat `L1→L2, L1→L2, L1→L2,
+  L1→L3`; demand is 0.8 veh/s for `t<50 s` and 0.4 veh/s for
+  `50<t<=120 s`; `dt=1 s` and `dt=3 s`.
+- Outputs/tolerance: upstream cumulative outflow and both downstream cumulative
+  inflows are compared on their actual reference supports with the Figure 5
+  interpolation and descriptive metrics. Exact conservation, packet route
+  identity, strict FIFO, and replay are zero-tolerance internal gates. No
+  numerical pass threshold was fixed before comparison.
+- UC subsystem: frozen parity kernel, strict-FIFO diverge allocator, fractional
+  sending/receiving credit, route-encoded commodities, events, replay, and
+  cumulative count projections.
+- Claim currently supported: DT1 observational reproduction is complete without
+  calibration. Differences are bounded and non-drifting, while the digitised
+  references themselves have closure MAE 0.496 and maximum residual 1.820
+  vehicles. All UC internal gates pass exactly.
+- Not supported: a formal threshold-based numerical pass, calibration, general
+  agreement with all de Souza cases, or any kernel change.
+- Status/blocker: DT1 comparison and read-only first-divergence audit are
+  complete; no kernel discrepancy is established. DT3 paper values remain
+  required for the bottom-row comparison.
 
 ## Recommended Sequence
 
-Execute M8-VAL-11 when the named source inputs arrive, using the already fixed
-Figure 5 comparison discipline. M8-VAL-04 through M8-VAL-08 and M8-VAL-10
+Compare M8-VAL-11 DT3 when its Figure 7 numerical reference values arrive,
+using the already fixed DT1/Figure 5 discipline. M8-VAL-04 through M8-VAL-08 and M8-VAL-10
 remain useful external-evidence gaps, even though their kernel mechanisms have
 internal regression coverage. A failure remains a failure until classified as
 fixture transcription, convention mismatch, or kernel behaviour; loading

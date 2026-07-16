@@ -46,11 +46,11 @@
       "artifacts": ["data/validation", "docs/validation/m8_desouza_figure5a_dt1_eq6_before_after_v1.md", "fixtures/visualisation/validation/runs/m8-pub-dsouza-fig5-dt1-baseline-v1"]
     },
     {
-      "id": "DSOUZA-NODE-NEXT",
-      "scope": "one further published de Souza merge or diverge figure",
-      "mechanisms": ["external node comparison"],
-      "status": "blocked_input_not_supplied",
-      "artifacts": ["docs/validation/external_validation_matrix_v1.md"]
+      "id": "DSOUZA-FIG7-DT1-DT3",
+      "scope": "published Figure 7 deterministic diverge at 1 s and 3 s",
+      "mechanisms": ["exact packet routes", "strict FIFO", "diverge movement allocation", "cumulative event folds", "per-tick flows", "deterministic replay"],
+      "status": "dt1_observational_comparison_complete_no_calibration_dt3_reference_pending",
+      "artifacts": ["tests/external_validation/test_m8_desouza_figure7.py", "tests/external_validation/test_m8_desouza_figure7_comparison.py", "docs/validation/m8_desouza_figure7a_dt1_comparison_v1.md", "data/validation/desouza_figure7a_dt1_Gu_digitised_v1.csv", "data/validation/desouza_figure7a_dt1_F1_digitised_v1.csv", "data/validation/desouza_figure7a_dt1_F2_digitised_v1.csv", "scripts/compare_desouza_figure7a_dt1.py", "fixtures/visualisation/validation/runs/m8-pub-dsouza-fig7-dt1-baseline-v1"]
     }
   ]
 }

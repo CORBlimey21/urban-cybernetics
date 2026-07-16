@@ -24,7 +24,7 @@ measurements against digitised reference data, not pass/fail ground truth.
 | M8-COMP-NET-01 | four links, equal-priority merge, L4 bottleneck, multi-link spillback, two OD routes, queue clearance | exact storage, queue, count, FIFO and event sequences | passed | composition builder and tests |
 | de Souza Figure 5 DT1 | L1 cumulative inflow, outflow and storage against digitised Figure 5(a) | descriptive RMSE/MAE/max/threshold/drift metrics; no fitted tolerance | comparison complete | committed data, report, DT1 replay fixture, local plots |
 | de Souza Figure 5 DT3/DT6 | declared input execution and complete UC evidence | internal invariants only; no paper curve supplied | evidence complete; external comparison not run | Workbench fixtures |
-| Further de Souza merge/diverge | external node case | to be fixed from supplied source precision before UC comparison | blocked | exact figure/text/data not supplied |
+| de Souza Figure 7 DT1/DT3 | route-encoded strict-FIFO diverge; six Figure 7 cumulative/per-tick observables | exact routes/conservation/FIFO/replay internally; DT1 descriptive metrics with no fitted tolerance | DT1 observational comparison/audit complete; DT3 reference pending | raw digitisation, report, comparison tool, case/run replay fixtures, focused tests |
 
 ## Composition congestion sequence
 

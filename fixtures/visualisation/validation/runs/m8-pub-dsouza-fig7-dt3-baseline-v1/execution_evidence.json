@@ -1,0 +1,2257 @@
+{
+  "movement_evidence": [
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P1",
+            "P2"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 1,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P1",
+            "P2"
+          ],
+          "resulting_canonical_event_sequences": [
+            14,
+            15,
+            16,
+            17
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P1",
+            "P2"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 3
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P3"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 1,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P3"
+          ],
+          "resulting_canonical_event_sequences": [
+            22,
+            23
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P3"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P4"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P4"
+          ],
+          "resulting_canonical_event_sequences": [
+            24,
+            25
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P4"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 4
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P5",
+            "P6",
+            "P7"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P5",
+            "P6",
+            "P7"
+          ],
+          "resulting_canonical_event_sequences": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P5",
+            "P6",
+            "P7"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 5
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P9"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P9"
+          ],
+          "resulting_canonical_event_sequences": [
+            46,
+            47
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P9"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P8"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P8"
+          ],
+          "resulting_canonical_event_sequences": [
+            44,
+            45
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P8"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 6
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P10",
+            "P11"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P10",
+            "P11"
+          ],
+          "resulting_canonical_event_sequences": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P10",
+            "P11"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P12"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P12"
+          ],
+          "resulting_canonical_event_sequences": [
+            62,
+            63
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P12"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 7
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P13"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P14",
+              "downstream_supply_unavailable"
+            ]
+          ],
+          "request_packet_ids": [
+            "P13",
+            "P14"
+          ],
+          "resulting_canonical_event_sequences": [
+            72,
+            73
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P13",
+            "P14"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 8
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P14",
+            "P15"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P14",
+            "P15"
+          ],
+          "resulting_canonical_event_sequences": [
+            86,
+            87,
+            88,
+            89
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P14",
+            "P15"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P16"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P16"
+          ],
+          "resulting_canonical_event_sequences": [
+            90,
+            91
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P16"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 9
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P17"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P18",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P19",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P17",
+            "P18",
+            "P19"
+          ],
+          "resulting_canonical_event_sequences": [
+            102,
+            103
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P17",
+            "P18",
+            "P19"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 10
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P18",
+            "P19"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P18",
+            "P19"
+          ],
+          "resulting_canonical_event_sequences": [
+            115,
+            116,
+            118,
+            119
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P18",
+            "P19"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P20"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P20"
+          ],
+          "resulting_canonical_event_sequences": [
+            120,
+            121
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P20"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 11
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P21",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P22",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P23",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P21",
+            "P22",
+            "P23"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P21",
+            "P22",
+            "P23"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 12
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P21",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P22",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P23",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P21",
+            "P22",
+            "P23"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P21",
+            "P22",
+            "P23"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 13
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P21"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P22",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P23",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P21",
+            "P22",
+            "P23"
+          ],
+          "resulting_canonical_event_sequences": [
+            152,
+            153
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P21",
+            "P22",
+            "P23"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 14
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P22",
+            "P23"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P22",
+            "P23"
+          ],
+          "resulting_canonical_event_sequences": [
+            165,
+            166,
+            168,
+            169
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P22",
+            "P23"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P24"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P24"
+          ],
+          "resulting_canonical_event_sequences": [
+            170,
+            171
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P24"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 15
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P25"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P26",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P27",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P25",
+            "P26",
+            "P27"
+          ],
+          "resulting_canonical_event_sequences": [
+            176,
+            177
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P25",
+            "P26",
+            "P27"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 16
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P26",
+            "P27"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P26",
+            "P27"
+          ],
+          "resulting_canonical_event_sequences": [
+            187,
+            188,
+            190,
+            191
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P26",
+            "P27"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P28"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P28"
+          ],
+          "resulting_canonical_event_sequences": [
+            192,
+            193
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P28"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 17
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P29"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P30",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P31",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P29",
+            "P30",
+            "P31"
+          ],
+          "resulting_canonical_event_sequences": [
+            200,
+            201
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P29",
+            "P30",
+            "P31"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 18
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P30",
+            "P31"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P30",
+            "P31"
+          ],
+          "resulting_canonical_event_sequences": [
+            211,
+            212,
+            214,
+            215
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P30",
+            "P31"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P32"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P32"
+          ],
+          "resulting_canonical_event_sequences": [
+            216,
+            217
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P32"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 19
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P33"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P34",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P35",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P33",
+            "P34",
+            "P35"
+          ],
+          "resulting_canonical_event_sequences": [
+            226,
+            227
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P33",
+            "P34",
+            "P35"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 20
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P34",
+            "P35"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P34",
+            "P35"
+          ],
+          "resulting_canonical_event_sequences": [
+            237,
+            238,
+            240,
+            241
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P34",
+            "P35"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P36"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P36"
+          ],
+          "resulting_canonical_event_sequences": [
+            242,
+            243
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P36"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 21
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P37"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P38",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P39",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P37",
+            "P38",
+            "P39"
+          ],
+          "resulting_canonical_event_sequences": [
+            250,
+            251
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P37",
+            "P38",
+            "P39"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 22
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P38",
+            "P39"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P38",
+            "P39"
+          ],
+          "resulting_canonical_event_sequences": [
+            261,
+            262,
+            264,
+            265
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P38",
+            "P39"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P40"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P40"
+          ],
+          "resulting_canonical_event_sequences": [
+            266,
+            267
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P40"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 23
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P41",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P42",
+              "upstream_fifo_blocked"
+            ],
+            [
+              "P43",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P41",
+            "P42",
+            "P43"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P41",
+            "P42",
+            "P43"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 24
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P41"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P42",
+              "downstream_supply_unavailable"
+            ],
+            [
+              "P43",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P41",
+            "P42",
+            "P43"
+          ],
+          "resulting_canonical_event_sequences": [
+            286,
+            287
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P41",
+            "P42",
+            "P43"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 25
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P42"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P43",
+              "downstream_supply_unavailable"
+            ]
+          ],
+          "request_packet_ids": [
+            "P42",
+            "P43"
+          ],
+          "resulting_canonical_event_sequences": [
+            295,
+            296
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P42",
+            "P43"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 3,
+          "rejected_packet_reasons": [
+            [
+              "P44",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P44"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P44"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 26
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P43",
+            "P45"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P43",
+            "P45"
+          ],
+          "resulting_canonical_event_sequences": [
+            302,
+            303,
+            306,
+            307
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P43",
+            "P45"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P44"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P44"
+          ],
+          "resulting_canonical_event_sequences": [
+            304,
+            305
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P44"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 27
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P46"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P47",
+              "downstream_supply_unavailable"
+            ]
+          ],
+          "request_packet_ids": [
+            "P46",
+            "P47"
+          ],
+          "resulting_canonical_event_sequences": [
+            312,
+            313
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P46",
+            "P47"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 3,
+          "rejected_packet_reasons": [
+            [
+              "P48",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P48"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P48"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 28
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P47",
+            "P49"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P47",
+            "P49"
+          ],
+          "resulting_canonical_event_sequences": [
+            320,
+            321,
+            324,
+            325
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P47",
+            "P49"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P48"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P48"
+          ],
+          "resulting_canonical_event_sequences": [
+            322,
+            323
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P48"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 29
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P50"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P51",
+              "downstream_supply_unavailable"
+            ]
+          ],
+          "request_packet_ids": [
+            "P50",
+            "P51"
+          ],
+          "resulting_canonical_event_sequences": [
+            334,
+            335
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P50",
+            "P51"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 3,
+          "rejected_packet_reasons": [
+            [
+              "P52",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P52"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P52"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 30
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P51",
+            "P53"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P51",
+            "P53"
+          ],
+          "resulting_canonical_event_sequences": [
+            344,
+            345,
+            348,
+            349
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P51",
+            "P53"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P52"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P52"
+          ],
+          "resulting_canonical_event_sequences": [
+            346,
+            347
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P52"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 31
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P54"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [
+            [
+              "P55",
+              "downstream_supply_unavailable"
+            ]
+          ],
+          "request_packet_ids": [
+            "P54",
+            "P55"
+          ],
+          "resulting_canonical_event_sequences": [
+            356,
+            357
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P54",
+            "P55"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 3,
+          "rejected_packet_reasons": [
+            [
+              "P56",
+              "upstream_fifo_blocked"
+            ]
+          ],
+          "request_packet_ids": [
+            "P56"
+          ],
+          "resulting_canonical_event_sequences": [],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P56"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 32
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P55",
+            "P57"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P55",
+            "P57"
+          ],
+          "resulting_canonical_event_sequences": [
+            366,
+            367,
+            370,
+            371
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P55",
+            "P57"
+          ],
+          "upstream_link_id": "L1"
+        },
+        {
+          "approved_packet_ids": [
+            "P56"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P56"
+          ],
+          "resulting_canonical_event_sequences": [
+            368,
+            369
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P56"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 33
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P58"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P58"
+          ],
+          "resulting_canonical_event_sequences": [
+            378,
+            379
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P58"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 34
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P59"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P59"
+          ],
+          "resulting_canonical_event_sequences": [
+            388,
+            389
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P59"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 35
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P60"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P60"
+          ],
+          "resulting_canonical_event_sequences": [
+            396,
+            397
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P60"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 36
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P61",
+            "P62"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P61",
+            "P62"
+          ],
+          "resulting_canonical_event_sequences": [
+            404,
+            405,
+            406,
+            407
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P61",
+            "P62"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 37
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P63"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 0,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P63"
+          ],
+          "resulting_canonical_event_sequences": [
+            412,
+            413
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P63"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 38
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P64"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L3",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L3",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P64"
+          ],
+          "resulting_canonical_event_sequences": [
+            418,
+            419
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P64"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 39
+    },
+    {
+      "allocator_id": "uc_movement_allocator_stage2_v1",
+      "junction_id": "N1",
+      "movement_spec_hash": "d6dd7fa47b1649f545e62eb4c590da1d0698f67718412f16657e2450db069ac2",
+      "movements": [
+        {
+          "approved_packet_ids": [
+            "P65"
+          ],
+          "conflict_resource_constraints": {},
+          "downstream_link_id": "L2",
+          "governance_state": "open",
+          "lane_group_constraints": {},
+          "movement_capacity_packets": null,
+          "movement_id": "movement:L1->L2",
+          "receiving_supply_packets": 2,
+          "rejected_packet_reasons": [],
+          "request_packet_ids": [
+            "P65"
+          ],
+          "resulting_canonical_event_sequences": [
+            426,
+            427
+          ],
+          "signal_state": "not_declared",
+          "upstream_fifo_packet_ids": [
+            "P65"
+          ],
+          "upstream_link_id": "L1"
+        }
+      ],
+      "run_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+      "schema_version": "uc.visualisation.movement-trace.v1",
+      "semantic_sources": {
+        "approvals": "engine_owned_materialised_trace",
+        "movement_spec": "immutable_topology_metadata",
+        "requests": "engine_owned_materialised_trace",
+        "resulting_events": "canonical_event_data"
+      },
+      "tick": 40
+    }
+  ],
+  "observed_overlays": [],
+  "result_id": "m8-pub-dsouza-fig7-dt3-baseline-v1",
+  "schema_version": "uc.validation.execution-evidence.v1"
+}
