@@ -5,8 +5,9 @@ Vertical Slice Status: M1–M15
 Supersession note (2026-07-16): this is the historical initial vertical-slice
 snapshot and its 129-test baseline. Its “simplified LTM-style” and
 “global-FIFO merge” wording describes that early slice, not the current frozen
-kernel. Current capabilities, validated node families, 682-test plus
-88-subtest closure, and exclusions are recorded in
+kernel. Current capabilities, validated node families, 686-test plus
+88-subtest freeze closure (from a 682-test accepted baseline), and exclusions
+are recorded in
 `loading_kernel_capability_statement_v1.md` and
 `loading_kernel_freeze_contract_v1.md`.
 

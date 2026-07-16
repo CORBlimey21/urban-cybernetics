@@ -2,8 +2,9 @@
 
 > Superseded status snapshot. This document records the pre-M8 state and its
 > 507-test baseline. As of 2026-07-16, de Souza Figures 5, 7, 8, and 9 have
-> completed observational comparisons, the full suite is 682 tests plus 88
-> subtests, and the base kernel is frozen by
+> completed observational comparisons, the freeze closure is 686 tests plus 88
+> subtests (the accepted pre-freeze baseline was 682), and the base kernel is
+> frozen by
 > `docs/architecture/loading_kernel_freeze_contract_v1.md`. Historical
 > statements below that call de Souza deferred or externally unvalidated are
 > not current claims. Full Sioux Falls and empirical parity remain deferred.

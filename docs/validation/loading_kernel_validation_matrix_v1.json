@@ -4,7 +4,7 @@
   "status": "passed_and_frozen_loading_kernel_v1_0_0",
   "exact_internal_tolerance": "zero packets, zero ticks, exact event/order/count sequences unless a case explicitly declares a floating-point tolerance",
   "closure_verification": {
-    "python": "682 passed, 0 failed, 88 subtests passed in 16.61 s",
+    "python": "686 passed, 0 failed, 88 subtests passed in 16.22 s; accepted pre-freeze baseline 682 passed",
     "frontend": "26 passed, 0 failed in 0.453 s (0.94 s wall)",
     "typescript": "typecheck passed in 1.60 s wall",
     "known_warning": "one FastAPI TestClient deprecation warning"

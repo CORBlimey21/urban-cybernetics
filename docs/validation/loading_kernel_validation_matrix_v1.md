@@ -52,7 +52,8 @@ The machine-readable companion is
 
 ## Closure verification
 
-- Python: 682 passed, zero failed, 88 subtests passed in 16.61 seconds.
+- Python freeze closure: 686 passed, zero failed, 88 subtests passed in 16.22
+  seconds; accepted pre-freeze baseline: 682 passed.
 - Frontend: 26 passed, zero failed in 0.453 seconds (0.94 seconds wall time).
 - TypeScript: project typecheck passed in 1.60 seconds wall time.
 - Known non-failure: one FastAPI `TestClient` deprecation warning.

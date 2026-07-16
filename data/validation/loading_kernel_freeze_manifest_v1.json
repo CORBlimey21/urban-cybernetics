@@ -1,0 +1,452 @@
+{
+  "artifacts": {
+    "comparison_summary_files": [
+      {
+        "path": "data/validation/desouza_figure7_comparison_manifest_v1.json",
+        "sha256": "a8e358b4adfb6142f773a2c19c224c3e19090a91454d0be2b8585a1cb11784d8"
+      },
+      {
+        "path": "data/validation/desouza_figure8_ensemble_summary_v1.json",
+        "sha256": "e825f3c8486fd585bce1a91065e4acada2c062ca2325a77d25b5a2dc4249ee4b"
+      },
+      {
+        "path": "data/validation/desouza_figure9a_equal_comparison_summary_v1.json",
+        "sha256": "b434ebb0302106701e0ed64c6fa090bf5a51fb4dc7ae197c84e46dd203417d62"
+      },
+      {
+        "path": "data/validation/desouza_figure9d_asymmetric_comparison_summary_v1.json",
+        "sha256": "1c7fc91596c634b18b81ebe79a74d942018342a318de34630ca11c3df6676919"
+      },
+      {
+        "path": "docs/validation/m8_desouza_figure5a_dt1_comparison_v2.md",
+        "sha256": "814c2a303210e1f5440675198113133de51d467909568097b3d7222331192a4f"
+      },
+      {
+        "path": "docs/validation/m8_desouza_figure7a_dt1_comparison_v1.md",
+        "sha256": "11f2d49f1e736c00c2e0bd178a5b54c03ae36c592b008ec2d4852be7bfbef0eb"
+      },
+      {
+        "path": "docs/validation/m8_desouza_figure8_ensemble_v1.md",
+        "sha256": "c8d421cf5dc0723e60c69e13ffb07e8f6718510f5e3f2888514eecccbf06e48c"
+      },
+      {
+        "path": "docs/validation/m8_desouza_figure9a_equal_comparison_v1.md",
+        "sha256": "4209348900d0a9188fd0de5f979ec69f54f9e8ab725cab55552001c6dcafa849"
+      },
+      {
+        "path": "docs/validation/m8_desouza_figure9d_asymmetric_comparison_v1.md",
+        "sha256": "443a164e1421525c10c5c3bb8b06427c2b32f99f830072e613836d7e7b3e7eda"
+      }
+    ],
+    "governance_files": [
+      {
+        "path": "docs/architecture/core_principles.md",
+        "sha256": "cf2d56f77f082031cd68caf566312381327511d3a21be4d052f2990d2e328d4f"
+      },
+      {
+        "path": "docs/architecture/loading_kernel_freeze_contract_v1.md",
+        "sha256": "17bd546743d7a56e99f49808662b52bcecb0414191211677d7753c0765bd2486"
+      },
+      {
+        "path": "docs/architecture/loading_kernel_capability_statement_v1.md",
+        "sha256": "cc1cc6b89ab53b38fa2b9f78216d35c5e71efa4c8f8b032f95e530382c3371f2"
+      },
+      {
+        "path": "docs/validation/loading_kernel_v1_transition_note.md",
+        "sha256": "50c434ed2d73c28d79433ab042ade7df4953ec699aec3653c198d51aacaf7a3c"
+      },
+      {
+        "path": "docs/validation/loading_kernel_validation_dossier_v1.md",
+        "sha256": "0d7a12874708603a4efee90eb3fb8c63cfbcf50e0ca38e769e88531e95227595"
+      },
+      {
+        "path": "docs/validation/loading_kernel_validation_matrix_v1.md",
+        "sha256": "583f7c638f451bc92ebe6a1b4fad42ade955574be90d2c5523fc168e5add60d2"
+      },
+      {
+        "path": "docs/validation/loading_kernel_validation_matrix_v1.json",
+        "sha256": "3be84fdb13739c74bbf0ebc1e60a8a7c184405739a8fc1165caa96a50d086c9b"
+      },
+      {
+        "path": "docs/validation/external_validation_matrix_v1.md",
+        "sha256": "9c4881eb5aea2c87f7e673bdb6980cec2569692ca44f6b76e89cd0e35b19529a"
+      },
+      {
+        "path": "docs/validation/external_validation_matrix_v1.json",
+        "sha256": "a1349a82be5376646f10f220da7e6a24d6ca43eb6b81189b75d689081413b5f9"
+      },
+      {
+        "path": "docs/architecture/research_claims.md",
+        "sha256": "2dde32110744cef3f775c7b2bdb873ffa85ed126516cde8b2e4ded59b0cbd544"
+      },
+      {
+        "path": "docs/architecture/vertical_slice.md",
+        "sha256": "7f4a8c86acda704f8a6c68b9a2edd05570327f51e31668be612449725a4b931e"
+      },
+      {
+        "path": "docs/validation/canonical_ltm_validation.md",
+        "sha256": "fdf79279da4f3b2e88997eda49bf33a0e3c3f46f7077c8f963753449b41d6c5f"
+      },
+      {
+        "path": "docs/validation/parity_kernel_status.md",
+        "sha256": "bc8f04ace8c02bece80082a218420f4a75d5c2b9bdda95cfa2236422d68b4a0b"
+      }
+    ],
+    "kernel_source_files": [
+      {
+        "path": "src/urban_cybernetics/config.py",
+        "sha256": "c313d85ca9a3461466ace884806af04e400aeb2c5b3905969cafd72541ffe8a1"
+      },
+      {
+        "path": "src/urban_cybernetics/core/demand.py",
+        "sha256": "b71aea5e52c968e2b1600bf37fb5029ea80fa17eca1f4e8a69aadb40a5179a52"
+      },
+      {
+        "path": "src/urban_cybernetics/core/event.py",
+        "sha256": "772e576cc5c52a7129bc592d5a0bf87e74d0258af8793c10606bf11b0da11dca"
+      },
+      {
+        "path": "src/urban_cybernetics/core/lifecycle.py",
+        "sha256": "6e5448e2bcfc1b4f7498d78d9045348b5a5d6322f4d72910b8a1969b19c4d0b8"
+      },
+      {
+        "path": "src/urban_cybernetics/core/link.py",
+        "sha256": "05b251d8e26ce41254154a801c295bf155fc575dd06ee429b44d25f0e35c59b5"
+      },
+      {
+        "path": "src/urban_cybernetics/core/node.py",
+        "sha256": "b9907463cc90b8c0dbc66166f60524076b00cc92df5b4648c1d718d24f776c96"
+      },
+      {
+        "path": "src/urban_cybernetics/core/packet.py",
+        "sha256": "17bf22bfb30311532cb81f881209c2622c14a57580a8f0ad6e23c5b141768651"
+      },
+      {
+        "path": "src/urban_cybernetics/loading/cumulative_counts.py",
+        "sha256": "b45d48475c7f9105884c101ff9996f7cbeb20aa9946abdf97c24718af61945be"
+      },
+      {
+        "path": "src/urban_cybernetics/loading/engine.py",
+        "sha256": "90cebbec5120162884ae0b1ec6c40e80ceef27f8086e6b23d87a8c2c06698421"
+      },
+      {
+        "path": "src/urban_cybernetics/loading/receiving.py",
+        "sha256": "8a4a4e5447195da648e851544339ecbc18761adb6bdf9a5ef393882cc447612b"
+      },
+      {
+        "path": "src/urban_cybernetics/loading/sending.py",
+        "sha256": "883b2440d0cafd838c8899056a22f2e7974ec0a503cbe54a3ed60c9f849b9461"
+      },
+      {
+        "path": "src/urban_cybernetics/loading/transfer_policy.py",
+        "sha256": "92cbe739ae19bbb310b7437cd2a124e37c0948a35900551d371d4da5f28eca48"
+      },
+      {
+        "path": "src/urban_cybernetics/topology/canonical.py",
+        "sha256": "2f3f844d6b78840cf2698ed2bcfb416191a672d27fba10727e18f915f047112a"
+      },
+      {
+        "path": "src/urban_cybernetics/validation/claims.py",
+        "sha256": "43c24c7a788dede365a85313b42ceba31f162cc2ce8867c501feb78aec5b2ccf"
+      },
+      {
+        "path": "src/urban_cybernetics/validation/commodity.py",
+        "sha256": "6e9d5194b4f93ff9d20aa0e692a47f97824a59298075b585b5a228b0c3f30380"
+      },
+      {
+        "path": "src/urban_cybernetics/validation/context.py",
+        "sha256": "29a3b9238993fc00f05c48aa998be2be4d97b3319200c160980d3194037ab42d"
+      },
+      {
+        "path": "src/urban_cybernetics/validation/physical.py",
+        "sha256": "2ca2269128ae265fc1a03b22d1e50c03a7a1c2951c3e3217743959bdb7153753"
+      },
+      {
+        "path": "src/urban_cybernetics/validation/spillback.py",
+        "sha256": "364e3dfafcdecbbd75a9cc0b888f4a5954fcfd7b16b9f511f7a6486b3d66ddfb"
+      }
+    ],
+    "validation_fixture_files": [
+      {
+        "path": "data/validation/desouza_figure5a_cumulative_inflow_digitised_v2.csv",
+        "sha256": "6487f7234b39dc0202778bcf6dc5cf3a43a279f935df80291715fddf53001cfd"
+      },
+      {
+        "path": "data/validation/desouza_figure5a_link1_cumulative_outflow_digitised_v2.csv",
+        "sha256": "4c3098ac0bb8ecece7b30d8d56bdbd703c73a2bc2f0356a2de2b9556ea7e0dfa"
+      },
+      {
+        "path": "data/validation/desouza_figure5a_link1_storage_digitised_v1.csv",
+        "sha256": "72124fc0032a8c6f5de6832b6240849dd056907be5a2b488b2ae9db5537f6a60"
+      },
+      {
+        "path": "data/validation/desouza_figure7_uc_observables_v1.csv",
+        "sha256": "c98c6b910c31092b98ec36aa07408e064bc968a4c39219be597f040ad8eeaa73"
+      },
+      {
+        "path": "data/validation/desouza_figure7a_dt1_F1_digitised_v1.csv",
+        "sha256": "f1decc34b3baeaf24fc64d8f46fee8eea05dc9a02d563aec78e9c1e1cd81c3d6"
+      },
+      {
+        "path": "data/validation/desouza_figure7a_dt1_F2_digitised_v1.csv",
+        "sha256": "8c40ab91eb62c5ca44c4f5e5a7e5c746beb9fd974b1427551bfc7a06582144cd"
+      },
+      {
+        "path": "data/validation/desouza_figure7a_dt1_Gu_digitised_v1.csv",
+        "sha256": "852e02f91f4c1e5b98dc1bd8958f64a3efafcd5eef71f0ed546d2a790a6c2124"
+      },
+      {
+        "path": "data/validation/desouza_figure8_pointwise_v1.csv",
+        "sha256": "e342960e61a09d0e49baa19ac72a47a986910a4ba48143d4f6c83d0ac21bc777"
+      },
+      {
+        "path": "data/validation/desouza_figure8_replications_v1.csv",
+        "sha256": "241004e68c8f30ef31727b9e05f365bb437500eb55fa8d462990b7b5c277cf63"
+      },
+      {
+        "path": "data/validation/desouza_figure9a_equal_priority_G1_digitised_v1.csv",
+        "sha256": "8906678de58c29cec0534fb41ac5719cad1d7e24d45b072e422a12b100583cc4"
+      },
+      {
+        "path": "data/validation/desouza_figure9a_equal_priority_G2_digitised_v1.csv",
+        "sha256": "406bbde17b9220429460a0dca065d0e52077eb5300c6be72581a07b59ad08825"
+      },
+      {
+        "path": "data/validation/desouza_figure9a_equal_uc_evidence_v1.json",
+        "sha256": "a959a2678e651c178a3889cd539486d9dcfd8844efd7007ed88904df2f282be1"
+      },
+      {
+        "path": "data/validation/desouza_figure9d_asymmetric_priority_G1_digitised_v1.csv",
+        "sha256": "15a411998a5f09a75c0424980a804be42c30dad81279807d86ddb28f3684343d"
+      },
+      {
+        "path": "data/validation/desouza_figure9d_asymmetric_priority_G2_digitised_v1.csv",
+        "sha256": "f9e239118d5c38ca5c74ab90e2595d25e3116063140d2043c0872c220938bb30"
+      },
+      {
+        "path": "data/validation/desouza_figure9d_asymmetric_uc_evidence_v1.json",
+        "sha256": "64a716bace7eb3d193e7fde2ebbef407d91783bfbdc4c8cba8690b398d538fed"
+      }
+    ],
+    "verification_files": [
+      {
+        "path": "scripts/verify_loading_kernel_freeze.py",
+        "sha256": "a0ac959e54e5677139d6a548c55d9a1cd2da058afd88f1cd199e5cbca9d18c1f"
+      },
+      {
+        "path": "tests/validation/test_loading_kernel_freeze_manifest.py",
+        "sha256": "4fcc44b241437c885c6bc80f54cf3f55fa7527201076c6b92c007e160689bf88"
+      }
+    ]
+  },
+  "comparison_summary_files": [
+    "data/validation/desouza_figure7_comparison_manifest_v1.json",
+    "data/validation/desouza_figure8_ensemble_summary_v1.json",
+    "data/validation/desouza_figure9a_equal_comparison_summary_v1.json",
+    "data/validation/desouza_figure9d_asymmetric_comparison_summary_v1.json"
+  ],
+  "excluded_scope": [
+    "full Sioux Falls academic parity",
+    "Cork or other city-scale empirical validity",
+    "calibrated traffic realism",
+    "weighted-packet parity",
+    "adaptive signal-control parity",
+    "lane changing, gap acceptance, and roundabout-specific mechanics",
+    "dynamic rerouting parity",
+    "production-scale performance",
+    "field-calibrated behaviour or governance",
+    "equivalence to every LTM implementation or timing convention"
+  ],
+  "external_evidence": [
+    {
+      "label": "de_souza_figure5_lane_drop",
+      "reference_files": [
+        "data/validation/desouza_figure5a_cumulative_inflow_digitised_v2.csv",
+        "data/validation/desouza_figure5a_link1_cumulative_outflow_digitised_v2.csv",
+        "data/validation/desouza_figure5a_link1_storage_digitised_v1.csv"
+      ],
+      "source": "de Souza et al., A Mesoscopic Link-Transmission-Model Able to Track Individual Vehicles, Figure 5",
+      "source_url": "https://www.osti.gov/servlets/purl/2569501"
+    },
+    {
+      "label": "de_souza_figure7_deterministic_diverge",
+      "reference_files": [
+        "data/validation/desouza_figure7a_dt1_F1_digitised_v1.csv",
+        "data/validation/desouza_figure7a_dt1_F2_digitised_v1.csv",
+        "data/validation/desouza_figure7a_dt1_Gu_digitised_v1.csv"
+      ],
+      "source": "de Souza et al., Figure 7 deterministic route-encoded diverge",
+      "source_url": "https://www.osti.gov/servlets/purl/2569501"
+    },
+    {
+      "label": "de_souza_figure8_stochastic_diverge_ensemble",
+      "reference_files": [
+        "data/validation/desouza_figure8_ensemble_summary_v1.json"
+      ],
+      "source": "de Souza et al., Figure 8; deterministic Figure 7(a) curves are the reference centre and faint traces were not digitised",
+      "source_url": "https://www.osti.gov/servlets/purl/2569501"
+    },
+    {
+      "label": "de_souza_figure9_equal_priority_merge",
+      "reference_files": [
+        "data/validation/desouza_figure9a_equal_priority_G1_digitised_v1.csv",
+        "data/validation/desouza_figure9a_equal_priority_G2_digitised_v1.csv"
+      ],
+      "source": "de Souza et al., Figure 9(a-c) equal-priority merge",
+      "source_url": "https://www.osti.gov/servlets/purl/2569501"
+    },
+    {
+      "label": "de_souza_figure9_asymmetric_priority_merge",
+      "priority_interpretation": {
+        "alpha_1": 0.75,
+        "sequence": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "reference_files": [
+        "data/validation/desouza_figure9d_asymmetric_priority_G1_digitised_v1.csv",
+        "data/validation/desouza_figure9d_asymmetric_priority_G2_digitised_v1.csv"
+      ],
+      "source": "de Souza et al., Figure 9(d-f) asymmetric-priority merge",
+      "source_url": "https://www.osti.gov/servlets/purl/2569501"
+    }
+  ],
+  "freeze_date": "2026-07-16",
+  "freeze_name": "Urban Cybernetics Base Loading Kernel v1",
+  "freeze_version": "loading-kernel-v1.0.0",
+  "git": {
+    "documentation_boundary_commit": "08d9668ce4e0cc2939fbf4e9e1c2f75bc6285964",
+    "kernel_evidence_commit": "6fb834c7ace57421e0816f2894cc5f53e1f898c0",
+    "semantic_change_commit": "74fd7311bcdf7271747e1d55d42be41a31ccaf04"
+  },
+  "kernel_profile": "parity_ltm_v1",
+  "known_warnings": [
+    "one existing Starlette/FastAPI TestClient deprecation warning"
+  ],
+  "proposed_tag": "loading-kernel-v1.0.0",
+  "provenance": {
+    "de_souza_source_pdf_sha256": "ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903",
+    "digitised_reference_policy": "raw committed points preserved; analysis may stable-sort by time only and must not smooth, fit, shift, monotonicise, remove points, or synthesize origins",
+    "manifest_serialization": "UTF-8 JSON, sorted keys, two-space indentation, trailing newline",
+    "source_doi": "10.1016/j.simpat.2025.103088",
+    "source_url": "https://www.osti.gov/servlets/purl/2569501"
+  },
+  "regeneration_commands": [
+    {
+      "argv": [
+        "{python}",
+        "scripts/export_desouza_figure7_observables.py"
+      ],
+      "purpose": "regenerate Figure 7 UC observables and comparison manifest"
+    },
+    {
+      "argv": [
+        "{python}",
+        "scripts/compare_desouza_figure7a_dt1.py"
+      ],
+      "purpose": "regenerate Figure 7 DT1 comparison artifacts"
+    },
+    {
+      "argv": [
+        "{python}",
+        "scripts/run_desouza_figure8_ensemble.py"
+      ],
+      "purpose": "regenerate the seeded Figure 8 ensemble"
+    },
+    {
+      "argv": [
+        "{python}",
+        "scripts/run_desouza_figure9_equal.py"
+      ],
+      "purpose": "regenerate Figure 9 equal-priority evidence"
+    },
+    {
+      "argv": [
+        "{python}",
+        "scripts/run_desouza_figure9_asymmetric.py"
+      ],
+      "purpose": "regenerate Figure 9 asymmetric-priority evidence"
+    }
+  ],
+  "schema_version": "uc.validation.loading-kernel-freeze.v1",
+  "supported_semantic_scope": [
+    "packet identity and exact conservation",
+    "canonical append-only physical events",
+    "deterministic event ordering and replay",
+    "immutable topology during a run",
+    "unit-packet loading",
+    "sending and receiving recurrences",
+    "fractional capacity carry and retained unused receiving credit",
+    "storage, free-flow timing, backward-wave timing, and spillback",
+    "FIFO link behaviour and physical packet eligibility",
+    "one-to-one transfers and strict route-encoded diverges",
+    "stochastic immutable route commodities",
+    "equal-priority and declared cyclic-priority merges",
+    "supported movement-based MIMO allocation",
+    "aggregate and route-disaggregated cumulative counts",
+    "exact node and network conservation",
+    "separation of physical shortage from governance closure"
+  ],
+  "test_commands": {
+    "focused_freeze": [
+      {
+        "argv": [
+          "{python}",
+          "-m",
+          "pytest",
+          "-q",
+          "tests/validation/test_loading_kernel_freeze_manifest.py",
+          "tests/test_ltm_parity_sending.py",
+          "tests/test_ltm_parity_receiving.py",
+          "tests/test_ltm_parity_node_family.py",
+          "tests/validation/test_composed_loading_kernel_case.py",
+          "tests/visualisation/test_desouza_receiving_credit_regression.py",
+          "tests/external_validation/test_m8_desouza_figure7.py",
+          "tests/external_validation/test_m8_desouza_figure7_comparison.py",
+          "tests/external_validation/test_m8_desouza_figure8.py",
+          "tests/external_validation/test_m8_desouza_figure9_equal.py",
+          "tests/external_validation/test_m8_desouza_figure9_asymmetric.py"
+        ],
+        "purpose": "freeze hashes, link recurrences, allocator semantics, composition, external fixtures, and replay"
+      }
+    ],
+    "full": [
+      {
+        "argv": [
+          "{python}",
+          "-m",
+          "pytest",
+          "-q"
+        ]
+      }
+    ],
+    "relevant_parity_external": [
+      {
+        "argv": [
+          "{python}",
+          "-m",
+          "pytest",
+          "-q",
+          "tests/test_ltm_parity_node_family.py",
+          "tests/parity_torture",
+          "tests/validation/test_composed_loading_kernel_case.py",
+          "tests/external_validation/test_m8_desouza_figure7.py",
+          "tests/external_validation/test_m8_desouza_figure7_comparison.py",
+          "tests/external_validation/test_m8_desouza_figure8.py",
+          "tests/external_validation/test_m8_desouza_figure9_equal.py",
+          "tests/external_validation/test_m8_desouza_figure9_asymmetric.py"
+        ]
+      }
+    ]
+  },
+  "test_counts": {
+    "accepted_pre_freeze_full_pytest": 682,
+    "freeze_closure_full_pytest": 686,
+    "known_warning_count": 1,
+    "subtests": 88
+  },
+  "timestamp": "2026-07-16T22:29:57+01:00"
+}
