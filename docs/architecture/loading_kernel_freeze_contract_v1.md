@@ -4,17 +4,20 @@ Status: canonical scientific compatibility boundary.
 
 Freeze name: Urban Cybernetics Base Loading Kernel v1
 
-Freeze version: `loading-kernel-v1.0.0`
+Freeze version: `loading-kernel-v1.0.1`
 
-Freeze date: 2026-07-16
+Freeze date: 2026-07-26
 
 Kernel profile: `parity_ltm_v1`
 
-Kernel/evidence tree boundary: `6fb834c7ace57421e0816f2894cc5f53e1f898c0`
+Scientific evidence boundary: `6fb834c7ace57421e0816f2894cc5f53e1f898c0`
+
+Failure-safety hardening boundary:
+`1fd8884c69c82e6d53ed1b4801a9d1672f38e6ef`
 
 The machine-readable manifest records the documentation-seal commit after the
 first freeze commit exists. The proposed annotated tag is
-`loading-kernel-v1.0.0`; it is a recommendation, not a tag created by this
+`loading-kernel-v1.0.1`; it is a recommendation, not a tag created by this
 work.
 
 ## Frozen mechanics
@@ -36,6 +39,11 @@ This compatibility boundary includes:
   and the supported movement-based MIMO allocator;
 - exact node and network conservation under the documented discrete
   unit-packet and tick conventions.
+
+Version 1.0.1 additionally freezes failure-safe transfer prevalidation,
+explicit active-packet cancellation, and the consolidated post-run validation
+interface. These changes leave the v1.0.0 scientific event, allocation, count,
+packet-outcome, and benchmark evidence byte-identical.
 
 Validated node families are one-to-one, strict route-encoded diverge,
 equal-priority merge, declared cyclic-priority merge, and supported declared
@@ -73,6 +81,12 @@ and completion state, allocation traces, aggregate and route-disaggregated
 cumulative boundary counts, storage and eligible queues, conservation and
 closure evidence, physical-eligibility evidence, and deterministic replay
 digests.
+
+Cancellation is defined only for instantiated active packets. In-transit
+cancellation emits `LINK_EXIT`, `CANCELLED`; queued cancellation emits
+`QUEUE_EXIT`, `LINK_EXIT`, `CANCELLED`. Pending demand is not a packet.
+Completed and already-cancelled packets cannot be cancelled again. The current
+event schema carries the last link as `entity_id` but no reason code.
 
 ## Architectural invariants
 
@@ -128,13 +142,18 @@ improvements, routing policies, observability, behaviour, governance, and
 presentation layers without reopening this freeze, provided the canonical
 loading semantics above do not change.
 
+The remaining base-kernel limitations include unit packets only, no packet
+split or merge, immutable route intent in parity evidence, and no canonical
+cancellation-reason field. Full validation and exact deterministic rerun are
+explicit harness operations and are not executed inside each loading tick.
+
 ## Review and tag procedure
 
 After reviewing both freeze commits, the recommended local annotated-tag
 command is:
 
 ```bash
-git tag -a loading-kernel-v1.0.0 -m "Freeze validated Urban Cybernetics base loading kernel v1"
+git tag -a loading-kernel-v1.0.1 -m "Re-freeze hardened Urban Cybernetics base loading kernel v1"
 ```
 
 Creating or pushing that tag is outside this task until explicitly authorized.

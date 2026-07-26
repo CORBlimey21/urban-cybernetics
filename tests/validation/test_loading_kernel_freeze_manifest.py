@@ -22,13 +22,16 @@ def test_freeze_manifest_is_canonical_and_pins_the_reviewed_boundary() -> None:
     assert MANIFEST.read_text(encoding="utf-8") == (
         json.dumps(manifest, indent=2, sort_keys=True) + "\n"
     )
-    assert manifest["freeze_version"] == "loading-kernel-v1.0.0"
+    assert manifest["freeze_version"] == "loading-kernel-v1.0.1"
     assert manifest["kernel_profile"] == "parity_ltm_v1"
     assert manifest["git"]["kernel_evidence_commit"] == (
         "6fb834c7ace57421e0816f2894cc5f53e1f898c0"
     )
     assert manifest["git"]["documentation_boundary_commit"] == (
         "08d9668ce4e0cc2939fbf4e9e1c2f75bc6285964"
+    )
+    assert manifest["git"]["hardening_commit"] == (
+        "1fd8884c69c82e6d53ed1b4801a9d1672f38e6ef"
     )
 
 
@@ -71,6 +74,7 @@ def test_freeze_manifest_covers_semantic_sources_and_exact_regression_commands()
     assert len(focused) == 1
     argv = focused[0]["argv"]
     assert "tests/test_ltm_parity_node_family.py" in argv
+    assert "tests/test_kernel_hardening.py" in argv
     assert "tests/external_validation/test_m8_desouza_figure9_asymmetric.py" in argv
 
 

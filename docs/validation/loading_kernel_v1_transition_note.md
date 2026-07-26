@@ -1,15 +1,23 @@
 # Loading kernel v1 milestone and transition note
 
-Date: 2026-07-16
+Date: 2026-07-26
 
-Status: base loading-kernel validation phase complete.
+Status: base loading-kernel validation phase complete and failure-safety
+hardening re-frozen.
 
 The `parity_ltm_v1` base loading kernel is frozen as
-`loading-kernel-v1.0.0`. Its current external evidence set comprises de Souza
+`loading-kernel-v1.0.1`. Its current external evidence set comprises de Souza
 Figure 5 lane drop, Figure 7 deterministic route-encoded diverge, Figure 8
 seeded stochastic diverge ensemble, Figure 9(a–c) equal-priority merge, and
 Figure 9(d–f) asymmetric-priority merge with `alpha_1=0.75` and
 `x=[0,0,0,1]`.
+
+The v1.0.1 patch adds prevalidated failure-safe link transfers, a complete
+active-packet cancellation operation, stricter cancellation replay, and an
+explicit consolidated validation report. The v1.0.0 event logs, allocation
+traces, packet outcomes, completion totals, terminal ticks, benchmark metrics,
+and comparison artifacts are unchanged. Evidence is recorded in
+`docs/validation/loading_kernel_hardening_v1_0_1.md`.
 
 This milestone closes the base-kernel validation phase; it does not assert
 full Sioux Falls parity, empirical city-scale validity, calibrated realism,

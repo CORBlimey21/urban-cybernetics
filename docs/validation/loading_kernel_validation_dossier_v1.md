@@ -1,7 +1,7 @@
 # Urban Cybernetics base loading-kernel validation dossier v1
 
-Freeze status (2026-07-16): this dossier supports the canonical
-`loading-kernel-v1.0.0` boundary in
+Freeze status (2026-07-26): this dossier supports the canonical
+`loading-kernel-v1.0.1` boundary in
 `docs/architecture/loading_kernel_freeze_contract_v1.md`. Current claim
 boundaries are indexed by
 `docs/architecture/loading_kernel_capability_statement_v1.md`.
@@ -24,9 +24,9 @@ behavioural validity, observability experiments, governance, optimisation, or
 future cybernetic mechanisms. Figure 7(a) DT1 is comparison-complete; Figure
 7(d) DT3 remains blocked on its digitised numerical references.
 
-The freeze closure gate reports 686 Python tests passed with zero failures and
-88 subtests passed, including four manifest-verification tests added to the
-accepted 682-test pre-freeze baseline. The frontend suite
+The v1.0.1 freeze closure gate reports 693 Python tests passed with zero
+failures and 88 subtests passed. Seven focused hardening regressions were added
+to the accepted 686-test v1.0.0 closure. The frontend suite
 reports 26 tests passed with zero failures in 0.453 seconds (0.94 seconds wall
 time), and TypeScript typechecking passes in 1.60 seconds wall time. The only
 warning is an existing FastAPI `TestClient` deprecation notice.

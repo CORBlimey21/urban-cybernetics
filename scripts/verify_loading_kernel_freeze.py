@@ -135,6 +135,7 @@ def verify_commits(manifest: dict[str, Any]) -> None:
         "semantic_change_commit",
         "kernel_evidence_commit",
         "documentation_boundary_commit",
+        "hardening_commit",
     ):
         commit = manifest["git"][key]
         subprocess.run(
@@ -192,6 +193,7 @@ def verify(
         "documentation_boundary_commit": manifest["git"][
             "documentation_boundary_commit"
         ],
+        "hardening_commit": manifest["git"]["hardening_commit"],
     }
 
 

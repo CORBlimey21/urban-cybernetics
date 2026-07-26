@@ -1,6 +1,6 @@
 # Base loading-kernel validation matrix v1
 
-Status: passed and frozen as `loading-kernel-v1.0.0`. The accepted de Souza
+Status: passed and frozen as `loading-kernel-v1.0.1`. The accepted de Souza
 Figures 5, 7, 8, and 9 evidence set is complete. Other unselected literature or
 cross-implementation groups remain explicitly deferred and are not implied by
 this boundary.
@@ -23,6 +23,7 @@ measurements against digitised reference data, not pass/fail ground truth.
 | Internal node-family matrix | strict FIFO diverge, partial FIFO, priority merge, unused-share release, MIMO, conflict/lane resources, signal/closure gates, ordering invariance | exact packet/event/count sequences and declared integer capacities | passed internal | `tests/test_ltm_parity_node_family.py` |
 | Equation (6) | retained whole-packet receiving credit, actual-flow subtraction, published cap | exact tick-2 credit and tick-7 P2 event | passed | focused regression tests and DT1 evidence |
 | M8-COMP-NET-01 | four links, equal-priority merge, L4 bottleneck, multi-link spillback, two OD routes, queue clearance | exact storage, queue, count, FIFO and event sequences | passed | composition builder and tests |
+| Kernel hardening v1.0.1 | transfer preflight, queued/ordinary pairing, completion pairing, spatial uniqueness, active cancellation, consolidated report, exact rerun | exact pre/post event, trace, packet, count, outcome and benchmark equality | passed | `tests/test_kernel_hardening.py` and hardening evidence note |
 | de Souza Figure 5 DT1 | L1 cumulative inflow, outflow and storage against digitised Figure 5(a) | descriptive RMSE/MAE/max/threshold/drift metrics; no fitted tolerance | comparison complete | committed data, report, DT1 replay fixture, local plots |
 | de Souza Figure 5 DT3/DT6 | declared input execution and complete UC evidence | internal invariants only; no paper curve supplied | evidence complete; external comparison not run | Workbench fixtures |
 | de Souza Figure 7 DT1/DT3 | route-encoded strict-FIFO diverge; six Figure 7 cumulative/per-tick observables | exact routes/conservation/FIFO/replay internally; DT1 descriptive metrics with no fitted tolerance | DT1 observational comparison/audit complete; DT3 reference pending | raw digitisation, report, comparison tool, case/run replay fixtures, focused tests |
@@ -52,8 +53,8 @@ The machine-readable companion is
 
 ## Closure verification
 
-- Python freeze closure: 686 passed, zero failed, 88 subtests passed in 16.22
-  seconds; accepted pre-freeze baseline: 682 passed.
+- Python freeze closure: 693 passed, zero failed, 88 subtests passed in 16.67
+  seconds; accepted v1.0.0 closure: 686 passed.
 - Frontend: 26 passed, zero failed in 0.453 seconds (0.94 seconds wall time).
 - TypeScript: project typecheck passed in 1.60 seconds wall time.
 - Known non-failure: one FastAPI `TestClient` deprecation warning.

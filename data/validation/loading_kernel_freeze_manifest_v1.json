@@ -44,36 +44,12 @@
         "sha256": "cf2d56f77f082031cd68caf566312381327511d3a21be4d052f2990d2e328d4f"
       },
       {
-        "path": "docs/architecture/loading_kernel_freeze_contract_v1.md",
-        "sha256": "17bd546743d7a56e99f49808662b52bcecb0414191211677d7753c0765bd2486"
-      },
-      {
         "path": "docs/architecture/loading_kernel_capability_statement_v1.md",
         "sha256": "cc1cc6b89ab53b38fa2b9f78216d35c5e71efa4c8f8b032f95e530382c3371f2"
       },
       {
-        "path": "docs/validation/loading_kernel_v1_transition_note.md",
-        "sha256": "50c434ed2d73c28d79433ab042ade7df4953ec699aec3653c198d51aacaf7a3c"
-      },
-      {
-        "path": "docs/validation/loading_kernel_validation_dossier_v1.md",
-        "sha256": "0d7a12874708603a4efee90eb3fb8c63cfbcf50e0ca38e769e88531e95227595"
-      },
-      {
-        "path": "docs/validation/loading_kernel_validation_matrix_v1.md",
-        "sha256": "583f7c638f451bc92ebe6a1b4fad42ade955574be90d2c5523fc168e5add60d2"
-      },
-      {
-        "path": "docs/validation/loading_kernel_validation_matrix_v1.json",
-        "sha256": "3be84fdb13739c74bbf0ebc1e60a8a7c184405739a8fc1165caa96a50d086c9b"
-      },
-      {
-        "path": "docs/validation/external_validation_matrix_v1.md",
-        "sha256": "9c4881eb5aea2c87f7e673bdb6980cec2569692ca44f6b76e89cd0e35b19529a"
-      },
-      {
-        "path": "docs/validation/external_validation_matrix_v1.json",
-        "sha256": "a1349a82be5376646f10f220da7e6a24d6ca43eb6b81189b75d689081413b5f9"
+        "path": "docs/architecture/loading_kernel_freeze_contract_v1.md",
+        "sha256": "17828db2a897c838edd5ea3e7de45d86bdfd1f40ef2ece4974576b4086d544fc"
       },
       {
         "path": "docs/architecture/research_claims.md",
@@ -84,8 +60,40 @@
         "sha256": "7f4a8c86acda704f8a6c68b9a2edd05570327f51e31668be612449725a4b931e"
       },
       {
+        "path": "docs/specifications/packet_semantics.md",
+        "sha256": "5fba3e5b032c5889ca33096356c48969630e921b6d484337bdd24759ddfaa036"
+      },
+      {
         "path": "docs/validation/canonical_ltm_validation.md",
         "sha256": "fdf79279da4f3b2e88997eda49bf33a0e3c3f46f7077c8f963753449b41d6c5f"
+      },
+      {
+        "path": "docs/validation/external_validation_matrix_v1.json",
+        "sha256": "a1349a82be5376646f10f220da7e6a24d6ca43eb6b81189b75d689081413b5f9"
+      },
+      {
+        "path": "docs/validation/external_validation_matrix_v1.md",
+        "sha256": "9c4881eb5aea2c87f7e673bdb6980cec2569692ca44f6b76e89cd0e35b19529a"
+      },
+      {
+        "path": "docs/validation/loading_kernel_hardening_v1_0_1.md",
+        "sha256": "7502c9abd0050d35883653f4a581d3c05ee48a8d574b668e664540d9d85d6eec"
+      },
+      {
+        "path": "docs/validation/loading_kernel_v1_transition_note.md",
+        "sha256": "66466c1fc37fdb93854db2f8443d834d13b5374f05bdda4026149d4c19cc6eef"
+      },
+      {
+        "path": "docs/validation/loading_kernel_validation_dossier_v1.md",
+        "sha256": "3e351096fd573fdf4194afcb7185f2c8a54a610d4e77ef6d8e0cfcae4ee5c12f"
+      },
+      {
+        "path": "docs/validation/loading_kernel_validation_matrix_v1.json",
+        "sha256": "d2d2712850d1a59e232b6d3b1a0f09a5e145824392b768db9951ba50aaa95d23"
+      },
+      {
+        "path": "docs/validation/loading_kernel_validation_matrix_v1.md",
+        "sha256": "c677f3ec988cc1692d7c4e699ac268ef98cf2ca8e7cd1f0dff10bcd44d97271b"
       },
       {
         "path": "docs/validation/parity_kernel_status.md",
@@ -93,6 +101,14 @@
       }
     ],
     "kernel_source_files": [
+      {
+        "path": "src/urban_cybernetics/canonical_validation/__init__.py",
+        "sha256": "c8ae8dc28607ab2b7c991b0ba813d3102d038dbb927c890fd64fa2c99f5b4c99"
+      },
+      {
+        "path": "src/urban_cybernetics/canonical_validation/kernel_integrity.py",
+        "sha256": "33cbb538a02742ef7df56b46fe56ca40d85ba73ceb624eabee0e838a7b8f5bcb"
+      },
       {
         "path": "src/urban_cybernetics/config.py",
         "sha256": "c313d85ca9a3461466ace884806af04e400aeb2c5b3905969cafd72541ffe8a1"
@@ -127,7 +143,7 @@
       },
       {
         "path": "src/urban_cybernetics/loading/engine.py",
-        "sha256": "90cebbec5120162884ae0b1ec6c40e80ceef27f8086e6b23d87a8c2c06698421"
+        "sha256": "0db3ec734d98c13768fbdb596054b515e3ca4304a1641160667ec5495d8ed8aa"
       },
       {
         "path": "src/urban_cybernetics/loading/receiving.py",
@@ -164,6 +180,10 @@
       {
         "path": "src/urban_cybernetics/validation/spillback.py",
         "sha256": "364e3dfafcdecbbd75a9cc0b888f4a5954fcfd7b16b9f511f7a6486b3d66ddfb"
+      },
+      {
+        "path": "src/urban_cybernetics/visualisation/replay.py",
+        "sha256": "638dbc51dc012e8e61b44acbb1169aac50d974cd2357b79f37610653c4a18847"
       }
     ],
     "validation_fixture_files": [
@@ -231,11 +251,19 @@
     "verification_files": [
       {
         "path": "scripts/verify_loading_kernel_freeze.py",
-        "sha256": "a0ac959e54e5677139d6a548c55d9a1cd2da058afd88f1cd199e5cbca9d18c1f"
+        "sha256": "4086678f6a43bcff907fc15678c2ab7a007e644ae714ec82da654850f7b2a4a5"
+      },
+      {
+        "path": "tests/test_kernel_hardening.py",
+        "sha256": "9185fe4af6f0cab99d43b73affa4ccef1cf4f2ab3a6f76e88fbab6767c07f243"
       },
       {
         "path": "tests/validation/test_loading_kernel_freeze_manifest.py",
-        "sha256": "4fcc44b241437c885c6bc80f54cf3f55fa7527201076c6b92c007e160689bf88"
+        "sha256": "1a0e3f78cd6164443d78ce3991197baf8ad8a744bc0168695043b74f41b6264a"
+      },
+      {
+        "path": "tests/visualisation/test_contract_and_replay.py",
+        "sha256": "183a8b09ecf17bada1feaa5aa2fd9dcc1c5969df76c48b0054829f54d02be707"
       }
     ]
   },
@@ -314,11 +342,12 @@
       "source_url": "https://www.osti.gov/servlets/purl/2569501"
     }
   ],
-  "freeze_date": "2026-07-16",
+  "freeze_date": "2026-07-26",
   "freeze_name": "Urban Cybernetics Base Loading Kernel v1",
-  "freeze_version": "loading-kernel-v1.0.0",
+  "freeze_version": "loading-kernel-v1.0.1",
   "git": {
     "documentation_boundary_commit": "08d9668ce4e0cc2939fbf4e9e1c2f75bc6285964",
+    "hardening_commit": "1fd8884c69c82e6d53ed1b4801a9d1672f38e6ef",
     "kernel_evidence_commit": "6fb834c7ace57421e0816f2894cc5f53e1f898c0",
     "semantic_change_commit": "74fd7311bcdf7271747e1d55d42be41a31ccaf04"
   },
@@ -326,7 +355,7 @@
   "known_warnings": [
     "one existing Starlette/FastAPI TestClient deprecation warning"
   ],
-  "proposed_tag": "loading-kernel-v1.0.0",
+  "proposed_tag": "loading-kernel-v1.0.1",
   "provenance": {
     "de_souza_source_pdf_sha256": "ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903",
     "digitised_reference_policy": "raw committed points preserved; analysis may stable-sort by time only and must not smooth, fit, shift, monotonicise, remove points, or synthesize origins",
@@ -388,7 +417,10 @@
     "supported movement-based MIMO allocation",
     "aggregate and route-disaggregated cumulative counts",
     "exact node and network conservation",
-    "separation of physical shortage from governance closure"
+    "separation of physical shortage from governance closure",
+    "failure-safe prevalidated link-to-link transfer application",
+    "explicit active-packet cancellation with spatial and queue closure",
+    "consolidated explicit post-run validation with optional exact rerun"
   ],
   "test_commands": {
     "focused_freeze": [
@@ -408,7 +440,9 @@
           "tests/external_validation/test_m8_desouza_figure7_comparison.py",
           "tests/external_validation/test_m8_desouza_figure8.py",
           "tests/external_validation/test_m8_desouza_figure9_equal.py",
-          "tests/external_validation/test_m8_desouza_figure9_asymmetric.py"
+          "tests/external_validation/test_m8_desouza_figure9_asymmetric.py",
+          "tests/test_kernel_hardening.py",
+          "tests/visualisation/test_contract_and_replay.py"
         ],
         "purpose": "freeze hashes, link recurrences, allocator semantics, composition, external fixtures, and replay"
       }
@@ -444,9 +478,11 @@
   },
   "test_counts": {
     "accepted_pre_freeze_full_pytest": 682,
-    "freeze_closure_full_pytest": 686,
+    "focused_freeze_pytest": 101,
+    "freeze_closure_full_pytest": 693,
     "known_warning_count": 1,
+    "prior_freeze_closure_full_pytest": 686,
     "subtests": 88
   },
-  "timestamp": "2026-07-16T22:29:57+01:00"
+  "timestamp": "2026-07-26T20:00:00+01:00"
 }
