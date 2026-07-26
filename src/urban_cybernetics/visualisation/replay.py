@@ -310,8 +310,20 @@ def _apply_event(
             raise ReplayIntegrityError(
                 f"packet {packet_id} completes before its final link exit"
             )
+        if queue_boundary[packet_id] is not None:
+            raise ReplayIntegrityError(
+                f"packet {packet_id} completes while still queued"
+            )
         status[packet_id] = PacketReplayStatus.COMPLETED
     elif event.event_type == EventType.CANCELLED:
+        if current_link[packet_id] is not None:
+            raise ReplayIntegrityError(
+                f"packet {packet_id} cancels before its link exit"
+            )
+        if queue_boundary[packet_id] is not None:
+            raise ReplayIntegrityError(
+                f"packet {packet_id} cancels while still queued"
+            )
         status[packet_id] = PacketReplayStatus.CANCELLED
 
 

@@ -119,11 +119,22 @@ Both operations are reserved as explicit extensions requiring their own conserva
 
 ### Cancel
 
-A packet may be cancelled at any lifecycle state. Cancellation is an explicit model event, not a silent removal. The cancellation event records: packet ID, cancellation timestamp, last known lifecycle state, last known link canonical ID, and a reason code.
+The implemented base-kernel cancellation operation applies only to an
+instantiated active packet in `IN_TRANSIT` or `QUEUED`. Pending demand is not a
+packet and cannot be cancelled through this operation; a `COMPLETED` or already
+`CANCELLED` packet cannot be cancelled again.
 
-Valid reason codes in the base model: `NO_VALID_PATH`, `DEMAND_WITHDRAWN`, `RUN_TERMINATED`, `EXPERIMENT_DEFINED`. Any reason code outside this set must be declared in the experiment configuration.
+`LoadingEngine.cancel_packet(packet_id)` removes the packet from every live
+spatial index before making it terminal. An in-transit cancellation emits
+`LINK_EXIT` followed by `CANCELLED`. A queued cancellation emits `QUEUE_EXIT`,
+`LINK_EXIT`, then `CANCELLED`. The `CANCELLED` event's `entity_id` is the last
+link ID. The same packet ID is retained, queue membership is cleared, and the
+packet remains in the conservation ledger's cancelled register.
 
-Cancelled packets remain in the conservation ledger and count toward total instantiated.
+The current canonical `Event` schema has no cancellation-reason field. Reason
+codes such as `NO_VALID_PATH`, `DEMAND_WITHDRAWN`, `RUN_TERMINATED`, or
+`EXPERIMENT_DEFINED` therefore remain a deferred provenance extension rather
+than part of the frozen physical event contract.
 
 ---
 

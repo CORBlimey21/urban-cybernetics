@@ -139,6 +139,7 @@ class LoadingEngine:
             link_id: [] for link_id in self.links
         }
         self._current_link_entry_metadata_by_packet_id: dict[str, tuple[str, int, int]] = {}
+        self._prevalidated_link_exit_indices: dict[tuple[str, str], int] = {}
         self._completed_packet_ids: set[str] = set()
         self._cancelled_packet_ids: set[str] = set()
         self._queues: dict[str, deque[str]] = {}
@@ -878,14 +879,36 @@ class LoadingEngine:
 
     def _remove_packet_from_current_link(self, packet_id: str, link_id: str) -> None:
         packet_ids = self._packet_ids_by_link_id[link_id]
-        try:
-            packet_index = packet_ids.index(packet_id)
-        except ValueError as exc:
-            raise EventCacheConsistencyError(
-                f"packet_id {packet_id} exits link {link_id} without being present"
-            ) from exc
+        packet_index = self._prevalidated_link_exit_indices.pop(
+            (packet_id, link_id),
+            None,
+        )
+        if (
+            packet_index is None
+            or packet_index >= len(packet_ids)
+            or packet_ids[packet_index] != packet_id
+        ):
+            try:
+                packet_index = packet_ids.index(packet_id)
+            except ValueError as exc:
+                raise EventCacheConsistencyError(
+                    f"packet_id {packet_id} exits link {link_id} without being present"
+                ) from exc
         packet_ids.pop(packet_index)
         self._packet_entry_ticks_by_link_id[link_id].pop(packet_index)
+
+    def cancel_packet(self, packet_id: str) -> Packet:
+        """Cancel one active packet without leaving link or queue residue."""
+
+        self._prevalidate_cancellation(packet_id)
+        link_id = self._current_link_ids[packet_id]
+        boundary_id = self._queue_boundary_for_packet(packet_id)
+        if boundary_id is not None:
+            self.append_event(packet_id, EventType.QUEUE_EXIT, boundary_id)
+        self.append_event(packet_id, EventType.LINK_EXIT, link_id)
+        self.append_event(packet_id, EventType.CANCELLED, link_id)
+        self._set_lifecycle_state(packet_id, LifecycleState.CANCELLED)
+        return self._packets[packet_id]
 
     def instantiate(self, demand: DemandDeclaration) -> Packet | None:
         """Instantiate one packet if its departure tick and origin storage permit it."""
@@ -1949,13 +1972,13 @@ class LoadingEngine:
         return (entry_tick, sequence_number, packet_id)
 
     def _execute_transfer_candidate(self, candidate: TransferRequest) -> None:
+        self._prevalidate_link_to_link_transfer(
+            packet_id=candidate.packet_id,
+            upstream_link_id=candidate.upstream_link_id,
+            downstream_link_id=candidate.downstream_link_id,
+            queue_boundary_id=(candidate.boundary_id if candidate.queued else None),
+        )
         if candidate.queued:
-            queue = self._queues[candidate.boundary_id]
-            if not queue or queue[0] != candidate.packet_id:
-                raise EventCacheConsistencyError(
-                    f"packet_id {candidate.packet_id} is not first in queue "
-                    f"{candidate.boundary_id}"
-                )
             self.append_event(
                 candidate.packet_id,
                 EventType.QUEUE_EXIT,
@@ -1966,6 +1989,7 @@ class LoadingEngine:
             candidate.packet_id,
             candidate.upstream_link_id,
             candidate.downstream_link_id,
+            prevalidated=True,
         )
 
     def _queue_non_approved_candidates(
@@ -2103,7 +2127,15 @@ class LoadingEngine:
         packet_id: str,
         upstream_link_id: str,
         downstream_link_id: str,
+        *,
+        prevalidated: bool = False,
     ) -> None:
+        if not prevalidated:
+            self._prevalidate_link_to_link_transfer(
+                packet_id=packet_id,
+                upstream_link_id=upstream_link_id,
+                downstream_link_id=downstream_link_id,
+            )
         self.append_event(packet_id, EventType.LINK_EXIT, upstream_link_id)
         self.append_event(packet_id, EventType.LINK_ENTRY, downstream_link_id)
         self._packet_route_index[packet_id] += 1
@@ -2113,6 +2145,170 @@ class LoadingEngine:
         self.append_event(packet_id, EventType.LINK_EXIT, link_id)
         self.append_event(packet_id, EventType.COMPLETED, link_id)
         self._set_lifecycle_state(packet_id, LifecycleState.COMPLETED)
+
+    def _prevalidate_link_to_link_transfer(
+        self,
+        *,
+        packet_id: str,
+        upstream_link_id: str,
+        downstream_link_id: str,
+        queue_boundary_id: str | None = None,
+    ) -> None:
+        """Validate every ordinary failure condition before transfer events."""
+
+        packet_index = self._prevalidate_active_link_departure(
+            packet_id,
+            upstream_link_id,
+        )
+        if downstream_link_id not in self.links:
+            raise KeyError(f"unknown downstream link_id: {downstream_link_id}")
+        route_index = self._packet_route_index[packet_id]
+        route_intent = self._packets[packet_id].route_intent
+        next_route_index = route_index + 1
+        if next_route_index >= len(route_intent):
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} has no downstream route link"
+            )
+        if route_intent[next_route_index] != downstream_link_id:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} expects downstream link "
+                f"{route_intent[next_route_index]}, not {downstream_link_id}"
+            )
+        queued_boundary_id = self._queue_boundary_for_packet(packet_id)
+        if queue_boundary_id is None:
+            if queued_boundary_id is not None:
+                raise EventCacheConsistencyError(
+                    f"queued packet_id {packet_id} requires queue-aware transfer"
+                )
+            if self._packets[packet_id].lifecycle_state != LifecycleState.IN_TRANSIT:
+                raise EventCacheConsistencyError(
+                    f"packet_id {packet_id} is not in transit before transfer"
+                )
+            self._prevalidated_link_exit_indices[
+                (packet_id, upstream_link_id)
+            ] = packet_index
+            return
+
+        expected_boundary_id = self._boundary_id(
+            upstream_link_id,
+            downstream_link_id,
+        )
+        if queue_boundary_id != expected_boundary_id:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} queue boundary is {queue_boundary_id}, "
+                f"expected {expected_boundary_id}"
+            )
+        if queued_boundary_id != queue_boundary_id:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} queue cache does not match "
+                f"{queue_boundary_id}"
+            )
+        queue = self._queues.get(queue_boundary_id)
+        if not queue or queue[0] != packet_id:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} is not first in queue {queue_boundary_id}"
+            )
+        upstream_queue = self._queued_packet_ids_by_upstream_link.get(
+            upstream_link_id
+        )
+        if not upstream_queue or upstream_queue[0] != packet_id:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} is not first in upstream queue "
+                f"{upstream_link_id}"
+            )
+        if self._packets[packet_id].lifecycle_state != LifecycleState.QUEUED:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} is not queued before queued transfer"
+            )
+        self._prevalidated_link_exit_indices[
+            (packet_id, upstream_link_id)
+        ] = packet_index
+
+    def _prevalidate_cancellation(self, packet_id: str) -> None:
+        if packet_id not in self._packets:
+            raise KeyError(f"unknown packet_id: {packet_id}")
+        lifecycle_state = self._packets[packet_id].lifecycle_state
+        if lifecycle_state in (LifecycleState.COMPLETED, LifecycleState.CANCELLED):
+            raise ValueError(
+                f"packet_id {packet_id} is already terminal: {lifecycle_state.value}"
+            )
+        try:
+            link_id = self._current_link_ids[packet_id]
+        except KeyError as exc:
+            raise EventCacheConsistencyError(
+                f"active packet_id {packet_id} has no current link"
+            ) from exc
+        boundary_id = self._queue_boundary_for_packet(packet_id)
+        if lifecycle_state == LifecycleState.QUEUED:
+            if boundary_id is None:
+                raise EventCacheConsistencyError(
+                    f"queued packet_id {packet_id} has no queue boundary"
+                )
+            downstream_link_id = self._queued_downstream_by_packet_id[packet_id]
+            self._prevalidate_link_to_link_transfer(
+                packet_id=packet_id,
+                upstream_link_id=link_id,
+                downstream_link_id=downstream_link_id,
+                queue_boundary_id=boundary_id,
+            )
+        else:
+            packet_index = self._prevalidate_active_link_departure(packet_id, link_id)
+            if boundary_id is not None:
+                raise EventCacheConsistencyError(
+                    f"in-transit packet_id {packet_id} remains in a queue"
+                )
+            self._prevalidated_link_exit_indices[
+                (packet_id, link_id)
+            ] = packet_index
+
+    def _prevalidate_active_link_departure(
+        self,
+        packet_id: str,
+        link_id: str,
+    ) -> int:
+        if packet_id not in self._packets:
+            raise KeyError(f"unknown packet_id: {packet_id}")
+        if link_id not in self.links:
+            raise KeyError(f"unknown upstream link_id: {link_id}")
+        if self._current_link_ids.get(packet_id) != link_id:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} is not currently on {link_id}"
+            )
+        packet_ids = self._packet_ids_by_link_id[link_id]
+        try:
+            packet_index = packet_ids.index(packet_id)
+        except ValueError as exc:
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} is absent from {link_id}"
+            ) from exc
+        entry_ticks = self._packet_entry_ticks_by_link_id[link_id]
+        if packet_index >= len(entry_ticks):
+            raise EventCacheConsistencyError(
+                f"packet_id {packet_id} has no aligned entry tick on {link_id}"
+            )
+        if self._current_link_storage_by_link_id[link_id] <= 0:
+            raise EventCacheConsistencyError(
+                f"link {link_id} has no storage to remove packet_id {packet_id}"
+            )
+        if (
+            packet_id in self._completed_packet_ids
+            or packet_id in self._cancelled_packet_ids
+        ):
+            raise EventCacheConsistencyError(
+                f"terminal packet_id {packet_id} cannot depart a link"
+            )
+        return packet_index
+
+    def _queue_boundary_for_packet(self, packet_id: str) -> str | None:
+        downstream_link_id = self._queued_downstream_by_packet_id.get(packet_id)
+        if downstream_link_id is None:
+            return None
+        link_id = self._current_link_ids.get(packet_id)
+        if link_id is None:
+            raise EventCacheConsistencyError(
+                f"queued packet_id {packet_id} has no current upstream link"
+            )
+        return self._boundary_id(link_id, downstream_link_id)
 
     def _lifecycle_states_implied_by_events(self) -> dict[str, LifecycleState]:
         """Derive final packet lifecycle states from the primary event log."""
@@ -2361,6 +2557,24 @@ class LoadingEngine:
             raise EventCacheConsistencyError(
                 f"completed packet cache is {self._completed_packet_ids}, "
                 f"but event log implies {event_completed_packet_ids}"
+            )
+        event_cancelled_packet_ids = {
+            event.packet_id
+            for event in self._event_log
+            if event.event_type == EventType.CANCELLED
+        }
+        if self._cancelled_packet_ids != event_cancelled_packet_ids:
+            raise EventCacheConsistencyError(
+                f"cancelled packet cache is {self._cancelled_packet_ids}, "
+                f"but event log implies {event_cancelled_packet_ids}"
+            )
+        overlapping_terminal_packet_ids = (
+            self._completed_packet_ids & self._cancelled_packet_ids
+        )
+        if overlapping_terminal_packet_ids:
+            raise EventCacheConsistencyError(
+                "packets cannot be both completed and cancelled: "
+                f"{tuple(sorted(overlapping_terminal_packet_ids))}"
             )
 
         event_queue_entry_metadata = self._queue_entry_metadata_by_packet_id_from_events()

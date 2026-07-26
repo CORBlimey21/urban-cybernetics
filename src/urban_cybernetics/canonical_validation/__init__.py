@@ -26,6 +26,11 @@ from .literature_sources import (
     LiteratureReferenceStatus,
     literature_reference_statuses,
 )
+from .kernel_integrity import (
+    KernelValidationCheck,
+    KernelValidationReport,
+    validate_loading_kernel,
+)
 from .report import (
     CanonicalValidationSummary,
     build_canonical_validation_summary,
@@ -53,6 +58,8 @@ __all__ = [
     "COMPOSITION_LINK_IDS",
     "COMPOSITION_ROUTES",
     "LiteratureReferenceStatus",
+    "KernelValidationCheck",
+    "KernelValidationReport",
     "ReferenceSeriesComparison",
     "SiouxFallsPhysicalProfile",
     "SiouxFallsPhysicalProfileSummary",
@@ -74,4 +81,5 @@ __all__ = [
     "literature_reference_statuses",
     "render_series_comparison_svg",
     "run_composition_validation_case",
+    "validate_loading_kernel",
 ]

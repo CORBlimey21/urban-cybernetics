@@ -107,7 +107,8 @@ def test_completed_unresolved_and_cancelled_states_remain_distinct() -> None:
         Event(5, "P3", EventType.LINK_ENTRY, "L1", 0),
         Event(6, "P1", EventType.LINK_EXIT, "L1", 1),
         Event(7, "P1", EventType.COMPLETED, "L1", 1),
-        Event(8, "P3", EventType.CANCELLED, "L1", 1),
+        Event(8, "P3", EventType.LINK_EXIT, "L1", 1),
+        Event(9, "P3", EventType.CANCELLED, "L1", 1),
     )
 
     final = build_replay_states(
