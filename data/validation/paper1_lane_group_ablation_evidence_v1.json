@@ -1,0 +1,160 @@
+{
+  "ablation": {
+    "demand_count": 2,
+    "max_ticks": 10,
+    "result_version": "paper1-lane-group-ablation-v1",
+    "runs": [
+      {
+        "blocked_packet_count": 2,
+        "completed_packet_count": 2,
+        "completion_time_tick": 3,
+        "config_hash": "09f0d776e2ca453f3029ad00b7cef62d56b1326b3a57be0d723d7a98187a03ce",
+        "conservation_passed": true,
+        "cumulative_count_consistency_passed": true,
+        "event_cache_consistency_passed": true,
+        "event_count": 14,
+        "extension_version": "paper1-lane-group-extension-v1",
+        "per_movement_service": [
+          [
+            "movement:U->L",
+            1
+          ],
+          [
+            "movement:U->R",
+            1
+          ]
+        ],
+        "replay_passed": true,
+        "representation_mode": "shared_link_fifo",
+        "runtime_seconds": 0.0003209169954061508,
+        "terminal_packet_outcomes": [
+          [
+            "P1",
+            "completed"
+          ],
+          [
+            "P2",
+            "completed"
+          ]
+        ],
+        "throughput_packets_per_tick": 0.6666666666666666,
+        "total_queue_delay_ticks": 2
+      },
+      {
+        "blocked_packet_count": 1,
+        "completed_packet_count": 2,
+        "completion_time_tick": 3,
+        "config_hash": "e852259e2ac1335fce9835ddd66212bc62d2276821d1361623654a496469aab1",
+        "conservation_passed": true,
+        "cumulative_count_consistency_passed": true,
+        "event_cache_consistency_passed": true,
+        "event_count": 14,
+        "extension_version": "paper1-lane-group-extension-v1",
+        "per_movement_service": [
+          [
+            "movement:U->L",
+            1
+          ],
+          [
+            "movement:U->R",
+            1
+          ]
+        ],
+        "replay_passed": true,
+        "representation_mode": "movement_partial_fifo",
+        "runtime_seconds": 0.0001680410059634596,
+        "terminal_packet_outcomes": [
+          [
+            "P1",
+            "completed"
+          ],
+          [
+            "P2",
+            "completed"
+          ]
+        ],
+        "throughput_packets_per_tick": 0.6666666666666666,
+        "total_queue_delay_ticks": 1
+      },
+      {
+        "blocked_packet_count": 1,
+        "completed_packet_count": 2,
+        "completion_time_tick": 3,
+        "config_hash": "6616345c0577ac55569d23ebf030912e84dd6383020f3e209ad0e459a736072f",
+        "conservation_passed": true,
+        "cumulative_count_consistency_passed": true,
+        "event_cache_consistency_passed": true,
+        "event_count": 14,
+        "extension_version": "paper1-lane-group-extension-v1",
+        "per_movement_service": [
+          [
+            "movement:U->L",
+            1
+          ],
+          [
+            "movement:U->R",
+            1
+          ]
+        ],
+        "replay_passed": true,
+        "representation_mode": "explicit_lane_group_fifo",
+        "runtime_seconds": 0.00017008400755003095,
+        "terminal_packet_outcomes": [
+          [
+            "P1",
+            "completed"
+          ],
+          [
+            "P2",
+            "completed"
+          ]
+        ],
+        "throughput_packets_per_tick": 0.6666666666666666,
+        "total_queue_delay_ticks": 1
+      }
+    ]
+  },
+  "base_kernel_contract": {
+    "freeze_manifest_path": "data/validation/loading_kernel_freeze_manifest_v1.json",
+    "freeze_manifest_sha256": "3d6a77588bb8e14c48ca6bca7dbc010699d9caf05e409545bfe47be6c0864ef5",
+    "freeze_version": "loading-kernel-v1.0.1",
+    "frozen_source_files_modified": false
+  },
+  "baseline_equality_evidence": {
+    "protected_outputs": [
+      "canonical event logs",
+      "allocation traces",
+      "benchmark RMSE values",
+      "packet outcomes and completion counts",
+      "terminal ticks",
+      "conservation reports",
+      "event/cache consistency",
+      "cumulative-count consistency"
+    ],
+    "recorded_artifact_count": 64,
+    "recorded_artifact_hashes_match": true,
+    "verification_command": ".venv/bin/python scripts/verify_loading_kernel_freeze.py"
+  },
+  "evidence_version": "paper1-lane-group-extension-evidence-v1",
+  "fixture_gate": {
+    "covered_cases": [
+      "shared-single-group",
+      "separated-groups",
+      "partially-shared-alternative",
+      "signal-interaction",
+      "downstream-blockage",
+      "conflict-coupling",
+      "persistent-separate-group-queue-exit",
+      "exact-determinism",
+      "conservation-and-replay"
+    ],
+    "focused_test": "tests/test_lane_group_extension.py"
+  },
+  "fixture_path": "fixtures/lane_groups/v1/canonical_lane_group_cases_v1.json",
+  "runtime_relative_to_shared_link_fifo": {
+    "explicit_lane_group_fifo": 0.5299937678114353,
+    "movement_partial_fifo": 0.5236276307236013,
+    "shared_link_fifo": 1.0
+  },
+  "safe_interpretation": "Controlled mesoscopic queue-partition evidence only; not a microscopic lane-changing or lateral-position model."
+}

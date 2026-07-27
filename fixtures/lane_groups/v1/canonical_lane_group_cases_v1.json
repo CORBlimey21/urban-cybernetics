@@ -1,0 +1,197 @@
+{
+  "extension_version": "paper1-lane-group-extension-v1",
+  "fixture_version": "paper1-lane-group-canonical-fixtures-v1",
+  "schema_version": "explicit-lane-groups-v1",
+  "assignment_policy": {
+    "lifecycle_point": "first_service_eligible",
+    "policy": "shortest_effective_queue_then_declaration_order_then_stable_id",
+    "reassignment": "retain"
+  },
+  "base_topology": {
+    "node_id": "N",
+    "incoming_link_ids": [
+      "U"
+    ],
+    "movements": [
+      {
+        "downstream_link_id": "L",
+        "movement_id": "movement:U->L",
+        "upstream_link_id": "U"
+      },
+      {
+        "downstream_link_id": "R",
+        "movement_id": "movement:U->R",
+        "upstream_link_id": "U"
+      }
+    ],
+    "outgoing_link_ids": [
+      "L",
+      "R"
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "shared-single-group",
+      "controls": [
+        {
+          "target_id": "L",
+          "tick": 1,
+          "type": "receiving_open",
+          "value": false
+        }
+      ],
+      "expected": "blocked left head prevents right service",
+      "lane_groups": [
+        {
+          "allowed_movement_ids": [
+            "movement:U->L",
+            "movement:U->R"
+          ],
+          "incoming_link_id": "U",
+          "lane_group_id": "shared",
+          "node_id": "N",
+          "provenance": {
+            "compiler_version": "manual-v1",
+            "confidence": 1.0,
+            "fallback_reason": null,
+            "source": "canonical-fixture",
+            "status": "declared"
+          },
+          "service_capacity_per_tick": 2
+        }
+      ]
+    },
+    {
+      "case_id": "separated-groups",
+      "controls": [
+        {
+          "target_id": "L",
+          "tick": 1,
+          "type": "receiving_open",
+          "value": false
+        }
+      ],
+      "expected": "blocked left does not prevent right service",
+      "lane_groups": [
+        {
+          "allowed_movement_ids": [
+            "movement:U->L"
+          ],
+          "incoming_link_id": "U",
+          "lane_group_id": "left",
+          "node_id": "N",
+          "provenance": {
+            "compiler_version": "manual-v1",
+            "confidence": 1.0,
+            "fallback_reason": null,
+            "source": "canonical-fixture",
+            "status": "declared"
+          },
+          "service_capacity_per_tick": 1
+        },
+        {
+          "allowed_movement_ids": [
+            "movement:U->R"
+          ],
+          "incoming_link_id": "U",
+          "lane_group_id": "right",
+          "node_id": "N",
+          "provenance": {
+            "compiler_version": "manual-v1",
+            "confidence": 1.0,
+            "fallback_reason": null,
+            "source": "canonical-fixture",
+            "status": "declared"
+          },
+          "service_capacity_per_tick": 1
+        }
+      ]
+    },
+    {
+      "case_id": "partially-shared-alternative",
+      "controls": [
+        {
+          "target_id": "L",
+          "tick": 1,
+          "type": "receiving_open",
+          "value": false
+        }
+      ],
+      "expected": "right selects its empty alternative and retains it",
+      "lane_groups": [
+        {
+          "allowed_movement_ids": [
+            "movement:U->L",
+            "movement:U->R"
+          ],
+          "incoming_link_id": "U",
+          "lane_group_id": "shared",
+          "node_id": "N",
+          "provenance": {
+            "compiler_version": "manual-v1",
+            "confidence": 1.0,
+            "fallback_reason": null,
+            "source": "canonical-fixture",
+            "status": "declared"
+          },
+          "service_capacity_per_tick": 1
+        },
+        {
+          "allowed_movement_ids": [
+            "movement:U->R"
+          ],
+          "incoming_link_id": "U",
+          "lane_group_id": "right-alternative",
+          "node_id": "N",
+          "provenance": {
+            "compiler_version": "manual-v1",
+            "confidence": 1.0,
+            "fallback_reason": null,
+            "source": "canonical-fixture",
+            "status": "declared"
+          },
+          "service_capacity_per_tick": 1
+        }
+      ]
+    },
+    {
+      "case_id": "signal-interaction",
+      "expected": "red left signal does not prevent right service",
+      "lane_groups_ref": "separated-groups",
+      "signal": {
+        "open": false,
+        "signal_group_id": "left-phase"
+      }
+    },
+    {
+      "case_id": "downstream-blockage",
+      "controls": [
+        {
+          "target_id": "L",
+          "tick": 1,
+          "type": "receiving_open",
+          "value": false
+        }
+      ],
+      "expected": "unrelated right group remains serviceable",
+      "lane_groups_ref": "separated-groups"
+    },
+    {
+      "case_id": "conflict-coupling",
+      "conflict_resource": {
+        "capacity_per_tick": 1,
+        "movement_ids": [
+          "movement:U->L",
+          "movement:U->R"
+        ],
+        "resource_id": "crossing"
+      },
+      "expected": "only one separate-group movement uses shared conflict",
+      "lane_groups_ref": "separated-groups"
+    }
+  ],
+  "global_gates": {
+    "conservation_and_replay": "required_in_all_representation_modes",
+    "determinism": "exact_event_log_and_allocation_trace_equality"
+  }
+}
