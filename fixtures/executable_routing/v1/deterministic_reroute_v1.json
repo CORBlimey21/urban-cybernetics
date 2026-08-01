@@ -1,0 +1,66 @@
+{
+  "extension_version": "executable-routing-extension-v1",
+  "fixture_id": "deterministic-reroute-v1",
+  "initial_route_intent": [
+    "O",
+    "U",
+    "A",
+    "T"
+  ],
+  "reroute": {
+    "authority_id": "fixture-authority",
+    "decision_artifact_id": "fixture-artifact:P1:1",
+    "effective_tick": 2,
+    "instruction_id": "fixture-instruction:P1:1",
+    "issue_tick": 1,
+    "policy_id": "fixture-reroute",
+    "remaining_route": [
+      "U",
+      "B",
+      "T"
+    ],
+    "route_start_ordinal": 1,
+    "version": 1
+  },
+  "schema_version": "uc.executable-routing-fixture.v1",
+  "terminal_instruction": {
+    "decision_artifact_id": "fixture-artifact:P1:2-too-late",
+    "instruction_id": "fixture-instruction:P1:2-too-late",
+    "policy_id": "too-late-test",
+    "remaining_route": [
+      "T"
+    ],
+    "version": 2
+  },
+  "topology": {
+    "links": [
+      "O",
+      "U",
+      "A",
+      "B",
+      "T"
+    ],
+    "transitions": [
+      [
+        "O",
+        "U"
+      ],
+      [
+        "U",
+        "A"
+      ],
+      [
+        "U",
+        "B"
+      ],
+      [
+        "A",
+        "T"
+      ],
+      [
+        "B",
+        "T"
+      ]
+    ]
+  }
+}

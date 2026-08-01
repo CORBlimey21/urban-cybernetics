@@ -1,0 +1,31 @@
+{
+  "extension_version": "executable-routing-extension-v1",
+  "fixture_id": "queued-resource-reroute-v1",
+  "initial_route_intent": [
+    "U",
+    "A"
+  ],
+  "new_movement": {
+    "conflict_resource_id": "new-conflict",
+    "downstream_link_id": "B",
+    "lane_group_id": "new-lane"
+  },
+  "old_movement": {
+    "conflict_resource_id": "old-conflict",
+    "downstream_link_id": "A",
+    "lane_group_id": "old-lane",
+    "signal_group_id": "old-signal"
+  },
+  "reroute": {
+    "effective_tick": 1,
+    "instruction_id": "queued-fixture-instruction:P1:1",
+    "issue_tick": 1,
+    "remaining_route": [
+      "U",
+      "B"
+    ],
+    "route_start_ordinal": 0,
+    "version": 1
+  },
+  "schema_version": "uc.executable-routing-queued-fixture.v1"
+}
