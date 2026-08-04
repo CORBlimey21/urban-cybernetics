@@ -1,0 +1,184 @@
+{
+  "case_id": "fixed-time-alternating-clearance-v1",
+  "clock_contract": {
+    "first_allocation_tick": 1,
+    "initial_state_tick": 0,
+    "signal_tick_translation": "none",
+    "tick_domain": "single_universal_simulation_tick"
+  },
+  "description": "Two incompatible movement groups alternate around all-red clearance intervals; an unlisted movement remains unsignalised.",
+  "extension_version": "fixed-time-signal-extension-v1",
+  "network": {
+    "controlled_node_id": "N",
+    "incoming_link_ids": [
+      "UA",
+      "UB",
+      "UX"
+    ],
+    "movement_signal_groups": {
+      "movement:UA->OA": "signal:A",
+      "movement:UB->OB": "signal:B"
+    },
+    "outgoing_link_ids": [
+      "OA",
+      "OB",
+      "OX"
+    ],
+    "uncontrolled_movement_id": "movement:UX->OX"
+  },
+  "offset_probe": {
+    "expected": [
+      {
+        "open_movement_ids": [
+          "movement:UB->OB"
+        ],
+        "stage_id": "stage:N:B",
+        "tick": 0
+      },
+      {
+        "open_movement_ids": [],
+        "stage_id": "stage:N:clearance:B-to-A",
+        "tick": 1
+      },
+      {
+        "open_movement_ids": [
+          "movement:UA->OA"
+        ],
+        "stage_id": "stage:N:A",
+        "tick": 2
+      }
+    ],
+    "offset_ticks": 2
+  },
+  "plan": {
+    "configuration_hash": "34ce7186aa89f99f65806cbb1ab402777117b0c1eefff3277b7503d4cbcbc5f6",
+    "controllers": [
+      {
+        "controlled_movement_ids": [
+          "movement:UA->OA",
+          "movement:UB->OB"
+        ],
+        "controller_id": "controller:N:main",
+        "cycle_ticks": 6,
+        "extension_version": "fixed-time-signal-extension-v1",
+        "node_id": "N",
+        "offset_ticks": 0,
+        "provenance": [
+          {
+            "field_path": "controllers[controller:N:main]",
+            "metadata": [
+              [
+                "fixture",
+                "alternating_plan_v1"
+              ]
+            ],
+            "resolution_status": "overridden",
+            "source_ref": "fixture:fixed-time-alternating-clearance-v1"
+          }
+        ],
+        "schema_version": "uc.resolved-fixed-time-signal-plan.v1",
+        "semantic_hash": "d288da85ae36745ec471521757a20988060e5c6103e96cf2a0e5e3e481889c7d",
+        "stages": [
+          {
+            "classification": "movement-green",
+            "duration_ticks": 2,
+            "metadata": [],
+            "permitted_movement_ids": [
+              "movement:UA->OA"
+            ],
+            "stage_id": "stage:N:A"
+          },
+          {
+            "classification": "all-red",
+            "duration_ticks": 1,
+            "metadata": [],
+            "permitted_movement_ids": [],
+            "stage_id": "stage:N:clearance:A-to-B"
+          },
+          {
+            "classification": "movement-green",
+            "duration_ticks": 2,
+            "metadata": [],
+            "permitted_movement_ids": [
+              "movement:UB->OB"
+            ],
+            "stage_id": "stage:N:B"
+          },
+          {
+            "classification": "all-red",
+            "duration_ticks": 1,
+            "metadata": [],
+            "permitted_movement_ids": [],
+            "stage_id": "stage:N:clearance:B-to-A"
+          }
+        ]
+      }
+    ],
+    "extension_version": "fixed-time-signal-extension-v1",
+    "metadata": [
+      [
+        "purpose",
+        "deterministic alternating signal fixture"
+      ]
+    ],
+    "provenance_refs": [
+      "fixture:fixed-time-alternating-clearance-v1"
+    ],
+    "schema_version": "uc.resolved-fixed-time-signal-plan.v1",
+    "semantic_hash": "562dc0b78f71dd11c1e1f31cd37e55d9b340abf6e8a93a3ff6bac809bb2e41d8"
+  },
+  "timing_expectations": [
+    {
+      "cycle_position": 0,
+      "open_movement_ids": [
+        "movement:UA->OA"
+      ],
+      "stage_id": "stage:N:A",
+      "tick": 0
+    },
+    {
+      "cycle_position": 1,
+      "open_movement_ids": [
+        "movement:UA->OA"
+      ],
+      "stage_id": "stage:N:A",
+      "tick": 1
+    },
+    {
+      "cycle_position": 2,
+      "open_movement_ids": [],
+      "stage_id": "stage:N:clearance:A-to-B",
+      "tick": 2
+    },
+    {
+      "cycle_position": 3,
+      "open_movement_ids": [
+        "movement:UB->OB"
+      ],
+      "stage_id": "stage:N:B",
+      "tick": 3
+    },
+    {
+      "cycle_position": 4,
+      "open_movement_ids": [
+        "movement:UB->OB"
+      ],
+      "stage_id": "stage:N:B",
+      "tick": 4
+    },
+    {
+      "cycle_position": 5,
+      "open_movement_ids": [],
+      "stage_id": "stage:N:clearance:B-to-A",
+      "tick": 5
+    },
+    {
+      "cycle_position": 0,
+      "open_movement_ids": [
+        "movement:UA->OA"
+      ],
+      "stage_id": "stage:N:A",
+      "tick": 6
+    }
+  ]
+}
