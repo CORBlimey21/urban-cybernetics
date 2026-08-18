@@ -33,9 +33,21 @@ FIXED_TIME_SIGNAL_SCHEMA_VERSION = "uc.resolved-fixed-time-signal-plan.v1"
 FIXED_TIME_SIGNAL_CONFIG_SCHEMA_VERSION = "uc.fixed-time-signal-config.v1"
 FIXED_TIME_OWNS_CONTROLLED_GROUPS = "fixed_time_owns_controlled_groups"
 RESOLUTION_STATUSES = frozenset(
-    ("observed", "inferred", "defaulted", "overridden")
+    (
+        "observed",
+        "inferred",
+        "defaulted",
+        "overridden",
+        "synthetic_experiment",
+    )
 )
-ResolutionStatus = Literal["observed", "inferred", "defaulted", "overridden"]
+ResolutionStatus = Literal[
+    "observed",
+    "inferred",
+    "defaulted",
+    "overridden",
+    "synthetic_experiment",
+]
 
 
 class FixedTimePlanValidationError(ValueError):
@@ -154,7 +166,7 @@ class ResolvedValueProvenance:
         if self.resolution_status not in RESOLUTION_STATUSES:
             raise FixedTimePlanValidationError(
                 "provenance resolution_status must be observed, inferred, "
-                "defaulted, or overridden"
+                "defaulted, overridden, or synthetic_experiment"
             )
         if self.source_ref is not None:
             _require_string(self.source_ref, "provenance source_ref")
@@ -687,6 +699,18 @@ class FixedTimeSignalPlanEvaluator:
         self.config = config or FixedTimeSignalConfig()
         node_tuple = tuple(nodes)
         self._validate_and_bind(node_tuple)
+        # The plan, execution config, and topology binding are immutable for
+        # the evaluator lifetime.  These hashes are carried by every gate
+        # record, so recomputing their nested JSON on every movement query is
+        # pure overhead and was the dominant Cork forensic-profile hotspot.
+        self._plan_configuration_hash = self.plan.configuration_hash
+        self._configuration_hash = _canonical_hash(
+            {
+                "plan_configuration_hash": self._plan_configuration_hash,
+                "execution_config_hash": self.config.config_hash,
+                "topology_binding_hash": self._topology_binding_hash,
+            }
+        )
 
     def _validate_and_bind(self, nodes: tuple[Node, ...]) -> None:
         diagnostics: list[str] = []
@@ -810,13 +834,7 @@ class FixedTimeSignalPlanEvaluator:
 
     @property
     def configuration_hash(self) -> str:
-        return _canonical_hash(
-            {
-                "plan_configuration_hash": self.plan.configuration_hash,
-                "execution_config_hash": self.config.config_hash,
-                "topology_binding_hash": self._topology_binding_hash,
-            }
-        )
+        return self._configuration_hash
 
     def assert_compatible_nodes(self, nodes: Iterable[Node]) -> None:
         rebound = FixedTimeSignalPlanEvaluator(self.plan, tuple(nodes), self.config)
@@ -876,8 +894,8 @@ class FixedTimeSignalPlanEvaluator:
             movement_id=movement_id,
             signal_group_id=self._signal_group_by_movement[movement_id],
             baseline_is_open=movement_id in stage.permitted_movement_ids,
-            plan_hash=self.plan.configuration_hash,
-            plan_configuration_hash=self.configuration_hash,
+            plan_hash=self._plan_configuration_hash,
+            plan_configuration_hash=self._configuration_hash,
         )
 
     def controlled_signal_group_ids(self, node_id: str) -> frozenset[str]:

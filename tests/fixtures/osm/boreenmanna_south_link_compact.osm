@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (908582 spike-06.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <bounds minlat="51.8910440" minlon="-8.4634530" maxlat="51.8930000" maxlon="-8.4590650" />
+ <node id="2039183" visible="true" version="7" changeset="7759153" timestamp="2011-04-03T20:57:43Z" user="cliffcake" uid="117975" lat="51.8937339" lon="-8.4625220" />
+ <node id="7842378" visible="true" version="17" changeset="138139278" timestamp="2023-07-05T09:07:46Z" user="eireidium" uid="146307" lat="51.8914938" lon="-8.4554105" />
+ <node id="7842380" visible="true" version="18" changeset="139076025" timestamp="2023-07-27T09:17:18Z" user="eireidium" uid="146307" lat="51.8916756" lon="-8.4572119" />
+ <node id="14146633" visible="true" version="5" changeset="7998778" timestamp="2011-04-28T21:02:32Z" user="Diarmuid Cogan" uid="318363" lat="51.8909361" lon="-8.4627547" />
+ <node id="14146634" visible="true" version="5" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8910020" lon="-8.4628344" />
+ <node id="14146635" visible="true" version="18" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8918561" lon="-8.4625204" />
+ <node id="322254775" visible="true" version="5" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8927539" lon="-8.4624551" />
+ <node id="322508225" visible="true" version="8" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8920536" lon="-8.4625853" />
+ <node id="322508227" visible="true" version="20" changeset="185776552" timestamp="2026-07-15T11:05:33Z" user="eireidium" uid="146307" lat="51.8920382" lon="-8.4617609" />
+ <node id="367552448" visible="true" version="14" changeset="183486545" timestamp="2026-06-01T09:08:24Z" user="VictorIE" uid="2008037" lat="51.8920416" lon="-8.4603509">
+  <tag k="crossing" v="traffic_signals" />
+  <tag k="crossing:island" v="no" />
+  <tag k="crossing:markings" v="lines" />
+  <tag k="highway" v="crossing" />
+  <tag k="tactile_paving" v="no" />
+ </node>
+ <node id="367554319" visible="true" version="11" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8925763" lon="-8.4623592">
+  <tag k="highway" v="motorway_junction" />
+ </node>
+ <node id="367554847" visible="true" version="7" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8924048" lon="-8.4622689" />
+ <node id="367554850" visible="true" version="10" changeset="186692244" timestamp="2026-07-31T08:33:10Z" user="eireidium" uid="146307" lat="51.8923032" lon="-8.4621659" />
+ <node id="367554853" visible="true" version="10" changeset="186692076" timestamp="2026-07-31T08:29:19Z" user="eireidium" uid="146307" lat="51.8922179" lon="-8.4620023" />
+ <node id="367554856" visible="true" version="8" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8921767" lon="-8.4618022" />
+ <node id="367554864" visible="true" version="9" changeset="139007802" timestamp="2023-07-25T20:51:52Z" user="eireidium" uid="146307" lat="51.8921225" lon="-8.4604552" />
+ <node id="367554868" visible="true" version="20" changeset="183486545" timestamp="2026-06-01T09:08:24Z" user="VictorIE" uid="2008037" lat="51.8920403" lon="-8.4603007">
+  <tag k="highway" v="traffic_signals" />
+  <tag k="traffic_signals" v="signal" />
+  <tag k="traffic_signals:direction" v="forward" />
+ </node>
+ <node id="367557195" visible="true" version="11" changeset="139007802" timestamp="2023-07-25T20:51:52Z" user="eireidium" uid="146307" lat="51.8921595" lon="-8.4607608" />
+ <node id="367558805" visible="true" version="11" changeset="185776552" timestamp="2026-07-15T11:05:33Z" user="eireidium" uid="146307" lat="51.8920251" lon="-8.4605925" />
+ <node id="367558807" visible="true" version="12" changeset="185776552" timestamp="2026-07-15T11:05:33Z" user="eireidium" uid="146307" lat="51.8920346" lon="-8.4614859" />
+ <node id="834691199" visible="true" version="6" changeset="137875046" timestamp="2023-06-28T11:31:24Z" user="eireidium" uid="146307" lat="51.8916490" lon="-8.4569870" />
+ <node id="1116982191" visible="true" version="7" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8919710" lon="-8.4623297">
+  <tag k="highway" v="traffic_signals" />
+  <tag k="traffic_signals:direction" v="forward" />
+ </node>
+ <node id="1116982210" visible="true" version="8" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8920480" lon="-8.4624610" />
+ <node id="1116982250" visible="true" version="4" changeset="64203995" timestamp="2018-11-05T16:55:36Z" user="dónal" uid="574926" lat="51.8914937" lon="-8.4626124" />
+ <node id="1138250045" visible="true" version="4" changeset="139007802" timestamp="2023-07-25T20:51:52Z" user="eireidium" uid="146307" lat="51.8921476" lon="-8.4605841" />
+ <node id="1138250100" visible="true" version="3" changeset="182487753" timestamp="2026-05-10T23:21:27Z" user="MapMenMan" uid="11935449" lat="51.8943130" lon="-8.4627594" />
+ <node id="1231539193" visible="true" version="4" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8919352" lon="-8.4624233" />
+ <node id="1231539204" visible="true" version="2" changeset="182487753" timestamp="2026-05-10T23:21:27Z" user="MapMenMan" uid="11935449" lat="51.8941202" lon="-8.4626534" />
+ <node id="1264155551" visible="true" version="3" changeset="137875046" timestamp="2023-06-28T11:31:24Z" user="eireidium" uid="146307" lat="51.8915069" lon="-8.4556109" />
+ <node id="1264155565" visible="true" version="3" changeset="67187860" timestamp="2019-02-14T09:47:17Z" user="shiftee" uid="5589928" lat="51.8914613" lon="-8.4548314" />
+ <node id="1264155593" visible="true" version="2" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8930177" lon="-8.4624179" />
+ <node id="1422316891" visible="true" version="3" changeset="183811791" timestamp="2026-06-08T06:50:19Z" user="eireidium" uid="146307" lat="51.8917608" lon="-8.4579468" />
+ <node id="1514180654" visible="true" version="1" changeset="9921130" timestamp="2011-11-23T13:48:05Z" user="mackerski" uid="6367" lat="51.8930413" lon="-8.4623112" />
+ <node id="1514180655" visible="true" version="1" changeset="9921130" timestamp="2011-11-23T13:48:05Z" user="mackerski" uid="6367" lat="51.8933516" lon="-8.4624530" />
+ <node id="1514291054" visible="true" version="1" changeset="9922248" timestamp="2011-11-23T15:28:49Z" user="mackerski" uid="6367" lat="51.8919736" lon="-8.4596324" />
+ <node id="1596017446" visible="true" version="3" changeset="139951396" timestamp="2023-08-16T08:37:09Z" user="eireidium" uid="146307" lat="51.8915358" lon="-8.4559754" />
+ <node id="1596017448" visible="true" version="2" changeset="137875046" timestamp="2023-06-28T11:31:24Z" user="eireidium" uid="146307" lat="51.8916097" lon="-8.4566572" />
+ <node id="1596017453" visible="true" version="1" changeset="10425628" timestamp="2012-01-18T09:28:28Z" user="larryone" uid="86465" lat="51.8918866" lon="-8.4589606" />
+ <node id="2833117310" visible="true" version="1" changeset="22098770" timestamp="2014-05-03T07:48:25Z" user="VictorIE" uid="2008037" lat="51.8904038" lon="-8.4628644" />
+ <node id="2833117311" visible="true" version="1" changeset="22098770" timestamp="2014-05-03T07:48:25Z" user="VictorIE" uid="2008037" lat="51.8904311" lon="-8.4629483" />
+ <node id="3719203021" visible="true" version="2" changeset="46482833" timestamp="2017-03-01T02:03:04Z" user="Teester" uid="259792" lat="51.8931427" lon="-8.4623163" />
+ <node id="6039782816" visible="true" version="3" changeset="186692244" timestamp="2026-07-31T08:33:10Z" user="eireidium" uid="146307" lat="51.8922668" lon="-8.4621104" />
+ <node id="6039782817" visible="true" version="3" changeset="186692076" timestamp="2026-07-31T08:29:19Z" user="eireidium" uid="146307" lat="51.8921893" lon="-8.4618910" />
+ <node id="6039782818" visible="true" version="2" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8921601" lon="-8.4612600" />
+ <node id="6278206785" visible="true" version="1" changeset="67187860" timestamp="2019-02-14T09:47:13Z" user="shiftee" uid="5589928" lat="51.8914540" lon="-8.4546583" />
+ <node id="8183035213" visible="true" version="3" changeset="139007802" timestamp="2023-07-25T20:51:52Z" user="eireidium" uid="146307" lat="51.8917795" lon="-8.4580899" />
+ <node id="9195287003" visible="true" version="1" changeset="112867264" timestamp="2021-10-23T09:34:42Z" user="VictorIE" uid="2008037" lat="51.8936843" lon="-8.4625131" />
+ <node id="9216854207" visible="true" version="2" changeset="139006764" timestamp="2023-07-25T20:24:47Z" user="eireidium" uid="146307" lat="51.8918163" lon="-8.4583996" />
+ <node id="10218634801" visible="true" version="2" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8920455" lon="-8.4623516">
+  <tag k="highway" v="traffic_signals" />
+  <tag k="traffic_signals" v="signal" />
+  <tag k="traffic_signals:direction" v="forward" />
+ </node>
+ <node id="10218634802" visible="true" version="1" changeset="129383497" timestamp="2022-11-25T21:31:45Z" user="LateNightTone" uid="4003485" lat="51.8922332" lon="-8.4624273">
+  <tag k="highway" v="traffic_signals" />
+  <tag k="traffic_signals" v="signal" />
+  <tag k="traffic_signals:direction" v="forward" />
+ </node>
+ <node id="10218634803" visible="true" version="2" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8919197" lon="-8.4626157">
+  <tag k="highway" v="traffic_signals" />
+  <tag k="traffic_signals" v="signal" />
+  <tag k="traffic_signals:direction" v="forward" />
+ </node>
+ <node id="10963825648" visible="true" version="2" changeset="139006764" timestamp="2023-07-25T20:24:47Z" user="eireidium" uid="146307" lat="51.8918535" lon="-8.4586863" />
+ <node id="11012186896" visible="true" version="1" changeset="137875046" timestamp="2023-06-28T11:31:24Z" user="eireidium" uid="146307" lat="51.8916921" lon="-8.4573520" />
+ <node id="11012186897" visible="true" version="2" changeset="139951396" timestamp="2023-08-16T08:37:09Z" user="eireidium" uid="146307" lat="51.8915215" lon="-8.4558082" />
+ <node id="11025543254" visible="true" version="1" changeset="138106100" timestamp="2023-07-04T12:26:53Z" user="eireidium" uid="146307" lat="51.8915650" lon="-8.4562687" />
+ <node id="11027434302" visible="true" version="1" changeset="138139278" timestamp="2023-07-05T09:07:46Z" user="eireidium" uid="146307" lat="51.8914707" lon="-8.4549991" />
+ <node id="11027434304" visible="true" version="1" changeset="138139278" timestamp="2023-07-05T09:07:46Z" user="eireidium" uid="146307" lat="51.8914769" lon="-8.4551093" />
+ <node id="11067711300" visible="true" version="1" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8924870" lon="-8.4623211" />
+ <node id="11067711301" visible="true" version="1" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8924428" lon="-8.4622976" />
+ <node id="11067711302" visible="true" version="2" changeset="186692244" timestamp="2026-07-31T08:33:10Z" user="eireidium" uid="146307" lat="51.8923541" lon="-8.4622225" />
+ <node id="11067711303" visible="true" version="1" changeset="139007975" timestamp="2023-07-25T20:56:34Z" user="eireidium" uid="146307" lat="51.8921569" lon="-8.4610077" />
+ <node id="11067722871" visible="true" version="1" changeset="139007802" timestamp="2023-07-25T20:51:52Z" user="eireidium" uid="146307" lat="51.8919033" lon="-8.4590893" />
+ <node id="11067722873" visible="true" version="1" changeset="139007802" timestamp="2023-07-25T20:51:52Z" user="eireidium" uid="146307" lat="51.8921577" lon="-8.4606684" />
+ <node id="11067722874" visible="true" version="1" changeset="139007802" timestamp="2023-07-25T20:51:52Z" user="eireidium" uid="146307" lat="51.8921539" lon="-8.4606286" />
+ <node id="11067731313" visible="true" version="1" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8931430" lon="-8.4624108" />
+ <node id="11067731315" visible="true" version="1" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8913902" lon="-8.4627487" />
+ <node id="11067731316" visible="true" version="1" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8916570" lon="-8.4626805" />
+ <node id="11067731321" visible="true" version="1" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8919060" lon="-8.4624692" />
+ <node id="11067731322" visible="true" version="1" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8919572" lon="-8.4623785" />
+ <node id="11067731323" visible="true" version="1" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8920030" lon="-8.4620852" />
+ <node id="11067731324" visible="true" version="1" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307" lat="51.8919886" lon="-8.4622088" />
+ <node id="11070833920" visible="true" version="1" changeset="139075701" timestamp="2023-07-27T09:10:25Z" user="eireidium" uid="146307" lat="51.8914857" lon="-8.4552669" />
+ <node id="11543659169" visible="true" version="1" changeset="146601255" timestamp="2024-01-23T17:11:24Z" user="VictorIE" uid="2008037" lat="51.8914488" lon="-8.4545352" />
+ <node id="13900917291" visible="true" version="1" changeset="183486545" timestamp="2026-06-01T09:08:24Z" user="VictorIE" uid="2008037" lat="51.8920313" lon="-8.4600888" />
+ <node id="13900917292" visible="true" version="1" changeset="183486545" timestamp="2026-06-01T09:08:24Z" user="VictorIE" uid="2008037" lat="51.8921045" lon="-8.4603828">
+  <tag k="highway" v="traffic_signals" />
+  <tag k="traffic_signals" v="signal" />
+  <tag k="traffic_signals:direction" v="forward" />
+ </node>
+ <node id="13900917293" visible="true" version="1" changeset="183486545" timestamp="2026-06-01T09:08:24Z" user="VictorIE" uid="2008037" lat="51.8920912" lon="-8.4603294">
+  <tag k="crossing" v="traffic_signals" />
+  <tag k="crossing:island" v="no" />
+  <tag k="crossing:markings" v="lines" />
+  <tag k="highway" v="crossing" />
+  <tag k="tactile_paving" v="no" />
+ </node>
+ <node id="13919403210" visible="true" version="1" changeset="183811791" timestamp="2026-06-08T06:50:19Z" user="eireidium" uid="146307" lat="51.8917023" lon="-8.4574430" />
+ <node id="14017300286" visible="true" version="1" changeset="185776552" timestamp="2026-07-15T11:05:33Z" user="eireidium" uid="146307" lat="51.8920373" lon="-8.4604629" />
+ <node id="14017300287" visible="true" version="1" changeset="185776552" timestamp="2026-07-15T11:05:33Z" user="eireidium" uid="146307" lat="51.8920415" lon="-8.4604039" />
+ <node id="14060876880" visible="true" version="1" changeset="186628185" timestamp="2026-07-30T07:43:24Z" user="eireidium" uid="146307" lat="51.8919812" lon="-8.4596922" />
+ <node id="14062319910" visible="true" version="1" changeset="186664130" timestamp="2026-07-30T19:20:06Z" user="eireidium" uid="146307" lat="51.8918034" lon="-8.4582914" />
+ <node id="14063411274" visible="true" version="1" changeset="186692076" timestamp="2026-07-31T08:29:19Z" user="eireidium" uid="146307" lat="51.8922016" lon="-8.4619469" />
+ <node id="14063420069" visible="true" version="1" changeset="186692244" timestamp="2026-07-31T08:33:10Z" user="eireidium" uid="146307" lat="51.8922397" lon="-8.4620593" />
+ <way id="32670070" visible="true" version="17" changeset="186692244" timestamp="2026-07-31T08:33:10Z" user="eireidium" uid="146307">
+  <nd ref="367554319" />
+  <nd ref="11067711300" />
+  <nd ref="11067711301" />
+  <nd ref="367554847" />
+  <nd ref="11067711302" />
+  <nd ref="367554850" />
+  <nd ref="6039782816" />
+  <nd ref="14063420069" />
+  <nd ref="367554853" />
+  <nd ref="14063411274" />
+  <nd ref="6039782817" />
+  <nd ref="367554856" />
+  <nd ref="6039782818" />
+  <nd ref="11067711303" />
+  <nd ref="367557195" />
+  <tag k="highway" v="secondary" />
+  <tag k="lane_markings" v="no" />
+  <tag k="logainm:ref" v="1388671" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1388671.aspx" />
+  <tag k="maxspeed" v="60" />
+  <tag k="name" v="Boreenmanna Road" />
+  <tag k="name:en" v="Boreenmanna Road" />
+  <tag k="name:ga" v="Bóthar an Bhóithrín Mheánaigh" />
+  <tag k="oneway" v="yes" />
+  <tag k="ref" v="R852" />
+  <tag k="surface" v="asphalt" />
+ </way>
+ <way id="32670121" visible="true" version="11" changeset="185776552" timestamp="2026-07-15T11:05:33Z" user="eireidium" uid="146307">
+  <nd ref="13900917291" />
+  <nd ref="367554868" />
+  <nd ref="367552448" />
+  <nd ref="14017300287" />
+  <nd ref="14017300286" />
+  <nd ref="367558805" />
+  <tag k="highway" v="secondary" />
+  <tag k="lanes" v="2" />
+  <tag k="logainm:ref" v="1388671" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1388671.aspx" />
+  <tag k="maxspeed" v="50" />
+  <tag k="name" v="Boreenmanna Road" />
+  <tag k="name:en" v="Boreenmanna Road" />
+  <tag k="name:ga" v="Bóthar an Bhóithrín Mheánaigh" />
+  <tag k="oneway" v="yes" />
+  <tag k="ref" v="R852" />
+  <tag k="surface" v="asphalt" />
+ </way>
+ <way id="96385702" visible="true" version="10" changeset="139008116" timestamp="2023-07-25T21:00:37Z" user="eireidium" uid="146307">
+  <nd ref="322508227" />
+  <nd ref="11067731323" />
+  <nd ref="11067731324" />
+  <nd ref="1116982191" />
+  <nd ref="11067731322" />
+  <nd ref="1231539193" />
+  <nd ref="11067731321" />
+  <nd ref="14146635" />
+  <tag k="bicycle" v="yes" />
+  <tag k="destination:ref" v="N27" />
+  <tag k="foot" v="no" />
+  <tag k="highway" v="trunk_link" />
+  <tag k="lanes" v="1" />
+  <tag k="lit" v="yes" />
+  <tag k="logainm:ref" v="1426669" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1426669.aspx" />
+  <tag k="maxspeed" v="60" />
+  <tag k="name" v="South Link Road" />
+  <tag k="name:en" v="South Link Road" />
+  <tag k="oneway" v="yes" />
+  <tag k="ref" v="N27" />
+  <tag k="sidewalk" v="no" />
+  <tag k="surface" v="asphalt" />
+ </way>
+ <way id="110781522" visible="true" version="16" changeset="152267723" timestamp="2024-06-05T02:37:42Z" user="Darrman" uid="18423557">
+  <nd ref="322508225" />
+  <nd ref="322254775" />
+  <nd ref="1264155593" />
+  <nd ref="11067731313" />
+  <nd ref="1514180655" />
+  <nd ref="9195287003" />
+  <nd ref="2039183" />
+  <nd ref="1231539204" />
+  <nd ref="1138250100" />
+  <tag k="abandoned:name" v="Cork, Bandon, and South Coast Railway" />
+  <tag k="abandoned:railway" v="rail" />
+  <tag k="bicycle" v="yes" />
+  <tag k="cutting" v="yes" />
+  <tag k="foot" v="no" />
+  <tag k="gauge" v="1600" />
+  <tag k="highway" v="trunk" />
+  <tag k="lanes" v="2" />
+  <tag k="lit" v="yes" />
+  <tag k="loc_name" v="South Link" />
+  <tag k="logainm:ref" v="1426669" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1426669.aspx" />
+  <tag k="maxspeed" v="60" />
+  <tag k="name" v="South Link Road" />
+  <tag k="name:en" v="South Link Road" />
+  <tag k="oneway" v="yes" />
+  <tag k="operator" v="CIE" />
+  <tag k="railway" v="abandoned" />
+  <tag k="ref" v="N27" />
+  <tag k="sidewalk" v="no" />
+  <tag k="surface" v="asphalt" />
+  <tag k="usage" v="main" />
+ </way>
+ <way id="279050194" visible="true" version="14" changeset="129383497" timestamp="2022-11-25T21:31:45Z" user="LateNightTone" uid="4003485">
+  <nd ref="3719203021" />
+  <nd ref="1514180654" />
+  <nd ref="367554319" />
+  <nd ref="10218634802" />
+  <nd ref="1116982210" />
+  <nd ref="14146635" />
+  <nd ref="1116982250" />
+  <nd ref="14146633" />
+  <nd ref="2833117310" />
+  <tag k="bicycle" v="yes" />
+  <tag k="cutting" v="yes" />
+  <tag k="foot" v="no" />
+  <tag k="highway" v="trunk" />
+  <tag k="lanes" v="2" />
+  <tag k="lit" v="yes" />
+  <tag k="loc_name" v="South Link" />
+  <tag k="logainm:ref" v="1426669" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1426669.aspx" />
+  <tag k="maxspeed" v="60" />
+  <tag k="name" v="South Link Road" />
+  <tag k="name:en" v="South Link Road" />
+  <tag k="oneway" v="yes" />
+  <tag k="ref" v="N27" />
+  <tag k="sidewalk" v="no" />
+  <tag k="surface" v="asphalt" />
+ </way>
+ <way id="279050199" visible="true" version="15" changeset="152267723" timestamp="2024-06-05T02:37:42Z" user="Darrman" uid="18423557">
+  <nd ref="2833117311" />
+  <nd ref="14146634" />
+  <nd ref="11067731315" />
+  <nd ref="11067731316" />
+  <nd ref="10218634803" />
+  <nd ref="322508225" />
+  <tag k="abandoned:name" v="Cork, Bandon, and South Coast Railway" />
+  <tag k="abandoned:railway" v="rail" />
+  <tag k="bicycle" v="yes" />
+  <tag k="cutting" v="yes" />
+  <tag k="foot" v="no" />
+  <tag k="gauge" v="1600" />
+  <tag k="highway" v="trunk" />
+  <tag k="lanes" v="2" />
+  <tag k="lit" v="yes" />
+  <tag k="loc_name" v="South Link" />
+  <tag k="logainm:ref" v="1426669" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1426669.aspx" />
+  <tag k="maxspeed" v="100" />
+  <tag k="name" v="South Link Road" />
+  <tag k="name:en" v="South Link Road" />
+  <tag k="oneway" v="yes" />
+  <tag k="operator" v="CIE" />
+  <tag k="railway" v="abandoned" />
+  <tag k="ref" v="N27" />
+  <tag k="sidewalk" v="no" />
+  <tag k="surface" v="asphalt" />
+  <tag k="usage" v="main" />
+ </way>
+ <way id="279054332" visible="true" version="4" changeset="183486545" timestamp="2026-06-01T09:08:24Z" user="VictorIE" uid="2008037">
+  <nd ref="1138250045" />
+  <nd ref="367554864" />
+  <nd ref="13900917292" />
+  <nd ref="13900917293" />
+  <nd ref="13900917291" />
+  <tag k="highway" v="secondary" />
+  <tag k="lanes" v="1" />
+  <tag k="logainm:ref" v="1388671" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1388671.aspx" />
+  <tag k="maxspeed" v="50" />
+  <tag k="name" v="Boreenmanna Road" />
+  <tag k="name:en" v="Boreenmanna Road" />
+  <tag k="name:ga" v="Bóthar an Bhóithrín Mheánaigh" />
+  <tag k="oneway" v="yes" />
+  <tag k="ref" v="R852" />
+  <tag k="surface" v="asphalt" />
+ </way>
+ <way id="279054333" visible="true" version="4" changeset="129383497" timestamp="2022-11-25T21:31:45Z" user="LateNightTone" uid="4003485">
+  <nd ref="367558805" />
+  <nd ref="367558807" />
+  <nd ref="322508227" />
+  <nd ref="10218634801" />
+  <nd ref="1116982210" />
+  <nd ref="322508225" />
+  <tag k="highway" v="secondary" />
+  <tag k="lanes" v="2" />
+  <tag k="logainm:ref" v="1388671" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1388671.aspx" />
+  <tag k="maxspeed" v="60" />
+  <tag k="name" v="Boreenmanna Road" />
+  <tag k="name:en" v="Boreenmanna Road" />
+  <tag k="name:ga" v="Bóthar an Bhóithrín Mheánaigh" />
+  <tag k="oneway" v="yes" />
+  <tag k="ref" v="R852" />
+  <tag k="surface" v="asphalt" />
+ </way>
+ <way id="477791936" visible="true" version="3" changeset="139007802" timestamp="2023-07-25T20:51:52Z" user="eireidium" uid="146307">
+  <nd ref="367557195" />
+  <nd ref="11067722873" />
+  <nd ref="11067722874" />
+  <nd ref="1138250045" />
+  <tag k="highway" v="secondary" />
+  <tag k="lanes" v="1" />
+  <tag k="logainm:ref" v="1388671" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1388671.aspx" />
+  <tag k="maxspeed" v="50" />
+  <tag k="name" v="Boreenmanna Road" />
+  <tag k="name:en" v="Boreenmanna Road" />
+  <tag k="name:ga" v="Bóthar an Bhóithrín Mheánaigh" />
+  <tag k="oneway" v="yes" />
+  <tag k="ref" v="R852" />
+  <tag k="surface" v="asphalt" />
+ </way>
+ <way id="1242275936" visible="true" version="5" changeset="186664130" timestamp="2026-07-30T19:20:06Z" user="eireidium" uid="146307">
+  <nd ref="11543659169" />
+  <nd ref="6278206785" />
+  <nd ref="1264155565" />
+  <nd ref="11027434302" />
+  <nd ref="11027434304" />
+  <nd ref="11070833920" />
+  <nd ref="7842378" />
+  <nd ref="1264155551" />
+  <nd ref="11012186897" />
+  <nd ref="1596017446" />
+  <nd ref="11025543254" />
+  <nd ref="1596017448" />
+  <nd ref="834691199" />
+  <nd ref="7842380" />
+  <nd ref="11012186896" />
+  <nd ref="13919403210" />
+  <nd ref="1422316891" />
+  <nd ref="8183035213" />
+  <nd ref="14062319910" />
+  <nd ref="9216854207" />
+  <nd ref="10963825648" />
+  <nd ref="1596017453" />
+  <nd ref="11067722871" />
+  <nd ref="1514291054" />
+  <nd ref="14060876880" />
+  <nd ref="13900917291" />
+  <tag k="highway" v="secondary" />
+  <tag k="lanes" v="2" />
+  <tag k="logainm:ref" v="1388671" />
+  <tag k="logainm:url" v="https://www.logainm.ie/1388671.aspx" />
+  <tag k="maxspeed" v="50" />
+  <tag k="name" v="Boreenmanna Road" />
+  <tag k="name:en" v="Boreenmanna Road" />
+  <tag k="name:ga" v="Bóthar an Bhóithrín Mheánaigh" />
+  <tag k="ref" v="R852" />
+  <tag k="surface" v="asphalt" />
+ </way>
+ <relation id="17071174" visible="true" version="1" changeset="146601255" timestamp="2024-01-23T17:11:24Z" user="VictorIE" uid="2008037">
+  <member type="way" ref="477599183" role="from" />
+  <member type="node" ref="11543659169" role="via" />
+  <member type="way" ref="1242275930" role="to" />
+  <tag k="restriction" v="no_right_turn" />
+  <tag k="type" v="restriction" />
+ </relation>
+</osm>

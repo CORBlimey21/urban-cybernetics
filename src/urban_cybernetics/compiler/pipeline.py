@@ -689,6 +689,8 @@ def _validate_source_structure(graph: NormalizedSourceGraph, context: _Context) 
         "signal_controller",
         "signal_stage",
         "signal_binding",
+        "signal_observation",
+        "osm_restriction_observation",
     }
     for record in graph.records:
         if record.evidence_id in record_ids:
@@ -792,6 +794,7 @@ def _resolve_links(graph: NormalizedSourceGraph, context: _Context) -> tuple[Res
             artifact=artifact,
             field_path="jam_density_veh_per_km_per_lane",
             default=context.config.jam_density_veh_per_km_per_lane_default,
+            allow_default=context.config.allow_jam_density_default,
             rule_id="link.storage.observed-or-default",
         )
         wave = _resolve_observed_or_scalar_default(
@@ -800,6 +803,7 @@ def _resolve_links(graph: NormalizedSourceGraph, context: _Context) -> tuple[Res
             artifact=artifact,
             field_path="backward_wave_speed_mps",
             default=context.config.backward_wave_speed_mps_default,
+            allow_default=context.config.allow_backward_wave_speed_default,
             rule_id="link.storage.observed-or-default",
         )
         resolved_link = ResolvedLink(
@@ -858,7 +862,26 @@ def _record_link_physical_derivations(
         "metres_per_second",
         context,
     )
-    length_source = _first_raw_value(record, ("length_m",), link.length_m)
+    geometry_hash_fields = record.values("geometry_derivation_hash")
+    source_node_ref_fields = record.values("source_node_refs")
+    if geometry_hash_fields:
+        length_source = {
+            "coordinate_source": "osm-node-latitude-longitude-wgs84",
+            "source_node_refs": (
+                []
+                if not source_node_ref_fields
+                else source_node_ref_fields[0].normalized_value
+            ),
+            "geometry_derivation_hash": geometry_hash_fields[0].normalized_value,
+        }
+        length_source_unit = "wgs84_coordinate_polyline"
+        length_formula_id = "uc.geometry.haversine-polyline"
+        length_reason = "ordered OSM WGS84 node coordinates deterministically derive continuous metric length"
+    else:
+        length_source = _first_raw_value(record, ("length_m",), link.length_m)
+        length_source_unit = "metres"
+        length_formula_id = "uc.formula.length.identity"
+        length_reason = "metric source length is retained without discretisation"
 
     free_flow_seconds = link.length_m / link.free_flow_speed_mps
     free_flow_continuous_ticks = free_flow_seconds / tick
@@ -884,16 +907,16 @@ def _record_link_physical_derivations(
             artifact_id=artifact,
             target_field="length_m",
             source_value=length_source,
-            source_unit="metres",
+            source_unit=length_source_unit,
             normalized_value=link.length_m,
             normalized_unit="metres",
             executable_value=link.length_m,
             executable_unit="metres",
-            formula_id="uc.formula.length.identity",
+            formula_id=length_formula_id,
             formula_version="1",
             rounding_policy=ROUND_NONE,
             tick_duration_seconds=tick,
-            reason="metric source length is retained without discretisation",
+            reason=length_reason,
         ),
         PhysicalDerivationRecord.create(
             artifact_id=artifact,
@@ -1376,16 +1399,30 @@ def _resolve_simple_observed(
             return _unresolved_field(
                 context, artifact, field_path, observations, f"invalid observed value: {exc}"
             )
+        geometry_fields = (
+            record.values("geometry_derivation_hash")
+            if field_path == "length_m"
+            else ()
+        )
+        geometry_derived = bool(geometry_fields)
         context.add_provenance(
             artifact_id=artifact,
             field_path=field_path,
-            classification=ProvenanceClass.OBSERVED,
+            classification=(
+                ProvenanceClass.INFERRED
+                if geometry_derived
+                else ProvenanceClass.OBSERVED
+            ),
             value=value,
-            evidence=observations,
+            evidence=observations + geometry_fields,
             source_field=field_path,
-            rule_id=rule_id,
-            reason="one unambiguous valid source value",
-            confidence="observed",
+            rule_id=("link.length.geometry-derived" if geometry_derived else rule_id),
+            reason=(
+                "ordered source coordinates and a versioned geometry hash derive metric length"
+                if geometry_derived
+                else "one unambiguous valid source value"
+            ),
+            confidence="deterministic" if geometry_derived else "observed",
         )
         return value
     reason = "missing mandatory source value" if not distinct else "conflicting source values"
@@ -1586,6 +1623,7 @@ def _resolve_observed_or_scalar_default(
     artifact: str,
     field_path: str,
     default: float,
+    allow_default: bool,
     rule_id: str,
 ) -> float | None:
     override = context.selected_override(artifact, field_path)
@@ -1609,16 +1647,24 @@ def _resolve_observed_or_scalar_default(
         return value
     if len(values) > 1:
         return _unresolved_field(context, artifact, field_path, observations, "conflicting physical evidence")
-    context.add_provenance(
-        artifact_id=artifact,
-        field_path=field_path,
-        classification=ProvenanceClass.DEFAULTED,
-        value=default,
-        rule_id=rule_id,
-        reason="explicit compiler configuration physical default",
-        confidence="configured",
+    if allow_default:
+        context.add_provenance(
+            artifact_id=artifact,
+            field_path=field_path,
+            classification=ProvenanceClass.DEFAULTED,
+            value=default,
+            rule_id=rule_id,
+            reason="explicit compiler configuration physical default",
+            confidence="configured",
+        )
+        return default
+    return _unresolved_field(
+        context,
+        artifact,
+        field_path,
+        observations,
+        "physical default is disabled and no observed value exists",
     )
-    return default
 
 
 def _resolve_movements(
@@ -1712,29 +1758,64 @@ def _resolve_movements(
             )
         elif set(permissions) <= {"allow", "permitted", "yes"}:
             permitted = True
+            classification = _records_provenance_class(relevant)
             context.add_provenance(
                 artifact_id=movement_id,
                 field_path="permitted",
-                classification=ProvenanceClass.OBSERVED,
+                classification=classification,
                 value=True,
                 evidence=permission_fields,
                 source_field="permission",
-                rule_id="movement.permission.observed",
-                reason="explicit observed turn permission",
-                confidence="observed",
+                rule_id=(
+                    "movement.permission.synthetic-experiment"
+                    if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                    else "movement.permission.observed"
+                ),
+                reason=(
+                    "explicit synthetic experimental turn permission"
+                    if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                    else "explicit observed turn permission"
+                ),
+                confidence=(
+                    "synthetic"
+                    if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                    else "observed"
+                ),
             )
         elif set(permissions) <= {"prohibit", "prohibited", "no"}:
             permitted = False
+            classification = _records_provenance_class(relevant)
             context.add_provenance(
                 artifact_id=movement_id,
                 field_path="permitted",
-                classification=ProvenanceClass.OBSERVED,
+                classification=classification,
                 value=False,
                 evidence=permission_fields,
                 source_field="permission",
-                rule_id="movement.permission.observed",
-                reason="explicit observed turn prohibition",
-                confidence="observed",
+                rule_id=(
+                    "movement.permission.synthetic-experiment"
+                    if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                    else "movement.permission.observed"
+                ),
+                reason=(
+                    "explicit synthetic experimental turn prohibition"
+                    if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                    else "explicit observed turn prohibition"
+                ),
+                confidence=(
+                    "synthetic"
+                    if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                    else "observed"
+                ),
+            )
+        elif set(permissions) == {"unresolved"}:
+            permitted = _unresolved_field(
+                context,
+                movement_id,
+                "permitted",
+                permission_fields,
+                "OSM topology permits an immediate reversal but supplies no affirmative U-turn semantics",
+                code="UC.MOVEMENT.UTURN_REVIEW_REQUIRED",
             )
         else:
             permitted = _unresolved_field(
@@ -1753,6 +1834,7 @@ def _resolve_movements(
             lane_indices = tuple(sorted(int(value) for value in lane_values[0]))
 
         binding_fields: list[NormalizedField] = []
+        binding_records: list[NormalizedRecord] = []
         group_values: list[str] = []
         for binding in bindings:
             bound_movement, _ = _unique_value(binding, "movement_id")
@@ -1762,6 +1844,7 @@ def _resolve_movements(
             if group is not None:
                 group_values.append(str(group))
                 binding_fields.extend(fields)
+                binding_records.append(binding)
         signal_group: str | None
         if len(set(group_values)) > 1:
             signal_group = None
@@ -1776,16 +1859,29 @@ def _resolve_movements(
         else:
             signal_group = group_values[0] if group_values else None
             if signal_group is not None:
+                classification = _records_provenance_class(binding_records)
                 context.add_provenance(
                     artifact_id=movement_id,
                     field_path="signal_group_id",
-                    classification=ProvenanceClass.OBSERVED,
+                    classification=classification,
                     value=signal_group,
                     evidence=tuple(binding_fields),
                     source_field="signal_group_id",
-                    rule_id="signal.explicit-fixed-time",
-                    reason="observed signal-group binding",
-                    confidence="observed",
+                    rule_id=(
+                        "signal.synthetic-experiment"
+                        if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                        else "signal.explicit-fixed-time"
+                    ),
+                    reason=(
+                        "synthetic experimental signal-group binding"
+                        if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                        else "observed signal-group binding"
+                    ),
+                    confidence=(
+                        "synthetic"
+                        if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                        else "observed"
+                    ),
                 )
         result.append(
             ResolvedMovement(
@@ -1948,16 +2044,32 @@ def _build_topology_and_lane_groups(
                     )
                     explicit_groups.append(group)
                     covered_movement_ids.update(group.allowed_movement_ids)
+                    classification = _records_provenance_class((declaration,))
+                    rule_id = (
+                        "lane-group.synthetic-experiment"
+                        if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                        else "lane-group.explicit"
+                    )
+                    reason = (
+                        "synthetic experimental queue-partition declaration"
+                        if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                        else "explicit queue-partition declaration"
+                    )
+                    confidence = (
+                        "synthetic"
+                        if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                        else "observed"
+                    )
                     context.add_provenance(
                         artifact_id=f"lane-group:{group.lane_group_id}",
                         field_path="allowed_movement_ids",
-                        classification=ProvenanceClass.OBSERVED,
+                        classification=classification,
                         value=list(group.allowed_movement_ids),
                         evidence=allowed_fields,
                         source_field="allowed_movement_ids",
-                        rule_id="lane-group.explicit",
-                        reason="explicit queue-partition declaration",
-                        confidence="observed",
+                        rule_id=rule_id,
+                        reason=reason,
+                        confidence=confidence,
                     )
                     for field_path, value in (
                         ("node_id", group.node_id),
@@ -1967,12 +2079,12 @@ def _build_topology_and_lane_groups(
                         context.add_provenance(
                             artifact_id=f"lane-group:{group.lane_group_id}",
                             field_path=field_path,
-                            classification=ProvenanceClass.OBSERVED,
+                            classification=classification,
                             value=value,
                             evidence_refs=(declaration.evidence_id,),
-                            rule_id="lane-group.explicit",
-                            reason="explicit queue-partition declaration",
-                            confidence="observed",
+                            rule_id=rule_id,
+                            reason=reason,
+                            confidence=confidence,
                         )
                 missing_coverage = tuple(
                     sorted(
@@ -2285,6 +2397,45 @@ def _resolve_signals(
     resolved: ResolvedSemanticGraph,
     context: _Context,
 ) -> ResolvedFixedTimeSignalPlan | None:
+    signal_observations = graph.records_of_type("signal_observation")
+    controller_records = graph.records_of_type("signal_controller")
+    if signal_observations and not controller_records:
+        for observation in sorted(
+            signal_observations, key=lambda item: item.source_id
+        ):
+            evidence = tuple(observation.fields)
+            artifact = f"signal-observation:{observation.source_id}"
+            for field_path, reason in (
+                (
+                    "controller_ownership",
+                    "OSM signal-head evidence does not identify a controller owner",
+                ),
+                (
+                    "movement_assignment",
+                    "OSM signal-head evidence does not bind controlled movements or signal groups",
+                ),
+                (
+                    "fixed_time_plan",
+                    "OSM signal-head evidence contains no fixed-time phases or durations",
+                ),
+            ):
+                _unresolved_field(
+                    context,
+                    artifact,
+                    field_path,
+                    evidence,
+                    reason,
+                    code="UC.SIGNAL.OSM_EVIDENCE_UNRESOLVED",
+                )
+        context.diagnostic(
+            DiagnosticSeverity.REFUSAL,
+            "UC.SIGNAL.PLAN_REFUSED",
+            "OSM signal evidence is retained, but controller ownership, movement assignment, and timing remain unresolved",
+            evidence_refs=tuple(
+                item.evidence_id for item in signal_observations
+            ),
+        )
+        return None
     controllers: list[FixedTimeControllerPlan] = []
     owner_by_movement: dict[str, str] = {}
     stages_by_id = {item.source_id: item for item in graph.records_of_type("signal_stage")}
@@ -2293,7 +2444,7 @@ def _resolve_signals(
         item.movement_id: item for item in resolved.movements if item.permitted
     }
     topology_node_ids = {item.node_id for item in topology.nodes}
-    for record in sorted(graph.records_of_type("signal_controller"), key=lambda item: item.source_id):
+    for record in sorted(controller_records, key=lambda item: item.source_id):
         artifact = (
             record.source_id
             if record.source_id.startswith("controller:")
@@ -2419,12 +2570,14 @@ def _resolve_signals(
         )
         fixed_stages: list[FixedTimeStage] = []
         stage_evidence: list[NormalizedField] = []
+        used_stage_records: list[NormalizedRecord] = []
         if complete_explicit:
             for stage_id in stage_ids:
                 stage_record = stages_by_id.get(str(stage_id))
                 if stage_record is None:
                     complete_explicit = False
                     continue
+                used_stage_records.append(stage_record)
                 owner, owner_fields = _unique_value(stage_record, "controller_id")
                 duration, duration_fields = _unique_value(stage_record, "duration_ticks")
                 permitted, permitted_fields = _unique_value(stage_record, "permitted_movement_ids")
@@ -2483,9 +2636,15 @@ def _resolve_signals(
             reason = "configuration explicitly permits the deterministic all-green default"
             evidence = signalized_fields + node_fields + controlled_fields
         elif complete_explicit:
-            classification = ProvenanceClass.OBSERVED
-            rule_id = "signal.explicit-fixed-time"
-            reason = "complete fixed-time stages and exact cycle supplied"
+            classification = _records_provenance_class(
+                (record, *used_stage_records)
+            )
+            if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT:
+                rule_id = "signal.synthetic-experiment"
+                reason = "complete synthetic experimental fixed-time stages and exact cycle supplied"
+            else:
+                rule_id = "signal.explicit-fixed-time"
+                reason = "complete fixed-time stages and exact cycle supplied"
             evidence = cycle_fields + offset_fields + stage_id_fields + tuple(stage_evidence)
         else:
             missing = []
@@ -2542,7 +2701,13 @@ def _resolve_signals(
                 evidence=evidence,
                 rule_id=rule_id,
                 reason=reason,
-                confidence="observed" if classification == ProvenanceClass.OBSERVED else "configured",
+                confidence=(
+                    "observed"
+                    if classification == ProvenanceClass.OBSERVED
+                    else "synthetic"
+                    if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                    else "configured"
+                ),
             )
         for stage in fixed_stages:
             stage_source = stages_by_id.get(stage.stage_id)
@@ -2561,7 +2726,13 @@ def _resolve_signals(
                     ),
                     rule_id=rule_id,
                     reason=reason,
-                    confidence="observed" if classification == ProvenanceClass.OBSERVED else "configured",
+                    confidence=(
+                        "observed"
+                        if classification == ProvenanceClass.OBSERVED
+                        else "synthetic"
+                        if classification == ProvenanceClass.SYNTHETIC_EXPERIMENT
+                        else "configured"
+                    ),
                 )
         provenance = tuple(
             ResolvedValueProvenance(
@@ -2719,6 +2890,20 @@ def _unique_value(record: NormalizedRecord, name: str) -> tuple[object | None, t
     values = record.values(name)
     distinct = _distinct_values(values)
     return (distinct[0] if len(distinct) == 1 else None, values)
+
+
+def _records_provenance_class(
+    records: Iterable[NormalizedRecord],
+) -> ProvenanceClass:
+    """Respect an explicit synthetic source marker without reclassifying OSM."""
+
+    record_tuple = tuple(records)
+    if record_tuple and all(
+        _unique_value(record, "evidence_origin")[0] == "synthetic_experiment"
+        for record in record_tuple
+    ):
+        return ProvenanceClass.SYNTHETIC_EXPERIMENT
+    return ProvenanceClass.OBSERVED
 
 
 def _distinct_values(fields: Iterable[NormalizedField]) -> tuple[object, ...]:

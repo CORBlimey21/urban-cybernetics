@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="urban-cybernetics-synthetic-osm-fixture-v1">
+  <bounds minlat="51.0000000" minlon="-8.0020000" maxlat="51.0010000" maxlon="-7.9990000"/>
+  <node id="100" lat="51.0000000" lon="-8.0020000" timestamp="2026-08-05T00:00:00Z"/>
+  <node id="110" lat="51.0000000" lon="-8.0010000" timestamp="2026-08-05T00:00:00Z"/>
+  <node id="200" lat="51.0000000" lon="-8.0000000" timestamp="2026-08-05T00:00:00Z"/>
+  <node id="300" lat="51.0010000" lon="-7.9990000" timestamp="2026-08-05T00:00:00Z"/>
+  <node id="310" lat="51.0005000" lon="-7.9995000" timestamp="2026-08-05T00:00:00Z"/>
+  <node id="400" lat="50.9990000" lon="-7.9990000" timestamp="2026-08-05T00:00:00Z"/>
+  <node id="410" lat="50.9995000" lon="-7.9995000" timestamp="2026-08-05T00:00:00Z"/>
+  <way id="1001" timestamp="2026-08-05T00:00:00Z">
+    <nd ref="100"/>
+    <nd ref="110"/>
+    <nd ref="200"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="oneway" v="yes"/>
+    <tag k="lanes" v="2"/>
+    <tag k="maxspeed" v="50"/>
+    <tag k="name" v="Synthetic Fixture Approach"/>
+  </way>
+  <way id="1002" timestamp="2026-08-05T00:00:00Z">
+    <nd ref="200"/>
+    <nd ref="310"/>
+    <nd ref="300"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="oneway" v="yes"/>
+    <tag k="lanes" v="1"/>
+    <tag k="maxspeed" v="50"/>
+    <tag k="name" v="Synthetic Fixture North Branch"/>
+  </way>
+  <way id="1003" timestamp="2026-08-05T00:00:00Z">
+    <nd ref="200"/>
+    <nd ref="410"/>
+    <nd ref="400"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="oneway" v="yes"/>
+    <tag k="lanes" v="1"/>
+    <tag k="maxspeed" v="50"/>
+    <tag k="name" v="Synthetic Fixture South Branch"/>
+  </way>
+</osm>

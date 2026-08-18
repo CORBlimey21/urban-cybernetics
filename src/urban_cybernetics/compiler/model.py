@@ -9,11 +9,11 @@ from enum import Enum
 from typing import Mapping, Self
 
 
-COMPILER_VERSION = "uc-network-compiler-v0.2.0"
+COMPILER_VERSION = "uc-network-compiler-v0.4.0"
 SOURCE_SCHEMA_VERSION = "uc.osm-like-source-network.v1"
 NORMALIZED_SCHEMA_VERSION = "uc.normalized-source-network.v1"
 EVIDENCE_BUNDLE_SCHEMA_VERSION = "uc.compiler-evidence-bundle.v2"
-RULESET_VERSION = "uc.network-resolution-rules.v2"
+RULESET_VERSION = "uc.network-resolution-rules.v4"
 PHYSICAL_DERIVATION_SCHEMA_VERSION = "uc.physical-derivation.v1"
 EXECUTABLE_SEMANTIC_SCHEMA_VERSION = "uc.executable-network-semantics.v1"
 DISCRETIZATION_POLICY_VERSION = "uc.loader-discretization.v1"
@@ -262,6 +262,7 @@ class ProvenanceClass(str, Enum):
     INFERRED = "inferred"
     DEFAULTED = "defaulted"
     OVERRIDDEN = "overridden"
+    SYNTHETIC_EXPERIMENT = "synthetic_experiment"
     UNRESOLVED = "unresolved"
 
 
@@ -775,6 +776,8 @@ class CompilerConfig:
     allow_conservative_shared_lane_fallback: bool = True
     enable_explicit_lane_group_partitions: bool = True
     allow_default_signal_plans: bool = False
+    allow_jam_density_default: bool = True
+    allow_backward_wave_speed_default: bool = True
     tick_duration_seconds: float = 1.0
     lane_defaults: tuple[tuple[str, int], ...] = (
         ("primary", 1),
@@ -833,6 +836,10 @@ class CompilerConfig:
                 self.enable_explicit_lane_group_partitions
             ),
             "allow_default_signal_plans": self.allow_default_signal_plans,
+            "allow_jam_density_default": self.allow_jam_density_default,
+            "allow_backward_wave_speed_default": (
+                self.allow_backward_wave_speed_default
+            ),
             "tick_duration_seconds": self.tick_duration_seconds,
             "lane_defaults": [list(item) for item in self.lane_defaults],
             "speed_kph_defaults": [list(item) for item in self.speed_kph_defaults],
@@ -872,6 +879,7 @@ RULES: tuple[ResolutionRule, ...] = (
     ResolutionRule("link.identity.observed", "1", "Retain stable source identity and endpoints."),
     ResolutionRule("link.direction.observed", "1", "Use an explicit permitted directed-arc direction."),
     ResolutionRule("link.length.observed", "1", "Use one valid observed metric length."),
+    ResolutionRule("link.length.geometry-derived", "1", "Derive metric polyline length from ordered OSM WGS84 node coordinates using the versioned Haversine formula."),
     ResolutionRule("link.lanes.observed", "1", "Use one valid observed directional lane count."),
     ResolutionRule("link.lanes.directional-from-total", "1", "Split an even total lane count across a two-way road."),
     ResolutionRule("link.lanes.road-class-default", "1", "Use the configured road-class lane default."),
@@ -885,12 +893,16 @@ RULES: tuple[ResolutionRule, ...] = (
     ResolutionRule("movement.identity.topology", "1", "Derive movement identity and continuity from resolved directed topology."),
     ResolutionRule("movement.priority.default", "1", "Use the declared v1 unit movement priority when no priority evidence exists."),
     ResolutionRule("movement.permission.observed", "1", "Apply one explicit turn permission or prohibition."),
+    ResolutionRule("movement.permission.synthetic-experiment", "1", "Apply one explicit synthetic experimental turn declaration without treating it as source observation."),
     ResolutionRule("movement.permission.topology", "1", "Infer a legal continuous movement absent a restriction."),
     ResolutionRule("lane-group.explicit", "1", "Compile an explicit lane-group declaration."),
+    ResolutionRule("lane-group.synthetic-experiment", "1", "Compile an explicit synthetic experimental queue partition."),
     ResolutionRule("lane-group.from-lane-index", "1", "Infer groups only from complete, valid lane-index evidence."),
     ResolutionRule("lane-group.shared-fallback", "1", "Use one conservative shared approach resource."),
     ResolutionRule("signal.explicit-fixed-time", "1", "Compile complete observed fixed-time timing."),
+    ResolutionRule("signal.synthetic-experiment", "1", "Compile complete synthetic experimental timing without treating it as observed control data."),
     ResolutionRule("signal.configured-default", "1", "Build a deterministic default only when configuration permits."),
+    ResolutionRule("signal.osm-observation-unresolved", "1", "Retain OSM signal-head evidence and refuse control-plan execution until controller ownership, movement assignment, and timing are supplied."),
     ResolutionRule("compiler.override", "1", "Apply the unique highest-precedence immutable compiler override."),
     ResolutionRule("compiler.unresolved", "1", "Refuse unresolved mandatory executable semantics."),
 )
