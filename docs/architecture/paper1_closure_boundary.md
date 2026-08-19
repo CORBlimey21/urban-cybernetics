@@ -73,17 +73,18 @@ in advance.
 
 ## Second pinned real unsignalised junction
 
-The next external input is a manually supplied, immutable `.osm` export for a
-real unsignalised T-junction, merge, or diverge. It should preferably be
-non-roundabout, have straightforward one-way/two-way semantics, lane counts,
-speed tags, simple legal movements, no conditional or reversible access, and
-sufficient approach geometry for finite storage.
+The second external input has now been supplied as the immutable
+`maryville_brr_junction.osm` export (SHA-256
+`c6e23f6b00fbf3abb07eebd97c7afdedf731ac0e50e1fc46bde5b749f659308b`).
+It is a real, unsignalised two-way T-junction with observed lane counts and
+speed tags. Its source-strict audit, reviewed candidate, and deterministic
+smoke contract are documented in `maryville_blackrock_real_junction_v1.md`.
 
 The existing `simple_unsignalized_diverge_fixture.osm` is synthetic OSM-like
 test evidence. It validates the selection and pipeline contract only and must
 not be described as a second real junction.
 
-When the real file is supplied, the fixed workflow is:
+The completed workflow is:
 
 ```text
 pinned OSM source
@@ -95,8 +96,9 @@ pinned OSM source
 → representation comparison where honestly supportable
 ```
 
-No live source may be fetched and no case may be fabricated. Implementation
-work is limited to importer gaps genuinely exposed by that pinned file.
+No live source was fetched and no real case was fabricated. The only importer
+gap exposed was deterministic clipping of a retained way to an explicit
+source-node interval; no broader OSM expansion was added.
 
 ## Evidence policy
 

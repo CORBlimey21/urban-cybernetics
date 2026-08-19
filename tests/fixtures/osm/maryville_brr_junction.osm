@@ -1,0 +1,1455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (39127 spike-08.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <bounds minlat="51.8953820" minlon="-8.4341530" maxlat="51.8957480" maxlon="-8.4334610"/>
+ <node id="7842180" visible="true" version="10" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8974528" lon="-8.4348536"/>
+ <node id="7842264" visible="true" version="4" changeset="137367693" timestamp="2023-06-15T12:13:52Z" user="eireidium" uid="146307" lat="51.8966355" lon="-8.4342740"/>
+ <node id="7842268" visible="true" version="12" changeset="137382563" timestamp="2023-06-15T17:18:41Z" user="eireidium" uid="146307" lat="51.8955426" lon="-8.4337811"/>
+ <node id="7842270" visible="true" version="13" changeset="182974346" timestamp="2026-05-21T12:40:47Z" user="eireidium" uid="146307" lat="51.8953985" lon="-8.4343307"/>
+ <node id="8186731" visible="true" version="14" changeset="136974561" timestamp="2023-06-05T14:00:38Z" user="eireidium" uid="146307" lat="51.8962242" lon="-8.4313259"/>
+ <node id="349333465" visible="true" version="5" changeset="7609521" timestamp="2011-03-19T20:25:46Z" user="Diarmuid Cogan" uid="318363" lat="51.8975137" lon="-8.4392893"/>
+ <node id="538539585" visible="true" version="5" changeset="143965597" timestamp="2023-11-13T11:10:07Z" user="Penguin of Fate" uid="7538769" lat="51.8954037" lon="-8.4339116">
+  <tag k="amenity" v="cafe"/>
+  <tag k="name" v="Basil"/>
+  <tag k="opening_hours" v="Tu-Fr 09:00-15:00; Sa 09:30-14:30; Su 11:00-13:00"/>
+ </node>
+ <node id="538539661" visible="true" version="5" changeset="137461846" timestamp="2023-06-17T21:35:47Z" user="eireidium" uid="146307" lat="51.8959216" lon="-8.4323326"/>
+ <node id="938777146" visible="true" version="2" changeset="137367693" timestamp="2023-06-15T12:13:52Z" user="eireidium" uid="146307" lat="51.8962263" lon="-8.4340874"/>
+ <node id="938777152" visible="true" version="4" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8971066" lon="-8.4346063"/>
+ <node id="938777189" visible="true" version="3" changeset="137368005" timestamp="2023-06-15T12:24:09Z" user="eireidium" uid="146307" lat="51.8969045" lon="-8.4344732"/>
+ <node id="4398749419" visible="true" version="2" changeset="137381575" timestamp="2023-06-15T16:54:33Z" user="eireidium" uid="146307" lat="51.8962226" lon="-8.4328359"/>
+ <node id="4398749420" visible="true" version="1" changeset="42122979" timestamp="2016-09-13T11:26:03Z" user="VictorIE" uid="2008037" lat="51.8962724" lon="-8.4328204"/>
+ <node id="4398749421" visible="true" version="1" changeset="42122979" timestamp="2016-09-13T11:26:03Z" user="VictorIE" uid="2008037" lat="51.8963303" lon="-8.4325924"/>
+ <node id="6054699986" visible="true" version="1" changeset="64402872" timestamp="2018-11-12T11:54:03Z" user="VictorIE" uid="2008037" lat="51.8951575" lon="-8.4404822"/>
+ <node id="6054699987" visible="true" version="1" changeset="64402872" timestamp="2018-11-12T11:54:03Z" user="VictorIE" uid="2008037" lat="51.8948199" lon="-8.4433468"/>
+ <node id="7069844713" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8976955" lon="-8.4336167"/>
+ <node id="7069844714" visible="true" version="2" changeset="139119532" timestamp="2023-07-28T06:53:47Z" user="eireidium" uid="146307" lat="51.8962299" lon="-8.4242505"/>
+ <node id="7069844716" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8971669" lon="-8.4329263"/>
+ <node id="7069844721" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8977889" lon="-8.4253142"/>
+ <node id="7069844731" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8976710" lon="-8.4242966"/>
+ <node id="7069844735" visible="true" version="2" changeset="137381895" timestamp="2023-06-15T17:01:42Z" user="eireidium" uid="146307" lat="51.8964462" lon="-8.4287099"/>
+ <node id="7069844738" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8975975" lon="-8.4257514"/>
+ <node id="7069844746" visible="true" version="2" changeset="137381895" timestamp="2023-06-15T17:01:42Z" user="eireidium" uid="146307" lat="51.8962909" lon="-8.4313126"/>
+ <node id="7069844747" visible="true" version="2" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956381" lon="-8.4336564"/>
+ <node id="7069844749" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8971818" lon="-8.4286423"/>
+ <node id="7069844755" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8980977" lon="-8.4258463"/>
+ <node id="7069844758" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8963539" lon="-8.4324644"/>
+ <node id="7069844760" visible="true" version="2" changeset="139119532" timestamp="2023-07-28T06:53:47Z" user="eireidium" uid="146307" lat="51.8963103" lon="-8.4224469"/>
+ <node id="7069844761" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8982705" lon="-8.4324494"/>
+ <node id="7069844767" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8985303" lon="-8.4315434"/>
+ <node id="7069844777" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8982900" lon="-8.4268307"/>
+ <node id="7069851989" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8974357" lon="-8.4226947"/>
+ <node id="7069852013" visible="true" version="2" changeset="95088901" timestamp="2020-12-01T10:12:45Z" user="VictorIE" uid="2008037" lat="51.8974132" lon="-8.4224249"/>
+ <node id="7069852024" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8970778" lon="-8.4313476"/>
+ <node id="7069852025" visible="true" version="1" changeset="78643109" timestamp="2019-12-19T14:42:52Z" user="pittrichimica" uid="497524" lat="51.8985859" lon="-8.4285055"/>
+ <node id="7083436726" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8963602" lon="-8.4390355"/>
+ <node id="7083436727" visible="true" version="2" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8972913" lon="-8.4364765"/>
+ <node id="7083436729" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8967773" lon="-8.4344703"/>
+ <node id="7083436730" visible="true" version="2" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8970281" lon="-8.4360466"/>
+ <node id="7083436731" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8948269" lon="-8.4367953"/>
+ <node id="7083436732" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8978068" lon="-8.4373805"/>
+ <node id="7083436733" visible="true" version="3" changeset="137411175" timestamp="2023-06-16T11:55:33Z" user="eireidium" uid="146307" lat="51.8973191" lon="-8.4366941"/>
+ <node id="7083436738" visible="true" version="2" changeset="137411679" timestamp="2023-06-16T12:07:30Z" user="eireidium" uid="146307" lat="51.8967895" lon="-8.4376131"/>
+ <node id="7083436739" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8965350" lon="-8.4390049"/>
+ <node id="7083436741" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8960812" lon="-8.4403454"/>
+ <node id="7083436742" visible="true" version="2" changeset="137411679" timestamp="2023-06-16T12:07:30Z" user="eireidium" uid="146307" lat="51.8971305" lon="-8.4375824"/>
+ <node id="7083436743" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8943502" lon="-8.4435947"/>
+ <node id="7083436748" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8937864" lon="-8.4437776"/>
+ <node id="7083436750" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8947133" lon="-8.4375034"/>
+ <node id="7083436753" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8947795" lon="-8.4436703"/>
+ <node id="7083436754" visible="true" version="2" changeset="137409838" timestamp="2023-06-16T11:20:55Z" user="eireidium" uid="146307" lat="51.8971331" lon="-8.4381952"/>
+ <node id="7083436756" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8971305" lon="-8.4380543"/>
+ <node id="7083436757" visible="true" version="3" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8971271" lon="-8.4351587"/>
+ <node id="7083436760" visible="true" version="2" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8971009" lon="-8.4357246"/>
+ <node id="7083436762" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8963185" lon="-8.4402725"/>
+ <node id="7083436768" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8977879" lon="-8.4367749"/>
+ <node id="7083436769" visible="true" version="2" changeset="137409838" timestamp="2023-06-16T11:20:55Z" user="eireidium" uid="146307" lat="51.8971086" lon="-8.4391964"/>
+ <node id="7083436770" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8958682" lon="-8.4406685"/>
+ <node id="7083436773" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8940476" lon="-8.4429048"/>
+ <node id="7083436775" visible="true" version="2" changeset="137381322" timestamp="2023-06-15T16:47:54Z" user="eireidium" uid="146307" lat="51.8957080" lon="-8.4339389"/>
+ <node id="7083436776" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8964029" lon="-8.4399168"/>
+ <node id="7083436778" visible="true" version="1" changeset="78836457" timestamp="2019-12-25T04:51:33Z" user="pittrichimica" uid="497524" lat="51.8962523" lon="-8.4396105"/>
+ <node id="7391917644" visible="true" version="3" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956953" lon="-8.4340271"/>
+ <node id="7391917645" visible="true" version="3" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956778" lon="-8.4341468"/>
+ <node id="7425849620" visible="true" version="4" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307" lat="51.8956925" lon="-8.4336461"/>
+ <node id="7425849621" visible="true" version="4" changeset="144839272" timestamp="2023-12-06T18:22:30Z" user="Penguin of Fate" uid="7538769" lat="51.8957238" lon="-8.4336604"/>
+ <node id="7425849622" visible="true" version="4" changeset="144839272" timestamp="2023-12-06T18:22:30Z" user="Penguin of Fate" uid="7538769" lat="51.8957425" lon="-8.4335385"/>
+ <node id="7425849623" visible="true" version="4" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307" lat="51.8957474" lon="-8.4335060"/>
+ <node id="7425849764" visible="true" version="3" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8951202" lon="-8.4340973"/>
+ <node id="7425849765" visible="true" version="3" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8951045" lon="-8.4341771"/>
+ <node id="7425849766" visible="true" version="3" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8953771" lon="-8.4342378"/>
+ <node id="7425849767" visible="true" version="4" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8954376" lon="-8.4340044"/>
+ <node id="7425849768" visible="true" version="4" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8952988" lon="-8.4339418"/>
+ <node id="7425849772" visible="true" version="3" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954942" lon="-8.4337944"/>
+ <node id="7425849773" visible="true" version="3" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954424" lon="-8.4337604"/>
+ <node id="7425849774" visible="true" version="4" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8952848" lon="-8.4339331"/>
+ <node id="7425849776" visible="true" version="4" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8954633" lon="-8.4339012"/>
+ <node id="7425849777" visible="true" version="4" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8951938" lon="-8.4337500"/>
+ <node id="8119616434" visible="true" version="2" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8971359" lon="-8.4354878"/>
+ <node id="8195173142" visible="true" version="3" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8957931" lon="-8.4340646"/>
+ <node id="8195173143" visible="true" version="3" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8957755" lon="-8.4341844"/>
+ <node id="8195189209" visible="true" version="2" changeset="137367693" timestamp="2023-06-15T12:13:52Z" user="eireidium" uid="146307" lat="51.8959078" lon="-8.4325790"/>
+ <node id="8700897874" visible="true" version="2" changeset="136974561" timestamp="2023-06-05T14:00:38Z" user="eireidium" uid="146307" lat="51.8961957" lon="-8.4314325"/>
+ <node id="8700897875" visible="true" version="3" changeset="137382511" timestamp="2023-06-15T17:17:13Z" user="eireidium" uid="146307" lat="51.8961020" lon="-8.4317455"/>
+ <node id="8700897877" visible="true" version="2" changeset="137382511" timestamp="2023-06-15T17:17:13Z" user="eireidium" uid="146307" lat="51.8960760" lon="-8.4318325"/>
+ <node id="8700897879" visible="true" version="2" changeset="137382511" timestamp="2023-06-15T17:17:13Z" user="eireidium" uid="146307" lat="51.8961543" lon="-8.4315736"/>
+ <node id="8700897881" visible="true" version="3" changeset="137382511" timestamp="2023-06-15T17:17:13Z" user="eireidium" uid="146307" lat="51.8961400" lon="-8.4316213"/>
+ <node id="8700897883" visible="true" version="4" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037" lat="51.8959590" lon="-8.4322098">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="signal"/>
+  <tag k="traffic_signals:direction" v="backward"/>
+ </node>
+ <node id="10978694640" visible="true" version="2" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8951862" lon="-8.4340283"/>
+ <node id="10978694641" visible="true" version="1" changeset="137367693" timestamp="2023-06-15T12:13:52Z" user="eireidium" uid="146307" lat="51.8951394" lon="-8.4340200"/>
+ <node id="10978694642" visible="true" version="2" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8952579" lon="-8.4339164"/>
+ <node id="10978694643" visible="true" version="3" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8953775" lon="-8.4338578"/>
+ <node id="10978694644" visible="true" version="2" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954308" lon="-8.4338068"/>
+ <node id="10978694645" visible="true" version="2" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8953982" lon="-8.4337856"/>
+ <node id="10978694648" visible="true" version="3" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8951853" lon="-8.4337941"/>
+ <node id="10978694649" visible="true" version="3" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8953032" lon="-8.4338582"/>
+ <node id="10978694650" visible="true" version="2" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954032" lon="-8.4337347"/>
+ <node id="10978694651" visible="true" version="2" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954305" lon="-8.4336255"/>
+ <node id="10978694652" visible="true" version="2" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8955215" lon="-8.4336854"/>
+ <node id="10978694668" visible="true" version="1" changeset="137367693" timestamp="2023-06-15T12:13:52Z" user="eireidium" uid="146307" lat="51.8964103" lon="-8.4341590"/>
+ <node id="10978694698" visible="true" version="1" changeset="137367693" timestamp="2023-06-15T12:13:52Z" user="eireidium" uid="146307" lat="51.8963770" lon="-8.4341460"/>
+ <node id="10978694700" visible="true" version="1" changeset="137367693" timestamp="2023-06-15T12:13:52Z" user="eireidium" uid="146307" lat="51.8965033" lon="-8.4342065"/>
+ <node id="10978822938" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8972222" lon="-8.4361135"/>
+ <node id="10978822939" visible="true" version="2" changeset="137411175" timestamp="2023-06-16T11:55:33Z" user="eireidium" uid="146307" lat="51.8972500" lon="-8.4361975"/>
+ <node id="10978822940" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8971313" lon="-8.4355915"/>
+ <node id="10978822943" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8971417" lon="-8.4354163"/>
+ <node id="10978822944" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8970960" lon="-8.4348346"/>
+ <node id="10978822945" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8970845" lon="-8.4347681"/>
+ <node id="10978822946" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8970492" lon="-8.4346865"/>
+ <node id="10978822947" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8970285" lon="-8.4346495"/>
+ <node id="10978822955" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8973996" lon="-8.4347774"/>
+ <node id="10978822956" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8974260" lon="-8.4348114"/>
+ <node id="10978822957" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8973385" lon="-8.4347289"/>
+ <node id="10978822958" visible="true" version="1" changeset="137368720" timestamp="2023-06-15T12:48:02Z" user="eireidium" uid="146307" lat="51.8973723" lon="-8.4347532"/>
+ <node id="10979231058" visible="true" version="1" changeset="137381322" timestamp="2023-06-15T16:47:54Z" user="eireidium" uid="146307" lat="51.8957051" lon="-8.4339122">
+  <tag k="highway" v="street_lamp"/>
+ </node>
+ <node id="10979231065" visible="true" version="1" changeset="137381322" timestamp="2023-06-15T16:47:54Z" user="eireidium" uid="146307" lat="51.8955327" lon="-8.4340547"/>
+ <node id="10979231066" visible="true" version="1" changeset="137381322" timestamp="2023-06-15T16:47:54Z" user="eireidium" uid="146307" lat="51.8955580" lon="-8.4339741"/>
+ <node id="10979231067" visible="true" version="1" changeset="137381322" timestamp="2023-06-15T16:47:54Z" user="eireidium" uid="146307" lat="51.8956017" lon="-8.4339395"/>
+ <node id="10979231068" visible="true" version="1" changeset="137381322" timestamp="2023-06-15T16:47:54Z" user="eireidium" uid="146307" lat="51.8956547" lon="-8.4339284"/>
+ <node id="10979231080" visible="true" version="1" changeset="137381322" timestamp="2023-06-15T16:47:54Z" user="eireidium" uid="146307" lat="51.8957744" lon="-8.4344427"/>
+ <node id="10979266575" visible="true" version="1" changeset="137381895" timestamp="2023-06-15T17:01:42Z" user="eireidium" uid="146307" lat="51.8964196" lon="-8.4298375"/>
+ <node id="10979266576" visible="true" version="1" changeset="137381895" timestamp="2023-06-15T17:01:42Z" user="eireidium" uid="146307" lat="51.8963780" lon="-8.4306330"/>
+ <node id="10979266577" visible="true" version="1" changeset="137381895" timestamp="2023-06-15T17:01:42Z" user="eireidium" uid="146307" lat="51.8964141" lon="-8.4302257"/>
+ <node id="10979266578" visible="true" version="1" changeset="137381895" timestamp="2023-06-15T17:01:42Z" user="eireidium" uid="146307" lat="51.8964213" lon="-8.4300288"/>
+ <node id="10979266579" visible="true" version="1" changeset="137381895" timestamp="2023-06-15T17:01:42Z" user="eireidium" uid="146307" lat="51.8963390" lon="-8.4309753"/>
+ <node id="10979271057" visible="true" version="1" changeset="137382563" timestamp="2023-06-15T17:18:41Z" user="eireidium" uid="146307" lat="51.8957286" lon="-8.4330512"/>
+ <node id="10979271058" visible="true" version="1" changeset="137382563" timestamp="2023-06-15T17:18:41Z" user="eireidium" uid="146307" lat="51.8958289" lon="-8.4326623"/>
+ <node id="10979271059" visible="true" version="3" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037" lat="51.8958814" lon="-8.4324671">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:island" v="no"/>
+  <tag k="crossing:markings" v="lines"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+ </node>
+ <node id="10980394745" visible="true" version="1" changeset="137406502" timestamp="2023-06-16T09:45:11Z" user="eireidium" uid="146307" lat="51.8966622" lon="-8.4342937"/>
+ <node id="10980394792" visible="true" version="1" changeset="137406502" timestamp="2023-06-16T09:45:11Z" user="eireidium" uid="146307" lat="51.8961016" lon="-8.4340829"/>
+ <node id="10980426153" visible="true" version="1" changeset="137408108" timestamp="2023-06-16T10:30:46Z" user="eireidium" uid="146307" lat="51.8955825" lon="-8.4341764"/>
+ <node id="10980426154" visible="true" version="1" changeset="137408108" timestamp="2023-06-16T10:30:46Z" user="eireidium" uid="146307" lat="51.8954625" lon="-8.4340898"/>
+ <node id="10980426156" visible="true" version="2" changeset="182974346" timestamp="2026-05-21T12:40:47Z" user="eireidium" uid="146307" lat="51.8954037" lon="-8.4343113"/>
+ <node id="10980426171" visible="true" version="1" changeset="137408108" timestamp="2023-06-16T10:30:46Z" user="eireidium" uid="146307" lat="51.8955217" lon="-8.4340674">
+  <tag k="highway" v="street_lamp"/>
+ </node>
+ <node id="10980457806" visible="true" version="1" changeset="137407912" timestamp="2023-06-16T10:25:22Z" user="eireidium" uid="146307" lat="51.8960418" lon="-8.4340047"/>
+ <node id="10980457807" visible="true" version="1" changeset="137407912" timestamp="2023-06-16T10:25:22Z" user="eireidium" uid="146307" lat="51.8960619" lon="-8.4340949"/>
+ <node id="10980457821" visible="true" version="1" changeset="137407912" timestamp="2023-06-16T10:25:22Z" user="eireidium" uid="146307" lat="51.8959004" lon="-8.4339414"/>
+ <node id="10980461335" visible="true" version="1" changeset="137408218" timestamp="2023-06-16T10:34:30Z" user="eireidium" uid="146307" lat="51.8950154" lon="-8.4359607"/>
+ <node id="10980477906" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8955916" lon="-8.4339298"/>
+ <node id="10980477907" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8955732" lon="-8.4339408"/>
+ <node id="10980477908" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8955620" lon="-8.4339553"/>
+ <node id="10980477909" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8955530" lon="-8.4339747"/>
+ <node id="10980477910" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8955210" lon="-8.4340823"/>
+ <node id="10980477911" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956391" lon="-8.4341720"/>
+ <node id="10980477916" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8957498" lon="-8.4343737"/>
+ <node id="10980477920" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8957301" lon="-8.4339411"/>
+ <node id="10980477921" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8957008" lon="-8.4339254"/>
+ <node id="10980477922" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956785" lon="-8.4339198"/>
+ <node id="10980477923" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956594" lon="-8.4339170"/>
+ <node id="10980477924" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956367" lon="-8.4339151"/>
+ <node id="10980477925" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956166" lon="-8.4339188"/>
+ <node id="10980477926" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8957331" lon="-8.4340224"/>
+ <node id="10980477927" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8957566" lon="-8.4338770"/>
+ <node id="10980477929" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956343" lon="-8.4340337">
+  <tag k="natural" v="tree"/>
+ </node>
+ <node id="10980477930" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956525" lon="-8.4340815">
+  <tag k="natural" v="tree"/>
+ </node>
+ <node id="10980477931" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307" lat="51.8956665" lon="-8.4341276">
+  <tag k="natural" v="tree"/>
+ </node>
+ <node id="10980535791" visible="true" version="1" changeset="137409838" timestamp="2023-06-16T11:20:55Z" user="eireidium" uid="146307" lat="51.8971149" lon="-8.4385003"/>
+ <node id="10980535792" visible="true" version="1" changeset="137409838" timestamp="2023-06-16T11:20:55Z" user="eireidium" uid="146307" lat="51.8971410" lon="-8.4382757"/>
+ <node id="10980535793" visible="true" version="1" changeset="137409838" timestamp="2023-06-16T11:20:55Z" user="eireidium" uid="146307" lat="51.8971135" lon="-8.4387514"/>
+ <node id="10980535794" visible="true" version="1" changeset="137409838" timestamp="2023-06-16T11:20:55Z" user="eireidium" uid="146307" lat="51.8971545" lon="-8.4387218"/>
+ <node id="10980535795" visible="true" version="1" changeset="137409838" timestamp="2023-06-16T11:20:55Z" user="eireidium" uid="146307" lat="51.8971976" lon="-8.4387830"/>
+ <node id="10980535796" visible="true" version="1" changeset="137409838" timestamp="2023-06-16T11:20:55Z" user="eireidium" uid="146307" lat="51.8971517" lon="-8.4390208"/>
+ <node id="10980592027" visible="true" version="1" changeset="137411679" timestamp="2023-06-16T12:07:30Z" user="eireidium" uid="146307" lat="51.8968646" lon="-8.4375457"/>
+ <node id="10980592028" visible="true" version="1" changeset="137411679" timestamp="2023-06-16T12:07:30Z" user="eireidium" uid="146307" lat="51.8969572" lon="-8.4375318"/>
+ <node id="10980592029" visible="true" version="1" changeset="137411679" timestamp="2023-06-16T12:07:30Z" user="eireidium" uid="146307" lat="51.8969979" lon="-8.4376013"/>
+ <node id="10980592030" visible="true" version="1" changeset="137411679" timestamp="2023-06-16T12:07:30Z" user="eireidium" uid="146307" lat="51.8971695" lon="-8.4378198"/>
+ <node id="10980592031" visible="true" version="1" changeset="137411679" timestamp="2023-06-16T12:07:30Z" user="eireidium" uid="146307" lat="51.8971587" lon="-8.4376867"/>
+ <node id="10980604775" visible="true" version="1" changeset="137412590" timestamp="2023-06-16T12:32:59Z" user="eireidium" uid="146307" lat="51.8943887" lon="-8.4401646"/>
+ <node id="10980614924" visible="true" version="1" changeset="137412207" timestamp="2023-06-16T12:22:39Z" user="eireidium" uid="146307" lat="51.8947163" lon="-8.4374654"/>
+ <node id="10980614925" visible="true" version="1" changeset="137412207" timestamp="2023-06-16T12:22:39Z" user="eireidium" uid="146307" lat="51.8947546" lon="-8.4370563"/>
+ <node id="10980648337" visible="true" version="6" changeset="146562474" timestamp="2024-01-22T17:10:57Z" user="VictorIE" uid="2008037" lat="51.8943645" lon="-8.4403015">
+  <tag k="crossing" v="unmarked"/>
+  <tag k="crossing:island" v="no"/>
+  <tag k="crossing:markings" v="no"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="no"/>
+ </node>
+ <node id="10980648338" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8945942" lon="-8.4383745"/>
+ <node id="10980648339" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8946549" lon="-8.4377964"/>
+ <node id="10980648340" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8946899" lon="-8.4374384"/>
+ <node id="10980648341" visible="true" version="5" changeset="146562474" timestamp="2024-01-22T17:10:57Z" user="VictorIE" uid="2008037" lat="51.8946696" lon="-8.4376462">
+  <tag k="crossing" v="unmarked"/>
+  <tag k="crossing:island" v="no"/>
+  <tag k="crossing:markings" v="no"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="no"/>
+ </node>
+ <node id="10980648342" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8946096" lon="-8.4382286">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648343" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8945829" lon="-8.4384694">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648344" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8945719" lon="-8.4385623">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648345" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8945328" lon="-8.4388901">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648346" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8945233" lon="-8.4389698">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648347" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8945062" lon="-8.4391126">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648348" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8944798" lon="-8.4393341">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648349" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8944699" lon="-8.4394174">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648350" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8944467" lon="-8.4396119">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648351" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8944401" lon="-8.4396670">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980648352" visible="true" version="1" changeset="137413171" timestamp="2023-06-16T12:50:10Z" user="eireidium" uid="146307" lat="51.8944080" lon="-8.4399364">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="10980660621" visible="true" version="1" changeset="137413294" timestamp="2023-06-16T12:52:40Z" user="eireidium" uid="146307" lat="51.8946821" lon="-8.4375187"/>
+ <node id="10981439522" visible="true" version="1" changeset="137427125" timestamp="2023-06-16T19:56:17Z" user="eireidium" uid="146307" lat="51.8945428" lon="-8.4388066"/>
+ <node id="10982168972" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8959388" lon="-8.4338658"/>
+ <node id="10982168976" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8960406" lon="-8.4335199"/>
+ <node id="10982168977" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8958622" lon="-8.4334236"/>
+ <node id="10982168978" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8958497" lon="-8.4334223"/>
+ <node id="10982168979" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8958270" lon="-8.4334229"/>
+ <node id="10982168980" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8958034" lon="-8.4334209"/>
+ <node id="10982168981" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8957790" lon="-8.4334115"/>
+ <node id="10982168982" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8957028" lon="-8.4333787"/>
+ <node id="10982168983" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8956333" lon="-8.4336442"/>
+ <node id="10982168984" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8956304" lon="-8.4336617"/>
+ <node id="10982168985" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8956329" lon="-8.4336878"/>
+ <node id="10982168986" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8956462" lon="-8.4337220"/>
+ <node id="10982168987" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8956652" lon="-8.4337515"/>
+ <node id="10982168988" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8956838" lon="-8.4337622"/>
+ <node id="10982168989" visible="true" version="2" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307" lat="51.8956448" lon="-8.4336419"/>
+ <node id="10982168990" visible="true" version="2" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307" lat="51.8956853" lon="-8.4334790"/>
+ <node id="10982168991" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8957157" lon="-8.4336804"/>
+ <node id="10982168992" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8956905" lon="-8.4338474"/>
+ <node id="10982168994" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8957817" lon="-8.4338882"/>
+ <node id="10982168996" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8958777" lon="-8.4339312"/>
+ <node id="10982168998" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8958427" lon="-8.4334225"/>
+ <node id="10982169000" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8959194" lon="-8.4334545"/>
+ <node id="10982179703" visible="true" version="1" changeset="137441201" timestamp="2023-06-17T09:45:15Z" user="eireidium" uid="146307" lat="51.8956503" lon="-8.4336851">
+  <tag k="natural" v="tree"/>
+ </node>
+ <node id="10982187405" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8957628" lon="-8.4337944"/>
+ <node id="10982187406" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307" lat="51.8957132" lon="-8.4337723"/>
+ <node id="10982335050" visible="true" version="1" changeset="137443853" timestamp="2023-06-17T11:25:05Z" user="eireidium" uid="146307" lat="51.8954139" lon="-8.4341307"/>
+ <node id="10982335051" visible="true" version="6" changeset="182974346" timestamp="2026-05-21T12:40:47Z" user="eireidium" uid="146307" lat="51.8953533" lon="-8.4343013">
+  <tag k="crossing" v="unmarked"/>
+  <tag k="crossing:island" v="no"/>
+  <tag k="crossing:markings" v="no"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="no"/>
+ </node>
+ <node id="10983641409" visible="true" version="1" changeset="137470703" timestamp="2023-06-18T08:52:44Z" user="eireidium" uid="146307" lat="51.8974680" lon="-8.4314002"/>
+ <node id="10985080843" visible="true" version="1" changeset="137493216" timestamp="2023-06-18T21:07:46Z" user="eireidium" uid="146307" lat="51.8968038" lon="-8.4327200"/>
+ <node id="10985123279" visible="true" version="1" changeset="137493272" timestamp="2023-06-18T21:10:37Z" user="eireidium" uid="146307" lat="51.8972039" lon="-8.4313646"/>
+ <node id="10985123280" visible="true" version="1" changeset="137493272" timestamp="2023-06-18T21:10:37Z" user="eireidium" uid="146307" lat="51.8971364" lon="-8.4313555"/>
+ <node id="10989928872" visible="true" version="1" changeset="137528719" timestamp="2023-06-19T17:10:09Z" user="eireidium" uid="146307" lat="51.8951296" lon="-8.4340590"/>
+ <node id="10989934337" visible="true" version="3" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8953842" lon="-8.4342438"/>
+ <node id="10989936704" visible="true" version="1" changeset="137528767" timestamp="2023-06-19T17:11:40Z" user="eireidium" uid="146307" lat="51.8952193" lon="-8.4336258"/>
+ <node id="10990126585" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8955337" lon="-8.4333636"/>
+ <node id="10990126586" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8955185" lon="-8.4333530"/>
+ <node id="10990126587" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8955097" lon="-8.4333859"/>
+ <node id="10990126588" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8954741" lon="-8.4333610"/>
+ <node id="10990126589" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8954628" lon="-8.4334050"/>
+ <node id="10990126590" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8955722" lon="-8.4334802"/>
+ <node id="10990126591" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8955524" lon="-8.4335605"/>
+ <node id="10990126592" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954228" lon="-8.4334745"/>
+ <node id="10990126593" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954397" lon="-8.4334085"/>
+ <node id="10990126594" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954748" lon="-8.4334321"/>
+ <node id="10990126595" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8954794" lon="-8.4334154"/>
+ <node id="10990126596" visible="true" version="2" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8955375" lon="-8.4336208"/>
+ <node id="10990126597" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954169" lon="-8.4335401"/>
+ <node id="10990126598" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954270" lon="-8.4335005"/>
+ <node id="10990126599" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954539" lon="-8.4335185"/>
+ <node id="10990126600" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954589" lon="-8.4334987"/>
+ <node id="10990126601" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954699" lon="-8.4335756"/>
+ <node id="10990126602" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954535" lon="-8.4336404"/>
+ <node id="10990126603" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954295" lon="-8.4335907"/>
+ <node id="10990126604" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954045" lon="-8.4335739"/>
+ <node id="10990128970" visible="true" version="1" changeset="137531969" timestamp="2023-06-19T19:04:20Z" user="eireidium" uid="146307" lat="51.8952430" lon="-8.4335093"/>
+ <node id="10990128971" visible="true" version="1" changeset="137531969" timestamp="2023-06-19T19:04:20Z" user="eireidium" uid="146307" lat="51.8952553" lon="-8.4334493"/>
+ <node id="10990128972" visible="true" version="1" changeset="137531969" timestamp="2023-06-19T19:04:20Z" user="eireidium" uid="146307" lat="51.8952661" lon="-8.4333966"/>
+ <node id="10990138705" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954121" lon="-8.4335443"/>
+ <node id="10990138706" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307" lat="51.8954371" lon="-8.4335612"/>
+ <node id="11005491546" visible="true" version="1" changeset="137747069" timestamp="2023-06-25T10:23:12Z" user="eireidium" uid="146307" lat="51.8974897" lon="-8.4230623"/>
+ <node id="11005502862" visible="true" version="3" changeset="178633462" timestamp="2026-02-16T14:40:35Z" user="eireidium" uid="146307" lat="51.8962377" lon="-8.4245574"/>
+ <node id="11017479301" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956845" lon="-8.4337467"/>
+ <node id="11017479302" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956613" lon="-8.4337243"/>
+ <node id="11017479303" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8961174" lon="-8.4340386"/>
+ <node id="11017479304" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8961314" lon="-8.4339690"/>
+ <node id="11017481127" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8947198" lon="-8.4371816"/>
+ <node id="11017481128" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8947388" lon="-8.4370214"/>
+ <node id="11017481129" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8947491" lon="-8.4369690"/>
+ <node id="11017481130" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8947645" lon="-8.4368899"/>
+ <node id="11017481131" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8948414" lon="-8.4365399"/>
+ <node id="11017481132" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8949329" lon="-8.4361939"/>
+ <node id="11017481133" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8950049" lon="-8.4359237"/>
+ <node id="11017481134" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8950309" lon="-8.4358385"/>
+ <node id="11017481135" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8950690" lon="-8.4357104"/>
+ <node id="11017481136" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8950918" lon="-8.4356293"/>
+ <node id="11017481137" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8951563" lon="-8.4353973"/>
+ <node id="11017481138" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8952172" lon="-8.4351928"/>
+ <node id="11017481139" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8952701" lon="-8.4350003"/>
+ <node id="11017481140" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8953227" lon="-8.4348072"/>
+ <node id="11017481141" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8953839" lon="-8.4345537"/>
+ <node id="11017481142" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8954584" lon="-8.4342694"/>
+ <node id="11017481143" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8955196" lon="-8.4340401"/>
+ <node id="11017481144" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8955329" lon="-8.4339905"/>
+ <node id="11017481145" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8955453" lon="-8.4339563"/>
+ <node id="11017481146" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8955598" lon="-8.4339274"/>
+ <node id="11017481147" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8955834" lon="-8.4339086"/>
+ <node id="11017481148" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8956082" lon="-8.4338993"/>
+ <node id="11017481149" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8956322" lon="-8.4338959"/>
+ <node id="11017481150" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8956603" lon="-8.4338972"/>
+ <node id="11017481151" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8956823" lon="-8.4338999"/>
+ <node id="11017481152" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8957373" lon="-8.4339261"/>
+ <node id="11017481153" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8960406" lon="-8.4340521"/>
+ <node id="11017481154" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8957480" lon="-8.4339305">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481155" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8958920" lon="-8.4339904">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481156" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8960332" lon="-8.4340491">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481157" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8954993" lon="-8.4341163">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481158" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8954410" lon="-8.4343357">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481159" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8954292" lon="-8.4343809">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481160" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8953773" lon="-8.4345810">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481161" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8953445" lon="-8.4347169">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481162" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8953039" lon="-8.4348762">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481163" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8952755" lon="-8.4349807">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481164" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8952079" lon="-8.4352237">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481165" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8952239" lon="-8.4351683">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481166" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8951529" lon="-8.4354095">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481167" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8951377" lon="-8.4354641">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481168" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8950808" lon="-8.4356684">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481169" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8950563" lon="-8.4357533">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481170" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8949830" lon="-8.4360057">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481171" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8949213" lon="-8.4362377">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481172" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8948535" lon="-8.4364942">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017481173" visible="true" version="1" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307" lat="51.8947098" lon="-8.4372674">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017501146" visible="true" version="1" changeset="137986658" timestamp="2023-07-01T10:20:09Z" user="eireidium" uid="146307" lat="51.8961138" lon="-8.4315671"/>
+ <node id="11017502805" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8960222" lon="-8.4339274"/>
+ <node id="11017502806" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8959237" lon="-8.4338872"/>
+ <node id="11017502807" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8957623" lon="-8.4338175"/>
+ <node id="11017502808" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956804" lon="-8.4337812"/>
+ <node id="11017502809" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956539" lon="-8.4337611"/>
+ <node id="11017502810" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956390" lon="-8.4337356"/>
+ <node id="11017502811" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956274" lon="-8.4337048"/>
+ <node id="11017502812" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956225" lon="-8.4336726"/>
+ <node id="11017502813" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956200" lon="-8.4336458"/>
+ <node id="11017502814" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956316" lon="-8.4335881"/>
+ <node id="11017502815" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8957284" lon="-8.4332113"/>
+ <node id="11017502816" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956992" lon="-8.4337896">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017502817" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8957917" lon="-8.4338301">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017502818" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8958880" lon="-8.4338718">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="11017502819" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956613" lon="-8.4333153"/>
+ <node id="11017502825" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956961" lon="-8.4333368"/>
+ <node id="11017502826" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8956688" lon="-8.4331456"/>
+ <node id="11017502827" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8957764" lon="-8.4327191"/>
+ <node id="11017502828" visible="true" version="2" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037" lat="51.8958492" lon="-8.4324433"/>
+ <node id="11017502829" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8958906" lon="-8.4322899"/>
+ <node id="11017502830" visible="true" version="1" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307" lat="51.8959237" lon="-8.4321759"/>
+ <node id="11072528414" visible="true" version="1" changeset="139119532" timestamp="2023-07-28T06:53:47Z" user="eireidium" uid="146307" lat="51.8962481" lon="-8.4226935"/>
+ <node id="11072528415" visible="true" version="1" changeset="139119532" timestamp="2023-07-28T06:53:47Z" user="eireidium" uid="146307" lat="51.8962398" lon="-8.4229219"/>
+ <node id="11072528416" visible="true" version="1" changeset="139119532" timestamp="2023-07-28T06:53:47Z" user="eireidium" uid="146307" lat="51.8962450" lon="-8.4248464"/>
+ <node id="11072528417" visible="true" version="1" changeset="139119532" timestamp="2023-07-28T06:53:47Z" user="eireidium" uid="146307" lat="51.8962455" lon="-8.4251132"/>
+ <node id="11072528446" visible="true" version="2" changeset="139119659" timestamp="2023-07-28T06:56:41Z" user="eireidium" uid="146307" lat="51.8964330" lon="-8.4287863"/>
+ <node id="11080812976" visible="true" version="2" changeset="139779039" timestamp="2023-08-12T09:14:47Z" user="eireidium" uid="146307" lat="51.8948738" lon="-8.4410540"/>
+ <node id="11080815523" visible="true" version="2" changeset="139778774" timestamp="2023-08-12T09:05:40Z" user="eireidium" uid="146307" lat="51.8947741" lon="-8.4425849"/>
+ <node id="11109175477" visible="true" version="1" changeset="139779039" timestamp="2023-08-12T09:14:47Z" user="eireidium" uid="146307" lat="51.8948524" lon="-8.4429891"/>
+ <node id="11109175478" visible="true" version="1" changeset="139779039" timestamp="2023-08-12T09:14:47Z" user="eireidium" uid="146307" lat="51.8948063" lon="-8.4432954"/>
+ <node id="11109175479" visible="true" version="1" changeset="139779039" timestamp="2023-08-12T09:14:47Z" user="eireidium" uid="146307" lat="51.8947851" lon="-8.4429707"/>
+ <node id="11109175480" visible="true" version="1" changeset="139779039" timestamp="2023-08-12T09:14:47Z" user="eireidium" uid="146307" lat="51.8946944" lon="-8.4429280"/>
+ <node id="11109175481" visible="true" version="1" changeset="139779039" timestamp="2023-08-12T09:14:47Z" user="eireidium" uid="146307" lat="51.8947226" lon="-8.4428865"/>
+ <node id="11109175482" visible="true" version="1" changeset="139779039" timestamp="2023-08-12T09:14:47Z" user="eireidium" uid="146307" lat="51.8947376" lon="-8.4428417"/>
+ <node id="11109175483" visible="true" version="1" changeset="139779039" timestamp="2023-08-12T09:14:47Z" user="eireidium" uid="146307" lat="51.8948062" lon="-8.4419589"/>
+ <node id="11112529299" visible="true" version="1" changeset="139838139" timestamp="2023-08-13T18:28:59Z" user="eireidium" uid="146307" lat="51.8943601" lon="-8.4403948"/>
+ <node id="11112541310" visible="true" version="1" changeset="139838139" timestamp="2023-08-13T18:28:59Z" user="eireidium" uid="146307" lat="51.8941485" lon="-8.4420946"/>
+ <node id="11112541311" visible="true" version="1" changeset="139838139" timestamp="2023-08-13T18:28:59Z" user="eireidium" uid="146307" lat="51.8941843" lon="-8.4418063"/>
+ <node id="11112541312" visible="true" version="1" changeset="139838139" timestamp="2023-08-13T18:28:59Z" user="eireidium" uid="146307" lat="51.8942467" lon="-8.4413054"/>
+ <node id="11112541317" visible="true" version="1" changeset="139838139" timestamp="2023-08-13T18:28:59Z" user="eireidium" uid="146307" lat="51.8942332" lon="-8.4414134"/>
+ <node id="11112541318" visible="true" version="1" changeset="139838139" timestamp="2023-08-13T18:28:59Z" user="eireidium" uid="146307" lat="51.8941986" lon="-8.4416920"/>
+ <node id="11398576777" visible="true" version="2" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307" lat="51.8957767" lon="-8.4336811"/>
+ <node id="11398576778" visible="true" version="2" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307" lat="51.8957965" lon="-8.4335633"/>
+ <node id="13572504315" visible="true" version="1" changeset="178670583" timestamp="2026-02-17T10:11:40Z" user="eireidium" uid="146307" lat="51.8963911" lon="-8.4275671"/>
+ <node id="13576300216" visible="true" version="1" changeset="178727566" timestamp="2026-02-18T13:59:28Z" user="eireidium" uid="146307" lat="51.8956365" lon="-8.4336087">
+  <tag k="highway" v="street_lamp"/>
+ </node>
+ <node id="13589777648" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8959345" lon="-8.4324172"/>
+ <node id="13589777649" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8960075" lon="-8.4322066"/>
+ <node id="13589777650" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8962803" lon="-8.4313043"/>
+ <node id="13589777651" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8963141" lon="-8.4310983"/>
+ <node id="13589777652" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8963466" lon="-8.4307587"/>
+ <node id="13589777653" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8963936" lon="-8.4301799"/>
+ <node id="13589777654" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964041" lon="-8.4299273"/>
+ <node id="13589777655" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964160" lon="-8.4293994"/>
+ <node id="13589777656" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964290" lon="-8.4289291"/>
+ <node id="13589777657" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964219" lon="-8.4291848"/>
+ <node id="13589777658" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964196" lon="-8.4292681"/>
+ <node id="13589777659" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964142" lon="-8.4294769"/>
+ <node id="13589777660" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964109" lon="-8.4296241"/>
+ <node id="13589777661" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964068" lon="-8.4298105"/>
+ <node id="13589777662" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8964051" lon="-8.4298825"/>
+ <node id="13589777663" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8963991" lon="-8.4300481"/>
+ <node id="13589777664" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8963406" lon="-8.4308215"/>
+ <node id="13589777665" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8963083" lon="-8.4311336">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="13589777666" visible="true" version="1" changeset="178901053" timestamp="2026-02-22T14:21:57Z" user="eireidium" uid="146307" lat="51.8962325" lon="-8.4314624"/>
+ <node id="13589777667" visible="true" version="2" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037" lat="51.8959646" lon="-8.4323537">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:island" v="no"/>
+  <tag k="crossing:markings" v="lines"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+ </node>
+ <node id="13722637074" visible="true" version="1" changeset="181179217" timestamp="2026-04-11T08:38:09Z" user="eireidium" uid="146307" lat="51.8973060" lon="-8.4347117"/>
+ <node id="13722637094" visible="true" version="2" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037" lat="51.8959555" lon="-8.4323923"/>
+ <node id="13732796969" visible="true" version="1" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037" lat="51.8959151" lon="-8.4324920"/>
+ <node id="13732796970" visible="true" version="1" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037" lat="51.8959393" lon="-8.4324034"/>
+ <node id="13732796971" visible="true" version="1" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037" lat="51.8958692" lon="-8.4325124">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="signal"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="13857141390" visible="true" version="1" changeset="182974346" timestamp="2026-05-21T12:40:47Z" user="eireidium" uid="146307" lat="51.8953389" lon="-8.4343600"/>
+ <node id="13857208898" visible="true" version="1" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8955944" lon="-8.4333967"/>
+ <node id="13857208899" visible="true" version="1" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307" lat="51.8955357" lon="-8.4333558"/>
+ <node id="13857338952" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8951880" lon="-8.4340167"/>
+ <node id="13857338953" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8952290" lon="-8.4340268"/>
+ <node id="13857338954" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8953478" lon="-8.4339518"/>
+ <node id="13857338955" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8953441" lon="-8.4339683"/>
+ <node id="13857338956" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8952537" lon="-8.4338293"/>
+ <node id="13857338957" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8952332" lon="-8.4338221"/>
+ <node id="13857338958" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8952467" lon="-8.4338095"/>
+ <node id="13857338959" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8952373" lon="-8.4338040"/>
+ <node id="13857338967" visible="true" version="1" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307" lat="51.8953989" lon="-8.4336105">
+  <tag k="natural" v="tree"/>
+ </node>
+ <node id="13893205196" visible="true" version="1" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307" lat="51.8956900" lon="-8.4336615"/>
+ <node id="13893205197" visible="true" version="1" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307" lat="51.8957650" lon="-8.4334055"/>
+ <node id="13907159740" visible="true" version="1" changeset="183592630" timestamp="2026-06-03T12:49:37Z" user="eireidium" uid="146307" lat="51.8948187" lon="-8.4366430"/>
+ <way id="5317316" visible="true" version="16" changeset="181179217" timestamp="2026-04-11T08:38:09Z" user="eireidium" uid="146307">
+  <nd ref="7842180"/>
+  <nd ref="10978822956"/>
+  <nd ref="10978822955"/>
+  <nd ref="10978822958"/>
+  <nd ref="10978822957"/>
+  <nd ref="13722637074"/>
+  <nd ref="938777152"/>
+  <nd ref="938777189"/>
+  <nd ref="10980394745"/>
+  <nd ref="7842264"/>
+  <nd ref="10978694700"/>
+  <nd ref="10978694668"/>
+  <nd ref="10978694698"/>
+  <nd ref="938777146"/>
+  <nd ref="11017479303"/>
+  <nd ref="10980457806"/>
+  <nd ref="10980457821"/>
+  <nd ref="10982168996"/>
+  <nd ref="10982168994"/>
+  <nd ref="10980477927"/>
+  <nd ref="10982168992"/>
+  <nd ref="7842268"/>
+  <tag k="alt_logainm:ref" v="1388508"/>
+  <tag k="alt_logainm:url" v="https://www.logainm.ie/1388508.aspx"/>
+  <tag k="alt_name:ga" v="Baile Mháire"/>
+  <tag k="highway" v="tertiary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="lit" v="yes"/>
+  <tag k="logainm:ref" v="1388512"/>
+  <tag k="logainm:url" v="https://www.logainm.ie/1388512.aspx"/>
+  <tag k="maxspeed" v="50"/>
+  <tag k="name" v="Maryville"/>
+  <tag k="name:en" v="Maryville"/>
+  <tag k="name:ga" v="Baile Mhuire"/>
+  <tag k="ref" v="L5002"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="477599192" visible="true" version="11" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037">
+  <nd ref="7842270"/>
+  <nd ref="10980426156"/>
+  <nd ref="10980426154"/>
+  <nd ref="7842268"/>
+  <nd ref="11017502819"/>
+  <nd ref="10979271057"/>
+  <nd ref="10979271058"/>
+  <nd ref="13732796971"/>
+  <nd ref="10979271059"/>
+  <nd ref="538539661"/>
+  <nd ref="8700897883"/>
+  <nd ref="8700897877"/>
+  <nd ref="8700897875"/>
+  <nd ref="8700897881"/>
+  <nd ref="8700897879"/>
+  <nd ref="8700897874"/>
+  <nd ref="8186731"/>
+  <tag k="highway" v="tertiary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="logainm:ref" v="1388783"/>
+  <tag k="logainm:url" v="https://www.logainm.ie/1388783.aspx"/>
+  <tag k="maxspeed" v="50"/>
+  <tag k="name" v="Blackrock Road"/>
+  <tag k="name:en" v="Blackrock Road"/>
+  <tag k="name:ga" v="Bóthar na Dúcharraige"/>
+  <tag k="ref" v="L1001"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="756953990" visible="true" version="14" changeset="178670583" timestamp="2026-02-17T10:11:40Z" user="eireidium" uid="146307">
+  <nd ref="7069852025"/>
+  <nd ref="7069844749"/>
+  <nd ref="7069852024"/>
+  <nd ref="10985123280"/>
+  <nd ref="10985123279"/>
+  <nd ref="10983641409"/>
+  <nd ref="7069844767"/>
+  <nd ref="7069844761"/>
+  <nd ref="7069844713"/>
+  <nd ref="7069844716"/>
+  <nd ref="10985080843"/>
+  <nd ref="7069844758"/>
+  <nd ref="4398749421"/>
+  <nd ref="4398749420"/>
+  <nd ref="4398749419"/>
+  <nd ref="10982168972"/>
+  <nd ref="11017479301"/>
+  <nd ref="11017479302"/>
+  <nd ref="7069844747"/>
+  <nd ref="8195189209"/>
+  <nd ref="7069844746"/>
+  <nd ref="10979266579"/>
+  <nd ref="10979266576"/>
+  <nd ref="10979266577"/>
+  <nd ref="10979266578"/>
+  <nd ref="10979266575"/>
+  <nd ref="7069844735"/>
+  <nd ref="13572504315"/>
+  <nd ref="11072528417"/>
+  <nd ref="11072528416"/>
+  <nd ref="11005502862"/>
+  <nd ref="7069844714"/>
+  <nd ref="11072528415"/>
+  <nd ref="11072528414"/>
+  <nd ref="7069844760"/>
+  <nd ref="7069852013"/>
+  <nd ref="7069851989"/>
+  <nd ref="11005491546"/>
+  <nd ref="7069844731"/>
+  <nd ref="7069844721"/>
+  <nd ref="7069844738"/>
+  <nd ref="7069844755"/>
+  <nd ref="7069844777"/>
+  <nd ref="7069852025"/>
+  <tag k="landuse" v="residential"/>
+ </way>
+ <way id="758466205" visible="true" version="16" changeset="139838139" timestamp="2023-08-13T18:28:59Z" user="eireidium" uid="146307">
+  <nd ref="7083436750"/>
+  <nd ref="10980614924"/>
+  <nd ref="10980614925"/>
+  <nd ref="7083436731"/>
+  <nd ref="10980461335"/>
+  <nd ref="10979231065"/>
+  <nd ref="10979231066"/>
+  <nd ref="10979231067"/>
+  <nd ref="10979231068"/>
+  <nd ref="7083436775"/>
+  <nd ref="10980457807"/>
+  <nd ref="7083436729"/>
+  <nd ref="10978822947"/>
+  <nd ref="10978822946"/>
+  <nd ref="10978822945"/>
+  <nd ref="10978822944"/>
+  <nd ref="7083436757"/>
+  <nd ref="10978822943"/>
+  <nd ref="8119616434"/>
+  <nd ref="10978822940"/>
+  <nd ref="7083436760"/>
+  <nd ref="7083436730"/>
+  <nd ref="10978822938"/>
+  <nd ref="10978822939"/>
+  <nd ref="7083436727"/>
+  <nd ref="7083436733"/>
+  <nd ref="7083436768"/>
+  <nd ref="7083436732"/>
+  <nd ref="349333465"/>
+  <nd ref="7083436769"/>
+  <nd ref="10980535796"/>
+  <nd ref="10980535795"/>
+  <nd ref="10980535794"/>
+  <nd ref="10980535793"/>
+  <nd ref="10980535791"/>
+  <nd ref="10980535792"/>
+  <nd ref="7083436754"/>
+  <nd ref="7083436756"/>
+  <nd ref="10980592030"/>
+  <nd ref="10980592031"/>
+  <nd ref="7083436742"/>
+  <nd ref="10980592029"/>
+  <nd ref="10980592028"/>
+  <nd ref="10980592027"/>
+  <nd ref="7083436738"/>
+  <nd ref="7083436739"/>
+  <nd ref="7083436726"/>
+  <nd ref="7083436778"/>
+  <nd ref="7083436776"/>
+  <nd ref="7083436762"/>
+  <nd ref="7083436741"/>
+  <nd ref="7083436770"/>
+  <nd ref="6054699986"/>
+  <nd ref="11080812976"/>
+  <nd ref="11109175483"/>
+  <nd ref="11080815523"/>
+  <nd ref="11109175482"/>
+  <nd ref="11109175481"/>
+  <nd ref="11109175480"/>
+  <nd ref="11109175479"/>
+  <nd ref="11109175477"/>
+  <nd ref="11109175478"/>
+  <nd ref="6054699987"/>
+  <nd ref="7083436753"/>
+  <nd ref="7083436743"/>
+  <nd ref="7083436748"/>
+  <nd ref="7083436773"/>
+  <nd ref="11112541310"/>
+  <nd ref="11112541311"/>
+  <nd ref="11112541318"/>
+  <nd ref="11112541317"/>
+  <nd ref="11112541312"/>
+  <nd ref="11112529299"/>
+  <nd ref="10980604775"/>
+  <nd ref="7083436750"/>
+  <tag k="landuse" v="residential"/>
+ </way>
+ <way id="790690969" visible="true" version="6" changeset="154955616" timestamp="2024-08-07T22:11:25Z" user="mackerski" uid="6367">
+  <nd ref="7391917645"/>
+  <nd ref="8195173143"/>
+  <nd ref="8195173142"/>
+  <nd ref="7391917644"/>
+  <nd ref="7391917645"/>
+  <tag k="addr:city" v="Cork"/>
+  <tag k="addr:housename" v="Glenflesk"/>
+  <tag k="addr:housenumber" v="7"/>
+  <tag k="addr:postcode" v="T12 R9XV"/>
+  <tag k="addr:street" v="Maryville"/>
+  <tag k="building" v="house"/>
+  <tag k="building:levels" v="3"/>
+  <tag k="house" v="semi-detached"/>
+  <tag k="roof:colour" v="grey"/>
+  <tag k="roof:levels" v="1"/>
+  <tag k="roof:shape" v="gabled"/>
+ </way>
+ <way id="793862683" visible="true" version="6" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307">
+  <nd ref="7425849620"/>
+  <nd ref="7425849621"/>
+  <nd ref="7425849622"/>
+  <nd ref="7425849623"/>
+  <nd ref="10982168990"/>
+  <nd ref="10982168989"/>
+  <nd ref="13893205196"/>
+  <nd ref="7425849620"/>
+  <tag k="addr:city" v="Cork"/>
+  <tag k="addr:housenumber" v="1"/>
+  <tag k="addr:postcode" v="T12 C9XN"/>
+  <tag k="addr:street" v="Maryville Mews"/>
+  <tag k="building" v="house"/>
+  <tag k="house" v="semi-detached"/>
+ </way>
+ <way id="793862711" visible="true" version="9" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307">
+  <nd ref="7425849764"/>
+  <nd ref="7425849765"/>
+  <nd ref="7425849766"/>
+  <nd ref="7425849767"/>
+  <nd ref="13857338954"/>
+  <nd ref="13857338955"/>
+  <nd ref="7425849768"/>
+  <nd ref="7425849774"/>
+  <nd ref="10978694642"/>
+  <nd ref="13857338953"/>
+  <nd ref="13857338952"/>
+  <nd ref="10978694640"/>
+  <nd ref="10978694641"/>
+  <nd ref="10989928872"/>
+  <nd ref="7425849764"/>
+  <tag k="addr:city" v="Cork"/>
+  <tag k="addr:country" v="IE"/>
+  <tag k="addr:county" v="Cork"/>
+  <tag k="addr:housenumber" v="1-5"/>
+  <tag k="addr:place" v="Ballintemple"/>
+  <tag k="addr:postcode" v="T12 Y902"/>
+  <tag k="addr:suburb" v="Ballintemple"/>
+  <tag k="amenity" v="pub"/>
+  <tag k="building" v="retail"/>
+  <tag k="check_date:opening_hours" v="2024-07-12"/>
+  <tag k="name" v="The Venue Bar"/>
+  <tag k="opening_hours:signed" v="no"/>
+ </way>
+ <way id="793862712" visible="true" version="3" changeset="144839272" timestamp="2023-12-06T18:22:30Z" user="Penguin of Fate" uid="7538769">
+  <nd ref="10978694643"/>
+  <nd ref="7425849776"/>
+  <nd ref="7425849772"/>
+  <nd ref="7425849773"/>
+  <nd ref="10978694644"/>
+  <nd ref="10978694645"/>
+  <nd ref="10978694643"/>
+  <tag k="addr:city" v="Cork"/>
+  <tag k="addr:housenumber" v="7"/>
+  <tag k="addr:place" v="Ballintemple"/>
+  <tag k="addr:postcode" v="T12 PX04"/>
+  <tag k="building" v="house"/>
+  <tag k="house" v="terraced"/>
+ </way>
+ <way id="793862713" visible="true" version="7" changeset="182975004" timestamp="2026-05-21T12:55:33Z" user="eireidium" uid="146307">
+  <nd ref="7425849774"/>
+  <nd ref="7425849768"/>
+  <nd ref="13857338955"/>
+  <nd ref="13857338954"/>
+  <nd ref="7425849767"/>
+  <nd ref="7425849776"/>
+  <nd ref="10978694643"/>
+  <nd ref="7425849777"/>
+  <nd ref="10978694648"/>
+  <nd ref="13857338957"/>
+  <nd ref="13857338959"/>
+  <nd ref="13857338958"/>
+  <nd ref="13857338956"/>
+  <nd ref="10978694649"/>
+  <nd ref="7425849774"/>
+  <tag k="addr:city" v="Cork"/>
+  <tag k="addr:housenumber" v="6"/>
+  <tag k="addr:place" v="Ballintemple"/>
+  <tag k="addr:postcode" v="T12 YY93"/>
+  <tag k="building" v="yes"/>
+  <tag k="name" v="Basil"/>
+  <tag k="opening_hours" v="Tu-Fr 09:00-15:00; Sa 09:30-14:30; Su 11:00-13:00"/>
+  <tag k="shop" v="deli"/>
+ </way>
+ <way id="1182220897" visible="true" version="4" changeset="144839272" timestamp="2023-12-06T18:22:30Z" user="Penguin of Fate" uid="7538769">
+  <nd ref="7425849772"/>
+  <nd ref="7425849773"/>
+  <nd ref="10978694650"/>
+  <nd ref="10978694651"/>
+  <nd ref="10990126602"/>
+  <nd ref="10978694652"/>
+  <nd ref="7425849772"/>
+  <tag k="addr:city" v="Cork"/>
+  <tag k="addr:housename" v="Leighmoney"/>
+  <tag k="addr:housenumber" v="8"/>
+  <tag k="addr:postcode" v="T12 Y4DX"/>
+  <tag k="addr:street" v="The Cottages"/>
+  <tag k="building" v="house"/>
+  <tag k="house" v="terraced"/>
+ </way>
+ <way id="1182443657" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307">
+  <nd ref="10979231080"/>
+  <nd ref="10980477916"/>
+  <nd ref="10980477906"/>
+  <nd ref="10980477907"/>
+  <nd ref="10980477908"/>
+  <nd ref="10980477909"/>
+  <nd ref="10980477910"/>
+  <nd ref="10980477911"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1182443661" visible="true" version="1" changeset="137407989" timestamp="2023-06-16T10:27:33Z" user="eireidium" uid="146307">
+  <nd ref="10980477920"/>
+  <nd ref="10980477921"/>
+  <nd ref="10980477922"/>
+  <nd ref="10980477923"/>
+  <nd ref="10980477924"/>
+  <nd ref="10980477925"/>
+  <nd ref="10980477906"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1182443662" visible="true" version="2" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307">
+  <nd ref="10980477926"/>
+  <nd ref="11017481154"/>
+  <nd ref="10980477927"/>
+  <tag k="highway" v="service"/>
+  <tag k="service" v="driveway"/>
+ </way>
+ <way id="1182444138" visible="true" version="2" changeset="137986183" timestamp="2023-07-01T10:01:39Z" user="eireidium" uid="146307">
+  <nd ref="10980426153"/>
+  <nd ref="11017481157"/>
+  <nd ref="10980426154"/>
+  <tag k="highway" v="service"/>
+  <tag k="service" v="driveway"/>
+ </way>
+ <way id="1182465303" visible="true" version="6" changeset="183592630" timestamp="2026-06-03T12:49:37Z" user="eireidium" uid="146307">
+  <nd ref="10980648337"/>
+  <nd ref="10980648352"/>
+  <nd ref="10980648351"/>
+  <nd ref="10980648350"/>
+  <nd ref="10980648349"/>
+  <nd ref="10980648348"/>
+  <nd ref="10980648347"/>
+  <nd ref="10980648346"/>
+  <nd ref="10980648345"/>
+  <nd ref="10981439522"/>
+  <nd ref="10980648344"/>
+  <nd ref="10980648343"/>
+  <nd ref="10980648338"/>
+  <nd ref="10980648342"/>
+  <nd ref="10980648339"/>
+  <nd ref="10980648341"/>
+  <nd ref="10980660621"/>
+  <nd ref="10980648340"/>
+  <nd ref="11017481173"/>
+  <nd ref="11017481127"/>
+  <nd ref="11017481128"/>
+  <nd ref="11017481129"/>
+  <nd ref="11017481130"/>
+  <nd ref="13907159740"/>
+  <nd ref="11017481131"/>
+  <nd ref="11017481172"/>
+  <nd ref="11017481171"/>
+  <nd ref="11017481132"/>
+  <nd ref="11017481170"/>
+  <nd ref="11017481133"/>
+  <nd ref="11017481134"/>
+  <nd ref="11017481169"/>
+  <nd ref="11017481135"/>
+  <nd ref="11017481168"/>
+  <nd ref="11017481136"/>
+  <nd ref="11017481167"/>
+  <nd ref="11017481166"/>
+  <nd ref="11017481137"/>
+  <nd ref="11017481164"/>
+  <nd ref="11017481138"/>
+  <nd ref="11017481165"/>
+  <nd ref="11017481139"/>
+  <nd ref="11017481163"/>
+  <nd ref="11017481162"/>
+  <nd ref="11017481140"/>
+  <nd ref="11017481161"/>
+  <nd ref="11017481160"/>
+  <nd ref="11017481141"/>
+  <nd ref="11017481159"/>
+  <nd ref="11017481158"/>
+  <nd ref="11017481142"/>
+  <nd ref="11017481157"/>
+  <nd ref="11017481143"/>
+  <nd ref="11017481144"/>
+  <nd ref="11017481145"/>
+  <nd ref="11017481146"/>
+  <nd ref="11017481147"/>
+  <nd ref="11017481148"/>
+  <nd ref="11017481149"/>
+  <nd ref="11017481150"/>
+  <nd ref="11017481151"/>
+  <nd ref="11017481152"/>
+  <nd ref="11017481154"/>
+  <nd ref="11017481155"/>
+  <nd ref="11017481156"/>
+  <nd ref="11017481153"/>
+  <nd ref="10980394792"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+  <tag k="surface" v="concrete"/>
+ </way>
+ <way id="1182655146" visible="true" version="2" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307">
+  <nd ref="10982168976"/>
+  <nd ref="10982169000"/>
+  <nd ref="10982168977"/>
+  <nd ref="10982168978"/>
+  <nd ref="10982168998"/>
+  <nd ref="10982168979"/>
+  <nd ref="10982168980"/>
+  <nd ref="10982168981"/>
+  <nd ref="13893205197"/>
+  <nd ref="10982168982"/>
+  <nd ref="10982168983"/>
+  <nd ref="10982168984"/>
+  <nd ref="10982168985"/>
+  <nd ref="10982168986"/>
+  <nd ref="10982168987"/>
+  <nd ref="10982168988"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1182655147" visible="true" version="2" changeset="137986353" timestamp="2023-07-01T10:07:40Z" user="eireidium" uid="146307">
+  <nd ref="10982168991"/>
+  <nd ref="11017502816"/>
+  <nd ref="10982168992"/>
+  <tag k="highway" v="service"/>
+  <tag k="service" v="driveway"/>
+ </way>
+ <way id="1182655154" visible="true" version="1" changeset="137440991" timestamp="2023-06-17T09:37:33Z" user="eireidium" uid="146307">
+  <nd ref="10982187405"/>
+  <nd ref="10982187406"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1182671080" visible="true" version="7" changeset="182974346" timestamp="2026-05-21T12:40:47Z" user="eireidium" uid="146307">
+  <nd ref="13857141390"/>
+  <nd ref="10982335051"/>
+  <nd ref="10989934337"/>
+  <nd ref="10982335050"/>
+  <nd ref="11017502826"/>
+  <nd ref="11017502827"/>
+  <nd ref="11017502828"/>
+  <nd ref="11017502829"/>
+  <nd ref="11017502830"/>
+  <nd ref="11017501146"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+  <tag k="lit" v="yes"/>
+  <tag k="surface" v="concrete"/>
+ </way>
+ <way id="1183479114" visible="true" version="4" changeset="182975099" timestamp="2026-05-21T12:57:33Z" user="eireidium" uid="146307">
+  <nd ref="10990126585"/>
+  <nd ref="10990126586"/>
+  <nd ref="10990126587"/>
+  <nd ref="10990126588"/>
+  <nd ref="10990126589"/>
+  <nd ref="10990126595"/>
+  <nd ref="10990126590"/>
+  <nd ref="13857208898"/>
+  <nd ref="13857208899"/>
+  <nd ref="10990126585"/>
+  <tag k="addr:housenumber" v="2"/>
+  <tag k="building" v="house"/>
+ </way>
+ <way id="1183479115" visible="true" version="2" changeset="143965483" timestamp="2023-11-13T11:06:24Z" user="Penguin of Fate" uid="7538769">
+  <nd ref="10990126590"/>
+  <nd ref="10990126591"/>
+  <nd ref="10990126600"/>
+  <nd ref="10990126592"/>
+  <nd ref="10990126593"/>
+  <nd ref="10990126594"/>
+  <nd ref="10990126595"/>
+  <nd ref="10990126590"/>
+  <tag k="addr:housenumber" v="3"/>
+  <tag k="building" v="house"/>
+ </way>
+ <way id="1183479116" visible="true" version="2" changeset="143965483" timestamp="2023-11-13T11:06:16Z" user="Penguin of Fate" uid="7538769">
+  <nd ref="10990126591"/>
+  <nd ref="10990126596"/>
+  <nd ref="10990126601"/>
+  <nd ref="10990126597"/>
+  <nd ref="10990126598"/>
+  <nd ref="10990126599"/>
+  <nd ref="10990126600"/>
+  <nd ref="10990126591"/>
+  <tag k="addr:housenumber" v="4"/>
+  <tag k="building" v="house"/>
+ </way>
+ <way id="1183479117" visible="true" version="2" changeset="143965483" timestamp="2023-11-13T11:06:00Z" user="Penguin of Fate" uid="7538769">
+  <nd ref="10978694652"/>
+  <nd ref="10990126596"/>
+  <nd ref="10990126601"/>
+  <nd ref="10990126602"/>
+  <nd ref="10978694652"/>
+  <tag k="addr:housename" v="Crecora Cottage"/>
+  <tag k="building" v="house"/>
+ </way>
+ <way id="1183479118" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307">
+  <nd ref="10990126603"/>
+  <nd ref="10990126604"/>
+  <nd ref="10990138705"/>
+  <nd ref="10990138706"/>
+  <nd ref="10990126603"/>
+  <tag k="building" v="shed"/>
+ </way>
+ <way id="1183479119" visible="true" version="1" changeset="137531927" timestamp="2023-06-19T19:02:31Z" user="eireidium" uid="146307">
+  <nd ref="10978694650"/>
+  <nd ref="10989936704"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1183479666" visible="true" version="1" changeset="137531969" timestamp="2023-06-19T19:04:20Z" user="eireidium" uid="146307">
+  <nd ref="10990128970"/>
+  <nd ref="10978694651"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1183479667" visible="true" version="1" changeset="137531969" timestamp="2023-06-19T19:04:20Z" user="eireidium" uid="146307">
+  <nd ref="10990126597"/>
+  <nd ref="10990128971"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1183479668" visible="true" version="1" changeset="137531969" timestamp="2023-06-19T19:04:20Z" user="eireidium" uid="146307">
+  <nd ref="10990126592"/>
+  <nd ref="10990128972"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <way id="1186166078" visible="true" version="5" changeset="181376666" timestamp="2026-04-15T16:42:08Z" user="VictorIE" uid="2008037">
+  <nd ref="11017479303"/>
+  <nd ref="11017479304"/>
+  <nd ref="11017502805"/>
+  <nd ref="11017502806"/>
+  <nd ref="11017502818"/>
+  <nd ref="11017502817"/>
+  <nd ref="11017502807"/>
+  <nd ref="11017502816"/>
+  <nd ref="11017502808"/>
+  <nd ref="11017502809"/>
+  <nd ref="11017502810"/>
+  <nd ref="11017502811"/>
+  <nd ref="11017502812"/>
+  <nd ref="11017502813"/>
+  <nd ref="11017502814"/>
+  <nd ref="11017502825"/>
+  <nd ref="11017502815"/>
+  <nd ref="13732796969"/>
+  <nd ref="13589777648"/>
+  <nd ref="13732796970"/>
+  <nd ref="13722637094"/>
+  <nd ref="13589777667"/>
+  <nd ref="13589777649"/>
+  <nd ref="13589777666"/>
+  <nd ref="13589777650"/>
+  <nd ref="13589777665"/>
+  <nd ref="13589777651"/>
+  <nd ref="13589777664"/>
+  <nd ref="13589777652"/>
+  <nd ref="13589777653"/>
+  <nd ref="13589777663"/>
+  <nd ref="13589777654"/>
+  <nd ref="13589777662"/>
+  <nd ref="13589777661"/>
+  <nd ref="13589777660"/>
+  <nd ref="13589777659"/>
+  <nd ref="13589777655"/>
+  <nd ref="13589777658"/>
+  <nd ref="13589777657"/>
+  <nd ref="13589777656"/>
+  <nd ref="11072528446"/>
+  <tag k="footway" v="sidewalk"/>
+  <tag k="highway" v="footway"/>
+  <tag k="lit" v="yes"/>
+  <tag k="surface" v="concrete"/>
+ </way>
+ <way id="1229121426" visible="true" version="2" changeset="154955616" timestamp="2024-08-07T22:11:25Z" user="mackerski" uid="6367">
+  <nd ref="7425849621"/>
+  <nd ref="11398576777"/>
+  <nd ref="11398576778"/>
+  <nd ref="7425849622"/>
+  <nd ref="7425849621"/>
+  <tag k="addr:city" v="Cork"/>
+  <tag k="addr:housenumber" v="2"/>
+  <tag k="addr:postcode" v="T12 EDY0"/>
+  <tag k="addr:street" v="Maryville Mews"/>
+  <tag k="building" v="house"/>
+  <tag k="house" v="semi-detached"/>
+ </way>
+ <way id="1524278814" visible="true" version="1" changeset="183337156" timestamp="2026-05-29T06:40:29Z" user="eireidium" uid="146307">
+  <nd ref="7425849623"/>
+  <nd ref="13893205197"/>
+  <tag k="barrier" v="wall"/>
+ </way>
+ <relation id="2206025" visible="true" version="84" changeset="178865205" timestamp="2026-02-21T15:50:36Z" user="VictorIE" uid="2008037">
+  <member type="node" ref="1778182297" role="platform"/>
+  <member type="node" ref="1778182302" role="platform"/>
+  <member type="node" ref="1778182310" role="platform"/>
+  <member type="node" ref="1772634527" role="platform"/>
+  <member type="node" ref="538539619" role=""/>
+  <member type="node" ref="1772634531" role=""/>
+  <member type="node" ref="1772634534" role=""/>
+  <member type="node" ref="1917311056" role=""/>
+  <member type="node" ref="1774921833" role=""/>
+  <member type="node" ref="1773867378" role=""/>
+  <member type="node" ref="1772634538" role=""/>
+  <member type="node" ref="538539588" role=""/>
+  <member type="node" ref="1917311021" role=""/>
+  <member type="node" ref="1917311018" role=""/>
+  <member type="node" ref="1917311035" role=""/>
+  <member type="node" ref="1917311030" role=""/>
+  <member type="node" ref="1924833592" role=""/>
+  <member type="node" ref="799079208" role=""/>
+  <member type="node" ref="721725973" role=""/>
+  <member type="node" ref="766017743" role=""/>
+  <member type="node" ref="757430610" role=""/>
+  <member type="node" ref="757430608" role=""/>
+  <member type="node" ref="721725972" role=""/>
+  <member type="node" ref="1012969648" role=""/>
+  <member type="node" ref="721725953" role=""/>
+  <member type="node" ref="721725974" role=""/>
+  <member type="node" ref="1924843327" role=""/>
+  <member type="node" ref="721725956" role=""/>
+  <member type="node" ref="721725980" role=""/>
+  <member type="node" ref="721726004" role=""/>
+  <member type="node" ref="1012969569" role=""/>
+  <member type="node" ref="2148503741" role=""/>
+  <member type="node" ref="994039760" role=""/>
+  <member type="node" ref="721725996" role=""/>
+  <member type="node" ref="721726010" role=""/>
+  <member type="node" ref="1917311044" role=""/>
+  <member type="node" ref="738159791" role=""/>
+  <member type="node" ref="738159759" role=""/>
+  <member type="node" ref="721726027" role=""/>
+  <member type="node" ref="721726012" role=""/>
+  <member type="node" ref="721725999" role=""/>
+  <member type="node" ref="721726001" role=""/>
+  <member type="node" ref="757439069" role=""/>
+  <member type="way" ref="165598279" role="backward"/>
+  <member type="way" ref="5322248" role="backward"/>
+  <member type="way" ref="1233532019" role="forward"/>
+  <member type="way" ref="155373483" role="forward"/>
+  <member type="way" ref="1201827613" role=""/>
+  <member type="way" ref="1201827614" role=""/>
+  <member type="way" ref="1202107249" role=""/>
+  <member type="way" ref="47073783" role=""/>
+  <member type="way" ref="1202107251" role=""/>
+  <member type="way" ref="1202107250" role=""/>
+  <member type="way" ref="477599210" role=""/>
+  <member type="way" ref="376581079" role=""/>
+  <member type="way" ref="1201829696" role=""/>
+  <member type="way" ref="1201829695" role=""/>
+  <member type="way" ref="1201829697" role="backward"/>
+  <member type="way" ref="1201829698" role="backward"/>
+  <member type="way" ref="137682187" role="backward"/>
+  <member type="way" ref="931179150" role="backward"/>
+  <member type="way" ref="31456677" role="forward"/>
+  <member type="way" ref="477599205" role="backward"/>
+  <member type="way" ref="165598306" role="backward"/>
+  <member type="way" ref="80208636" role="backward"/>
+  <member type="way" ref="130312840" role="backward"/>
+  <member type="way" ref="1202868574" role="backward"/>
+  <member type="way" ref="593521750" role="backward"/>
+  <member type="way" ref="593521749" role="backward"/>
+  <member type="way" ref="138130450" role="backward"/>
+  <member type="way" ref="22973503" role="backward"/>
+  <member type="way" ref="931182024" role=""/>
+  <member type="way" ref="80457136" role=""/>
+  <member type="way" ref="137682186" role=""/>
+  <member type="way" ref="42887042" role=""/>
+  <member type="way" ref="1201581134" role=""/>
+  <member type="way" ref="107254385" role="forward"/>
+  <member type="way" ref="1201728794" role="forward"/>
+  <member type="way" ref="1201728792" role="forward"/>
+  <member type="way" ref="14891038" role="forward"/>
+  <member type="way" ref="1201728798" role="forward"/>
+  <member type="way" ref="1201728796" role="forward"/>
+  <member type="way" ref="1201730046" role="forward"/>
+  <member type="way" ref="29427155" role="forward"/>
+  <member type="way" ref="107186645" role="forward"/>
+  <member type="way" ref="29427156" role="forward"/>
+  <member type="way" ref="29313477" role="forward"/>
+  <member type="way" ref="38375347" role="forward"/>
+  <member type="way" ref="1203378302" role="forward"/>
+  <member type="way" ref="1370582121" role="forward"/>
+  <member type="way" ref="38375349" role="forward"/>
+  <member type="way" ref="233809947" role="forward"/>
+  <member type="way" ref="1203378300" role="forward"/>
+  <member type="way" ref="1370377700" role="forward"/>
+  <member type="way" ref="20647714" role="forward"/>
+  <member type="way" ref="1425199586" role="forward"/>
+  <member type="way" ref="1424275208" role="forward"/>
+  <member type="way" ref="80511365" role="forward"/>
+  <member type="way" ref="556636971" role=""/>
+  <member type="way" ref="556636974" role=""/>
+  <member type="way" ref="110781532" role=""/>
+  <member type="way" ref="477599192" role=""/>
+  <member type="way" ref="130312837" role=""/>
+  <member type="way" ref="80208635" role=""/>
+  <member type="way" ref="477599218" role="backward"/>
+  <member type="way" ref="931179149" role="backward"/>
+  <member type="way" ref="1203385083" role="forward"/>
+  <member type="way" ref="1370671721" role="forward"/>
+  <member type="way" ref="38375345" role="forward"/>
+  <member type="way" ref="721234675" role="forward"/>
+  <member type="way" ref="1030518219" role=""/>
+  <member type="way" ref="1202217677" role=""/>
+  <member type="way" ref="1202217678" role=""/>
+  <member type="way" ref="55637437" role=""/>
+  <member type="way" ref="1202217679" role=""/>
+  <member type="way" ref="1087212480" role=""/>
+  <member type="way" ref="1086058961" role=""/>
+  <member type="way" ref="39861649" role=""/>
+  <member type="way" ref="127658904" role=""/>
+  <member type="way" ref="127658897" role=""/>
+  <member type="way" ref="29312521" role=""/>
+  <member type="way" ref="1086296631" role=""/>
+  <member type="way" ref="1202991427" role=""/>
+  <member type="way" ref="1202991428" role=""/>
+  <member type="way" ref="1202991429" role=""/>
+  <member type="way" ref="1202991432" role=""/>
+  <member type="way" ref="1202991430" role=""/>
+  <member type="way" ref="129111452" role=""/>
+  <member type="way" ref="14863794" role=""/>
+  <member type="way" ref="80511351" role=""/>
+  <member type="way" ref="14863223" role=""/>
+  <member type="way" ref="14855820" role=""/>
+  <member type="way" ref="477791857" role=""/>
+  <member type="way" ref="214795457" role=""/>
+  <member type="way" ref="165723783" role="forward"/>
+  <member type="way" ref="477791867" role="forward"/>
+  <member type="way" ref="165723776" role="forward"/>
+  <member type="way" ref="1464566433" role=""/>
+  <member type="way" ref="5364464" role=""/>
+  <member type="way" ref="1464565515" role="backward"/>
+  <member type="way" ref="1464565516" role="backward"/>
+  <member type="way" ref="31405514" role="backward"/>
+  <member type="way" ref="1464566429" role="backward"/>
+  <member type="way" ref="1464566430" role="backward"/>
+  <member type="way" ref="1464566431" role="backward"/>
+  <member type="way" ref="1464566432" role="backward"/>
+  <member type="way" ref="1464566434" role="backward"/>
+  <member type="way" ref="1464566435" role="backward"/>
+  <member type="way" ref="1464566436" role="backward"/>
+  <member type="way" ref="165723777" role="backward"/>
+  <member type="way" ref="20361521" role="backward"/>
+  <member type="way" ref="4691653" role=""/>
+  <member type="way" ref="762036963" role=""/>
+  <member type="way" ref="224709288" role=""/>
+  <member type="way" ref="1464572010" role=""/>
+  <member type="way" ref="1464601498" role=""/>
+  <member type="way" ref="1464572011" role=""/>
+  <member type="way" ref="1464601499" role=""/>
+  <member type="way" ref="1464572013" role=""/>
+  <member type="way" ref="1464572012" role=""/>
+  <member type="way" ref="1464572014" role=""/>
+  <member type="way" ref="762036961" role=""/>
+  <member type="way" ref="1464601500" role=""/>
+  <member type="way" ref="1464601502" role=""/>
+  <member type="way" ref="1464601501" role=""/>
+  <member type="way" ref="1464572015" role=""/>
+  <member type="way" ref="1464572018" role=""/>
+  <member type="way" ref="1464572017" role=""/>
+  <member type="way" ref="1464572016" role=""/>
+  <member type="way" ref="1464601503" role=""/>
+  <member type="way" ref="1464601504" role=""/>
+  <member type="way" ref="1464601505" role=""/>
+  <member type="way" ref="1464601506" role=""/>
+  <member type="way" ref="1464572019" role=""/>
+  <member type="way" ref="1464572021" role=""/>
+  <member type="way" ref="1464572020" role=""/>
+  <member type="way" ref="1464572022" role=""/>
+  <member type="way" ref="1464601511" role=""/>
+  <member type="way" ref="1464601510" role=""/>
+  <member type="way" ref="1464601512" role=""/>
+  <member type="way" ref="1464601513" role=""/>
+  <member type="way" ref="1464601514" role=""/>
+  <member type="way" ref="1464601515" role=""/>
+  <member type="way" ref="66203677" role=""/>
+  <member type="way" ref="1464601516" role=""/>
+  <member type="way" ref="1465209517" role=""/>
+  <member type="way" ref="1465209516" role=""/>
+  <member type="way" ref="1464572024" role=""/>
+  <member type="way" ref="1464572023" role=""/>
+  <member type="way" ref="1465209504" role=""/>
+  <member type="way" ref="1465209505" role=""/>
+  <member type="way" ref="1465209515" role=""/>
+  <member type="way" ref="1465209518" role=""/>
+  <member type="way" ref="1464572025" role=""/>
+  <member type="way" ref="1465209519" role=""/>
+  <member type="way" ref="1464572026" role=""/>
+  <member type="way" ref="1465209520" role=""/>
+  <member type="way" ref="1465209523" role=""/>
+  <member type="way" ref="1465209521" role=""/>
+  <member type="way" ref="1465209522" role=""/>
+  <member type="way" ref="227681810" role=""/>
+  <member type="way" ref="1465209525" role=""/>
+  <member type="way" ref="1465209524" role=""/>
+  <member type="way" ref="1465113401" role=""/>
+  <member type="way" ref="1465113402" role=""/>
+  <member type="way" ref="1465113400" role=""/>
+  <member type="way" ref="227681814" role=""/>
+  <member type="way" ref="1481442585" role=""/>
+  <member type="way" ref="1077276414" role=""/>
+  <member type="way" ref="138252274" role="forward"/>
+  <member type="way" ref="31405474" role="backward"/>
+  <member type="way" ref="477791864" role="forward"/>
+  <member type="way" ref="14856027" role="forward"/>
+  <member type="way" ref="165723784" role="forward"/>
+  <member type="way" ref="228634614" role=""/>
+  <member type="way" ref="41517178" role=""/>
+  <member type="way" ref="1200717516" role=""/>
+  <member type="way" ref="5312312" role=""/>
+  <member type="way" ref="1200717519" role="forward"/>
+  <member type="way" ref="1200717520" role="forward"/>
+  <member type="way" ref="1200717514" role="forward"/>
+  <member type="way" ref="1200717513" role="forward"/>
+  <member type="way" ref="110781516" role="forward"/>
+  <member type="way" ref="1201728777" role="forward"/>
+  <member type="way" ref="1201831875" role="forward"/>
+  <member type="way" ref="1201831874" role="forward"/>
+  <member type="way" ref="1201728778" role="forward"/>
+  <member type="way" ref="14891114" role="forward"/>
+  <member type="way" ref="1201728776" role="forward"/>
+  <member type="way" ref="1201728775" role="forward"/>
+  <member type="way" ref="1201728774" role="forward"/>
+  <member type="way" ref="1201728773" role="forward"/>
+  <member type="way" ref="1201728772" role="forward"/>
+  <member type="way" ref="1201728771" role="forward"/>
+  <member type="way" ref="1009747548" role="forward"/>
+  <member type="way" ref="1009747550" role="forward"/>
+  <member type="way" ref="1009747549" role="forward"/>
+  <member type="way" ref="1201728779" role="forward"/>
+  <member type="way" ref="1201728783" role="forward"/>
+  <member type="way" ref="1201728784" role="forward"/>
+  <member type="way" ref="1201728787" role="forward"/>
+  <member type="way" ref="1201728788" role="forward"/>
+  <member type="way" ref="1201728789" role="forward"/>
+  <member type="way" ref="1201728790" role="forward"/>
+  <member type="way" ref="20647305" role="forward"/>
+  <member type="way" ref="1201728785" role="forward"/>
+  <member type="way" ref="1009747551" role="forward"/>
+  <member type="way" ref="1350604840" role="forward"/>
+  <member type="way" ref="138125080" role="forward"/>
+  <member type="way" ref="114395954" role="forward"/>
+  <member type="way" ref="987430214" role="forward"/>
+  <member type="way" ref="987430218" role="forward"/>
+  <member type="way" ref="192516749" role=""/>
+  <member type="way" ref="114395935" role="backward"/>
+  <member type="way" ref="206582205" role="forward"/>
+  <member type="way" ref="1204065328" role="forward"/>
+  <member type="way" ref="1200717515" role=""/>
+  <member type="way" ref="138140297" role=""/>
+  <tag k="network" v="Transport for Ireland"/>
+  <tag k="network:wikidata" v="Q17100681"/>
+  <tag k="network:wikipedia" v="en:National Transport Authority (Ireland)"/>
+  <tag k="operator" v="Bus Éireann"/>
+  <tag k="ref" v="202"/>
+  <tag k="route" v="bus"/>
+  <tag k="type" v="route"/>
+ </relation>
+ <relation id="7017902" visible="true" version="5" changeset="140301254" timestamp="2023-08-24T04:02:03Z" user="MacLondon" uid="322039">
+  <member type="way" ref="477599152" role="outer"/>
+  <member type="way" ref="376600528" role="outer"/>
+  <member type="way" ref="477599220" role="outer"/>
+  <member type="way" ref="32444867" role="outer"/>
+  <member type="way" ref="477599209" role="outer"/>
+  <member type="way" ref="477599192" role="outer"/>
+  <member type="way" ref="110781532" role="outer"/>
+  <member type="way" ref="556636974" role="outer"/>
+  <member type="way" ref="556636971" role="outer"/>
+  <member type="way" ref="42887042" role="outer"/>
+  <member type="way" ref="1201581134" role="outer"/>
+  <member type="way" ref="477599179" role="outer"/>
+  <member type="way" ref="1200717519" role="outer"/>
+  <member type="way" ref="1200717520" role="outer"/>
+  <member type="way" ref="1200717514" role="outer"/>
+  <member type="way" ref="1200717513" role="outer"/>
+  <member type="way" ref="110781516" role="outer"/>
+  <member type="way" ref="477599181" role="outer"/>
+  <member type="way" ref="477599180" role="outer"/>
+  <member type="way" ref="274879877" role="outer"/>
+  <tag k="admin_level" v="9"/>
+  <tag k="boundary" v="administrative"/>
+  <tag k="name" v="Knockrea B"/>
+  <tag k="ref" v="17041"/>
+  <tag k="type" v="boundary"/>
+  <tag k="wikidata" v="Q59724187"/>
+ </relation>
+ <relation id="7017907" visible="true" version="8" changeset="140348373" timestamp="2023-08-25T02:14:35Z" user="MacLondon" uid="322039">
+  <member type="way" ref="165598306" role="outer"/>
+  <member type="way" ref="137682187" role="outer"/>
+  <member type="way" ref="1201829698" role="outer"/>
+  <member type="way" ref="1201829697" role="outer"/>
+  <member type="way" ref="1201829692" role="outer"/>
+  <member type="way" ref="1201829694" role="outer"/>
+  <member type="way" ref="1201829693" role="outer"/>
+  <member type="way" ref="477599107" role="outer"/>
+  <member type="way" ref="165598288" role="outer"/>
+  <member type="way" ref="477599106" role="outer"/>
+  <member type="way" ref="1182027692" role="outer"/>
+  <member type="way" ref="205620571" role="outer"/>
+  <member type="way" ref="477599198" role="outer"/>
+  <member type="way" ref="477599191" role="outer"/>
+  <member type="way" ref="477599185" role="outer"/>
+  <member type="way" ref="673351925" role="outer"/>
+  <member type="way" ref="1192151488" role="outer"/>
+  <member type="way" ref="5317313" role="outer"/>
+  <member type="way" ref="1192151489" role="outer"/>
+  <member type="way" ref="477599199" role="outer"/>
+  <member type="way" ref="928938293" role="outer"/>
+  <member type="way" ref="928938294" role="outer"/>
+  <member type="way" ref="165618646" role="outer"/>
+  <member type="way" ref="477599195" role="outer"/>
+  <member type="way" ref="5317315" role="outer"/>
+  <member type="way" ref="477599192" role="outer"/>
+  <member type="way" ref="477599209" role="outer"/>
+  <member type="way" ref="165598297" role="outer"/>
+  <tag k="admin_level" v="9"/>
+  <tag k="boundary" v="administrative"/>
+  <tag k="name" v="Mahon C"/>
+  <tag k="ref" v="17044"/>
+  <tag k="type" v="boundary"/>
+  <tag k="wikidata" v="Q59724195"/>
+ </relation>
+</osm>

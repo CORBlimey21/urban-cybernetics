@@ -437,6 +437,7 @@ class OSMJunctionExtractionConfig:
     explicit_include_way_ids: tuple[str, ...] = ()
     explicit_exclude_way_ids: tuple[str, ...] = ()
     explicit_boundary_node_ids: tuple[str, ...] = ()
+    explicit_way_node_intervals: tuple[tuple[str, str, str], ...] = ()
     include_service_roads: bool = False
     retain_crossings_for_audit: bool = True
     split_at_crossings: bool = False
@@ -459,9 +460,22 @@ class OSMJunctionExtractionConfig:
             "explicit_boundary_node_ids",
         ):
             object.__setattr__(self, name, tuple(sorted(set(getattr(self, name)))))
+        intervals = tuple(
+            sorted(
+                {
+                    (str(way_id), str(start_node_id), str(end_node_id))
+                    for way_id, start_node_id, end_node_id in self.explicit_way_node_intervals
+                }
+            )
+        )
+        if len({way_id for way_id, _, _ in intervals}) != len(intervals):
+            raise OSMXMLValidationError(
+                "extraction permits at most one explicit node interval per way"
+            )
+        object.__setattr__(self, "explicit_way_node_intervals", intervals)
 
     def to_dict(self) -> dict[str, object]:
-        return {
+        payload: dict[str, object] = {
             "schema_version": self.schema_version,
             "boundary_id": self.boundary_id,
             "seed_way_ids": list(self.seed_way_ids),
@@ -475,6 +489,12 @@ class OSMJunctionExtractionConfig:
             "minimum_approach_length_metres": self.minimum_approach_length_metres,
             "approach_depth_hops": self.approach_depth_hops,
         }
+        # Preserve the established v1 hash domain when clipping is unused.
+        if self.explicit_way_node_intervals:
+            payload["explicit_way_node_intervals"] = [
+                list(item) for item in self.explicit_way_node_intervals
+            ]
+        return payload
 
     @property
     def config_hash(self) -> str:
@@ -496,6 +516,12 @@ class OSMJunctionExtractionConfig:
             ),
             explicit_boundary_node_ids=tuple(
                 str(item) for item in payload.get("explicit_boundary_node_ids", [])
+            ),
+            explicit_way_node_intervals=tuple(
+                (str(way_id), str(start_node_id), str(end_node_id))
+                for way_id, start_node_id, end_node_id in payload.get(
+                    "explicit_way_node_intervals", []
+                )
             ),
             include_service_roads=bool(payload.get("include_service_roads", False)),
             retain_crossings_for_audit=bool(payload.get("retain_crossings_for_audit", True)),
@@ -1013,10 +1039,39 @@ def extract_operational_junction(
             )
 
     retained_ways = tuple(sorted((way_by_id[item] for item in retained_way_ids), key=lambda item: int(item.osm_id)))
-    retained_node_ids = {ref for way in retained_ways for ref in way.node_refs}
+    configured_intervals = {
+        way_id: (start_node_id, end_node_id)
+        for way_id, start_node_id, end_node_id in config.explicit_way_node_intervals
+    }
+    unknown_interval_ways = sorted(set(configured_intervals) - retained_way_ids)
+    if unknown_interval_ways:
+        raise OSMXMLValidationError(
+            f"way-node intervals reference non-retained ways: {unknown_interval_ways}"
+        )
+    operational_refs_by_way: dict[str, tuple[str, ...]] = {}
+    for way in retained_ways:
+        interval = configured_intervals.get(way.osm_id)
+        if interval is None:
+            operational_refs_by_way[way.osm_id] = way.node_refs
+            continue
+        start_node_id, end_node_id = interval
+        if start_node_id not in way.node_refs or end_node_id not in way.node_refs:
+            raise OSMXMLValidationError(
+                f"way-node interval for {way.osm_id} references a node outside the source way"
+            )
+        start_index = way.node_refs.index(start_node_id)
+        end_index = way.node_refs.index(end_node_id)
+        if start_index >= end_index:
+            raise OSMXMLValidationError(
+                f"way-node interval for {way.osm_id} must follow source-way order"
+            )
+        operational_refs_by_way[way.osm_id] = way.node_refs[start_index : end_index + 1]
+    retained_node_ids = {
+        ref for refs in operational_refs_by_way.values() for ref in refs
+    }
     shared_counts: dict[str, int] = {}
     for way in retained_ways:
-        for ref in set(way.node_refs):
+        for ref in set(operational_refs_by_way[way.osm_id]):
             shared_counts[ref] = shared_counts.get(ref, 0) + 1
     signal_node_ids = tuple(
         sorted(
@@ -1052,16 +1107,17 @@ def extract_operational_junction(
     segments: list[OSMSplitWaySegment] = []
     diagnostics: list[OSMAuditDiagnostic] = []
     for way in retained_ways:
-        split_refs = {way.node_refs[0], way.node_refs[-1]}
-        split_refs.update(ref for ref in way.node_refs if shared_counts.get(ref, 0) > 1)
-        split_refs.update(ref for ref in way.node_refs if ref in signal_node_ids)
-        split_refs.update(ref for ref in way.node_refs if ref in via_nodes)
-        split_refs.update(ref for ref in way.node_refs if ref in config.explicit_boundary_node_ids)
+        operational_refs = operational_refs_by_way[way.osm_id]
+        split_refs = {operational_refs[0], operational_refs[-1]}
+        split_refs.update(ref for ref in operational_refs if shared_counts.get(ref, 0) > 1)
+        split_refs.update(ref for ref in operational_refs if ref in signal_node_ids)
+        split_refs.update(ref for ref in operational_refs if ref in via_nodes)
+        split_refs.update(ref for ref in operational_refs if ref in config.explicit_boundary_node_ids)
         if config.split_at_crossings:
-            split_refs.update(ref for ref in way.node_refs if ref in crossing_node_ids)
-        split_indices = sorted(way.node_refs.index(ref) for ref in split_refs)
+            split_refs.update(ref for ref in operational_refs if ref in crossing_node_ids)
+        split_indices = sorted(operational_refs.index(ref) for ref in split_refs)
         spans = tuple(
-            way.node_refs[start : end + 1]
+            operational_refs[start : end + 1]
             for start, end in zip(split_indices, split_indices[1:])
             if end > start
         )
