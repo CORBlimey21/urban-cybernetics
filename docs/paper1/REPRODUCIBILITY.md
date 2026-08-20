@@ -9,6 +9,11 @@ python3.13 -m venv .venv
 .venv/bin/python -m pip install -e '.[dev]'
 ```
 
+When reusing a virtual environment whose editable install points at a different
+checkout, prefix clean-worktree commands with `PYTHONPATH=src` (or reinstall
+the editable package from the clean worktree). This prevents subprocesses from
+silently importing the original checkout.
+
 The frozen revision is the local annotated tag `paper1-evidence-freeze-v1`.
 Resolve its exact commit with:
 
@@ -64,6 +69,8 @@ Expected compact identities are compilation package
 `9511409b044b479c750ea5ca5b58877176a6adbf787b834974c11e03182ac617`
 and matrix
 `b2f1be3f69ee271cf6b7db2a260207816d49fbbfc7d1f1f2c82ec269e366ebcf`.
+The regenerated `boreenmanna_compilation.json` file SHA-256 is
+`18f269b51b2668eec75c0877295f32540207d45d80eb26b98cc9f88ccc7cde9c`.
 The preserved ignored full-export chain instead uses package
 `c3740a2a658ae613b672fbc446f454ae9a0d98ac6715b2730cdcee925364ce60`
 and matrix
