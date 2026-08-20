@@ -69,7 +69,7 @@ Expected compact identities are compilation package
 `9511409b044b479c750ea5ca5b58877176a6adbf787b834974c11e03182ac617`
 and matrix
 `b2f1be3f69ee271cf6b7db2a260207816d49fbbfc7d1f1f2c82ec269e366ebcf`.
-The regenerated `boreenmanna_compilation.json` file SHA-256 is
+The regenerated `boreenmanna_experiment_compilation_v1.json` file SHA-256 is
 `18f269b51b2668eec75c0877295f32540207d45d80eb26b98cc9f88ccc7cde9c`.
 The preserved ignored full-export chain instead uses package
 `c3740a2a658ae613b672fbc446f454ae9a0d98ac6715b2730cdcee925364ce60`
