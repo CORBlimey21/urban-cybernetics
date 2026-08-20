@@ -12,7 +12,13 @@ The original compiler results remain intact:
 - reviewed road candidate: valid road topology, signal-unresolved and non-executable;
 - synthetic experiment candidate: `executable_with_warnings_or_defaults`.
 
-Synthetic compilation package hash: `c3740a2a658ae613b672fbc446f454ae9a0d98ac6715b2730cdcee925364ce60`.
+The preserved full-export synthetic compilation package hash is
+`c3740a2a658ae613b672fbc446f454ae9a0d98ac6715b2730cdcee925364ce60`.
+It includes the external 905,366-byte OSM source inventory. The clean-checkout
+package generated from the committed compact extraction fixture has hash
+`9511409b044b479c750ea5ca5b58877176a6adbf787b834974c11e03182ac617`.
+Both resolve to the same compilation identity and executable semantic hash;
+the package-hash difference is the retained versus excluded source inventory.
 
 Synthetic dossier hash: `3a84cb5186e6ef0aa50163bef091c0258eef0c4fef8a0a004de053cdbae839ad`.
 
@@ -95,7 +101,13 @@ Legacy mode retains the compiler's integer declarations. Fractional mode consume
 
 ## Controlled comparison
 
-Matrix hash: `3d493f7306f4a7766393fe41cb83f26d4dd0b83e233456f9ccb50b4f7d61920f`.
+The preserved full-export-linked matrix hash is
+`3d493f7306f4a7766393fe41cb83f26d4dd0b83e233456f9ccb50b4f7d61920f`.
+The clean-checkout compact-fixture matrix hash is
+`b2f1be3f69ee271cf6b7db2a260207816d49fbbfc7d1f1f2c82ec269e366ebcf`.
+All twelve canonical event hashes and reported physical outcomes are identical;
+the matrix identity changes because it includes the parent compilation-package
+identity.
 
 All twelve cases use identical geometry, physical assumptions, synthetic plan, demand, tick duration, seed, and horizon within each scenario. Only representation and service-credit mode vary.
 

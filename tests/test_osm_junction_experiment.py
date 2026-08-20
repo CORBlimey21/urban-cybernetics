@@ -131,6 +131,12 @@ def test_matrix_runs_all_modes_with_exact_replay_and_detectable_differences(
     matrix_result,
 ) -> None:
     compilation, scenarios, matrix = matrix_result
+    assert compilation.package.package_hash == (
+        "9511409b044b479c750ea5ca5b58877176a6adbf787b834974c11e03182ac617"
+    )
+    assert matrix.matrix_hash == (
+        "b2f1be3f69ee271cf6b7db2a260207816d49fbbfc7d1f1f2c82ec269e366ebcf"
+    )
     assert len(scenarios) == 2
     assert len(matrix.runs) == 12
     assert BoreenmannaExperimentMatrix.from_json(matrix.to_json()).matrix_hash == matrix.matrix_hash

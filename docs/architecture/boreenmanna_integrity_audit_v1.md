@@ -14,6 +14,13 @@ The original OSM milestone JSON remains byte-identical at SHA-256
 `18340a74742ee28bb28cd71e5f8896d225bedfc7edfeee54a29682ea1026075a` and
 the original v1 matrix JSON remains byte-identical at SHA-256
 `b5a688fa7868060f514689163e892d85b389690e9eb21a3cbec252031b19d661`.
+These preserved packages use the external full OSM export. Clean-checkout
+regeneration uses the committed compact extraction fixture and has compilation
+package hash `9511409b044b479c750ea5ca5b58877176a6adbf787b834974c11e03182ac617`
+and matrix hash
+`b2f1be3f69ee271cf6b7db2a260207816d49fbbfc7d1f1f2c82ec269e366ebcf`;
+its twelve canonical event hashes and physical outcomes match the preserved
+matrix exactly.
 
 Audit deterministic hash:
 `b047b4638ea61184b393adc374e18bd36504ff88b5e952dfe0ff408ad3d8375c`.

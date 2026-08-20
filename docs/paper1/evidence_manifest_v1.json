@@ -1,0 +1,453 @@
+{
+  "schema_version": "uc.paper1-evidence-manifest.v1",
+  "freeze_date": "2026-08-20",
+  "repository": {
+    "branch": "main",
+    "pre_closure_head": "b297ff3716d143bc0566db304d0c5ffab1b83fdd",
+    "paper1_closure_source_commits": [
+      "66642ca7b2484f8cddc65e4786cb9561dcd462a1",
+      "e6cffe1338a6a50605e107dc5100a4e6024e7596"
+    ],
+    "evidence_freeze_tag": "paper1-evidence-freeze-v1",
+    "evidence_freeze_commit_sha": null,
+    "evidence_freeze_commit_resolution": "git rev-parse paper1-evidence-freeze-v1^{commit}",
+    "self_reference_note": "A commit cannot contain its own SHA-1. The annotated tag is the machine-resolvable revision identifier; the literal final SHA is recorded in the closure report returned with the freeze.",
+    "historical_rewrite_performed": false
+  },
+  "environment": {
+    "python": "CPython 3.13.3",
+    "python_implementation": "CPython",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "project_version": "urban-cybernetics 0.1.0",
+    "direct_runtime_dependencies": {
+      "networkx": "3.6.1",
+      "numpy": "2.4.6"
+    },
+    "verification_dependency": {
+      "pytest": "9.0.3"
+    },
+    "dependency_contract": "pyproject.toml plus the exact versions above; timing and memory values are machine-dependent"
+  },
+  "frozen_kernel": {
+    "freeze_version": "loading-kernel-v1.0.1",
+    "profile_id": "parity_ltm_v1",
+    "freeze_manifest_path": "data/validation/loading_kernel_freeze_manifest_v1.json",
+    "freeze_manifest_sha256": "3d6a77588bb8e14c48ca6bca7dbc010699d9caf05e409545bfe47be6c0864ef5",
+    "kernel_evidence_commit": "6fb834c7ace57421e0816f2894cc5f53e1f898c0",
+    "semantic_change_commit": "74fd7311bcdf7271747e1d55d42be41a31ccaf04",
+    "hardening_commit": "1fd8884c69c82e6d53ed1b4801a9d1672f38e6ef",
+    "canonical_event_source_sha256": "772e576cc5c52a7129bc592d5a0bf87e74d0258af8793c10606bf11b0da11dca",
+    "compiler_version": "uc-network-compiler-v0.4.0"
+  },
+  "core_physical_validation": {
+    "canonical_internal_matrix": {
+      "artifact_id": "uc.validation.loading-kernel-matrix.v1",
+      "path": "docs/validation/loading_kernel_validation_matrix_v1.json",
+      "sha256": "d2d2712850d1a59e232b6d3b1a0f09a5e145824392b768db9951ba50aaa95d23"
+    },
+    "lane_drop_comparison": {
+      "case_id": "M8-PUB-DSOUZA-FIG5-DT1",
+      "classification": "observational_digitised_comparison_without_calibration",
+      "cumulative_inflow": {
+        "rmse_before": 1.304916,
+        "rmse_after": 1.199089,
+        "mae_before": 1.125466,
+        "mae_after": 0.984037,
+        "max_abs_before": 2.160546,
+        "max_abs_after": 2.160546
+      },
+      "cumulative_outflow": {
+        "rmse_before": 2.381686,
+        "rmse_after": 0.885554,
+        "mae_before": 1.995476,
+        "mae_after": 0.745504,
+        "max_abs_before": 5.195908,
+        "max_abs_after": 2.762781
+      },
+      "storage": {
+        "rmse_before": 1.8918,
+        "rmse_after": 0.881411,
+        "mae_before": 1.636418,
+        "mae_after": 0.658075,
+        "max_abs_before": 4.682678,
+        "max_abs_after": 1.985438
+      },
+      "report_sha256": "814c2a303210e1f5440675198113133de51d467909568097b3d7222331192a4f"
+    },
+    "diverge": {
+      "deterministic_case_id": "M8-PUB-DSOUZA-FIG7-DT1",
+      "comparison_manifest_sha256": "a8e358b4adfb6142f773a2c19c224c3e19090a91454d0be2b8585a1cb11784d8",
+      "stochastic_case_id": "M8-PUB-DSOUZA-FIG8-DT1",
+      "ensemble_summary_sha256": "e825f3c8486fd585bce1a91065e4acada2c062ca2325a77d25b5a2dc4249ee4b",
+      "replications": 100,
+      "all_conservation_fifo_identity_replay_gates_passed": true
+    },
+    "merge": {
+      "equal_case_id": "M8-PUB-DSOUZA-FIG9-EQUAL-DT1",
+      "equal_summary_sha256": "b434ebb0302106701e0ed64c6fa090bf5a51fb4dc7ae197c84e46dd203417d62",
+      "asymmetric_case_id": "M8-PUB-DSOUZA-FIG9-ASYMMETRIC-DT1",
+      "asymmetric_summary_sha256": "1c7fc91596c634b18b81ebe79a74d942018342a318de34630ca11c3df6676919",
+      "all_conservation_fifo_identity_replay_gates_passed": true
+    },
+    "composed_conservation_replay": {
+      "case_id": "M8-COMP-NET-01",
+      "packets": 8,
+      "completion_tick": 10,
+      "exact_conservation_fifo_storage_and_replay": true
+    },
+    "high_packet_scale_ladder": {
+      "artifact_path": "docs/validation/sioux_falls_post_option_c_scale_ladder_profile.json",
+      "artifact_sha256": "4c9819156fb96981d6a9c0ae60795ffc28edc3e146d9abdfee141a1b9a62fa3a",
+      "rungs": [10000, 25000, 50000, 100000, 200000, 360600],
+      "passed_rungs": [10000, 25000, 50000, 100000, 200000],
+      "exact_replay_rung": 10000,
+      "largest_exactly_conserved_completed_rung": 200000,
+      "360600_status": "runtime_guard_failure_not_a_completed_validation"
+    }
+  },
+  "junction_representation": {
+    "boreenmanna_tracked_compact_source_sha256": "9eb6a0c8408ebe5e84a33458103867e64fbb4965b3cc1a899a4dee76ee362e64",
+    "boreenmanna_external_full_source_sha256": "7b879dea3298adffc4c264bdca3836b5ec62536d8b6450d8602a482f97088d77",
+    "full_source_extraction_hash": "e2a952a553cbcdb781c27921c4c8dc189dae199b2353762e66a40e9625ebf869",
+    "compact_source_extraction_hash": "a380cb680576db511326929ac14454393c168276cd8f632cdad048fc2650229a",
+    "source_strict_compilation_identity": "faef44452a0b073b38571a53e1f2027068afcb7a2b41c8cf895065666c3d34b4",
+    "reviewed_compilation_identity": "4a746c15a74a30f5c75c62ee89e4e493b7c50438a216dc42adb5f8d1f8957296",
+    "synthetic_compilation_identity": "659c437fd5bcaac5e3ef44a56953dc778d43daeee371a500b82d8b42c349ff9c",
+    "synthetic_executable_semantic_hash": "db59ef926cebf67e32090a31955c6cd8471b545e4bace571f56031998173f3aa",
+    "full_source_compilation_package_hash": "c3740a2a658ae613b672fbc446f454ae9a0d98ac6715b2730cdcee925364ce60",
+    "compact_source_compilation_package_hash": "9511409b044b479c750ea5ca5b58877176a6adbf787b834974c11e03182ac617",
+    "synthetic_control_dossier_hash": "3a84cb5186e6ef0aa50163bef091c0258eef0c4fef8a0a004de053cdbae839ad",
+    "full_source_representation_matrix_hash": "3d493f7306f4a7766393fe41cb83f26d4dd0b83e233456f9ccb50b4f7d61920f",
+    "compact_source_representation_matrix_hash": "b2f1be3f69ee271cf6b7db2a260207816d49fbbfc7d1f1f2c82ec269e366ebcf",
+    "physical_event_hashes_identical_between_full_and_compact_packages": true,
+    "integrity_audit_package_hash": "a8c653572297a6e9746bf6ccb6e355cc129486b977e7e9e6833bc59f9c11a13e",
+    "integrity_audit_deterministic_hash": "b047b4638ea61184b393adc374e18bd36504ff88b5e952dfe0ff408ad3d8375c",
+    "v2_package_hash": "4491ca670237f3ea00898dedbcca07cf3738def8c1369a4ca9c872cd960152ac",
+    "v2_deterministic_hash": "76a812ad0a1000ba4abf8f7e2de4fae122dff2b6c341df7385676a25b26a4db7",
+    "v2_analytical_hash": "95d107691b5c1fe1c883d9cab69ada06dfdffba67da552af36760066ceee45a7",
+    "v3_package_hash": "77c21b8b0357c8073fe9f5dc1939c5a8788c5a2af91f183b3dc9c8fe97b09928",
+    "v3_deterministic_hash": "cf480f0faaa75975c4afd476ea974c458e84853fc84162db0cd779b604e0a2f9",
+    "v3_analytical_hash": "26b50a86c4856fe65286b2f88fbdcaa1b22987c110ce32d5da65b7ab9b41bc5b",
+    "representation_package_interpretation": "controlled synthetic demand, control, and lane assignment on pinned real geometry; not empirical traffic validation"
+  },
+  "real_osm_compiler": {
+    "boreenmanna": {
+      "full_source_sha256": "7b879dea3298adffc4c264bdca3836b5ec62536d8b6450d8602a482f97088d77",
+      "source_strict_disposition": "unresolved_non_executable",
+      "reviewed_disposition": "unresolved_non_executable",
+      "reviewed_executable_semantic_hash": null,
+      "source_strict_evidence_bundle_hash": "7a0a2729e41bbb8245d911f87319c3184c8ae82bbf0df40982a6f4b81adbf98a",
+      "reviewed_evidence_bundle_hash": "a7e50e8145ad4d64cf38b8096e0f77a8fcba72baa22b12f2a708508dfa17da9a",
+      "milestone_package_hash": "c3bcb16a830945b6a8ce2ece0ba7d4e5c2ddb2b44e2ecedb7067c0530ea0661c"
+    },
+    "maryville_blackrock": {
+      "tracked_source_sha256": "c6e23f6b00fbf3abb07eebd97c7afdedf731ac0e50e1fc46bde5b749f659308b",
+      "source_strict_disposition": "unresolved_non_executable",
+      "reviewed_disposition": "executable_with_warnings_or_defaults",
+      "source_strict_compilation_identity": "175f40ca8dcfb096cc0f73043a228632b4d4e3466df89ac7b0a7d1166095d17f",
+      "reviewed_compilation_identity": "2faa6c590ed54e0095fbe3921ea67eb1ef7872edcb013b11933e30e2674f15da",
+      "reviewed_executable_semantic_hash": "be77c859070f0096ba526bc38df978d6f207a2dcf2327795d6ba61c2e45a48d7",
+      "source_strict_evidence_bundle_hash": "15a5d0a84ff950df5986a66eb6d36fbed7bb64ca5709334bba2b41c4a73acce1",
+      "reviewed_evidence_bundle_hash": "e2bc6143e9d499ccc0f8d5c44f3f35e5abbe246c244e08006ea196e82e19fbda",
+      "audit_package_hash": "0b42d3c1e5b4ae4fc3642ca0f7ddf2e6b5895720fe48e12199a88f0cd4e56db4",
+      "package_deterministic_hash": "47a59c312b87aaf5675a2777b617731d44374671d04bce5a1482e8054ecb2fb2",
+      "smoke_event_hash": "f23a1d52ba8a8d269f9a8dd89a42a992ff816f9a2ae141267937c625beb3ae96"
+    }
+  },
+  "cork_city_scale": {
+    "graphml_sha256": "cc904d3c9107136fdf6fd24318c19c38958b63dc81c83441e8e5f855f41f5409",
+    "topology_hash": "18c519fb1d69e374fe5a42931da3c4b7072cb423346fc14f1583f2e726f1b198",
+    "physical_profile_hash": "76dd209880628f5ab1cc798e1ff53a1f8ca9fefc76e61a3071b53375893455bd",
+    "source_provenance_hash": "bb93db90070af38fa455bd9f91d8e55c483b64b4b4d02ae415b998c49a87aa78",
+    "node_count": 5891,
+    "directed_edge_count": 13111,
+    "fixed_horizon_ticks": 15000,
+    "fixed_horizon_seconds": 600.0,
+    "manuscript_scale_ladder": [100, 1000, 2500, 5000, 10000],
+    "fixed_horizon_ladder_file_sha256": "e77b543c2348af3a565c843fab7419967a1d12c091c224e314705c2ba0278b77",
+    "fixed_horizon_report_file_sha256": "36e24c71b598cdb5c935ea5966d8bc58a2cc987e802e5ad044f4a08076913cab",
+    "fixed_horizon_rungs": [
+      {
+        "packets": 100,
+        "run_identity_hash": "ae95466df6a07c53127eebfd2b24ac2f7c47d784117900574a0264e92aa1c011",
+        "event_stream_sha256": "51e09210aa96dcee6dc98d10e3afa10986caf8a87901792421128804ed0b088c",
+        "horizon_state_hash": "efeb0096925650266cbe9fe5a86acdf634ef60e19e81b250dd6af5609a2e40d0",
+        "replay": "passed_exact_replay"
+      },
+      {
+        "packets": 1000,
+        "run_identity_hash": "1fc2bd3674feeadfe203c0defd414b315e5ef40374997f21e8d7bc4122458f2c",
+        "event_stream_sha256": "b511645c13f23f684ffbacc61b3a06c7d52b4a94eefa179054d5cf81436b7420",
+        "horizon_state_hash": "f58954405341a9f0d9217a10a87a0d8264c1fffe117ccd38bdbc215672c13e71",
+        "replay": "passed_exact_replay"
+      },
+      {
+        "packets": 2500,
+        "run_identity_hash": "497a88108137852a3ee10a9b233d5aed3573a3145c6dbe8ce6a7b172778184c2",
+        "event_stream_sha256": "b2bc060dd53199f5000f36503a8c997a56587e2cfa85f33e1fed5d71a5d3b445",
+        "horizon_state_hash": "3452df2e2f865607b0e56abd7e6a0f8a4e076133309b3b0a7aecd7b34a271fff",
+        "replay": "passed_exact_replay"
+      },
+      {
+        "packets": 5000,
+        "run_identity_hash": "649ff671960482638262503cc0b24f7ec196fa179832050044d23728ffd50871",
+        "event_stream_sha256": "18903aa6592f56ba8697ad2c62d06d266f5154d4a5cc6e309eb1d18d7b1a770e",
+        "horizon_state_hash": "38305fe6630177b143519761fa3528ad99d25e8e792194b00f11648b93db4f95",
+        "replay": "skipped_by_explicit_cost_policy"
+      },
+      {
+        "packets": 10000,
+        "run_identity_hash": "875d18697793ddbad6f0d960753691ab09f3cf7b4e37f7b40206e5f20dd35eec",
+        "event_stream_sha256": "4033baf0d3cbc5a4747edf304c5bd19212590b78a8a1dfd79dc5cb5c293c443a",
+        "horizon_state_hash": "1a395182929caefe19f7dcb9b6723e225f4dabbaa8d78b3421f556d760920c3f",
+        "exact_conservation": true,
+        "admitted": 9687,
+        "pending_origin_admission": 313,
+        "completed": 631,
+        "active_or_queued": 9056,
+        "replay": "skipped_by_explicit_cost_policy"
+      }
+    ],
+    "retained_drain_support": {
+      "ladder_file_sha256": "5eec68a603d6b7cf9dce65339b356f05ab1fb815006602a658fea80d2b516bca",
+      "100_event_stream_sha256": "7cece4e9330a949aa32d417826825de10793169e728a7ea4de9a711dec879938",
+      "1000_event_stream_sha256": "fcebf49148b3d32664a91a6c4a830cd50b22dc6cfa9088f0b9a23061deb66d13",
+      "10000_bounded_event_stream_sha256": "4f8b75400b7becf7afc9a0d0ca3f746a69bb6654c13ab2309af500b1d4e0810a"
+    },
+    "claim_boundary": "synthetic seeded demand and uncalibrated engineering-profile physical parameters; no calibrated Cork traffic or congestion claim"
+  },
+  "tracked_artifacts": [
+    {
+      "path": "data/validation/loading_kernel_freeze_manifest_v1.json",
+      "role": "frozen_kernel_manifest",
+      "sha256": "3d6a77588bb8e14c48ca6bca7dbc010699d9caf05e409545bfe47be6c0864ef5",
+      "size_bytes": 19770
+    },
+    {
+      "path": "data/validation/paper1_lane_group_ablation_evidence_v1.json",
+      "role": "lane_group_ablation",
+      "sha256": "0476ce0c8aa6a4cbf296a5fe7f38c35218578018968c247094270b4f6d77ef2c",
+      "size_bytes": 4916
+    },
+    {
+      "path": "docs/validation/sioux_falls_post_option_c_scale_ladder_profile.json",
+      "role": "high_packet_scale_ladder",
+      "sha256": "4c9819156fb96981d6a9c0ae60795ffc28edc3e146d9abdfee141a1b9a62fa3a",
+      "size_bytes": 31694
+    },
+    {
+      "path": "docs/validation/anaheim_scale_ladder_profile_v1.json",
+      "role": "supporting_network_scale_profile",
+      "sha256": "2c1d88f96d9759db353039ffa16dbb3d218f2a3a845cf2d8fb1d34ad16c5560d",
+      "size_bytes": 9799
+    },
+    {
+      "path": "data/validation/desouza_figure7_comparison_manifest_v1.json",
+      "role": "diverge_comparison",
+      "sha256": "a8e358b4adfb6142f773a2c19c224c3e19090a91454d0be2b8585a1cb11784d8",
+      "size_bytes": 3217
+    },
+    {
+      "path": "data/validation/desouza_figure8_ensemble_summary_v1.json",
+      "role": "stochastic_diverge_ensemble",
+      "sha256": "e825f3c8486fd585bce1a91065e4acada2c062ca2325a77d25b5a2dc4249ee4b",
+      "size_bytes": 594305
+    },
+    {
+      "path": "data/validation/desouza_figure9a_equal_comparison_summary_v1.json",
+      "role": "equal_merge_comparison",
+      "sha256": "b434ebb0302106701e0ed64c6fa090bf5a51fb4dc7ae197c84e46dd203417d62",
+      "size_bytes": 16000
+    },
+    {
+      "path": "data/validation/desouza_figure9d_asymmetric_comparison_summary_v1.json",
+      "role": "asymmetric_merge_comparison",
+      "sha256": "1c7fc91596c634b18b81ebe79a74d942018342a318de34630ca11c3df6676919",
+      "size_bytes": 17113
+    },
+    {
+      "path": "tests/fixtures/osm/boreenmanna_south_link_compact.osm",
+      "role": "boreenmanna_compact_tracked_source",
+      "sha256": "9eb6a0c8408ebe5e84a33458103867e64fbb4965b3cc1a899a4dee76ee362e64",
+      "size_bytes": 25357
+    },
+    {
+      "path": "tests/fixtures/osm/maryville_brr_junction.osm",
+      "role": "maryville_tracked_source",
+      "sha256": "c6e23f6b00fbf3abb07eebd97c7afdedf731ac0e50e1fc46bde5b749f659308b",
+      "size_bytes": 106424
+    }
+  ],
+  "ignored_generated_outputs": [
+    {
+      "path": "outputs/evidence/boreenmanna_south_link_junction_milestone_v1.json",
+      "role": "boreenmanna_full_source_milestone",
+      "sha256": "18340a74742ee28bb28cd71e5f8896d225bedfc7edfeee54a29682ea1026075a",
+      "size_bytes": 6027911,
+      "regeneration": "requires_external_full_boreenmanna_osm"
+    },
+    {
+      "path": "outputs/evidence/maryville_blackrock_real_junction_v1/maryville_blackrock_real_junction_v1.json",
+      "role": "maryville_package",
+      "sha256": "53f2238f523446d0ec9f2985971bd0b0ceaee331dabc9d2120c3b60cbe5acd20",
+      "size_bytes": 1398470,
+      "regeneration": "deterministic_from_tracked_source"
+    },
+    {
+      "path": "outputs/evidence/boreenmanna_experiment_v1/boreenmanna_experiment_compilation_v1.json",
+      "role": "boreenmanna_full_source_synthetic_compilation",
+      "sha256": "cf9ff1a5b19da91ab1343cb583f072712f77c9773ca697fc1a1fd2bbd28d0d84",
+      "size_bytes": 9564525,
+      "regeneration": "requires_external_full_boreenmanna_osm"
+    },
+    {
+      "path": "outputs/evidence/boreenmanna_experiment_v1/boreenmanna_representation_matrix_v1.json",
+      "role": "boreenmanna_full_source_representation_matrix",
+      "sha256": "b5a688fa7868060f514689163e892d85b389690e9eb21a3cbec252031b19d661",
+      "size_bytes": 177302,
+      "regeneration": "deterministic_physics_with_machine_dependent_performance_fields"
+    },
+    {
+      "path": "outputs/evidence/boreenmanna_integrity_audit_v1/boreenmanna_integrity_audit_v1.json",
+      "role": "boreenmanna_integrity_audit",
+      "sha256": "2867f5472f97f5707045bf68d791cdb78bb188bbe7bf3a1398c94a5862c311c2",
+      "size_bytes": 1419033,
+      "regeneration": "deterministic_hash_excludes_machine_performance"
+    },
+    {
+      "path": "outputs/evidence/boreenmanna_gate_aware_v2_comparison_v1/boreenmanna_gate_aware_v2_comparison_v1.json",
+      "role": "boreenmanna_v2_package",
+      "sha256": "2f686396a1e2ff2f8bcd6a7d1edb36fd6c7a7336793421840758e0a6cc1182f9",
+      "size_bytes": 857086,
+      "regeneration": "deterministic_hash_excludes_machine_performance"
+    },
+    {
+      "path": "outputs/evidence/boreenmanna_discharge_readiness_v3_v1/boreenmanna_discharge_readiness_v3_v1.json",
+      "role": "boreenmanna_v3_package",
+      "sha256": "7512f8ffef20e1d891da02f67ff0a59d52c6cb5ee35c59a9d8f773c67ca4d162",
+      "size_bytes": 1795097,
+      "regeneration": "deterministic_hash_excludes_machine_performance"
+    },
+    {
+      "path": "outputs/cork_fixed_horizon_v1/cork_fixed_horizon_ladder_v1.json",
+      "role": "cork_fixed_horizon_ladder",
+      "sha256": "e77b543c2348af3a565c843fab7419967a1d12c091c224e314705c2ba0278b77",
+      "size_bytes": 72000,
+      "regeneration": "run_identities_deterministic_full_file_contains_machine_timing"
+    },
+    {
+      "path": "outputs/cork_fixed_horizon_v1/cork_fixed_horizon_ladder_v1.md",
+      "role": "cork_fixed_horizon_report",
+      "sha256": "36e24c71b598cdb5c935ea5966d8bc58a2cc987e802e5ad044f4a08076913cab",
+      "size_bytes": 2540,
+      "regeneration": "summary_contains_machine_timing"
+    },
+    {
+      "path": "outputs/cork_fixed_horizon_v1/cork_fixed_horizon_rung_100_v1.json",
+      "role": "cork_fixed_horizon_100",
+      "sha256": "e70970c87630920b05f6b4b293e4168f6d4a7ad6661c36e30997109d70b840cd",
+      "size_bytes": 11832,
+      "regeneration": "deterministic_identity_plus_machine_timing"
+    },
+    {
+      "path": "outputs/cork_fixed_horizon_v1/cork_fixed_horizon_rung_1000_v1.json",
+      "role": "cork_fixed_horizon_1000",
+      "sha256": "1df5d69f0f79a62a64e2ed8ad7a8c34cdfef43811c2708fa5309c4580c4e3896",
+      "size_bytes": 11889,
+      "regeneration": "deterministic_identity_plus_machine_timing"
+    },
+    {
+      "path": "outputs/cork_fixed_horizon_v1/cork_fixed_horizon_rung_2500_v1.json",
+      "role": "cork_fixed_horizon_2500",
+      "sha256": "73e9104823bb4df162e87601a7ddcf0146086bca6f4887ab3ced510f85ea7cc2",
+      "size_bytes": 11860,
+      "regeneration": "deterministic_identity_plus_machine_timing"
+    },
+    {
+      "path": "outputs/cork_fixed_horizon_v1/cork_fixed_horizon_rung_5000_v1.json",
+      "role": "cork_fixed_horizon_5000",
+      "sha256": "a7d408cd7da92ec00364e49271855d22918a96a920d11bbeb5762c4f5b9685ca",
+      "size_bytes": 11823,
+      "regeneration": "deterministic_identity_plus_machine_timing"
+    },
+    {
+      "path": "outputs/cork_fixed_horizon_v1/cork_fixed_horizon_rung_10000_v1.json",
+      "role": "cork_fixed_horizon_10000",
+      "sha256": "66f87a74104e56d260b2c88672323e14132ee793b47e27bd9fce0576ada2e1bb",
+      "size_bytes": 11829,
+      "regeneration": "deterministic_identity_plus_machine_timing"
+    },
+    {
+      "path": "outputs/cork_city_scale/cork_scale_ladder_v1.json",
+      "role": "cork_prior_drain_ladder",
+      "sha256": "5eec68a603d6b7cf9dce65339b356f05ab1fb815006602a658fea80d2b516bca",
+      "size_bytes": 34114,
+      "regeneration": "supporting_bounded_drain_evidence"
+    },
+    {
+      "path": "outputs/cork_city_scale/cork_rung_100_v1.json",
+      "role": "cork_prior_drain_100",
+      "sha256": "da633453c27a410ff24a40130017447ec420277bb28113c056ad44b8a0017f7c",
+      "size_bytes": 10002,
+      "regeneration": "supporting_exact_drain_and_replay"
+    },
+    {
+      "path": "outputs/cork_city_scale/cork_rung_1000_v1.json",
+      "role": "cork_prior_drain_1000",
+      "sha256": "94acfca7c884cc98713113c46bb186df76be9c7077bff5b957081ec12791a496",
+      "size_bytes": 10004,
+      "regeneration": "supporting_exact_drain_and_replay"
+    },
+    {
+      "path": "outputs/cork_city_scale/cork_rung_10000_v1.json",
+      "role": "cork_prior_bounded_drain_10000",
+      "sha256": "532c677fea3a31e7af8b4556bd84c8382660c102cbf1ee5ef9bc9abb21dd87ec",
+      "size_bytes": 10048,
+      "regeneration": "supporting_bounded_run_not_drain_completion"
+    }
+  ],
+  "external_pinned_sources": [
+    {
+      "expected_filename": "cork_full_drive.graphml",
+      "role": "cork_full_drive_graphml",
+      "sha256": "cc904d3c9107136fdf6fd24318c19c38958b63dc81c83441e8e5f855f41f5409",
+      "size_bytes": 8346799,
+      "provenance": "OSMnx 2.0.2 GraphML MultiDiGraph; local pinned-file timestamp 2026-03-06T21:57:44Z",
+      "reproduction_requirement": "required for all Cork adapter, demand, routing, drain, and fixed-horizon runs",
+      "configuration": "--graphml PATH or UC_CORK_GRAPHML=PATH"
+    },
+    {
+      "expected_filename": "Boreenmanna -South Link Junction.osm",
+      "role": "boreenmanna_full_osm_export",
+      "sha256": "7b879dea3298adffc4c264bdca3836b5ec62536d8b6450d8602a482f97088d77",
+      "size_bytes": 905366,
+      "provenance": "pinned OSM XML export; contained OSM timestamps 2011-04-03T20:57:43Z through 2026-08-03T17:29:34Z",
+      "reproduction_requirement": "required only to regenerate the preserved full-source milestone/package chain; the committed compact fixture regenerates manuscript-facing physical identities"
+    },
+    {
+      "expected_filename": "de_souza_et_al_2025_103088.pdf",
+      "role": "published_ltm_reference_pdf",
+      "sha256": "ae898b06f336e78b17d53edab7326cd1346863ff3328cdf86952886852a0c903",
+      "size_bytes": null,
+      "size_status": "source PDF absent from closure workspace",
+      "provenance": "doi:10.1016/j.simpat.2025.103088; OSTI preprint 2569501",
+      "reproduction_requirement": "not required to run committed comparisons; required to independently audit digitisation provenance"
+    }
+  ],
+  "reproducibility_boundary": {
+    "deterministic": [
+      "frozen-kernel hash verification",
+      "Maryville package bytes",
+      "Boreenmanna compact compilation and matrix identity hashes",
+      "Boreenmanna canonical physical event hashes",
+      "Cork topology, physical profile, provenance, demand, route, event-stream, horizon-state, and run identity hashes"
+    ],
+    "machine_dependent": [
+      "wall and CPU durations",
+      "RSS and traced-memory measurements",
+      "profiles",
+      "complete JSON or CSV file hashes when machine measurements or generation timestamps are embedded"
+    ],
+    "ignored_output_policy": "Ignored outputs are retained and hash-recorded. Reproducibility is claimed only where committed runners/configurations and required pinned sources can regenerate the recorded deterministic identities."
+  }
+}
