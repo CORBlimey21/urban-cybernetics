@@ -15,6 +15,7 @@ from urban_cybernetics.canonical_validation.desouza_figure9 import (
 from urban_cybernetics.canonical_validation.desouza_figure9_comparison import (
     compare_figure9_case,
 )
+from urban_cybernetics.publication import require_reference_inputs
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +49,7 @@ AMBIGUITY_RESOLUTION = {
 
 
 def main() -> None:
+    require_reference_inputs(REFERENCES.values())
     result = run_figure9_asymmetric_priority()
     evidence = asdict(result)
     evidence["paper_priority_ambiguity_resolution"] = AMBIGUITY_RESOLUTION

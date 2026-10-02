@@ -15,7 +15,7 @@ import math
 from bisect import bisect_right
 from pathlib import Path
 
-from urban_cybernetics.publication import load_publication_font
+from urban_cybernetics.publication import load_publication_font, require_reference_inputs
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -249,6 +249,7 @@ def _render_plots(
 
 
 def compare(reference_paths: dict[str, Path], uc_path: Path, output: Path) -> dict[str, object]:
+    require_reference_inputs(reference_paths.values())
     references: dict[str, tuple[list[float], list[float]]] = {}
     integrity: dict[str, object] = {}
     for name, path in reference_paths.items():

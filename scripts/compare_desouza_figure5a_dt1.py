@@ -15,7 +15,7 @@ import math
 from bisect import bisect_right
 from pathlib import Path
 
-from urban_cybernetics.publication import load_publication_font
+from urban_cybernetics.publication import load_publication_font, require_reference_inputs
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -239,6 +239,7 @@ def main() -> None:
     parser.add_argument("--comparison-end", type=int)
     args = parser.parse_args()
 
+    require_reference_inputs((args.reference,))
     reference_times, reference_values, reference_value_column, reference_time_quality = _load_reference(
         args.reference, stable_time_sort=args.stable_time_sort,
     )

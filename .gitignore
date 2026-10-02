@@ -19,3 +19,15 @@ venv/
 
 outputs/
 *.graphml
+
+# Rights-managed benchmark/reference inputs acquired directly from their sources.
+/data/benchmarks/sioux_falls/*.tntp
+/data/benchmarks/anaheim/*.tntp
+/data/validation/*digitised*.csv
+
+# Local packaging output
+/build/
+/dist/
+.idea/
+.obsidian/
+/pet-runs/
