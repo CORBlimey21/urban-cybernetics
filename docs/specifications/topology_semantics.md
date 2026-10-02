@@ -107,11 +107,15 @@ T1 introduces executable canonical topology artifacts. A canonical topology is a
 - source/provenance metadata
 - deterministic topology hash
 
-The first controlled benchmark-style topology is Sioux Falls when the committed TNTP files are present under `data/benchmarks/sioux_falls`. This is not Cork and not an OSM import. It is a narrow bridge from tiny hand-built synthetic graphs toward a recognised benchmark network.
+The first controlled benchmark-style topology is Sioux Falls when the separately acquired external TNTP files are present under `data/benchmarks/sioux_falls`. This is not Cork and not an OSM import. It is a narrow bridge from tiny hand-built synthetic graphs toward a recognised benchmark network.
 
 The Sioux Falls TNTP loader treats external TNTP node IDs and directed endpoint pairs as provenance. Canonical IDs are assigned deterministically by the framework (`N###` for nodes and `L####` for directed links). The TNTP file is parsed into immutable canonical records; NetworkX is not used as canonical state.
 
-For the committed Sioux Falls TNTP network, the topology adapter declares these interpretation assumptions:
+Raw TNTP inputs are not bundled; see the
+[benchmark acquisition instructions](../../data/benchmarks/sioux_falls/README.md)
+for the upstream source, filenames and historical checksums.
+
+For the separately acquired Sioux Falls TNTP network, the topology adapter declares these interpretation assumptions:
 
 - TNTP length values are interpreted as miles.
 - TNTP free-flow time values are interpreted as minutes.

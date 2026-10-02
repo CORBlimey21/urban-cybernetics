@@ -8,7 +8,7 @@ Public equivalent HEAD: `b71211814419ebb7d5df4c27f081f708ab940105`.
 
 The tag `paper1-evidence-freeze-v1` maps original target `95c84313c2f826255a70b573674da28d1a4851a6` to public target `c15c781887f1fabc59ba843a02bff85dc21d3030`; its name, message and tagger timestamp were preserved.
 
-The original GitHub signature headers on two rewritten commits could not be preserved as valid signature proofs. Original commit IDs embedded in frozen evidence remain original provenance identifiers; consult `public-commit-map.tsv` for public equivalents. Scientific artifact checksums are unchanged. The mapping covers the 117 rewritten development commits through the release-preparation HEAD above; subsequent public-only commits do not need private-history equivalents.
+The original GitHub signature headers on two rewritten commits could not be preserved as valid signature proofs. Original commit IDs embedded in frozen evidence remain original provenance identifiers; consult [public-commit-map.tsv](public-commit-map.tsv) for public equivalents. Scientific artifact checksums are unchanged. The mapping covers the 117 rewritten development commits through the release-preparation HEAD above; subsequent public-only commits do not need private-history equivalents.
 
 ## Verifying frozen commit provenance
 

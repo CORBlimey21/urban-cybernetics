@@ -45,7 +45,9 @@ requiring the separately acquired Cork GraphML, Sioux Falls/Anaheim TNTP files,
 or digitised de Souza reference CSVs are explicit external-input skips; UC-only
 and synthetic tests still execute. The historical kernel verifier additionally
 requires ten separately supplied de Souza CSVs and full Git history. It reports
-unavailable inputs in the public release tree; see REPRODUCIBILITY.md.
+unavailable inputs in the public release tree; see [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
+The [public-history provenance note](docs/provenance/PUBLIC_HISTORY_PROVENANCE.md)
+explains the sanitised history, historical commit mapping and public verifier adapter.
 
 ```bash
 .venv/bin/python -m pytest -q

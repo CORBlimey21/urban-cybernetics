@@ -132,13 +132,19 @@ Profiling uses Unix facilities (`resource`, process signals); Windows is unverif
   of both historical states is supplied. Do not label the default exporter as
   reproducing that table. Preserve the historical evidence or document both
   revisions/configurations before release.
-- **Source archive versus clone:** `verify_loading_kernel_freeze.py` checks
-  historical Git commits even with `--metadata-only`, and hashes ten digitised
-  reference CSVs omitted from the release. Its `--skip-regeneration` check is
-  unavailable until those exact files are separately installed; the historical
-  manifest remains unchanged. It and one test also require a full-history clone,
-  rather than a GitHub/Zenodo source ZIP. The ordinary suite skips that
-  historical verifier test when its reference inputs are absent.
+- **Public history and source archives:** use
+  `.venv/bin/python scripts/verify_public_loading_kernel_freeze.py --metadata-only`
+  in a full-history public clone. The adapter resolves the frozen manifest's
+  original Git commit IDs through the
+  [public commit mapping](docs/provenance/public-commit-map.tsv) and reports both
+  original and public IDs; artifact checksums remain unchanged. See the
+  [public-history provenance note](docs/provenance/PUBLIC_HISTORY_PROVENANCE.md).
+  Verification remains unavailable until the ten exact digitised reference CSVs
+  omitted from the release are separately installed under their source terms.
+  A GitHub/Zenodo source ZIP has no Git history and cannot satisfy this check.
+  The checksum-pinned original verifier remains unchanged and uses original
+  development-history IDs; it is not the public-clone entry point. The ordinary
+  suite skips its historical verifier test when reference inputs are absent.
   `verify_paper1_evidence.py` verifies file hashes without Git history.
 - **Environment:** Python versions are constrained for core/tests/workbench and
   Pillow, but build tooling and optional non-paper `geo` dependencies are not

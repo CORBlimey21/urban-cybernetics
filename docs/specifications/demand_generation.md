@@ -67,9 +67,14 @@ Hashes are stable under irrelevant dictionary ordering. Changing demand quantity
 
 ### Sioux Falls OD Loader
 
-`load_sioux_falls_demand_manifest` reads the committed TNTP trips file at:
+`load_sioux_falls_demand_manifest` reads the separately acquired external TNTP
+trips file at:
 
 `data/benchmarks/sioux_falls/SiouxFalls_trips.tntp`
+
+The raw input is not bundled. See the
+[benchmark acquisition instructions](../../data/benchmarks/sioux_falls/README.md)
+for the upstream source, expected filenames and historical checksums.
 
 The loader:
 

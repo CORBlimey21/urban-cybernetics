@@ -2,8 +2,10 @@
 
 Status: **not ready to publish**. Software v1.0.0 remains unreleased. The author
 has supplied reserved Zenodo DOIs for Cork data and Paper 1 evidence; reservation
-does not confirm publication. No commit, tag, upload or publication is performed
-by this metadata pass.
+does not confirm publication. Release preparation and public-history provenance
+are committed in the sanitised derivative; no software v1.0.0 tag, upload or
+publication has occurred. The private development repository is separate. See
+[public-history provenance](docs/provenance/PUBLIC_HISTORY_PROVENANCE.md).
 
 | Resource | Identifier | Licence/status |
 | --- | --- | --- |
@@ -56,7 +58,7 @@ by this metadata pass.
   skips), and run all Cork test modules with the verified source installed.
 - [ ] Publication commands/configurations checked; record which expensive scale
   runs were not rerun. Verify deterministic identities separately from timing/RSS.
-- [ ] Record a clean ordinary suite run with external-input skips, plus the
+- [x] Record a clean ordinary suite run with external-input skips, plus the
   historical kernel verifier's expected unavailable-input result and Paper 1
   evidence identities. Do not mark the full kernel verifier passed unless its
   ten omitted reference CSVs were separately supplied.
@@ -69,13 +71,17 @@ by this metadata pass.
 - [x] Review current tracked paths and leave the three absolute paths in the
   frozen Anaheim profile unchanged as historical provenance. Active font/runtime
   dependencies no longer contain machine paths; no credential patterns found.
-- [ ] Review existing untracked files individually; do not use `git add .`.
-  Manuscript/workspace, legacy, OD-generation and calibration files predate
-  this pass and have not been included or deleted.
-- [ ] Commit only the approved release changes and confirm a clean working tree.
+- [x] Keep excluded workspace, legacy, OD-generation and calibration material
+  outside the sanitised public repository; no private untracked files were cloned.
+- [x] Commit the four release-preparation changes and public-history provenance;
+  confirm clean sanitised and fresh-clone working trees at the validation HEAD.
+- [ ] Review/commit any subsequent approved documentation changes and confirm
+  the final public working tree is clean before tagging.
 - [ ] Record the final full commit hash outside that commit (release notes/review
   record); the inspected starting revision was
-  `95c84313c2f826255a70b573674da28d1a4851a6`.
+  original development-history ID `95c84313c2f826255a70b573674da28d1a4851a6`.
+  Resolve its public equivalent through the
+  [commit mapping](docs/provenance/public-commit-map.tsv).
 - [ ] Confirm the repository is enabled in Zenodo's GitHub integration before
   publishing the release; review creator/licence metadata in advance.
 - [ ] Create annotated tag `v1.0.0` **only after review**.
@@ -86,6 +92,32 @@ by this metadata pass.
   files or arbitrary release assets are included automatically.
 - [ ] Add the verified DOI to the repository citation metadata in a follow-up
   commit; do not move the published tag to add it.
+
+## Fresh sanitised-public-clone validation (2026-10-02)
+
+Validation HEAD: `ed44462493bb688a0b0f91296ff7df5d87ca3800` (before subsequent
+documentation-only changes). CPython 3.13.3; documented constrained editable
+installation; external TNTP/de Souza inputs deliberately absent.
+
+- Python suite without Cork: 850 passed, 74 expected skips, 88 subtests passed.
+- Cork installed through the checksum-verifying installer: full suite 856 passed,
+  68 expected skips, 88 subtests passed. Both runs had one dependency deprecation warning.
+- `pip check`, wheel/sdist build and metadata checks passed: version 1.0.0,
+  MPL-2.0 and identical LICENSE bytes. CFF validated against 1.2.0.
+- Web tests/build/lint passed: 26 tests in seven files; existing bundle-size
+  warning and two moderate npm advisory entries remain.
+- Public freeze adapter resolved all four historical commits, then reported the
+  expected missing digitised input. Separate checks: 54 available frozen files
+  match their checksums; four summary checks pass; ten reference CSVs are absent.
+- Paper 1 verifier passed for ten tracked artifacts and exact Cork identity.
+  `--include-ignored` is unavailable in a fresh clone until the separate evidence
+  archive is acquired; the 18 retained outputs are not Git contents.
+- `git diff --check`, clean working-tree checks and `git fsck` passed. All 17
+  excluded input paths are absent from public history and HEAD. No expensive
+  experiment regeneration was performed.
+
+The preparation records below describe earlier development-repository checks
+and environments, not the current public clone's available-input coverage.
 
 ## Preparation checks (2026-09-19)
 
@@ -229,6 +261,11 @@ Proposed release notes (review and complete before publishing):
 
 ## Publication sequence after approval
 
+Use only the sanitised public derivative. Create/configure its separate public
+GitHub remote before following these recommendations: both fetch and push URLs
+for `origin` must name `CORBlimey21/urban-cybernetics`, never the private
+development repository or a local clone. No mirror push is intended.
+
 First close the gates above, review/commit the selected files, and leave a clean
 working tree. Save the completed release notes to a file outside the repository,
 for example `/tmp/uc-v1.0.0-release-notes.md`, including the final commit hash.
@@ -237,16 +274,24 @@ They intentionally stop if a tag/release already exists or the worktree is dirty
 
 ```bash
 set -e
-# Run from the reviewed repository, on the branch you intend to publish.
+# Run from the reviewed sanitised public repository on main.
+test "$(git branch --show-current)" = main
+for UC_PUBLIC_ORIGIN_URL in "$(git remote get-url origin)" "$(git remote get-url --push origin)"; do
+  case "$UC_PUBLIC_ORIGIN_URL" in
+    https://github.com/CORBlimey21/urban-cybernetics|https://github.com/CORBlimey21/urban-cybernetics.git|git@github.com:CORBlimey21/urban-cybernetics.git) ;;
+    *) echo "origin must be the separate public GitHub repository" >&2; exit 1 ;;
+  esac
+done
 test -z "$(git status --porcelain)"
 : "${UC_CORK_GRAPHML:?Set this to the verified pinned Cork GraphML}"
 .venv/bin/python -m pip check
 .venv/bin/python -m pytest -q
 .venv/bin/python scripts/verify_paper1_evidence.py --include-ignored \
   --cork-graphml "$UC_CORK_GRAPHML"
-# The historical loading-kernel verifier needs ten omitted de Souza CSVs.
+# The public adapter scripts/verify_public_loading_kernel_freeze.py --metadata-only
+# needs ten omitted de Souza CSVs as well as mapped public Git history.
 # Review its recorded unavailable-input result or run it in an authorized
-# full-history checkout containing those exact separately obtained inputs.
+# public-history checkout containing those exact separately obtained inputs.
 # cffconvert must be installed in a separate validation environment/on PATH.
 cffconvert --validate -i CITATION.cff
 (cd web && npm ci && npm test && npm run build && npm run lint)

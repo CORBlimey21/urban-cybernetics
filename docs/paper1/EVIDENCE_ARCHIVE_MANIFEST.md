@@ -28,9 +28,10 @@ LICENSE-ODbL-1.0.txt and SHA256SUMS.txt (23 checksum entries; no self-hash).
 It is a retained-output subset, not every paper result: no separate
 cybernetic-composition result file is among these 18 files.
 
-Before publication, update the staged README's reserved-DOI placeholder and
-archive documentation as needed, then rebuild/checksum packaging only. The
-previously prepared ZIP is not rebuilt by this repository metadata pass.
+The prepared archive README and manifest copy record the reserved DOI above;
+SHA256SUMS.txt was regenerated during packaging. Publication, DOI resolution
+and public-download checksum verification remain outstanding. Documentation
+changes in this repository do not rebuild the separate ZIP.
 
 This manifest classifies the 18 ignored files hash-recorded in
 `evidence_manifest_v1.json`. None is a primary source/input and none is a

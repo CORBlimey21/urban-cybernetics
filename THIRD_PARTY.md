@@ -69,9 +69,9 @@ Those 25 frozen source files retain their exact bytes instead of receiving
 inline SPDX comments. Other project-authored release source carries
 `SPDX-License-Identifier: MPL-2.0`. No Exhibit B designation is applied.
 
-The pre-existing untracked `legacy/` code and `scripts/02_build_od_matrix.py`
-and `scripts/05_calibrate_validate.py` were left untouched: their authorship and
-inclusion in this release have not been established. Manuscripts, papers,
+The separate historical pipelines `legacy/`, `scripts/02_build_od_matrix.py`
+and `scripts/05_calibrate_validate.py` are excluded from this public repository.
+No licensing grant for those excluded materials is asserted here. Manuscripts, papers,
 datasets, frozen evidence and generated outputs receive no MPL grant through
 this software-licensing pass.
 

@@ -30,6 +30,11 @@ before writing output. The historical loading-kernel verifier below requires
 the ten exact digitised CSVs named in its unchanged freeze manifest, supplied
 separately under their source terms. See [THIRD_PARTY.md](../../THIRD_PARTY.md)
 and the root [reproduction index](../../REPRODUCIBILITY.md).
+In this sanitised public repository, use the public verifier adapter below;
+[public-history provenance](../provenance/PUBLIC_HISTORY_PROVENANCE.md) and the
+[commit mapping](../provenance/public-commit-map.tsv) explain original historical
+SHAs, including those in `EVIDENCE_FREEZE_V1.md`. Frozen documents and scientific
+checksums retain their original identities.
 
 When reusing a virtual environment whose editable install points at a different
 checkout, prefix clean-worktree commands with `PYTHONPATH=src` (or reinstall
@@ -45,8 +50,12 @@ git rev-parse 'paper1-evidence-freeze-v1^{commit}'
 
 ## Identity and frozen-kernel gates
 
+The [validation reading note](../validation/README.md) explains historical/local
+images and original Git SHAs in checksum-controlled validation reports. Those
+reports are preserved unchanged; image references do not imply bundled plots.
+
 ```bash
-.venv/bin/python scripts/verify_loading_kernel_freeze.py --skip-regeneration
+.venv/bin/python scripts/verify_public_loading_kernel_freeze.py --metadata-only
 .venv/bin/python scripts/verify_paper1_evidence.py
 .venv/bin/python -m pytest -q tests/validation/test_loading_kernel_freeze_manifest.py
 ```
@@ -59,7 +68,13 @@ To also verify the retained ignored files and the external Cork source:
   --cork-graphml /absolute/path/to/cork_full_drive.graphml
 ```
 
-With the exact separately acquired reference CSVs and full Git history, expected
+The public adapter reports original and mapped public commit IDs. It still
+stops at missing reference CSVs; it does not restore excluded inputs. The
+original-verifier pytest case above skips without those inputs and otherwise
+requires original development-history commit IDs, so it is not a replacement
+for the public adapter.
+
+With the exact separately acquired reference CSVs and full public Git history, expected
 results are `status: passed`, frozen manifest SHA-256
 `3d6a77588bb8e14c48ca6bca7dbc010699d9caf05e409545bfe47be6c0864ef5`,
 and Cork source SHA-256
