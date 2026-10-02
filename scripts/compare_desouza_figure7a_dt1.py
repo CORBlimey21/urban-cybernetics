@@ -15,6 +15,8 @@ import math
 from bisect import bisect_right
 from pathlib import Path
 
+from urban_cybernetics.publication import load_publication_font
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/validation"
@@ -172,10 +174,8 @@ def _render_plots(
     left, top, right, bottom = 155, 145, width - 70, height - 120
     background, grid, ink = "#FAFBFC", "#D9DEE5", "#263238"
     colors = {"Gu": "#7A3E9D", "F1": "#0072B2", "F2": "#D55E00"}
-    regular = "/System/Library/Fonts/Supplemental/Arial.ttf"
-    bold = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-    font = ImageFont.truetype(regular, 25)
-    title_font = ImageFont.truetype(bold, 34)
+    font = load_publication_font(ImageFont, 25)
+    title_font = load_publication_font(ImageFont, 34, bold=True)
 
     def canvas(title: str, ylabel: str, ymin: float, ymax: float):
         image = Image.new("RGB", (width, height), background)

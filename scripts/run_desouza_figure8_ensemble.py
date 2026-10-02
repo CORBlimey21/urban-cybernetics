@@ -11,6 +11,8 @@ import json
 from dataclasses import asdict
 from pathlib import Path
 
+from urban_cybernetics.publication import load_publication_font
+
 from urban_cybernetics.canonical_validation.desouza_figure8 import (
     FIGURE8_SERIES_IDS,
     run_figure8_ensemble,
@@ -106,9 +108,10 @@ def _render_plots(output: Path, replications, summary: dict[str, object]) -> Non
 def _fonts():
     from PIL import ImageFont
 
-    regular = "/System/Library/Fonts/Supplemental/Arial.ttf"
-    bold = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-    return ImageFont.truetype(regular, 22), ImageFont.truetype(bold, 31)
+    return (
+        load_publication_font(ImageFont, 22),
+        load_publication_font(ImageFont, 31, bold=True),
+    )
 
 
 def _render_envelope(path: Path, replications, summary: dict[str, object]) -> None:

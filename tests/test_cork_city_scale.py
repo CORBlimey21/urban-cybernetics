@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: MPL-2.0
 from collections import Counter
 
+import pytest
+
 from urban_cybernetics.config import ACADEMIC_LTM_PARITY_PROFILE_ID
 from urban_cybernetics.core import DemandDeclaration, Link, Node
 from urban_cybernetics.demand.cork_synthetic import (
@@ -24,9 +26,20 @@ from urban_cybernetics.topology.cork import (
     CORK_GRAPH_SHA256,
     CORK_TICK_DURATION_SECONDS,
     load_cork_canonical_network,
+    resolve_cork_graph_path,
 )
 
 
+requires_cork_graphml = pytest.mark.skipif(
+    not resolve_cork_graph_path().is_file(),
+    reason=(
+        "external Cork GraphML is not installed; run "
+        "scripts/install_external_data.py --cork-graphml PATH"
+    ),
+)
+
+
+@requires_cork_graphml
 def test_cork_adapter_preserves_identity_parallel_edges_and_provenance() -> None:
     first = load_cork_canonical_network()
     second = load_cork_canonical_network()
@@ -52,6 +65,7 @@ def test_cork_adapter_preserves_identity_parallel_edges_and_provenance() -> None
     assert any(edge.geometry_sha256 for edge in first.source_edges)
 
 
+@requires_cork_graphml
 def test_cork_physical_profile_is_strictly_eligible_at_frozen_timestep() -> None:
     network = load_cork_canonical_network()
     assert all(
@@ -64,6 +78,7 @@ def test_cork_physical_profile_is_strictly_eligible_at_frozen_timestep() -> None
     ) >= CORK_TICK_DURATION_SECONDS
 
 
+@requires_cork_graphml
 def test_cork_synthetic_demand_and_weighted_routes_are_deterministic() -> None:
     network = load_cork_canonical_network()
     first = build_cork_synthetic_demand(network, packet_count=20)
@@ -81,6 +96,7 @@ def test_cork_synthetic_demand_and_weighted_routes_are_deterministic() -> None:
     assert min(first_routes.route_link_counts) > 1
 
 
+@requires_cork_graphml
 def test_cork_weighted_routing_selects_fastest_parallel_edge() -> None:
     network = load_cork_canonical_network()
     declaration = ODDemandDeclaration(
@@ -160,6 +176,7 @@ def test_sparse_city_v2_matches_stock_v2_canonical_events() -> None:
     )
 
 
+@requires_cork_graphml
 def test_cork_lower_rungs_share_seeded_od_family_prefix() -> None:
     network = load_cork_canonical_network()
     demand_100 = build_cork_synthetic_demand(network, packet_count=100)

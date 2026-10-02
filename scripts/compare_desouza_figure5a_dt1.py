@@ -15,6 +15,8 @@ import math
 from bisect import bisect_right
 from pathlib import Path
 
+from urban_cybernetics.publication import load_publication_font
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REFERENCE = ROOT / "data/validation/desouza_figure5a_cumulative_inflow_digitised_v1.csv"
@@ -138,11 +140,9 @@ def _render_plots(
     width, height = 1890, 1080
     background, grid, ink = "#FAFBFC", "#D9DEE5", "#263238"
     blue, orange, purple = "#0072B2", "#D55E00", "#7A3E9D"
-    regular_font = "/System/Library/Fonts/Supplemental/Arial.ttf"
-    bold_font = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-    font = ImageFont.truetype(regular_font, 27)
-    small = ImageFont.truetype(regular_font, 23)
-    title_font = ImageFont.truetype(bold_font, 35)
+    font = load_publication_font(ImageFont, 27)
+    small = load_publication_font(ImageFont, 23)
+    title_font = load_publication_font(ImageFont, 35, bold=True)
 
     def canvas(title: str, ylabel: str, ymin: float, ymax: float):
         image = Image.new("RGB", (width, height), background)

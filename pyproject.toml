@@ -1,6 +1,6 @@
 [project]
 name = "urban-cybernetics"
-version = "0.1.0"
+version = "1.0.0"
 description = "Research framework for cybernetic urban mobility systems"
 requires-python = ">=3.13"
 license = "MPL-2.0"
@@ -11,6 +11,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+publication = [
+    "pillow>=10.1",
+]
 benchmarks = [
     "networkx>=3.0",
     "numpy>=2.0",

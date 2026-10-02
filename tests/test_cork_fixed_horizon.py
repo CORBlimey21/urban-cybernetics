@@ -1,8 +1,20 @@
 # SPDX-License-Identifier: MPL-2.0
+import pytest
+
 from urban_cybernetics.experiments.cork_fixed_horizon import (
     TOTAL_HORIZON_SECONDS,
     TOTAL_HORIZON_TICKS,
     run_cork_fixed_horizon_rung,
+)
+from urban_cybernetics.topology.cork import resolve_cork_graph_path
+
+
+pytestmark = pytest.mark.skipif(
+    not resolve_cork_graph_path().is_file(),
+    reason=(
+        "external Cork GraphML is not installed; run "
+        "scripts/install_external_data.py --cork-graphml PATH"
+    ),
 )
 
 
