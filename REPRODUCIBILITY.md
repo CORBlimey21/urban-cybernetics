@@ -1,4 +1,4 @@
-# Reproducibility for the proposed 1.0.0 release
+# Reproducibility for the 1.0.0 release
 
 Run from the repository root using the README environment. This index supplements
 [the paper guide](docs/paper1/REPRODUCIBILITY.md) and its
@@ -19,7 +19,7 @@ and checksums there. De Souza comparisons require separately sourced reference
 CSV inputs under their source terms; see THIRD_PARTY.md. No public acquisition
 package for the historical digitisation has been identified.
 
-Reserved archival identifiers (publication pending):
+Published supporting records (2026-10-02):
 
 - Cork GraphML: [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344),
   ODbL-1.0, © OpenStreetMap contributors.
@@ -29,8 +29,8 @@ Reserved archival identifiers (publication pending):
   OpenStreetMap-derived database portions remain ODbL 1.0. Third-party source
   material not licensed for redistribution is excluded from this bundle.
 
-These reserved DOIs do not establish that downloads are publicly available.
-They are separate from the still-unreleased software and its unassigned DOI.
+These public supporting records are separate from the software release; their
+DOIs identify data and evidence, not the software.
 
 ## Small checks and result map
 
@@ -92,7 +92,7 @@ Profiling uses Unix facilities (`resource`, process signals); Windows is unverif
   Six tests skip explicitly when the file is absent. Obtain the exact
   8,346,799-byte source with SHA-256
   `cc904d3c9107136fdf6fd24318c19c38958b63dc81c83441e8e5f855f41f5409`
-  from the author or, after publication, the reserved dataset DOI
+  from the published dataset DOI
   [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344), then run:
 
   ```bash
@@ -103,16 +103,15 @@ Profiling uses Unix facilities (`resource`, process signals); Windows is unverif
   The installer verifies bytes before copying to
   `external/pinned/cork_full_drive.graphml`. See
   `docs/paper1/CORK_GRAPHML_PROVENANCE.md` for the original OSMnx query and why
-  it cannot recreate the historical snapshot. Publication and verification of
-  the reserved record's download remain release-author actions.
+  it cannot recreate the historical snapshot. The published dataset supplies
+  the pinned file; the installer verifies its identity before installation.
 - **Retained evidence:** the manifest names 18 ignored output files. A GitHub
-  source archive will not contain them. The version 1.0.0 evidence bundle is
-  prepared for reserved DOI
-  [10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309);
-  publication and download verification remain outstanding.
+  source archive will not contain them. The version 1.0.0 evidence bundle was
+  published on 2026-10-02 at
+  [10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309).
   The verifier's default checks only 10 tracked artifacts; `--include-ignored`
   checks the additional 18, and `--cork-graphml PATH` checks the external source.
-  `docs/paper1/EVIDENCE_ARCHIVE_MANIFEST.md` classifies every file and recommends
+  `docs/paper1/EVIDENCE_ARCHIVE_MANIFEST.md` classifies every file in
   this separate Zenodo evidence record. The frozen JSON manifest's historical
   versions and archive fields are retained unchanged; current DOI status is here.
 - **Boreenmanna chain:** the compact source reproduces manuscript-facing physical
@@ -157,8 +156,7 @@ Profiling uses Unix facilities (`resource`, process signals); Windows is unverif
   unchanged. Current scripts, tests, configuration, and release documentation do
   not require those paths.
 - **Publication scope:** the reproduction map reflects repository evidence, not
-  a new comparison with the final manuscript. Confirm composition and lane-drop
-  table mappings against that manuscript before publishing.
+  a new comparison with the final manuscript.
 
 Cork fixed-horizon evidence must not be substituted with the earlier
 `scripts/run_cork_city_scale.py` drain/bounded-run experiment. Both use seeded

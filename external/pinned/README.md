@@ -10,10 +10,10 @@ experiments. It is an 8,346,799-byte OSMnx 2.0.2 GraphML file with SHA-256:
 cc904d3c9107136fdf6fd24318c19c38958b63dc81c83441e8e5f855f41f5409
 ```
 
-The dataset has reserved DOI
+The dataset was published on 2026-10-02 at DOI
 [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344),
-under ODbL-1.0, © OpenStreetMap contributors. Once the record is published,
-obtain `cork_full_drive.graphml` there; until then, use the verified author copy.
+under ODbL-1.0, © OpenStreetMap contributors. Obtain `cork_full_drive.graphml`
+from that record and verify its identity before installation.
 The canonical install path is `external/pinned/cork_full_drive.graphml`.
 
 Install an author- or archive-supplied copy only after verification:
@@ -29,7 +29,6 @@ credit OpenStreetMap and its contributors, identify the Open Database License
 ODbL or a compatible licence. See <https://www.openstreetmap.org/copyright>.
 The software's MPL-2.0 licence does not replace the data licence.
 
-The repository does not contain this file. A reserved DOI does not establish
-public download availability; check that after publication. Live OSM reacquisition
-is not byte-reproducible because the database changes over time. See
+The repository does not contain this file; acquire it from the published dataset.
+Live OSM reacquisition is not byte-reproducible because the database changes over time. See
 [the provenance record](../../docs/paper1/CORK_GRAPHML_PROVENANCE.md).

@@ -1,18 +1,18 @@
 # Paper 1 reproduction
 
-For proposed software release 1.0.0, start with the root
+For software release 1.0.0, start with the root
 [release reproduction index](../../REPRODUCIBILITY.md), which records current
 installation requirements and gaps. Historical identities below are unchanged.
 
-The reserved Cork dataset DOI is
+The published Cork dataset DOI is
 [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344)
 (ODbL-1.0; © OpenStreetMap contributors). The Paper 1 evidence archive version
-1.0.0 has reserved DOI
+1.0.0 has DOI
 [10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309).
 Project-generated evidence is CC BY 4.0 unless otherwise stated; embedded
 OpenStreetMap-derived database portions remain subject to ODbL 1.0. Third-party
 source material not licensed for redistribution is excluded from the bundle.
-Both records await publication; these are not software or paper DOIs.
+Both records were published on 2026-10-02; these are not software or paper DOIs.
 
 Run commands from the repository root with CPython 3.13. The freeze was checked
 with Python 3.13.3, NetworkX 3.6.1, NumPy 2.4.6, and pytest 9.0.3. Install the
@@ -80,7 +80,7 @@ results are `status: passed`, frozen manifest SHA-256
 and Cork source SHA-256
 `cc904d3c9107136fdf6fd24318c19c38958b63dc81c83441e8e5f855f41f5409`.
 
-Install an author copy or, after publication, the reserved Cork dataset copy at
+Install the published Cork dataset copy at
 the default ignored path `external/pinned/cork_full_drive.graphml` with:
 
 ```bash

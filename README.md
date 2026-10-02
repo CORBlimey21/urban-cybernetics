@@ -4,11 +4,12 @@ Urban Cybernetics is a research framework for packet-based traffic simulation,
 with explicit loading rules, network provenance, observations, routing
 information, and deterministic replay evidence.
 
-The proposed **1.0.0** archival release accompanies the Urban Cybernetics paper.
+Urban Cybernetics **1.0.0** is the archival research-software release
+accompanying the Urban Cybernetics paper.
 It preserves the current scientific implementation: analytical and digitised
 reference comparisons, junction representation and fractional-service
 experiments, OSM compiler cases, synthetic demand scaling, and bounded
-information/routing composition experiments. It has not yet been released.
+information/routing composition experiments.
 
 ## Setup
 
@@ -54,8 +55,8 @@ explains the sanitised history, historical commit mapping and public verifier ad
 .venv/bin/python scripts/verify_paper1_evidence.py
 ```
 
-To enable the six Cork tests and Cork experiments, obtain the exact author copy
-or, once published, the dataset at reserved DOI
+To enable the six Cork tests and Cork experiments, obtain the exact dataset
+published at DOI
 [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344).
 [The provenance record](docs/paper1/CORK_GRAPHML_PROVENANCE.md) specifies the
 filename, size and checksum. Verify and install it at the ignored default path
@@ -95,8 +96,9 @@ all 18 ignored evidence files.
 ## Code and data availability
 
 The source repository is [Urban Cybernetics on GitHub](https://github.com/CORBlimey21/urban-cybernetics).
-Software v1.0.0 is prepared but unreleased; no software DOI is assigned.
-The following are reserved Zenodo DOIs, not confirmation of public availability:
+Software version: **1.0.0**. Release date: **2026-10-02**.
+The following supporting records were published on 2026-10-02 and are publicly
+available; their DOIs identify data and evidence, not the software:
 
 - Cork GraphML dataset: [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344),
   `cork_full_drive.graphml`, under ODbL-1.0, © OpenStreetMap contributors.
@@ -108,8 +110,8 @@ The following are reserved Zenodo DOIs, not confirmation of public availability:
   for redistribution is excluded from the evidence bundle.
 
 See [the evidence archive manifest](docs/paper1/EVIDENCE_ARCHIVE_MANIFEST.md)
-for the precise scope and licence mapping. Public download and DOI resolution
-must be checked after the records are published.
+for the precise scope and licence mapping. Verify downloaded inputs and evidence
+against their recorded checksums.
 
 Runners are in `scripts/`; experiment implementations are in
 `src/urban_cybernetics/experiments/`; validation cases are in `tests/` and
@@ -149,8 +151,9 @@ Open <http://127.0.0.1:8000>. The workbench persists local runs in ignored
 ## Citation and licence
 
 [CITATION.cff](CITATION.cff) records the software author, supplied ORCID and
-related reserved data/evidence DOIs. No software DOI, paper DOI or release date
-is asserted. The software licence does not replace scholarly citation.
+related published data/evidence DOIs, version 1.0.0 and release date 2026-10-02.
+No software DOI or paper DOI is asserted. The software licence does not replace
+scholarly citation.
 
 Project-authored Urban Cybernetics software is licensed under the
 [Mozilla Public License 2.0](LICENSE) (`MPL-2.0`). This licence does not

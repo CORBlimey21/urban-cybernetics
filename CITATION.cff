@@ -1,8 +1,9 @@
 cff-version: 1.2.0
 message: >-
-  Please cite this software when using Urban Cybernetics. Version 1.0.0 is
-  prepared for release; the related dataset and evidence DOIs are reserved
-  and do not identify a published software release.
+  Please cite this software when using Urban Cybernetics. Version 1.0.0 is the
+  archival software release accompanying the Urban Cybernetics paper, with
+  release date 2026-10-02. The related dataset and evidence records were published
+  on 2026-10-02; their DOIs do not identify the software.
   Cork GraphML dataset (ODbL-1.0; © OpenStreetMap contributors):
   https://doi.org/10.5281/zenodo.22981344.
   Paper 1 evidence archive 1.0.0:
@@ -13,6 +14,7 @@ message: >-
 type: software
 title: Urban Cybernetics
 version: 1.0.0
+date-released: "2026-10-02"
 license: MPL-2.0
 authors:
   - given-names: Cillian
@@ -31,5 +33,5 @@ keywords:
   - urban cybernetics
   - reproducible research
   - network provenance
-# Software DOI, paper citation and date-released are intentionally omitted:
-# none has been established for this unreleased software version.
+# No software DOI or paper citation is declared here.
+# The related DOIs identify supporting data and evidence records.

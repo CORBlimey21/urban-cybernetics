@@ -1,9 +1,9 @@
-# Publication evidence archive recommendation
+# Publication evidence archive scope
 
-Archive version: **1.0.0**. Reserved evidence DOI:
+Archive version: **1.0.0**. Evidence DOI:
 [10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309).
-The bundle is prepared locally; publication and public-download verification
-remain outstanding. This DOI identifies supporting evidence, not the software.
+The bundle was published on 2026-10-02. This DOI identifies supporting evidence,
+not the software.
 
 Project-generated evidence is distributed under **CC BY 4.0** (`CC-BY-4.0`)
 unless otherwise stated. The following three packages contain normalized
@@ -21,17 +21,16 @@ de Souza paper/PDF or digitised reference input files are in this bundle.
 Original OSM XML exports and the Cork GraphML are also excluded; the embedded
 normalized OSM records above remain present with their notices.
 
-The prepared `urban-cybernetics-paper1-evidence-v1.0.0.zip` contains 24 files:
+The published `urban-cybernetics-paper1-evidence-v1.0.0.zip` contains 24 files:
 the 18 evidence files below, README.txt, this manifest's archive copy,
 the unchanged evidence_manifest_v1.json, LICENSE-CC-BY-4.0.txt,
 LICENSE-ODbL-1.0.txt and SHA256SUMS.txt (23 checksum entries; no self-hash).
 It is a retained-output subset, not every paper result: no separate
 cybernetic-composition result file is among these 18 files.
 
-The prepared archive README and manifest copy record the reserved DOI above;
-SHA256SUMS.txt was regenerated during packaging. Publication, DOI resolution
-and public-download checksum verification remain outstanding. Documentation
-changes in this repository do not rebuild the separate ZIP.
+The published archive README and manifest copy record the DOI above;
+SHA256SUMS.txt covers its evidence and accompanying files except itself.
+Documentation changes in this repository do not rebuild or alter the published ZIP.
 
 This manifest classifies the 18 ignored files hash-recorded in
 `evidence_manifest_v1.json`. None is a primary source/input and none is a
@@ -39,11 +38,11 @@ temporary cache. Sixteen are frozen paper/supporting evidence that should be
 preserved; two are readily regenerated summaries/packages but are retained in
 the manifest. Do not add them wholesale to Git.
 
-Destination: the reserved Zenodo evidence record above, to be linked to the
+Archival location: the published Zenodo evidence record above, associated with the
 software release and paper. Preserve the paths below inside the deposit, include
 the JSON evidence manifest at its root, and have Zenodo plus the manifest expose
 checksums. The exact Cork GraphML belongs in the separate ODbL-1.0 dataset
-at reserved DOI [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344).
+at DOI [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344).
 Any other source archive needs its own documented scope and licence notices.
 
 | Path | Bytes | Role | Classification | Regeneration/provenance | Recommended location |
@@ -69,7 +68,7 @@ Any other source archive needs its own documented scope and licence notices.
 
 The 18 files total 21,437,365 bytes. The GraphML and full Boreenmanna export are
 external **source/input required for reproduction**, not members of this list.
-The GraphML has the separate reserved dataset DOI above; the full Boreenmanna
+The GraphML has the separate published dataset DOI above; the full Boreenmanna
 source still needs a confirmed archival location with ODbL attribution.
 The de Souza reference PDF is provenance material, not required to execute the
 committed comparisons; link to its DOI/preprint rather than redistributing a

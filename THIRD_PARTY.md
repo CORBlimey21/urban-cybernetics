@@ -5,7 +5,7 @@ License 2.0 (`MPL-2.0`). That licence applies only to material the project can
 license; it does not relicense the separately identified data or external
 material below.
 
-## Reserved data and evidence records
+## Published data and evidence records
 
 - Cork GraphML: [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344),
   ODbL-1.0, © OpenStreetMap contributors. The exact filename, install path and
@@ -17,10 +17,10 @@ material below.
   retain embedded OpenStreetMap-derived database portions under ODbL 1.0,
   © OpenStreetMap contributors; CC BY does not override those rights.
 
-Both DOIs are reserved and publication is pending. Third-party source material
+Both supporting records were published on 2026-10-02. Third-party source material
 not licensed for redistribution is excluded from the evidence bundle. Raw TNTP
 benchmark files and digitised de Souza reference CSVs are also omitted from
-the proposed software release.
+the v1.0.0 software release.
 
 ## Data requiring separate treatment
 

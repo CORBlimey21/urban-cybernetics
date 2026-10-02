@@ -4,8 +4,8 @@
 
 | Field | Value |
 | --- | --- |
-| Reserved dataset DOI | [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344) |
-| Publication status | Reserved; public download not yet confirmed |
+| Dataset DOI | [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344) |
+| Publication status | Published and public, 2026-10-02 |
 | Expected filename | `cork_full_drive.graphml` |
 | Default local path | `external/pinned/cork_full_drive.graphml` |
 | Size | 8,346,799 bytes |
@@ -61,13 +61,12 @@ the software's MPL-2.0 licence does not replace these data terms. See
 [OpenStreetMap attribution](https://www.openstreetmap.org/copyright) and
 [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/).
 
-The dataset has reserved DOI
+The dataset was published on 2026-10-02 at DOI
 [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344).
-The exact file must be deposited and the public download checked after
-publication. Reservation alone does not establish availability. Until then,
-use the verified author-supplied local file with
-`scripts/install_external_data.py`. No direct download URL is assumed.
+Obtain the exact file from the published record and verify/install it with
+`scripts/install_external_data.py`. The installer checks the size and SHA-256
+listed above. No separate direct download URL is assumed.
 
-The separate Paper 1 evidence archive version 1.0.0 has reserved DOI
+The separate Paper 1 evidence archive version 1.0.0, published on 2026-10-02, has DOI
 [10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309);
 it does not contain this GraphML. See `EVIDENCE_ARCHIVE_MANIFEST.md`.

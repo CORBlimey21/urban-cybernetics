@@ -1,17 +1,18 @@
-# Proposed archival release: 1.0.0
+# Archival release preparation: 1.0.0
 
-Status: **not ready to publish**. Software v1.0.0 remains unreleased. The author
-has supplied reserved Zenodo DOIs for Cork data and Paper 1 evidence; reservation
-does not confirm publication. Release preparation and public-history provenance
-are committed in the sanitised derivative; no software v1.0.0 tag, upload or
-publication has occurred. The private development repository is separate. See
+Status: **v1.0.0 prepared for immediate publication**, with release date
+2026-10-02. Cork data and Paper 1 evidence are published supporting records.
+Release preparation and public-history provenance are committed in the sanitised
+derivative. The GitHub repository is still private; no software v1.0.0 tag,
+GitHub Release or Zenodo software record exists yet. The private development
+repository is separate. See
 [public-history provenance](docs/provenance/PUBLIC_HISTORY_PROVENANCE.md).
 
 | Resource | Identifier | Licence/status |
 | --- | --- | --- |
-| Software 1.0.0 | No software DOI assigned | MPL-2.0; unreleased |
-| Cork GraphML dataset | [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344) | ODbL-1.0; © OpenStreetMap contributors; reserved |
-| Paper 1 evidence archive 1.0.0 | [10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309) | CC BY 4.0 unless otherwise stated; embedded OSM database portions remain ODbL 1.0; reserved |
+| Software 1.0.0 | No software DOI assigned | MPL-2.0; prepared for immediate publication |
+| Cork GraphML dataset | [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344) | ODbL-1.0; © OpenStreetMap contributors; published 2026-10-02 |
+| Paper 1 evidence archive 1.0.0 | [10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309) | CC BY 4.0 unless otherwise stated; embedded OSM database portions remain ODbL 1.0; published 2026-10-02 |
 
 ## Review gates
 
@@ -23,27 +24,28 @@ publication has occurred. The private development repository is separate. See
 - [x] Use the author metadata present in the repository: Cillian Ó Ríordáin,
   ORCID https://orcid.org/0009-0006-2831-5380. Store the supplied ORCID in the
   CFF author entry. No affiliation or additional author is inferred.
-- [ ] Agree the actual release date. Add paper citation/DOI only if verified;
-  software DOI is unavailable until assigned by the archive.
+- [x] Set the release date to 2026-10-02 in CITATION.cff.
+- [ ] Add paper citation/DOI only if verified; add the software DOI only after
+  Zenodo ingests the published GitHub Release.
 - [x] Remove five raw TNTP benchmark files and twelve digitised de Souza
-  reference CSVs from the proposed release tree; document separate acquisition,
+  reference CSVs from the release tree; document separate acquisition,
   exact known identities and explicit test skips. Keep OSM-derived data under
   ODbL notices regardless of the software licence selected.
 - [ ] Decide whether retained UC-generated comparison summaries containing
   extracted de Souza reference values may be redistributed. The historical
   freeze manifest records ten omitted CSVs; full historical verification needs
   separately supplied exact inputs and a full-history clone.
-- [x] Record both reserved DOIs in release documentation and the CFF citation
+- [x] Record both published supporting DOIs in release documentation and the CFF citation
   message without treating either as a software or paper DOI.
-- [ ] Publish/verify the Cork dataset at reserved DOI 10.5281/zenodo.22981344;
-  check filename, byte size, checksum, ODbL-1.0 and OpenStreetMap attribution.
-- [ ] Deposit the 18 manifest-listed ignored outputs according to
-  `EVIDENCE_ARCHIVE_MANIFEST.md`, plus any additional evidence selected for the
-  reported lane-drop table. The prepared 24-file bundle has reserved DOI
-  10.5281/zenodo.23000309; confirm CC BY 4.0/ODbL mapping, official licence texts,
-  updated DOI in staged packaging, checksums and public download after publishing.
-  Third-party source material not licensed for redistribution stays excluded.
-  Do not indiscriminately add outputs to Git.
+- [x] Publish the Cork dataset at DOI 10.5281/zenodo.22981344 on 2026-10-02;
+  retain the exact filename, byte size, checksum, ODbL-1.0 and OSM attribution.
+- [x] Publish the 18 manifest-listed outputs in the 24-file evidence bundle at
+  DOI 10.5281/zenodo.23000309 on 2026-10-02, with CC BY 4.0/ODbL mapping,
+  official licence texts and SHA256SUMS.txt. Third-party source material not
+  licensed for redistribution remains excluded. No extra lane-drop evidence
+  is implied; its historical reproduction gap remains below.
+- [ ] Confirm downloaded supporting-record files against their frozen identities
+  as part of final release review; do not indiscriminately add outputs to Git.
 - [ ] Resolve/accept explicitly the historical lane-drop and full Boreenmanna
   chain gaps in REPRODUCIBILITY.md; confirm the composition case against the paper.
 - [x] Apply reviewed non-breaking npm lockfile fixes. Six transitive advisory
@@ -63,8 +65,8 @@ publication has occurred. The private development repository is separate. See
   evidence identities. Do not mark the full kernel verifier passed unless its
   ten omitted reference CSVs were separately supplied.
 - [x] CITATION.cff validates (`cffconvert --validate -i CITATION.cff`) with the
-  supplied author metadata and related reserved DOIs. Software DOI, paper DOI
-  and date-released remain absent until established.
+  supplied author metadata, related published DOIs and date-released 2026-10-02.
+  Software DOI and paper DOI remain absent until established.
 - [x] Package version, web package/lock metadata and CFF agree at 1.0.0. Leave
   loading-kernel-v1.0.1, compiler/schema/profile IDs and historical 0.1.0 evidence
   metadata unchanged.
@@ -82,6 +84,7 @@ publication has occurred. The private development repository is separate. See
   original development-history ID `95c84313c2f826255a70b573674da28d1a4851a6`.
   Resolve its public equivalent through the
   [commit mapping](docs/provenance/public-commit-map.tsv).
+- [ ] Make the sanitised GitHub repository public after final approval.
 - [ ] Confirm the repository is enabled in Zenodo's GitHub integration before
   publishing the release; review creator/licence metadata in advance.
 - [ ] Create annotated tag `v1.0.0` **only after review**.
@@ -249,11 +252,11 @@ Proposed release notes (review and complete before publishing):
 > Project-authored software is licensed under MPL-2.0; third-party data retains
 > its separately documented terms.
 >
-> Reserved supporting records: Cork GraphML dataset, 10.5281/zenodo.22981344
+> Published supporting records (2026-10-02): Cork GraphML dataset, 10.5281/zenodo.22981344
 > (ODbL-1.0; © OpenStreetMap contributors), and Paper 1 evidence archive 1.0.0,
 > 10.5281/zenodo.23000309 (CC BY 4.0 unless otherwise stated; embedded OSM
-> database portions remain ODbL 1.0). Confirm publication before describing
-> either reserved record as publicly available.
+> database portions remain ODbL 1.0). These supporting DOIs do not identify
+> the software release; its Zenodo DOI will follow software ingestion.
 >
 > Before publishing, insert: confirmed creators, final commit SHA,
 > final validation results, verified paper reference if available, and the location
