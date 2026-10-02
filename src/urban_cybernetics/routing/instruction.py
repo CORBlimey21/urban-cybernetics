@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Versioned executable-routing artifacts and deterministic history resolution."""
 
 from __future__ import annotations

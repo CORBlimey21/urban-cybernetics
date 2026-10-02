@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Anaheim TNTP ingestion and UC-default profile tests."""
 
 from __future__ import annotations

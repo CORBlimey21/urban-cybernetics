@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Global-FIFO merge allocation tests for the minimal loading engine."""
 
 from __future__ import annotations

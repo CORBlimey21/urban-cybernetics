@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Core records for the minimal packet lifecycle simulator."""
 
 from .demand import DemandDeclaration

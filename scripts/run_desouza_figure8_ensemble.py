@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
 """Run and export the seeded de Souza Figure 8 validation ensemble."""
 
 from __future__ import annotations

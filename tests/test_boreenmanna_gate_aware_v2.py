@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """V2 analytical, Boreenmanna integration, and package-integrity tests."""
 
 from __future__ import annotations

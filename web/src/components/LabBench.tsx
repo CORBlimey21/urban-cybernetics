@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   compareLabSeries, createLabStarter, evaluateLabExpression, evaluateLabTable, freezeLabOracle,

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Pre-packet demand declarations, route resolution, and scheduled loading."""
 
 from .manifest import (

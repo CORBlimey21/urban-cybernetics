@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Versioned contracts for the local M8 validation workbench."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Explicit, thread-safe V2 run lifecycle state machine."""
 
 from __future__ import annotations

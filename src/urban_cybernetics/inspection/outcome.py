@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Run-level outcome summaries derived from canonical loading history."""
 
 from __future__ import annotations

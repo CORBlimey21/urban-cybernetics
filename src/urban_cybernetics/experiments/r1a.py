@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """R1a repeated fresh-vs-stale authority experiment."""
 
 from __future__ import annotations

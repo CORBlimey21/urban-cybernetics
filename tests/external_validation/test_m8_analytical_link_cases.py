@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """M8 link fixtures with independently specified analytical oracles.
 
 Expected tables in this module are literal fixture data.  They are not built

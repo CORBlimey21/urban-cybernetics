@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Summary report for canonical LTM validation readiness."""
 
 from __future__ import annotations

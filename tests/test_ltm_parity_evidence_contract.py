@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Academic LTM parity claim and evidence-contract tests."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Count-derived link storage view tests."""
 
 from __future__ import annotations

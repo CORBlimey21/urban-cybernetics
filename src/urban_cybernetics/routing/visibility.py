@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Authority-visible observation frame filtering and receipt artifacts."""
 
 from __future__ import annotations

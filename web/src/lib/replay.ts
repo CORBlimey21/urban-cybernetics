@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import type { ReplayState } from "./contract";
 
 export const stateAtTick = (

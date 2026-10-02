@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Authority-visible frame state tests for M14."""
 
 from __future__ import annotations

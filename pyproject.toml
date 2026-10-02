@@ -3,6 +3,8 @@ name = "urban-cybernetics"
 version = "0.1.0"
 description = "Research framework for cybernetic urban mobility systems"
 requires-python = ">=3.13"
+license = "MPL-2.0"
+license-files = ["LICENSE"]
 dependencies = [
     "networkx>=3.0",
     "numpy>=2.0",
@@ -36,7 +38,7 @@ visualisation = [
 uc-visualisation = "urban_cybernetics.visualisation.cli:main"
 
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]

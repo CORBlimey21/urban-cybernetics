@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Immutable routing request and decision artifacts."""
 
 from __future__ import annotations

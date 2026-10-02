@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Presentation-only network layouts for the V application.
 
 This module consumes immutable topology metadata. It is never imported by the

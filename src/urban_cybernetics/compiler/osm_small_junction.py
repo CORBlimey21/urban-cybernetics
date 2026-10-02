@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Fixture-backed unsignalised-junction selection and compiler smoke slice."""
 
 from __future__ import annotations

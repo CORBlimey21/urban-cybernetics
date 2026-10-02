@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Deterministic persisted baseline results for the M8 validation library."""
 
 from __future__ import annotations

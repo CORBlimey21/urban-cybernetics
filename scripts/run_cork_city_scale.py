@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
 """Run the bounded 100/1k/10k Cork ladder, one fresh process per rung."""
 
 from __future__ import annotations

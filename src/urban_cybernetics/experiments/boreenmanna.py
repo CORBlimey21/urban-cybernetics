@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Controlled representation comparison on real OSM-derived Cork geometry."""
 
 from __future__ import annotations

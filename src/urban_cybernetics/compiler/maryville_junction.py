@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Pinned real unsignalised Maryville--Blackrock Road Paper 1 case."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Canonical route artifacts and deterministic topology path construction."""
 
 from __future__ import annotations

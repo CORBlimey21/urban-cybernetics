@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Focused tests for deterministic fractional service credit above the kernel."""
 
 from __future__ import annotations

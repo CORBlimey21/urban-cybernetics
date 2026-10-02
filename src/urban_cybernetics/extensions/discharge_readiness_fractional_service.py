@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """V3 exponential discharge readiness over the V2 effective-rate machinery.
 
 Readiness belongs to the existing shared physical-link sending account.  It

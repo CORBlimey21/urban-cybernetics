@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """O1 observation channel expansion tests."""
 
 from __future__ import annotations

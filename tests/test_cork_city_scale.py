@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from collections import Counter
 
 from urban_cybernetics.config import ACADEMIC_LTM_PARITY_PROFILE_ID

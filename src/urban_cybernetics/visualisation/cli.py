@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Developer commands for exporting and serving the local V application."""
 
 from __future__ import annotations

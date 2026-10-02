@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Persisted Lab Bench service; never imported by the loading kernel."""
 
 from __future__ import annotations

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
 """Run the versioned 15,000-tick Cork fixed-horizon scale ladder."""
 
 from __future__ import annotations

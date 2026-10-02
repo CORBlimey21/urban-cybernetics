@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import type { ArtifactSummary, LiveMessage } from "../lib/contract";
 
 type Props = { run: ArtifactSummary; message: LiveMessage | null; viewerFollowing: boolean; onViewerFollow: () => void; onCommand: (action: "pause" | "resume" | "cancel") => void };

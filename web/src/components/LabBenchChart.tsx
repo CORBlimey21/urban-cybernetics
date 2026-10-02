@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { LineChart, ScatterChart } from "echarts/charts";
 import { GridComponent, LegendComponent, MarkLineComponent, TooltipComponent } from "echarts/components";
 import * as echarts from "echarts/core";

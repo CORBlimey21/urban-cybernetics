@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import type { MovementEvidence, ReplayState, ValidationCase, ValidationResult } from "./contract";
 
 export type ValidationLinkVisual = Readonly<{

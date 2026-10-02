@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Parsers for Transportation Networks for Research Core Team TNTP files."""
 
 from __future__ import annotations

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
 """Verify Paper 1 tracked, retained-output, and pinned-source identities."""
 
 from __future__ import annotations

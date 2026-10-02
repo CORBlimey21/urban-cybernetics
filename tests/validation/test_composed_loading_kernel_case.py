@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Composition-level regression for the frozen base loading kernel."""
 
 from __future__ import annotations

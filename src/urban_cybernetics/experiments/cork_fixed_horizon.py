@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Fixed-physical-horizon scalability experiment on the pinned Cork graph."""
 
 from __future__ import annotations

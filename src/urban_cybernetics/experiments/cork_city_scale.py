@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Instrumented first-pass physical loading experiment on full Cork topology."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Memory-hardening invariants for canonical loading records."""
 
 from __future__ import annotations

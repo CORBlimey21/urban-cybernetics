@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { useMemo, useState } from "react";
 import type { CanonicalEvent, CumulativeSeries, Manifest, MovementEvidence, ReplayState } from "../lib/contract";
 import { inspectLink, inspectNode, inspectPacket } from "../lib/inspection";

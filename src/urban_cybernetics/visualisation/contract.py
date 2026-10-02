@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Pydantic models for the V1 contract between Python evidence and the browser."""
 
 from __future__ import annotations

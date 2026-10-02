@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Observation-frame tests for boundary-count observability."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Sioux Falls canonical parity-readiness checks."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { z } from "zod";
 import contractEnums from "../contract-enums.json";
 import v2ContractEnums from "../v2-contract-enums.json";

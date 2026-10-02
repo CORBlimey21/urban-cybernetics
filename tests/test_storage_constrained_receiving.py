@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Storage-constrained receiving and basic spillback tests."""
 
 from __future__ import annotations

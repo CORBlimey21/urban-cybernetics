@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import type { CanonicalEvent, Manifest, MovementEvidence, ReplayState } from "./contract";
 
 export const inspectNode = (manifest: Manifest, evidence: MovementEvidence[], nodeId: string) => {

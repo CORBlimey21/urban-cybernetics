@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Canonical topology artifacts and benchmark topology loaders."""
 
 from .canonical import (

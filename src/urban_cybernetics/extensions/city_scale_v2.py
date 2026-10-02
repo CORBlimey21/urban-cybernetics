@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Sparse, summary-evidence V2 execution for city-scale 25 Hz experiments.
 
 The frozen :class:`LoadingEngine` remains untouched.  This extension replaces

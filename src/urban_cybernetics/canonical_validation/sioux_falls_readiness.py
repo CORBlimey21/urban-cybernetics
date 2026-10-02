@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Sioux Falls parity-readiness gates for canonical validation Phase II."""
 
 from __future__ import annotations

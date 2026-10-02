@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """M8 NODE-01 fixtures with allocator-independent arithmetic oracles."""
 
 from __future__ import annotations

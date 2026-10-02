@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Declared M8 analytical cases and their read-only execution adapter.
 
 Expected values are literal authored fixture data. Observations are folded from

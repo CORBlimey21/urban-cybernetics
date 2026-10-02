@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { cancelValidationRun, loadValidationBundle, loadValidationExecutionEvidence, loadValidationHistory, loadValidationLibrary, loadValidationResult, loadValidationRunStatus, startValidationCase, startValidationGroup } from "../lib/api";
 import type { CanonicalEvent, CumulativeSeries, Manifest, ReplayState, ValidationCase, ValidationExecutionEvidence, ValidationLibraryRecord, ValidationResult, ValidationRunStatus } from "../lib/contract";

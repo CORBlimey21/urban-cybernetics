@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Reusable adversarial fixtures and invariant checks for parity torture tests."""
 
 from __future__ import annotations

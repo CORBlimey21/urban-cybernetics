@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Executable smoke runner for full Sioux Falls demand through loading."""
 
 from __future__ import annotations

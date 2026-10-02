@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Seeded synthetic OD generation and weighted route resolution for Cork."""
 
 from __future__ import annotations

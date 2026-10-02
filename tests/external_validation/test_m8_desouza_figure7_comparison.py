@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Integrity and metric regressions for the Figure 7(a) DT1 comparison."""
 
 from __future__ import annotations

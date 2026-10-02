@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Guardrails that keep legacy reference code out of active imports."""
 
 from __future__ import annotations

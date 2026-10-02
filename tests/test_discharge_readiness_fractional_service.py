@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Analytical and integration tests for discharge-readiness V3."""
 
 from __future__ import annotations

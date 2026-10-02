@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """LTM-style downstream receiving function tests."""
 
 from __future__ import annotations

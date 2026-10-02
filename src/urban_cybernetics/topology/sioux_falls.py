@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Canonical topology builder for the committed Sioux Falls TNTP network."""
 
 from __future__ import annotations

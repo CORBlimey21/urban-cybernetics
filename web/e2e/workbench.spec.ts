@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { expect, test } from "@playwright/test";
 
 test("browse, launch, independently pause, inspect, cancel, and reopen evidence", async ({ page }) => {

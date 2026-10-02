@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """I1 run outcome inspection tests."""
 
 from __future__ import annotations

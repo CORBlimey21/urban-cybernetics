@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Focused invariants for the de Souza Figure 7 preparation fixture."""
 
 from __future__ import annotations

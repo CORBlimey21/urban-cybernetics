@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """D1 pre-packet demand, route resolution, and scheduled loading tests."""
 
 from __future__ import annotations

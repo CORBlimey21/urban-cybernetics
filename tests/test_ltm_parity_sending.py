@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """M3 parity sending tests."""
 
 from __future__ import annotations

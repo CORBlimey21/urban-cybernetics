@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 export type ScreenPoint = Readonly<{ x: number; y: number }>;
 export type DirectedEdgePath = Readonly<{
   start: ScreenPoint;

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Focused tests for executable-routing-extension-v1."""
 
 from __future__ import annotations

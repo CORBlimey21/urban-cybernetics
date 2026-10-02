@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Sioux Falls TNTP OD demand loader for pre-packet manifests."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Scientific-integrity audit for the synthetic Boreenmanna experiment.
 
 This module is deliberately versioned separately from the v1 experiment.  It

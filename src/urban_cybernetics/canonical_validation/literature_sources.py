@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Source-acquisition status for canonical LTM validation references."""
 
 from __future__ import annotations

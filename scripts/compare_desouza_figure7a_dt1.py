@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Compare preserved de Souza Figure 7(a) digitisation with frozen UC evidence.
 
 The script consumes persisted evidence only. It neither imports nor executes

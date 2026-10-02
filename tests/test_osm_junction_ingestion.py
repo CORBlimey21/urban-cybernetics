@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Pinned real-OSM ingestion and Boreenmanna junction audit tests."""
 
 from __future__ import annotations

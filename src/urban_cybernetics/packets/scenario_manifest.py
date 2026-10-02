@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Load-only access to canonical scenario manifests.
 
 This module exists to make one rule explicit: benchmark comparison scenarios are committed inputs,

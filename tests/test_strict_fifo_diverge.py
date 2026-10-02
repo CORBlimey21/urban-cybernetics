@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Strict-FIFO diverge policy tests for the minimal loading engine."""
 
 from __future__ import annotations

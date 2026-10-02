@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Deliberately mixed-quality fixtures for the first compiler vertical slice."""
 
 from __future__ import annotations

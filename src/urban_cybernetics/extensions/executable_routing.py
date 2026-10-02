@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Opt-in executable-routing shell above the frozen loading kernel."""
 
 from __future__ import annotations

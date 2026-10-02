@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Focused tests for the versioned Paper 1 lane-group extension."""
 
 from __future__ import annotations

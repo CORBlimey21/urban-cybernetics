@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Minimal deterministic composed loading-kernel validation case."""
 
 from __future__ import annotations

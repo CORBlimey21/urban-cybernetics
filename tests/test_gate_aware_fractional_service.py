@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Analytical and mixed-domain tests for gate-aware fractional service V2."""
 
 from __future__ import annotations

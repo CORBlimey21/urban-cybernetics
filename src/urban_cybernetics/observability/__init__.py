@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Observability artifacts and samplers."""
 
 from .frame import LinkTraversalTimeObservationFrame, ObservationFrame

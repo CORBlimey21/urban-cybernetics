@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Sioux Falls regression-only checks for parity-kernel bookkeeping."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """R1b receipt-delay sensitivity sweep tests."""
 
 from __future__ import annotations

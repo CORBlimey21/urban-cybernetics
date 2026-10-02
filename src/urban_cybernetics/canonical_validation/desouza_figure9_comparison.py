@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Preserved-reference comparison for de Souza Figure 9 merge cases."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """M1 static physical-parameter and timestep parity checks."""
 
 from __future__ import annotations

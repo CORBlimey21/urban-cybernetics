@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Seeded Figure 8 stochastic extension of the frozen Figure 7 diverge.
 
 All stochasticity is confined to validation-fixture route assignment. The

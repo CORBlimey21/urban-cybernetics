@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Generic run provenance records."""
 
 from .recorder import RunRecorder

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Routing authority interfaces and route-decision artifacts."""
 
 from .authority import RoutingAuthority

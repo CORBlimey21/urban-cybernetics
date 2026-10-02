@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Pinned OSM XML evidence, bounded extraction, and Cork-junction audit support."""
 
 from __future__ import annotations

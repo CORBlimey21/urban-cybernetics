@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Focused external-validation contract for de Souza Figure 9(a-c)."""
 
 from __future__ import annotations

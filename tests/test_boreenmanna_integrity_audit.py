@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Focused scientific-integrity tests for the Boreenmanna audit layer."""
 
 from __future__ import annotations

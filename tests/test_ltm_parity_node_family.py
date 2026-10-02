@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """General movement-allocation parity tests."""
 
 from __future__ import annotations

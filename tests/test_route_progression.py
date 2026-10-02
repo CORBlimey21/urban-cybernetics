@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """General route progression tests without new traffic physics."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Loading engine package."""
 
 from .cumulative_counts import (

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Demand and preset-node helpers for Cork Collective Routing.
 
 This module turns human-readable named places into stable graph nodes and provides the lightweight

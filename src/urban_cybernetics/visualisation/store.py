@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Validated on-disk run-bundle registry for the local V application."""
 
 from __future__ import annotations

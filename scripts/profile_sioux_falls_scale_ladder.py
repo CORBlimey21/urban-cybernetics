@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
 """Profile Sioux Falls assumption-profile scale-ladder phases."""
 
 from __future__ import annotations

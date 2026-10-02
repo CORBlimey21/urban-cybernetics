@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """M7 packet and multi-commodity parity torture tests."""
 
 from __future__ import annotations

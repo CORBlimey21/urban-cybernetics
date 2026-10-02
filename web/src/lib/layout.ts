@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import type { Manifest, NetworkLayout } from "./contract";
 
 const legacyLayout = (manifest: Manifest): NetworkLayout => ({

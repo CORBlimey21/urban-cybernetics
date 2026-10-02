@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Small synthetic stress tests for impossible-state discovery."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Traffic kinematics foundation tests for static link metadata and origin loading."""
 
 from __future__ import annotations

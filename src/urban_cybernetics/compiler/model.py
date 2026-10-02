@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Immutable schemas and deterministic identities for network compilation."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """M4 parity receiving and vacancy tests."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Graph loading, weighting, routing, and map-rendering utilities.
 
 This module is the bridge between OpenStreetMap-derived road data and the higher-level simulation code.

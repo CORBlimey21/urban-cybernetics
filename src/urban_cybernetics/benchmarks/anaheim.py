@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Anaheim TNTP benchmark loader."""
 
 from __future__ import annotations

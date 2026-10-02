@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Rerunnable small deterministic V1 acceptance fixtures."""
 
 from __future__ import annotations

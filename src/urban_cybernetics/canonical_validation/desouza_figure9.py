@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Canonical de Souza Figure 9 merge-priority validation fixtures.
 
 The fixture configures the frozen loading kernel; it does not implement a

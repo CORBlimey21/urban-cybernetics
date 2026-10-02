@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Validation contracts and claim labels."""
 
 from .claims import (

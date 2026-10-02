@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Sanctioned persisted V2 acceptance fixture generation."""
 
 from __future__ import annotations

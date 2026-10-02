@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
 """Generate and compare the canonical Figure 9 asymmetric-priority fixture."""
 
 from __future__ import annotations

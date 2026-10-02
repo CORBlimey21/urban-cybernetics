@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Focused validation for the seeded de Souza Figure 8 ensemble."""
 
 from __future__ import annotations

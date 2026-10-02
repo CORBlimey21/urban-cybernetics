@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Delayed routing-information snapshots for legacy lifecycle simulations."""
 
 from __future__ import annotations

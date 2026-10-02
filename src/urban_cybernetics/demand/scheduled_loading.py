@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Scheduled demand admission adapter for the loading engine."""
 
 from __future__ import annotations

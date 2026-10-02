@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Probe-style observation sampling from packet event history."""
 
 from __future__ import annotations

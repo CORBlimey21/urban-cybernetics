@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Opt-in deterministic fractional service credit above the frozen loader.
 
 The shell delegates capacity arithmetic, packet selection, allocation, and all

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { configDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 

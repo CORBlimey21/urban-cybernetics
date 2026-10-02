@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Versioned V2/V3 readiness ablation on synthetic Boreenmanna controls."""
 
 from __future__ import annotations

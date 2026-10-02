@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """I2 bottleneck and queue diagnostics tests."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Focused manual-override tests for fixed-time-signal-extension-v1."""
 
 from __future__ import annotations

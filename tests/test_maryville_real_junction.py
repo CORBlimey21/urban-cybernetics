@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Second pinned real OSM case: Maryville at Blackrock Road."""
 
 from __future__ import annotations

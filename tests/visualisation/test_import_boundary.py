@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """The loading kernel must remain unaware of the V application."""
 
 from __future__ import annotations

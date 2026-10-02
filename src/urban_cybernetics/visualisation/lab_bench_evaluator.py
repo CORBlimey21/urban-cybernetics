@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Bounded deterministic arithmetic and finite-series evaluation for Lab Bench."""
 
 from __future__ import annotations

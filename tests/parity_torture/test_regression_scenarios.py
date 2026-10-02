@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Deterministic adversarial regression scenarios for the parity kernel."""
 
 from __future__ import annotations

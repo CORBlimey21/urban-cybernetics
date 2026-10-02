@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Deterministic fixed-time signal control above the frozen loading kernel.
 
 The extension owns no physical state and emits no canonical events.  It binds a

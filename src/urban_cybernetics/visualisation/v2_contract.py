@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Versioned V2 control- and evidence-plane contracts."""
 
 from __future__ import annotations

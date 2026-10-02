@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Sioux Falls canonical-route construction and loading smoke tests."""
 
 from __future__ import annotations

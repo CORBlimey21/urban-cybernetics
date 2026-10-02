@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Read-only run inspection artifacts."""
 
 from .diagnostics import (

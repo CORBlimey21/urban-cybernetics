@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Observation-frame sampler for loading-engine physical event history."""
 
 from __future__ import annotations

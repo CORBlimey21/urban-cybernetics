@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ComparisonStrip } from "./components/ComparisonStrip";
 import { EventStream } from "./components/EventStream";

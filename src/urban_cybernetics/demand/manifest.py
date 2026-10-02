@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Immutable pre-packet demand declarations and deterministic hashing."""
 
 from __future__ import annotations

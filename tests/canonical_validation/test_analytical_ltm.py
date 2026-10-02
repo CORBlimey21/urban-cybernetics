@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Canonical analytical LTM validation fixtures."""
 
 from __future__ import annotations

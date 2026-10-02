@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Synthetic Cork experiment, representation matrix, and small-junction tests."""
 
 from __future__ import annotations

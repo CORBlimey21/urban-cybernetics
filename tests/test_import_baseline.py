@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Import and path smoke tests for the migrated package."""
 
 from __future__ import annotations

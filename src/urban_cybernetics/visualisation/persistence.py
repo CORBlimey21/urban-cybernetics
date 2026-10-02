@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Durable, path-confined V2 evidence-plane storage."""
 
 from __future__ import annotations

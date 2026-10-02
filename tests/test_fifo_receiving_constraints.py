@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """FIFO and receiving-constraint tests for the minimal loading engine."""
 
 from __future__ import annotations

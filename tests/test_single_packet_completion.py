@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Single-packet lifecycle and timestep semantics tests."""
 
 from __future__ import annotations

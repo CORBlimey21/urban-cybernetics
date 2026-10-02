@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Boreenmanna V3 compilation, parity, replay, and package tests."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import type { MovementEvidence } from "../lib/contract";
 
 export function MovementPanel({ evidence, tick }: { evidence: MovementEvidence[]; tick: number }) {

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from __future__ import annotations
 
 from urban_cybernetics.visualisation.validation_cases import CASES_BY_ID, execute_case

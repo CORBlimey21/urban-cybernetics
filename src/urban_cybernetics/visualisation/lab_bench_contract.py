@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Versioned scientific-state contracts for the Validation Workbench Lab Bench."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Structured three-mode ablation runner for the Paper 1 lane-group extension."""
 
 from __future__ import annotations

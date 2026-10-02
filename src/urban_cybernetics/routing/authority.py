@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Routing authority interface and authority-owned decision log."""
 
 from __future__ import annotations

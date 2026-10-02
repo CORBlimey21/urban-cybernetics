@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Manifest, MovementEvidence, NetworkLayout, ReplayState } from "../lib/contract";
 import { directedEdgePath, distanceToEdgePath, pointOnQuadratic } from "../lib/networkGeometry";

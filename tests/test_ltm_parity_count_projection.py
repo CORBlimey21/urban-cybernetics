@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """M2 event-to-count parity projection tests."""
 
 from __future__ import annotations

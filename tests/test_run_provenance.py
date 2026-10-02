@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Generic run provenance spine tests."""
 
 from __future__ import annotations

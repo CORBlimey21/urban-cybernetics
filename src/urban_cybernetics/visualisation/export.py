@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Stable adapter from immutable run evidence into the V1 browser contract."""
 
 from __future__ import annotations

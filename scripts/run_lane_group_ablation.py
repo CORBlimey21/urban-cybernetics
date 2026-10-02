@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
 """Generate the versioned Paper 1 lane-group ablation evidence artifact."""
 
 from __future__ import annotations

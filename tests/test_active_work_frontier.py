@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from urban_cybernetics.config import ACADEMIC_LTM_PARITY_PROFILE_ID
 from urban_cybernetics.loading import LoadingEngine
 from urban_cybernetics.validation import (

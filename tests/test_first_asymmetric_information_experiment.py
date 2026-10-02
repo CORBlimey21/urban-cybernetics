@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """First controlled asymmetric-information routing experiment tests."""
 
 from __future__ import annotations

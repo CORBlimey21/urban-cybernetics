@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Cumulative boundary count tests for event-derived loading views."""
 
 from __future__ import annotations

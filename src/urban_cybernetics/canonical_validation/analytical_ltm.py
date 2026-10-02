@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Executable analytical LTM validation fixtures.
 
 The fixtures in this module are deliberately small. They compare the frozen

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Anaheim parity-readiness and scale-ladder reports."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """First vertical-slice contracts for provenance-aware network compilation."""
 
 from __future__ import annotations

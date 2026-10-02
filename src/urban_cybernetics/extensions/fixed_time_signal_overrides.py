@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Append-only manual override artifacts for fixed-time signal control."""
 
 from __future__ import annotations

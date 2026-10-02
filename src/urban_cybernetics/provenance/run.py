@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Generic in-memory run provenance records."""
 
 from __future__ import annotations

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Deterministic city-scale adapter for the pinned Cork OSMnx GraphML.
 
 This is deliberately an engineered adapter, not the provenance-aware OSM

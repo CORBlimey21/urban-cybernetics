@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Deterministic staged compiler from imperfect evidence to executable artifacts."""
 
 from __future__ import annotations

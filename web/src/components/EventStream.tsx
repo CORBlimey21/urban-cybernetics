@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import type { CanonicalEvent } from "../lib/contract";
 
 export function EventStream({ events, tick, onSelectEvent }: { events: CanonicalEvent[]; tick: number; onSelectEvent: (event: CanonicalEvent) => void }) {

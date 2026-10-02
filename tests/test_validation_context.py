@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from urban_cybernetics.core import Event, EventType
 from urban_cybernetics.validation import ValidationContext
 

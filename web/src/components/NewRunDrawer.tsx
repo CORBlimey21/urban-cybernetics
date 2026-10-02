@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import { useMemo, useState } from "react";
 import type { ResourceCatalogue, RunRequest } from "../lib/contract";
 

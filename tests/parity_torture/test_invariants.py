@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Property-style invariant tests over many deterministic randomized cases."""
 
 from __future__ import annotations

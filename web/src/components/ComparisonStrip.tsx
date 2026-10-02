@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 import type { ArtifactSummary } from "../lib/contract";
 
 export function ComparisonStrip({ runs, onClear }: { runs: ArtifactSummary[]; onClear: () => void }) {

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Opt-in extensions layered above the frozen loading kernel."""
 
 from .executable_routing import (

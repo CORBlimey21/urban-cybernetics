@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Versioned V1/V2 service-policy comparison on Boreenmanna geometry.
 
 The package references the immutable V1 integrity audit, executes V2 in a

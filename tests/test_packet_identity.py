@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Packet identity stability invariant tests."""
 
 from __future__ import annotations

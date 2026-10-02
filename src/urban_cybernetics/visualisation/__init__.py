@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Browser evidence adapters and narrow Python-owned V2 run orchestration."""
 
 from .contract import CONTRACT_VERSION, VRunBundle

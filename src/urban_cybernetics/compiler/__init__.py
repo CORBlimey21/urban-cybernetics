@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Provenance-aware compiler for bounded OSM-like urban-network evidence."""
 
 from .adapter import adapt_osm_like, normalize_source

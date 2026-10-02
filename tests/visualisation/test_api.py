@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Read-only API and schema boundary tests."""
 
 from __future__ import annotations

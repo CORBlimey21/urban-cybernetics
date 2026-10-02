@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Append-only validation history and sanctioned background execution."""
 
 from __future__ import annotations

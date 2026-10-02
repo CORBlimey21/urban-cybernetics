@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Resolve OD demand declarations to canonical routes without mutating demand."""
 
 from __future__ import annotations

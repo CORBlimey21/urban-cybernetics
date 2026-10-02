@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Synthetic system validation for the packetised LTM-style loading kernel."""
 
 from __future__ import annotations

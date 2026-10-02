@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """M5 spillback validation fixtures for the parity loading profile."""
 
 from __future__ import annotations

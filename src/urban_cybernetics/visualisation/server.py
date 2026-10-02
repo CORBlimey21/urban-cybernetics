@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Local V1 evidence API and narrow V2 workbench control/evidence surface."""
 
 from __future__ import annotations

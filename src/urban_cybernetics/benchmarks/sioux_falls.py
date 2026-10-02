@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Sioux Falls TNTP benchmark loader."""
 
 from __future__ import annotations

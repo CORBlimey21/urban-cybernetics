@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Compare preserved Figure 5(a) digitisation with existing UC DT=1 evidence.
 
 This script is an evidence consumer. It does not import or execute the loading

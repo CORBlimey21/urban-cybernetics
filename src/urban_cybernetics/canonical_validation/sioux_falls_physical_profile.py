@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Engineering-assumption physical profiles for Sioux Falls parity runs."""
 
 from __future__ import annotations

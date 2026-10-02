@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Declared V2 simulation resource catalogue and strict resolver."""
 
 from __future__ import annotations

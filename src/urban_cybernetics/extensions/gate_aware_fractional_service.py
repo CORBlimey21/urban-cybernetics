@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """V2 gate-aware fractional service above the frozen loading kernel.
 
 V1 remains a clock-driven transient-opportunity policy.  V2 owns one sending

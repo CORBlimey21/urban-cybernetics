@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Small milestone experiments built from the core cybernetic loop."""
 
 from .r1a import (

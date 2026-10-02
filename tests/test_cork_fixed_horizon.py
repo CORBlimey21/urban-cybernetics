@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from urban_cybernetics.experiments.cork_fixed_horizon import (
     TOTAL_HORIZON_SECONDS,
     TOTAL_HORIZON_TICKS,

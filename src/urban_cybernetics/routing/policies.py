@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Simple routing policies for the M13 authority interface."""
 
 from __future__ import annotations

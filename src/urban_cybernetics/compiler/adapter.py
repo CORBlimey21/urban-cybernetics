@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Narrow OSM-like fixture adapter and deterministic source normalization."""
 
 from __future__ import annotations

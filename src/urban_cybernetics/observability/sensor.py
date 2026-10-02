@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Immutable sensor configuration for observation-frame sampling."""
 
 from __future__ import annotations

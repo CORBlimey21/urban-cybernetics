@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Versioned mesoscopic lane-group FIFO extension above the frozen LTM kernel.
 
 The extension is deliberately injected through the frozen engine's existing
