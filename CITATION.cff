@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: >-
+  Please cite this software when using Urban Cybernetics. Version 1.0.0 is
+  prepared for release; the related dataset and evidence DOIs are reserved
+  and do not identify a published software release.
+  Cork GraphML dataset (ODbL-1.0; © OpenStreetMap contributors):
+  https://doi.org/10.5281/zenodo.22981344.
+  Paper 1 evidence archive 1.0.0:
+  https://doi.org/10.5281/zenodo.23000309.
+  Project-generated evidence is CC BY 4.0 unless otherwise stated;
+  embedded OpenStreetMap-derived database portions remain ODbL 1.0.
+  Third-party source material not licensed for redistribution is excluded.
+type: software
+title: Urban Cybernetics
+version: 1.0.0
+license: MPL-2.0
+authors:
+  - given-names: Cillian
+    family-names: Ó Ríordáin
+    orcid: https://orcid.org/0009-0006-2831-5380
+repository-code: https://github.com/CORBlimey21/urban-cybernetics
+abstract: >-
+  Research software for packet-based traffic loading with explicit network
+  provenance, observations, routing information, and deterministic replay
+  evidence. Includes analytical validation, digitised reference comparisons,
+  junction representation and fractional-service experiments, OSM compiler
+  cases, synthetic demand scaling, and bounded information-routing experiments.
+keywords:
+  - traffic simulation
+  - link transmission model
+  - urban cybernetics
+  - reproducible research
+  - network provenance
+# Software DOI, paper citation and date-released are intentionally omitted:
+# none has been established for this unreleased software version.

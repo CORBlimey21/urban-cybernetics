@@ -1,13 +1,35 @@
 # Paper 1 reproduction
 
+For proposed software release 1.0.0, start with the root
+[release reproduction index](../../REPRODUCIBILITY.md), which records current
+installation requirements and gaps. Historical identities below are unchanged.
+
+The reserved Cork dataset DOI is
+[10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344)
+(ODbL-1.0; © OpenStreetMap contributors). The Paper 1 evidence archive version
+1.0.0 has reserved DOI
+[10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309).
+Project-generated evidence is CC BY 4.0 unless otherwise stated; embedded
+OpenStreetMap-derived database portions remain subject to ODbL 1.0. Third-party
+source material not licensed for redistribution is excluded from the bundle.
+Both records await publication; these are not software or paper DOIs.
+
 Run commands from the repository root with CPython 3.13. The freeze was checked
 with Python 3.13.3, NetworkX 3.6.1, NumPy 2.4.6, and pytest 9.0.3. Install the
 declared environment with:
 
 ```bash
 python3.13 -m venv .venv
-.venv/bin/python -m pip install -e '.[dev]'
+.venv/bin/python -m pip install -c constraints-release.txt -e '.[dev,visualisation,publication]'
 ```
+
+The release tree deliberately omits five TNTP benchmark inputs and twelve
+digitised de Souza reference CSVs. UC-only cases remain runnable. Tests requiring
+absent inputs skip explicitly; comparison scripts report the missing reference
+before writing output. The historical loading-kernel verifier below requires
+the ten exact digitised CSVs named in its unchanged freeze manifest, supplied
+separately under their source terms. See [THIRD_PARTY.md](../../THIRD_PARTY.md)
+and the root [reproduction index](../../REPRODUCIBILITY.md).
 
 When reusing a virtual environment whose editable install points at a different
 checkout, prefix clean-worktree commands with `PYTHONPATH=src` (or reinstall
@@ -24,7 +46,7 @@ git rev-parse 'paper1-evidence-freeze-v1^{commit}'
 ## Identity and frozen-kernel gates
 
 ```bash
-.venv/bin/python scripts/verify_loading_kernel_freeze.py
+.venv/bin/python scripts/verify_loading_kernel_freeze.py --skip-regeneration
 .venv/bin/python scripts/verify_paper1_evidence.py
 .venv/bin/python -m pytest -q tests/validation/test_loading_kernel_freeze_manifest.py
 ```
@@ -37,10 +59,24 @@ To also verify the retained ignored files and the external Cork source:
   --cork-graphml /absolute/path/to/cork_full_drive.graphml
 ```
 
-Expected results are `status: passed`, frozen manifest SHA-256
+With the exact separately acquired reference CSVs and full Git history, expected
+results are `status: passed`, frozen manifest SHA-256
 `3d6a77588bb8e14c48ca6bca7dbc010699d9caf05e409545bfe47be6c0864ef5`,
 and Cork source SHA-256
 `cc904d3c9107136fdf6fd24318c19c38958b63dc81c83441e8e5f855f41f5409`.
+
+Install an author copy or, after publication, the reserved Cork dataset copy at
+the default ignored path `external/pinned/cork_full_drive.graphml` with:
+
+```bash
+.venv/bin/python scripts/install_external_data.py \
+  --cork-graphml /path/to/cork_full_drive.graphml
+```
+
+The ordinary test suite explicitly skips the six Cork tests until this exact
+file is installed. Its provenance and distribution boundary are recorded in
+`CORK_GRAPHML_PROVENANCE.md`. The 18 ignored outputs are classified in
+`EVIDENCE_ARCHIVE_MANIFEST.md`.
 
 ## Compact physical and representation evidence
 
@@ -85,16 +121,24 @@ The published-comparison runners accept output paths, for example:
 
 ```bash
 .venv/bin/python scripts/compare_desouza_figure7a_dt1.py --output /tmp/uc-fig7
-.venv/bin/python scripts/run_desouza_figure8_ensemble.py --output /tmp/uc-fig8
+mkdir -p /tmp/uc-fig8
+.venv/bin/python scripts/run_desouza_figure8_ensemble.py \
+  --summary /tmp/uc-fig8/summary.json \
+  --pointwise /tmp/uc-fig8/pointwise.csv \
+  --replications /tmp/uc-fig8/replications.csv \
+  --output /tmp/uc-fig8/plots
 .venv/bin/python scripts/run_desouza_figure9_equal.py
 .venv/bin/python scripts/run_desouza_figure9_asymmetric.py
 ```
 
-These comparisons, their digitised inputs, and expected summary hashes are
-recorded in `evidence_manifest_v1.json`. The Figure 9 scripts write under the
-ignored `outputs/validation/` boundary and should be run only in a disposable
-clean checkout; do not overwrite retained historical output during ordinary
-verification.
+These comparisons, their historical digitised-input identities, and expected
+summary hashes are recorded in `evidence_manifest_v1.json`. The digitised CSVs
+are omitted from the release; obtain the exact inputs separately before running
+the comparisons. The Figure 9 scripts overwrite tracked
+evidence and summaries in
+`data/validation/` as well as plots under ignored `outputs/validation/`; run
+them only in a disposable clean checkout; do not overwrite retained historical
+output during ordinary verification.
 
 ## Maryville real unsignalised junction
 
