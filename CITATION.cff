@@ -14,6 +14,7 @@ message: >-
 type: software
 title: Urban Cybernetics
 version: 1.0.0
+doi: 10.5281/zenodo.23111562
 date-released: "2026-10-02"
 license: MPL-2.0
 authors:
@@ -33,5 +34,5 @@ keywords:
   - urban cybernetics
   - reproducible research
   - network provenance
-# No software DOI or paper citation is declared here.
+# No paper citation is declared here.
 # The related DOIs identify supporting data and evidence records.

@@ -152,8 +152,11 @@ Open <http://127.0.0.1:8000>. The workbench persists local runs in ignored
 
 [CITATION.cff](CITATION.cff) records the software author, supplied ORCID and
 related published data/evidence DOIs, version 1.0.0 and release date 2026-10-02.
-No software DOI or paper DOI is asserted. The software licence does not replace
-scholarly citation.
+The exact v1.0.0 software archive is
+[10.5281/zenodo.23111562](https://doi.org/10.5281/zenodo.23111562);
+[10.5281/zenodo.23111561](https://doi.org/10.5281/zenodo.23111561) identifies
+all software versions. No paper DOI is asserted. The software licence does not
+replace scholarly citation.
 
 Project-authored Urban Cybernetics software is licensed under the
 [Mozilla Public License 2.0](LICENSE) (`MPL-2.0`). This licence does not

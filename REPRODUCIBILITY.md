@@ -1,5 +1,10 @@
 # Reproducibility for the 1.0.0 release
 
+Software v1.0.0 is archived at
+[10.5281/zenodo.23111562](https://doi.org/10.5281/zenodo.23111562).
+The concept/all-versions DOI is
+[10.5281/zenodo.23111561](https://doi.org/10.5281/zenodo.23111561).
+
 Run from the repository root using the README environment. This index supplements
 [the paper guide](docs/paper1/REPRODUCIBILITY.md) and its
 [evidence manifest](docs/paper1/evidence_manifest_v1.json); it does not replace

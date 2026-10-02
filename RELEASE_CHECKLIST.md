@@ -1,16 +1,16 @@
 # Archival release preparation: 1.0.0
 
-Status: **v1.0.0 prepared for immediate publication**, with release date
-2026-10-02. Cork data and Paper 1 evidence are published supporting records.
-Release preparation and public-history provenance are committed in the sanitised
-derivative. The GitHub repository is still private; no software v1.0.0 tag,
-GitHub Release or Zenodo software record exists yet. The private development
-repository is separate. See
-[public-history provenance](docs/provenance/PUBLIC_HISTORY_PROVENANCE.md).
+Status: **v1.0.0 published**, with release date 2026-10-02. The public GitHub
+repository has the published Latest release v1.0.0, and Zenodo software ingestion
+is complete. The release tag remains at
+`a9f521ed14e05b24cf1af39291df8259ce34b423`; DOI metadata is added in a follow-up
+commit without moving that tag. The private development repository is separate.
+See [public-history provenance](docs/provenance/PUBLIC_HISTORY_PROVENANCE.md).
 
 | Resource | Identifier | Licence/status |
 | --- | --- | --- |
-| Software 1.0.0 | No software DOI assigned | MPL-2.0; prepared for immediate publication |
+| Software 1.0.0 | [10.5281/zenodo.23111562](https://doi.org/10.5281/zenodo.23111562) | MPL-2.0; published |
+| Software all versions | [10.5281/zenodo.23111561](https://doi.org/10.5281/zenodo.23111561) | Concept DOI |
 | Cork GraphML dataset | [10.5281/zenodo.22981344](https://doi.org/10.5281/zenodo.22981344) | ODbL-1.0; © OpenStreetMap contributors; published 2026-10-02 |
 | Paper 1 evidence archive 1.0.0 | [10.5281/zenodo.23000309](https://doi.org/10.5281/zenodo.23000309) | CC BY 4.0 unless otherwise stated; embedded OSM database portions remain ODbL 1.0; published 2026-10-02 |
 
@@ -25,8 +25,9 @@ repository is separate. See
   ORCID https://orcid.org/0009-0006-2831-5380. Store the supplied ORCID in the
   CFF author entry. No affiliation or additional author is inferred.
 - [x] Set the release date to 2026-10-02 in CITATION.cff.
-- [ ] Add paper citation/DOI only if verified; add the software DOI only after
-  Zenodo ingests the published GitHub Release.
+- [ ] Add paper citation/DOI only if verified.
+- [x] Obtain the software DOI after Zenodo ingestion and add it to CITATION.cff
+  and release/reproduction documentation.
 - [x] Remove five raw TNTP benchmark files and twelve digitised de Souza
   reference CSVs from the release tree; document separate acquisition,
   exact known identities and explicit test skips. Keep OSM-derived data under
@@ -66,7 +67,7 @@ repository is separate. See
   ten omitted reference CSVs were separately supplied.
 - [x] CITATION.cff validates (`cffconvert --validate -i CITATION.cff`) with the
   supplied author metadata, related published DOIs and date-released 2026-10-02.
-  Software DOI and paper DOI remain absent until established.
+  The exact software DOI is recorded; no paper DOI is inferred.
 - [x] Package version, web package/lock metadata and CFF agree at 1.0.0. Leave
   loading-kernel-v1.0.1, compiler/schema/profile IDs and historical 0.1.0 evidence
   metadata unchanged.
@@ -77,23 +78,23 @@ repository is separate. See
   outside the sanitised public repository; no private untracked files were cloned.
 - [x] Commit the four release-preparation changes and public-history provenance;
   confirm clean sanitised and fresh-clone working trees at the validation HEAD.
-- [ ] Review/commit any subsequent approved documentation changes and confirm
+- [x] Review/commit approved pre-release documentation changes and confirm
   the final public working tree is clean before tagging.
-- [ ] Record the final full commit hash outside that commit (release notes/review
-  record); the inspected starting revision was
+- [x] Record the tagged release commit above; the inspected starting revision was
   original development-history ID `95c84313c2f826255a70b573674da28d1a4851a6`.
   Resolve its public equivalent through the
   [commit mapping](docs/provenance/public-commit-map.tsv).
-- [ ] Make the sanitised GitHub repository public after final approval.
-- [ ] Confirm the repository is enabled in Zenodo's GitHub integration before
-  publishing the release; review creator/licence metadata in advance.
-- [ ] Create annotated tag `v1.0.0` **only after review**.
-- [ ] Create/publish the GitHub release **only after review**.
+- [x] Make the sanitised GitHub repository public after final approval.
+- [x] Enable the repository in Zenodo's GitHub integration.
+- [ ] Independently review archived creator/licence metadata and file checksums.
+- [x] Create/push tag `v1.0.0` after review.
+- [x] Publish the GitHub release v1.0.0 (Latest).
+- [x] Confirm Zenodo software ingestion and obtain the exact version DOI.
 - [ ] After publication, check Zenodo ingest status, version/commit, creators,
   licence, files and checksums, related paper metadata, and assigned DOI. Confirm
   separately that the intended evidence bundle is archived; do not assume ignored
   files or arbitrary release assets are included automatically.
-- [ ] Add the verified DOI to the repository citation metadata in a follow-up
+- [x] Add the verified DOI to the repository citation metadata in a follow-up
   commit; do not move the published tag to add it.
 
 ## Fresh sanitised-public-clone validation (2026-10-02)
@@ -222,7 +223,7 @@ distribution, as noted in THIRD_PARTY.md.
   `--include-ignored`: all 10 tracked and 18 ignored evidence files pass.
 - Conflicting current software-licence scan and `git diff --check`: passed.
 
-### Proposed release text
+### Historical proposed release text
 
 Commit message:
 
@@ -262,7 +263,10 @@ Proposed release notes (review and complete before publishing):
 > final validation results, verified paper reference if available, and the location
 > and checksums of the archived evidence/external-source bundle.
 
-## Publication sequence after approval
+## Historical publication procedure (completed for v1.0.0)
+
+The procedure below records the pre-release publication plan; do not rerun it
+for the existing v1.0.0 release or move its tag.
 
 Use only the sanitised public derivative. Create/configure its separate public
 GitHub remote before following these recommendations: both fetch and push URLs

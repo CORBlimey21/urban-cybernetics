@@ -1,5 +1,10 @@
 # Paper 1 reproduction
 
+Software v1.0.0 is archived at
+[10.5281/zenodo.23111562](https://doi.org/10.5281/zenodo.23111562).
+The concept/all-versions DOI is
+[10.5281/zenodo.23111561](https://doi.org/10.5281/zenodo.23111561).
+
 For software release 1.0.0, start with the root
 [release reproduction index](../../REPRODUCIBILITY.md), which records current
 installation requirements and gaps. Historical identities below are unchanged.
